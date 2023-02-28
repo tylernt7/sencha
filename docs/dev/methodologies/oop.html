@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Object-Oriented Programming (OOP)</title>
+	<link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Object-Oriented Programming (OOP)</h1>
+	
+	<h2>Basic Principles of OOP</h2>
+	<ul>
+	  <li><b>Data Abstraction</b> <i>(Adatabsztrakció)</i>: Data visibility levels</li>
+	  <li><b>Encapsulation</b> <i>(Egységbezárás)</i>: Wrapping attributes and operations (fields and methods) into a single entity (object)</li>
+	  <li><b>Inheritance</b> <i>(Öröklés)</i>: Using fields and methods of another object</li>
+	  <li><b>Polymorphism</b> <i>(Többalakúság, sokoldalúság)</i>: one name, many forms / one interface, multiple methods</li>
+	  <ul><li>Ad hoc polymorphism
+	    <ul><li>Function overloading
+	      <ul><li>Overriding: same method name, same parameter</li></ul>
+	      <ul><li>Overloading: same method name, different parameter</li></ul></li></ul>
+	    <ul><li>Operator overloading</li></ul></li></ul>
+	  <ul><li>Parametric polymorphism
+	    <ul><li>Generic function</li></ul>
+	    <ul><li>Generic programming</li></ul></li></ul>	  	  
+	  <ul><li>Subtyping: abstract class or interface as method parameter (e.g. cats and dogs subtypes of animals)
+	    <ul><li>Virtual function</li></ul>
+	    <ul><li>Single and dynamic dispatch</li></ul>	
+		<ul><li>Double dispatch</li></ul>
+	    <ul><li>Multiple dispatch</li></ul>	
+	    <ul><li>Predicate dispatch</li></ul></li></ul>	  	  	  
+	</ul>		
+	
+	<h2>SOLID</h2>
+	<p>The SOLID design principles are a subset of many principles/patterns promoted by Robert C. Martin. See <a href="http://staff.cs.utu.fi/~jounsmed/doos_06/material/DesignPrinciplesAndPatterns.pdf">Link</a>.</p>
+	<ul>
+	  <li><b><u>S</u>ingle Responsibility Principle</b> <i>(Egyetlen felelősség elv)</i>: There should never be more than one reason for a class to change</li>
+	  <ul><li>Every class (or module) should have only one responsibility</li></ul>
+	  <ul><li>There should be only one reason for the change</li></ul>
+
+	  <li><b><u>O</u>pen Closed Principle</b> <i>(Nyílt zárt elv)</i>: A class (or module) should be open for extension but closed for modification. In other words, add functionality by adding new code, not rewriting old code.</li>
+	  <b>Violating Open Closed Principle</b><br>
+	  Introducing a new algorithm would result in changing the existing code. 
+	  <div class="code"><code>	   
+<pre>private void drawAllShapes(List&lt;Shape&gt; shapes) { <i>// Shape is an interface with getType() method</i>
+    for (Shape shape : shapes) {
+        switch (shape.getType()) {
+            case Circle: <i>// if (shape instanceof Circle)</i>
+                drawCircle((Circle) shape);
+                break;
+            case Square:
+                drawSquare((Square) shape);
+                break;
+        }
+    }
+}</pre>
+	  </code></div>	 
+The problem can be solved through polymorphism (subtyping):
+	  <div class="code"><code>	   
+<pre>private void drawAllShapes(List&lt;Shape&gt; shapes) { <i>// Shape is an interface or abstract class with draw() method</i>
+    for (Shape shape : shapes) {
+        shape.draw();
+    }
+}</pre>
+
+	  </code></div>	 
+Note: The instanceof operator (e.g. instanceof SHA256Hash) should be also avoided<br>
+	  <b>Related Design Patterns</b><br>
+	  <ul>
+	    <li>Strategy Pattern</li>  
+	    <li>Template Method Pattern</li>
+	  </ul> 
+	  <b>References</b><br>	  
+	  <ul>
+	    <li><a href="https://dl.ebooksworld.ir/motoman/Pearson.Agile.Software.Development.Principles.Patterns.and.Practices.www.EBooksWorld.ir.pdf">Agile Software Development. Principles, Patterns, and Practices. Robert C. Martin (Chapter 9. OCP: The Open–Closed Principle)</a></li>
+	    <li><a href="http://www.agileleanhouse.com/lib/lib/People/RobertCMartin/Agile-Principles-Patterns-and-Practices.pdf">Agile Principles, Patterns, and Practices in C#. Martin C. Robert (Chapter 9. The Open/Closed Principle (OCP))</a></li>
+	  </ul>		  
+
+	  <li><b><u>L</u>iskov Substitution Principle</b> <i>(Liskov helyettesítési elv)</i>: Subclasses should be substitutable for their base classes</li>
+	  <ul><li>Every class should be replaceable by its derived class without changing the correct operation of the program</li></ul>
+	  <ul><li>Functions that use pointers or references to base classes must be able to use objects of derived classes without knowing it</li></ul>
+	  <ul><li>If the <i>Derived</i> class is a descendant of the <i>Base</i> class, the <i>Derived</i> can be freely substituted in any place (parameter, variable, etc.) where we expect a <i>Base</i> type</li></ul>
+	  <center><p><img src="images\liskov.png" /></p></center>
+	  <b>Violating Liskov Substitution Principle</b><br>
+	  Setting string is possible in the Base class, while the Derived no longer supports this.
+	  <div class="code"><code>	   
+<pre>public class Base {
+    private String string;
+    public void setString(String string) { 
+        this.string = string; 
+    }
+}
+public class Derived extends Base {
+    @Override
+    public void setString(String string) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}</pre>
+	  </code></div>	  
+
+	  <li><b><u>I</u>nterface Segregation Principle</b> <i>(Interfész elválasztási elv)</i>: Many client specific interfaces are better than one general purpose interface</li>
+	  <ul><li>Clients should not be forced to depend upon interfaces/methods that they do not use</li></ul>
+
+	  <li><b><u>D</u>ependency Inversion Principle</b> <i>(Függőség megfordítási elv)</i>: Depend upon Abstractions. Do not depend upon concretions</li> 
+	  <ul><li>Depending upon interfaces or abstract functions and classes, rather than upon concrete functions and classes</li></ul>
+	  <ul><li>High-level modules should not depend on low-level modules. Both depend on abstractions</li></ul>
+	  <ul><li>Abstractions should not depend on details</li></ul>
+	  <center><p><img src="images\dependency.png" /></p></center>
+	</ul>		
+	<p>These principles	make object-oriented software application flexible, robust, reusable, and developable (understandable and maintainable).</p>
+	
+	<h2>Other Principles</h2>
+	<ul>	
+	  <li><b>IoC (Inversion of Control)</b> <i>(Kontroll megfordítása)</i>: Transfering the control of objects to a framework</li>
+	  <ul><li>Service Locator Pattern</li></ul>	  
+	  <ul><li>Dependency Injection: Spring framework</li></ul>
+	  <ul><li>Contextualized Lookup</li></ul>
+	  <ul><li>Template Method Design Pattern</li></ul>
+	  <ul><li>Strategy Design Pattern</li></ul>		  
+	  <li><b>Law of Demeter</b> <i>(Demeter törvénye)</i>: Only talk to your immediate friends (don't talk to strangers)</li>
+	  <ul><li>A --> B --> C (avoid transitive dependencies)</li></ul>	
+	  <ul><li>More maintainable and adaptable since objects are less dependent on the internal structure of other objects, object implementation can be changed without reworking their callers</li></ul>		  
+	  <li><b>YAGNI (You Aren't Gonna Need It)</b>: ...</li>
+	  <li><b>DRY (Don't Repeat Yourself)</b>: ...</li>
+	  <li><b>GRASP (General Responsibility Assignment Software Pattern)</b>: ...</li>
+	  <li><b>KISS (Keep It Simple, Stupid)</b>: ...</li>
+	  <br>
+	  <li><b>POJO (Plain Old Java Object)</b>: Ordinary Java object, e.g. <a href="https://download.oracle.com/otn-pub/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/beans.101.pdf">JavaBean</a> (serializable, no-argument constructor, getter and setter methods)</li>
+	  <li><b>POCO (Plain Old CLR Object)</b>: Simple class with no (framework) dependencies</li>
+
+
+
+	</ul>		  
+  </body>
+</html>
+

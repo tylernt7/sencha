@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Collection API</title>
+  </head>
+  <body>
+    <h1>Collection API</h1>
+	<p>A <i>collection</i> represents a group of objects. A <i>collections framework</i> is a unified architecture for representing and manipulating collections.</p>
+    <h2>Collection Hierarchy</h2>
+	<p><img src="images\collection_classes.png" width="100%" height="100%"/></p>
+	
+	<h2>Synchronization Wrappers</h2>
+	<p><img src="images\synch_wrappers.png" width="50%" height="50%"/></p>
+	<p>Synchronized collections lock the whole collection while concurrent collections lock only the relevant segments of the object (ConcurrentHashMap) or copy the whole object and swap with a newer one (CopyOnWriteArrayList).</p>
+	<p><i>public static &lt;T&gt; List&lt;T&gt; Collections.singletonList(T o)</i>: Returns an immutable (megváltoztathatatlan) list containing only the specified object. This list will always contain only one element. When we try to add/remove an element on the returned singleton list, it will give UnsupportedOperationException.</p>
+	
+	<h2>Concurrent Collections</h2>	
+	<p><img src="images\concurrent_collection.png" width="55%" height="55%"/>
+	<img src="images\concurrent_map.png" width="44%" height="44%"/></p>	
+	<p><img src="images\concurrent_queue.png" width="100%" height="100%"/></p>
+
+	<h2>Comparison</h2>
+		
+	<table border="1">
+	<thead>
+	  <tr>
+		<th></th>
+		<th>Implementation</th>
+		<th>Order</th>
+		<th>Time cost</th>
+		<th>Iterator</th>
+		<th>Null value</th>
+	  </tr>
+	</thead>
+	<tbody>	
+	  <tr>
+		<td><b>Vector</b></td>
+		<td>Resizable array</td>
+		<td>Insertion order</td>
+		<td>1</td>
+		<td>Fail-fast</td>
+		<td>Yes</td>
+	  </tr>		
+	  <tr>
+		<td><b>ArrayList</b></td>
+		<td>Resizable array</td>
+		<td>Insertion order</td>
+		<td>1</td>
+		<td>Fail-fast</td>
+		<td>Yes</td>
+	  </tr>
+	  <tr>
+		<td><b>LinkedList</b></td>
+		<td>Doubly-linked list</td>
+		<td>Insertion order</td>
+		<td>1</td>
+		<td>Fail-fast</td>
+		<td>Yes</td>
+	  </tr>	  
+	  <tr>
+		<td><b>CopyOnWriteArrayList</b></td>
+		<td>Resizable array</td>
+		<td>Insertion order</td>
+		<td>n</td>
+		<td>Snapshot</td>
+		<td>Yes</td>
+	  </tr>	  	  
+
+      <tr><td>.</td></tr>
+
+	  <tr>
+		<td><b>HashSet</b></td>
+		<td>Hash table</td>
+		<td>No</td>
+		<td>1</td>
+		<td>Fail-fast</td>
+		<td>Yes</td>
+	  </tr>			  
+	  <tr>
+		<td><b>LinkedHashSet</b></td>
+		<td>Hash table and linked list</td>
+		<td>Insertion order</td>
+		<td>1</td>
+		<td>Fail-fast</td>
+		<td>Yes</td>
+	  </tr>		
+	  <tr>
+		<td><b>TreeSet</b></td>
+		<td>Red-Black tree</td>
+		<td>Natural ordering of its elements</td>
+		<td>log(n)</td>
+		<td>Fail-fast</td>
+		<td>No</td>
+	  </tr>			  
+	  <tr>
+		<td><b>CopyOnWriteArraySet</b></td>
+		<td>Set</td>
+		<td>No</td>
+		<td>n</td>
+		<td>Snapshot</td>
+		<td>Yes</td>
+	  </tr>
+	  <tr>
+		<td><b>ConcurrentSkipListSet</b></td>
+		<td>Skip list</td>
+		<td>Natural ordering of its elements</td>
+		<td>log(n)</td>
+		<td>Weakly consistent</td>
+		<td>No</td>
+	  </tr>		  
+	
+	  <tr><td>.</td></tr>
+	
+	  <tr>
+		<td><b>LinkedBlockingQueue</b></td>
+		<td>Linked nodes</td>
+		<td>FIFO</td>
+		<td>1</td>
+		<td>Weakly consistent</td>
+		<td>No</td>
+	  </tr> 	  	
+	  <tr>
+		<td><b>ConcurrentLinkedQueue</b></td>
+		<td>Linked nodes</td>
+		<td>FIFO</td>
+		<td>1</td>
+		<td>Weakly consistent</td>
+		<td>No</td>
+	  </tr>	
+	  <tr>
+		<td><b>ArrayBlockingQueue</b></td>
+		<td>Array</td>
+		<td>FIFO</td>
+		<td>1</td>
+		<td>Weakly consistent</td>
+		<td>No</td>
+	  </tr>	
+	  <tr>
+		<td><b>SynchronousQueue</b></td>
+		<td>Rendezvous channel</td>
+		<td>FIFO</td>
+		<td>1</td>
+		<td>Weakly consistent</td>
+		<td>No</td>
+	  </tr>	
+	  <tr>
+		<td><b>LinkedBlockingDeque</b></td>
+		<td>Linked nodes</td>
+		<td>FIFO and LIFO</td>
+		<td>1</td>
+		<td>Weakly consistent</td>
+		<td>No</td>
+	  </tr>		  
+	</tbody>
+	</table>	
+
+	<table border="1">
+	<thead>
+	  <tr>
+		<th></th>
+		<th width="166">Implementation</th>
+		<th width="205">Order</th>
+		<th>Time cost</th>
+		<th>Iterator</th>
+		<th>Null key</th>
+		<th>Null value</th>
+	  </tr>
+	</thead>
+	<tbody>	
+	  <tr>
+		<td><b>Hashtable</b></td>
+		<td>Hash table</td>
+		<td>No</td>
+		<td>1</td>
+		<td>Fail-fast</td>
+		<td>No</td>
+		<td>No</td>
+	  </tr>		
+	  <tr>
+		<td><b>HashMap</b></td>
+		<td>Hash table</td>
+		<td>No</td>
+		<td>1</td>
+		<td>Fail-fast</td>
+		<td>Yes</td>
+		<td>Yes</td>
+	  </tr>
+	  <tr>
+		<td><b>LinkedHashMap</b></td>
+		<td>Hash table and linked list</td>
+		<td>Insertion or access order</td>
+		<td>1</td>
+		<td>Fail-fast</td>
+		<td>Yes</td>
+		<td>Yes</td>
+	  </tr>
+	  <tr>
+		<td><b>TreeMap</b></td>
+		<td>Red-Black tree</td>
+		<td>Natural ordering of its keys</td>
+		<td>log(n)</td>
+		<td>Fail-fast</td>
+		<td>No </td>
+		<td>Yes</td>
+	  </tr>
+	  <tr>
+		<td><b>ConcurrentHashMap</b></td>
+		<td>Hash table</td>
+		<td>No</td>
+		<td>1</td>
+		<td>Weakly consistent</td>
+		<td>No</td>
+		<td>No</td>
+	  </tr>
+	  <tr>
+		<td><b>ConcurrentSkipListMap</b></td>
+		<td>Skip list</td>
+		<td>Natural ordering of its keys</td>
+		<td>log(n)</td>
+		<td>Weakly consistent</td>
+		<td>No</td>
+		<td>No</td>
+	  </tr>
+	</tbody>
+	</table>	
+	<p></p>
+		
+	<p>Vector is slower than ArrayList because Vector is synchronized.<br>	
+	A Set cannot contain duplicate elements.</p>	
+
+  </body>
+</html>

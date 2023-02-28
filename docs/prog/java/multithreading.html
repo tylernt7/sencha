@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Multithreading</title>
+    <link rel="stylesheet" href="../../common.css">	
+  </head>
+  <body>
+    <h1>Multithreading</h1> 
+	
+    <h2>Creating a thread</h2>
+	<p>There are two ways to create a thread. When a class extends the Thread class, you cannot extend any other class, but by implementing the Runnable interface, it is possible to extend from another class as well (class MyClass extends OtherClass implements Runnable).</p>
+    <h3>Extending the Thread class and overriding its run() method</h3>
+    <div class="code"><code><pre>public class MyThread extends Thread {
+    @Override	
+    public void run() {
+        System.out.println("New thread created");
+    }
+}
+
+public void createThread() {    	
+    new MyThread().start(); <i>// New thread created</i>
+}
+</pre></code></div>
+
+	<h3>Implementing the Runnable interface</h3>	
+    <div class="code"><code>
+    <table border="1" width="100%">
+    <thead>
+      <tr>
+        <th width="50%">Lambda Expression</th>
+        <th width="50%">Desugared DEX Code</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td><pre>
+<i>/*@FunctionalInterface
+public interface Runnable {
+    public abstract void run();
+}*/</i>
+
+public void createThread() {
+    Runnable runnable = () -> System.out.println("New thread created");
+    new Thread(runnable).start(); <i>// New thread created</i>
+}
+        </pre></td>
+        <td>
+        <pre>
+<i>/*@FunctionalInterface
+public interface Runnable {
+    public abstract void run();
+}*/</i>
+
+public class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("New thread created");
+    }
+}
+
+public void createThread() {
+    Runnable runnable = new MyRunnable();
+    new Thread(runnable).start(); <i>// New thread created</i>
+}
+
+<i>// Or using anonymous class</i>
+public void createThreadUsingAnonymousClass() {
+    new Thread() {
+        @Override
+        public void run() {
+            System.out.println("New thread created");
+        }
+    }.start(); <i>// New thread created</i>
+}</pre>
+        </td>
+      </tr>
+    </tbody>
+    </table>
+    </code></div>	
+	
+	<h2>Thread Methods</h2>
+	<ul>
+	<li><b>boolean isAlive()</b>: Tests if this thread is alive. A thread is alive if it has been started and has not yet died. Use isAlive() to prevent <a href="https://www.w3schools.com/java/tryjava.asp?filename=demo_threads_concurrency2">concurrency</a> problems (when the threads and main program are reading and writing the same variables, the values are unpredictable).</li>
+	<li><b>void setDaemon(boolean on)</b>: Marks this thread as either a daemon thread or a user thread. A <i>daemon thread</i> is a thread that will terminate, when the program finishes. The Java Virtual Machine exits when the only threads running are all daemon threads. This method must be invoked before the thread is started. Daemon threads are useful for background supporting tasks such as garbage collection (GC), releasing memory of unused objects and removing unwanted entries from the cache. Most of the JVM threads are daemon threads. A VMThread is a special thread in the HotSpot VM. It performs special tasks in the VM such as garbage collection. A <i>user thread</i> is a thread that can be controlled by users, e.g. GUI or socket handler thread</li>
+	</ul>
+
+
+	
+	
+    <h2>TODO</h2>
+<p>
+ui- gomb - nem válaszol - ui szállon van<br>
+sync - deadlock - arraylist<br>
+
+
+
+
+
+
+</p>
+  </body>
+</html>

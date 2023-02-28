@@ -1,0 +1,25 @@
+body { 
+  margin-top: 0;
+  margin-left: 0;
+  display: flex;
+}
+
+#left-div {
+  float: left;
+  width: 350px;
+}
+
+#right-div {
+  flex-grow: 1;
+}
+
+#left-iframe {
+  height: 97vh;
+  width: 100%;
+  resize: horizontal;
+}
+
+#right-iframe {
+  height: 97vh;
+  width: 100%;
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<!-- based on url=(0053)https://www.w3schools.com/howto/howto_js_treeview.asp -->
+<html>
+<head>
+  <title>Topics</title>
+  <base target="page">
+  <link rel="stylesheet" href="treeview.css">
+  <script type="text/javascript" src="treeview.js"></script>
+</head>
+<body>
+<h2>TOPICS</h2>
+  <ul id="myUL">
+    <li><a href="https://sites.google.com/view/tylernt7/home">Google sites</a></li>	
+
+    <li><span class="caret">Piano</span>
+      <ul class="nested">
+        <li><a href="piano/fundamentals.html">Fundamentals</a></li>
+        <li><a href="piano/staff.html">Staff</a></li>
+        <li><a href="piano/rhythm.html">Rhythm</a></li>
+        <li><a href="http://www.zeneiskolam.hu/zeneora/bevezetes.zeneiskola">Zeneiskola – Bevezetés</a></li>
+        <li><a href="https://www.wikihow.com/Learn-Piano-Songs-by-Ear">Learn Piano Songs by Ear</a></li>
+        <li><a href="https://www.pianoscales.org/major.html">Piano Major Scales</a></li>				
+      </ul>
+    </li>
+
+    <li><span class="caret">Health</span>
+      <ul class="nested">
+        <li><a href="health/eyesight.html">Eyesight</a></li>
+        <li><a href="health/hair_growth.html">Hair growth</a></li>
+        <li><a href="health/water.html">Pure Water</a></li>
+        <li><a href="health/breathing.html">Breathing Exercises</a></li>
+        <li><a href="health/reflexology.html">Reflexology</a></li>
+        <li><a href="health/fasting.html">Intermittent Fasting</a></li>
+        <li><a href="health/hiit.html">High-intensity interval training (HIIT)</a></li>
+        <li><a href="health/met.html">Metabolic equivalent of task (MET)</a></li>
+      </ul>
+    </li>
+
+    <li><span class="caret">Languages</span>
+      <ul class="nested">
+        <li><span class="caret">English</span>
+        <ul class="nested">
+          <li><a href="languages/english/todo.html">Minimal pairs: worse, worth</a></li>
+        </ul></li>
+        <li><span class="caret">German</span>
+        <ul class="nested">
+          <li><a href="languages/german/draft.html">Draft</a></li>
+        </ul></li>
+      </ul>
+    </li>
+
+    <li><span class="caret">Mining</span>
+      <ul class="nested">  	
+        <li><a href="mining/bitcoin.html">Bitcoin</a></li>
+        <li><a href="mining/trading.html">Trading</a></li>
+      </ul>
+    </li>
+	
+    <li><span class="caret">Interview</span>
+      <ul class="nested">  	
+        <li><a href="interview/knorr-bremse.html">Knorr-Bremse</a></li>
+        <li><a href="interview/morganstanley.html">Morgan Stanley</a></li>
+      </ul>
+    </li>	
+	
+    <li><span class="caret">Software Architecture</span>
+      <ul class="nested">
+        <li><span class="caret">Microservices</span>
+        <ul class="nested">
+          <li><a href="">REST</a></li>
+          <li><a href="">SOAP</a></li>
+          <li><a href="">WSDL</a></li>
+        </ul></li>
+        <li><a href="architect/mvc.html">MVC, MVP, MVVM</a></li>		
+        <li><a href="">Pipe and filter architecture</a></li>
+      </ul>
+    </li>
+
+    <li><span class="caret">Software Development</span>
+      <ul class="nested">
+        <li><span class="caret">Continuous integration</span>
+        <ul class="nested">
+          <li><a href="">DevOps</a></li>
+          <li><a href="">Jenkins</a></li>
+         <li><span class="caret">Package manager</span>
+          <ul class="nested">
+            <li><a href="">Maven</a></li>
+            <li><a href="">NuGet</a></li>
+          </ul></li>
+          <li><a href="">Confluence</a></li>
+          <li><a href="">Jira</a></li>	
+          <li><span class="caret">Version control system</span>
+          <ul class="nested">
+            <li><a href="">Git</a></li>
+            <li><a href="">Subversion (SVN)</a></li>		  
+          </ul></li>
+        </ul></li>
+		<li><span class="caret"><a href="dev/designpatterns/designpatterns.html">Design Patterns</a></span>
+		  <ul class="nested">
+			<li><span class="caret">Creational patterns</span>
+			<ul class="nested">
+			  <li><a href="dev/designpatterns/singleton.html">Singleton</a></li>
+			  <li><a href="">Factory Method</a></li>
+			  <li><a href="">Abstract Factory</a></li>
+			</ul></li>
+			<li><span class="caret">Structural patterns</span></li>  
+			<li><span class="caret">Behavioral patterns</span>
+			<ul class="nested">
+			  <li><a href="dev/designpatterns/observer.html">Observer</a></li>
+			  <li><a href="dev/designpatterns/strategy.html">Strategy</a></li>
+			</ul></li>
+		  </ul>
+		</li>
+        <li><span class="caret">Development methodologies</span>
+        <ul class="nested">
+          <li><a href="">Agile</a></li>	
+          <li><a href="">Extreme Programming (XP)</a></li>	
+          <li><a href="">Kanban</a></li>
+		  <li><a href="dev/methodologies/oop.html">Object-Oriented Programming (OOP)</a></li>
+          <li><a href="">Rational Unified Process (RUP)</a></li>
+          <li><a href="">Scrum</a></li>
+		  <li><span class="caret">Software Development Life Cycle (SDLC)</span>
+		    <ul class="nested">
+            <li><a href="">V-Model</a></li>
+		    <li><a href="">Waterfall</a></li>
+		  </ul></li>
+        </ul></li>
+      </ul>
+    </li>	
+
+    <li><span class="caret">Requirements Engineering</span>
+    </li>
+
+    <li><span class="caret">Imperative Programming</span>
+      <ul class="nested">
+	    <li><a href="prog/lang.html">Languages</a></li>	  
+        <li><span class="caret">Assembly</span>
+        <ul class="nested">
+        <li><a href="software/assembly.html">Assembly</a></li>
+        <li><a href="software/intrinsics.html">Intrinsics</a></li>
+        </ul></li>
+        <li><span class="caret">C and C++</span></li>
+		
+        <li><span class="caret">C#</span>
+        <ul class="nested">
+		<li><a href="prog/csharp/parameters.html">Method Parameters</a></li>
+		<li><a href="prog/csharp/dispose.html">Dispose method</a></li>
+        </ul></li>		
+		
+		
+		<li><span class="caret">Java</span>
+        <ul class="nested">
+		<li><a href="prog/java/platforms.html">Java Platforms</a></li>
+		<li><a href="prog/java/ide.html">Java IDEs</a></li>
+		<li><a href="prog/java/mutable.html">Mutable and Immutable Objects</a></li>
+		<li><a href="prog/java/exceptions.html">Exceptions</a></li>	
+        <li><span class="caret">Lambda Expressions (Java 8)</span>
+		<ul class="nested">
+		<li><a href="prog/java/functional.html">Functional Interfaces</a></li>
+		<li><a href="prog/java/x.html">Method References</a></li>
+		<li><a href="prog/java/x.html">Default Methods</a></li>
+		<li><a href="prog/java/stream.html">Stream API</a></li>
+		</ul></li>
+		<li><a href="prog/java/collection.html">Collection API</a></li>
+		<li><a href="prog/java/date.html">Date-Time API</a></li>
+		<li></li>
+		<li><a href="prog/java/io.html">IO, NIO</a></li>
+		<li><a href="prog/java/multithreading.html">Multithreading</a></li>
+		<li><a href="prog/java/junit.html">JUnit</a></li>
+		<li><a href="prog/java/scala.html">Scala</a></li>
+        </ul></li>		
+
+        <li><span class="caret">JavaScript</span>
+        <ul class="nested">		
+		<li><a href="">AJAX</a></li>
+		<li><a href="">Angular and Angular JS</a></li>
+		<li><a href="">Ext JS</a></li>
+		<li><a href="">jQuery</a></li>
+		<li><a href="">Node.js</a></li>
+        </ul></li>
+        <li><span class="caret">PHP</span></li>
+        <li><span class="caret">Python</span></li> 
+      </ul>
+    </li>
+
+    <li><span class="caret">Declarative Programming</span>
+      <ul class="nested">
+        <li><span class="caret">HTML and CSS</span></li>
+        <li><span class="caret">JSON</span></li>
+	<li><span class="caret">Regular expressions</span></li>
+        <li><span class="caret">SQL</span></li>
+	<li><span class="caret">UML and OCL</span>
+        <ul class="nested">		
+		<li><a href="prog\uml\uml.html">UML</a></li>
+		<li><a href="prog\uml\tools.html">UML tools</a></li>
+        </ul></li>
+        <li><span class="caret">XML</span></li>
+        <li><span class="caret">XQuery</span></li>
+        <li><span class="caret">XSLT</span></li>
+      </ul>
+    </li>
+
+    <li><span class="caret"><a href="testing\todo.html">Software Testing</a></span>
+      <ul class="nested">
+        <li><a href="">Fundamentals of testing</a></li>
+        <li><a href="">Testing throughout the software life cycle</a></li>
+        <li><a href="">Static techniques</a></li>
+        <li><a href="">Test design techniques</a></li>
+        <li><a href="">Test management</a></li>
+        <li><a href="">Tool support for testing</a></li>
+      </ul>
+    </li>
+
+  <script>toggle();</script>
+</body>
+</html>

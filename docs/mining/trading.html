@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Trading</title>
+  </head>
+  <body>
+    <h1>Trading</h1> 
+	<h2>Buy Low, Sell High Strategy</h2>
+	<img src="images/buy_low_sell_high.png" width="30%" height="30%">
+    <h2>Indicators</h2>
+    <h3>Moving Average</h3>  
+	<p>A moving average is a calculation to analyze data points by creating a series of averages of different subsets of the full data set.</p> 
+	<p>It smooths out price data by creating a constantly updated average price. The average is taken over a specific period of time, like 20 minutes, 10 days, 30 weeks or any time period the trader chooses.</p>
+	<p>Moving averages with a shorter look back period (20 days, for example) will also respond quicker to price changes than an average with a longer look back period (200 days).</p> 
+	<p><b>Types of moving averages</b></p>
+	<p>- Simple Moving Average (SMA): unweighted average of the previous k data-points.</p>
+	<p>- Exponential Moving Average (EMA): more weighting on the most recent price data.</p>
+	<p><b>Disadvantages</b></p>
+	<p>- It is calculated based on historical data, and not predictive.</p>
+	<p>- It works well in strong trending conditions but poorly in ranging conditions.</p>
+	<p>- It is best to utilize another indicator to help clarify the trend.</p>	
+	<p><img src="images/sma.png" width="100%" height="100%"></p>
+	<p><b>Trading Strategies</b></p>
+	
+	<p>Crossovers</p>
+	<table>
+	<tr>
+	  <td width="50%"><img src="images/sma-cross.png" width="95%" height="95%"></td>
+	  <td>
+	  <p><b>Practice</b></p>
+	  <p>Time chart: BTC/USDT</p>
+	  <p>Chart: Candlestick</p>
+	  <p>Chart interval: 30 min</p>
+	  <p>Input length: 21 (day)</p>
+	  <p>Sell: MA crosses above the price</p>
+	  <p>Buy: MA crosses below the price</p>
+	  </td>
+	</tr>
+	</table>
+
+	<p>Shorter-term and longer-term MA</p>
+	<table>
+	<tr>
+	  <td width="50%"><img src="images/sma-two.png" width="95%" height="95%"></td>
+	  <td>
+	  <p><b>Practice</b></p>
+	  <p>Time chart: ETH/USDT</p>
+	  <p>Chart: Candlestick</p>
+	  <p>Chart interval: 1 day</p>
+	  <p>Input length: 6 (hours) - fast MA (short-term)</p>
+	  <p>Input length: 24 (hours) - slow MA (longer-term)</p>
+	  <p>Sell: fast MA crosses below the slow one</p>
+	  <p>Buy: fast MA crosses above the slow one</p>
+	  </td>
+	</tr>
+	</table>
+	
+	<p>Stochastic Oscillators</p>
+	<table>
+	<tr>
+	  <td width="50%"><img src="images/osc.png" width="95%" height="95%"></td>
+	  <td>
+	  <p><b>Practice</b></p>
+	  <p>Time chart: ETH/USDT</p>
+	  <p>Chart: Candlestick</p>
+	  <p>Chart interval: 1 day</p>
+	  <p>Input length: 5</p>
+	  <p>Input smooth K: 3</p>
+	  <p>Input smooth D: 3</p>
+	  <p>Sell: Overbought area: from 80 to 100</p>
+	  <p>Buy: Oversold area: from 0 to 20</p>
+	  </td>
+	</tr>
+	</table>	
+
+	<h2>G7FX</h2>
+ 	<ul>
+	  <li>Terms: Market Profile, Volume Profile, Volume-Weighted Average Price (VWAP), Footprint, Cumulative Delta</li>
+	  <ul><li><a href="https://www.youtube.com/watch?v=X7ax19Nikso">Video: G7FX Institutional Trading Masterclass</a></li></ul>
+	  <ul><li><a href="https://www.youtube.com/watch?v=aDTsbcWCbWc">Video: Neerav Vadera - G7FX Institutional Sundays Volume 1 - Fundamentals / Trading</a></li></ul>
+	</ul>
+
+
+
+TERMS: trade, future, exchange, leading, margin (poloniex)
+
+
+  </body>
+</html>

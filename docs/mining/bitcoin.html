@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Bitcoin</title>
+  </head>
+  <body>
+    <h1>Bitcoin</h1> 
+    <h2>Overview</h2>
+    <p>- cryptocurrency invented in 2008</p>   
+	<p>- transactions are public around the world</p> 
+	<p>- no registration or transaction fee</p> 
+	<h2>BlockChain</h2>
+	<p><img src="images/blockchain.jpg" width="100%" height="100%"></p>
+	<h2>Block</h2>
+	<p><img src="images/block.png" width="100%" height="100%"></p>
+	<h2>Coinbase transaction format</h2>
+	<p><img src="images/coinbase.jpg" width="50%" height="50%"></p>
+	<h2>Stratum mining protocol</h2>
+	<p><img src="images/stratum.png" width="50%" height="50%"></p>
+    <p><b>BTC Stratum Protocol</b></p>
+	<p>> mining.subscribe(userAgent/version, extraNonce1)</p>
+    <p>< mining.notify(subscriptions, extraNonce1, extraNonce2Size)</p>
+    <p>> mining.authorize(userName, password)</p>
+    <p>< mining.set_difficulty(difficulty)</p>
+    <p>< mining.notify(jobId, hashPrevBlock, coinbase1, coinbase2, merkleBranchesList, blockVersion, nBits, nTime, clean)</p>
+    <p>> mining.submit(userName, jobId, extraNonce2, nTime, nOnce)</p>	
+	
+	<p><b>ZEC Stratum Protocol</b></p>
+    <p>> mining.subscribe(userAgent/version, sessionId)</p>
+	<p>< result(sessionId, nonce1)</p>
+    <p>> mining.authorize(userName, password)</p>
+    <p>< mining.set_target(target)</p>
+    <p>< mining.notify(jobId, blockVersion, hashPrevBlock, coinbase1, coinbase2, nTime, nBits, clean, hashVersion)</p>
+    <p>> mining.submit(userName, jobId, nTime, nonce2, equihashSolution)</p>	
+	<p>&nbsp;&nbsp;&nbsp;&nbsp;equihashSolution: compactSize and nonce</p>
+	
+	<p>BTC: <a href="https://en.bitcoin.it/wiki/Stratum_mining_protocol">https://en.bitcoin.it/wiki/Stratum_mining_protocol</a></p>
+	<p>ZEC (Equihash): <a href="https://zips.z.cash/zip-0301">https://zips.z.cash/zip-0301</a></p>
+    <h2>Difficulty</h2>	
+	<p>Since pools only receive successfully calculated shares (mining.submit) they calculate your actual hashrate based on the number of shares submitted.</p>
+	<p>&nbsp;</p>
+	<p>The average time in seconds (for BTC) to find a share can be computed:</p>
+	<p>Time = SD * 2^32 / H</p>
+	<p>&nbsp;</p>
+	<p>The value of a share (a.k.a. the PPS rate) can be computed:</p>
+	<p>Share = BS * R / ND * (SD / 65536)</p>
+	<p>&nbsp;</p>	
+	<p>The actual earnings per day can be computed:</p>
+	<p>Earnings = (BS * R * H * S) / (ND * 2^32)</p>
+	<p>&nbsp;</p>	
+	<p>ND: network difficulty (current difficulty: https://btc.com/stats/diff)</p>
+	<p>SD: share difficulty</p>
+	<p>H: hashrate (estimated hashes the miner calculates per second)</p>
+	<p>BS: block subsidy (block reward is 6.25 BTC, BTC/block: https://en.bitcoin.it/wiki/Controlled_supply)</p>
+	<p>R: PPS/FPPS ratio</p>
+	<p>S: Number of seconds per day (S = 60 * 60 * 24 = 86400)</p>
+	<p>&nbsp;</p>	
+	<p>It takes 2^32 hashes (0xFFFFFFFF+1 = 4294967296) to find a share and each share has a 1/D (D = difficulty) chance of correctly solving the block.</p>
+	<h2>How to configure the difficulty of miners? (help.pool.btc.com)</h2>	
+	<p>Recommended difficulty is calculated as: D=H*2.3, H is the hashrate (Unit is 1G)</p>
+	<p>The goal of difficulty adjustment is to submit a share in 10 to 20 seconds</p>
+	<p>The number of calculations required for share difficulty 1 is 2 to the 32nd power, which is 4294967296</p>
+	<p>4294967296 times are calculated in 10 seconds. How many times is 1 second?</p>
+	<p>4294967296 ÷ 10 = 429496729.6 = 0.429G</p>
+	<p>So 0.429G is difficulty 1 (Time = SD * 2^32 / H = 1 * 4294967296 / 429496729.6 = 10)</p>
+	<p>Difficulty of 1G = 1 ÷ 0.4294967296 = 2.3283064365386962890625</p>
+	<h2>Notes</h2>	
+	<p><b>Nonce calculation</b></p>
+	<p>If 0-0xFFFFFFFF nonces will not result in a hash less than or equal to the target, then you change something else in the block header and try again. For instance, you can increment a number in the coinbase transaction, which results in a new value for the "Merkle root" hash in the block header. The smaller the target, the more times you are likely to have to do this before success</p>	
+	<p><b>What will be my expected payout per share?</b></p>
+	<p>Every share will give you, on average, the block reward (minus any pool fees) divided by the difficulty. For example, with a block reward of 50 BTC, 2% fee and difficulty of 240000, each share submitted will give on average 0.000204 BTC (204 μBTC).</p>
+	
+	<p><b>How many hashes does it take to find a share?</b></p>
+	<p>On average, one share will be found for every 2^32, or 4.295 billion, hashes calculated. So at 1 MHash/s, you will find a share on average every 72 minutes.</p>
+	
+	<p><b>Why the constant is 2^32?</b></p>
+	<p>Bitcoin's pool difficulty 1 is 0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF<BR>
+	To achieve this target, you need to have a result of the hash function with a 32 bits leading 0, and subsequent 224 bits can be any value. So we ignore the subsequent 224 bits, only consider the first 32 bits, then it can be regarded as a hash function with a 32bits output. At this point the problem translates to: given any input, get the specific output of the hash function (0x00000000). Assuming that the value of the hash function is evenly distributed within the range, the probability of obtaining a particular output value B for any input A is 1/(2^32). So when you try to change the input and compute the hash, after 2^32 attempts, the probability of getting a specific input 0x00000000 will be 1.</p>
+		
+	<p><b>How is difficulty stored in blocks?</b></p>
+	<p>TBD</p>
+	
+	<p><b>65536?</b></p>
+	<p>65536 is the average number of hashes to be computed in order to find a 1 share at mining difficulty 1 for a bitcoin based coin. When the pool sets the share-diff to something higher, for example at share diff 10, your miner has to hash 10x more to find that share on average. So 655360 hashes at share diff 10 and 65536 hashes at share diff 1.</p>
+	<p>Pools with vardiff or anything similar adjust the share diff to something like 512, because miners with 100's of khashs will have to make more connections to the stratum server at a lower mining difficulty resulting a higher risk of shares being lost. If they send shares at a higher difficulty they will be submitting work less often and have less stales.</p>
+	
+	<h2>Hashrate Computing Table</h2>
+	<p>hashrate = share_diff_sum * factor / time<br>
+	  (hash/s) =   (non-unit)    * (hash) / (s)</p>
+	<table border="1">
+	<thead>
+	<tr>
+	<th>Blockchain</th>
+	<th>Algorithm</th>
+	<th>Diff 1 (bits)</th>
+	<th>Target (the first and maximum target - genesis block)</th>
+	<th>Factor</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+	<td>BTC/BCH/BSV/UBTC/SBTC</td>
+	<td>SHA256d</td>
+	<td>0x1d00ffff</td>
+	<td>00000000ffff0000000000000000000000000000000000000000000000000000</td>
+	<td>2 ^ 32</td>
+	</tr>
+	<tr>
+	<td>ETH/ETC</td>
+	<td>Ethash</td>
+	<td>0x2100ffff</td>
+	<td>ffff000000000000000000000000000000000000000000000000000000000000</td>
+	<td>1</td>
+	</tr>
+	<tr>
+	<td>DCR</td>
+	<td>Blake256</td>
+	<td>0x1d00ffff</td>
+	<td>00000000ffff0000000000000000000000000000000000000000000000000000</td>
+	<td>2 ^ 32</td>
+	</tr>
+	<tr>
+	<td>LTC</td>
+	<td>Scrypt</td>
+	<td>0x1f00ffff</td>
+	<td>0000ffff00000000000000000000000000000000000000000000000000000000</td>
+	<td>2 ^ 16</td>
+	</tr>
+	<tr>
+	<td>Grin</td>
+	<td>Cuckaroo29</td>
+	<td></td>
+	<td></td>
+	<td>42</td>
+	</tr>
+	<tr>
+	<td></td>
+	<td>Cuckatoo31+</td>
+	<td></td>
+	<td></td>
+	<td>42</td>
+	</tr>
+	<tr>
+	<td>Zcash (ZEC)</td>
+	<td>EquiHash (n=144, k=5)</td>
+	<td>0x1f07ffff</td>
+	<td>0007ffff00000000000000000000000000000000000000000000000000000000</td>
+	<td>2 ^ 13</td>
+	</tr>
+	<tr>
+	<td>Beam</td>
+	<td>EquiHash (n=150, k=5)</td>
+	<td>0x2100ffff</td>
+	<td>ffff000000000000000000000000000000000000000000000000000000000000</td>
+	<td>1</td>
+	</tr>
+	</tbody>
+	</table>	  
+	<p>https://github.com/btccom/btcpool-ABANDONED/wiki/How-to-compute-a-worker's-hashrate-%7C-%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E7%9F%BF%E5%B7%A5%E7%9A%84%E5%93%88%E5%B8%8C%E9%80%9F%E7%8E%87</p>	
+	
+	<h2>The Cryptographic Puzzle</h2>
+	<p>Not all of the hash values are valid hashes. Anything above the minimal target are rejected, anything below — accepted.</p>
+	<p><img src="images/hash.png" width="50%" height="50%"><img src="images/hash2.png" width="50%" height="50%"></p>	
+
+	<h2>When will I get paid?</h2>
+	<p>You won't see any balance in your account until a block has been found by the pool and after the block has reached a mature status. This may take a couple hours, depending on the coin. As soon as a block can be considered 'mature' by the pool, your shares will be used to calculate your contribution towards finding the block. The more you've contributed, the higher your cut of the block reward will be. Your cut of the block reward will then be credited to your pending balance. If your balance reaches or exceeds the pool's minimum payout amount, the pool will transfer your entire balance to your wallet and reset your pending balance to zero. The minimum payout for each pool is listed in page 'Payments'.</p>
+	<p>We are a small pool for the time being, and as such it may take some time to find a block. On larger pools you would see some balance earlier because they will find blocks faster, but you will get a smaller share of the reward than what you would in a smaller pool. Over time you will earn more or less the same amount when mining on a large pool or on a small one.</p>
+	<p>In other words, the rewards you get on average are exactly proportional to your part in the total work done by the pool. If you mine in a pool twice as large, the pool will collect twice as much rewards but your share in them will be cut by half, meaning you get the same on average.</p>
+	<p>Trustworthiness, reliability, support and low latency are the things you should consider when choosing a pool. By avoiding the largest pools you contribute to the network health by spreading the hash power.</p>
+	
+	<h2>Reward systems</h2>
+	<p><b>PROP (Proportional): </b>Pools pay miners for valid shares during the time between discovering one block and the next.</p>
+	<p><b>PPS (Pay Per Share): </b>Pools pay miners for all valid shares. Miners receive pay whether the pool finds a block or not.</p>
+	<p><b>PPLNS (Pay Per Last <i>N</i> Shares): </b>Similar to proportional, but instead of shares between two blocks, take the last N shares.</p>
+	<p><b>PPLTS (Pay Per Loyal Time Share): </b>PROP + PPLNS (mining for at least 8 hours with a consistent hash rate)</p>
+	<p><b>PPLNT (Pay Per Last <i>N</i> Timeshares): </b>You get paid for your time slices instead of work slices</p>
+	
+	<h2>Links</h2>
+	<p><a href="https://en.bitcoin.it/wiki/Non-specialized_hardware_comparison">Non-specialized hardware comparison (Bitcoin)</a></p> 
+  </body>
+</html>

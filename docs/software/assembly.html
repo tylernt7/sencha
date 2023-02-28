@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Assembly</title>
+  </head>
+  <body>
+    <h1>Assembly</h1> 
+    <h2>Instructions</h2>
+		
+	<b>mov <i>operand1</i>, <i>operand2</i>:</b> place the value in <i>operand2</i> into <i>operand1</i>
+	<blockquote>
+	<p>mov eax, ebx: move the value in ebx into eax</p>
+	<p>mov eax, [ebx]: move the 4 bytes in memory at the address contained in EBX into EAX</p>
+	<p>mov [var], ebx: move the contents of EBX into the 4 bytes at memory address var. (Note, var is a 32-bit constant).</p>
+	<p>mov eax, [esi-4]: move 4 bytes at memory address ESI + (-4) into EAX</p>
+	<p>mov [esi+eax], cl: move the contents of CL into the byte at address ESI+EAX</p>
+	<p>mov edx, [esi+4*ebx]: move the 4 bytes of data at address ESI+4*EBX into EDX</p>	
+	<p>mov byte ptr [var], 5: move the value 5 into the byte at location var</p>
+	<p>mov al, [my_arr+3]: move the forth element of the array into register al</p>
+	</blockquote>
+	
+	<p><b>push <i>operand</i>:</b> place the <i>operand</i> onto the top of stack in memory</p>
+	<p><b>pop <i>operand</i>:</b> remove the element from the top of the stack into the <i>operand</i></p>	
+	<p><b>lea <i>operand1</i>, <i>operand2</i>:</b> place the address in <i>operand2</i> into <i>operand1</i></p>
+	
+	<p><b>add <i>operand1</i>, <i>operand2</i>:</b> add <i>operand1</i> and <i>operand2</i>, storing the result in <i>operand1</i></p>	
+	<p><b>sub <i>operand1</i>, <i>operand2</i>:</b> subtract <i>operand2</i> from <i>operand1</i>, storing the result in <i>operand1</i></p>
+	
+	<p><b>and <i>operand1</i>, <i>operand2</i>:</b> perform AND on <i>operand1</i> and <i>operand2</i>, storing the result in <i>operand1</i></p>	
+	<p><b>or <i>operand1</i>, <i>operand2</i>:</b> perform OR on <i>operand2</i> and <i>operand1</i>, storing the result in <i>operand1</i></p>
+	
+	<p><b>shl <i>operand1</i>, <i>operand2</i>:</b> shift the bits in <i>operand1</i> left, storing the result in <i>operand1</i></p>	
+	<p><b>shr <i>operand1</i>, <i>operand2</i>:</b> shift the bits in <i>operand1</i> right, storing the result in <i>operand1</i></p>
+	
+	<h2>x64 calling convention</h2>
+	<p>C++: func1(int a, int b, int c, int d, int e, int f);</p>
+	<p>Assembly: a in RCX, b in RDX, c in R8, d in R9, f then e pushed on stack</p>
+	<p></p>
+	
+	<h2>Examples</h2>
+	<p><b>Example: Add 2 and 3</b></p>
+	<blockquote>
+	<p>mov eax, 2</p>
+	<p>mov ebx, 3</p>
+	<p>add eax, ebx</p>
+	</blockquote>
+	
+	<p><b>Example: Print hello world</b></p>
+	<blockquote>
+	<p>.data</p>
+	<p>&emsp;hello db "Hello World!",0</p>
+	<p>&nbsp;</p>
+	<p>.code</p>
+	<p>hello_from_asm PROC</p>
+	<p>&emsp;push rbp</p>
+	<p>&emsp;mov rbp, rsp</p>
+	<p>&emsp;sub rsp, 32 <i>; Shadow Space</i></p>
+	<p>&emsp;and spl, -16 <i>; Align stack at 16</i></p>
+	<p>&nbsp;</p>
+	<p>&emsp;lea rcx, hello</p>
+	<p>&emsp;call puts</p>
+	<p>&nbsp;</p>
+	<p>&emsp;leave <i>; Restore stack (rsp) & frame pointer (rbp)</i></p>
+	<p>&emsp;ret</p>
+	<p>hello_from_asm ENDP</p>
+	<p>END</p>
+	</blockquote>
+	
+	<h2>x86 and x64 Registers</h2>	
+	<p><img src="images/x86-registers.png" width="50%" height="50%"><img src="images/x64-registers.png" width="32%" height="32%"></p>
+	<p><img src="images/stack.jpeg" width="50%" height="50%"></p>
+  </body>
+</html>

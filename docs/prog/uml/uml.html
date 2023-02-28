@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <title>UML</title>
+	<link rel="stylesheet" href="../../common.css">	
+  </head>
+  <body>
+    <h1>UML</h1>
+	<p>The <b>Unified Modeling Language (UML)</b> is a general-purpose modeling language that is intended to provide a standard way to visualize the design of a system.</p>
+	<h2>Diagrams</h2>
+	<p><img src="images\UML_diagrams_overview.png" width="50%" height="50%"/></p>
+	<h2>Object Relationships</h2>
+	<p>A bicycle may belong to an owner. A bicycle must own a set of frame parts (strong "has-a" relationship). A bicycle may own one or two wheels (weak "has-a" relationship).</p>
+	<p>If a bicycle is manufactured, all of its frame parts are manufactured with it. The frame parts are the basic structure (skeleton, main body) of the bicycle. Other parts are installed on the frame.</p>
+	<p><img src="images\bicycle.png" width="50%" height="50%"/></p>
+	
+	<table width="100%">
+	  <tr>
+	    <td width="50%"><img src="images\relationships.png" width="70%" height="70%"/></td>
+		<td width="50%"><div class="code"><code><pre>	   
+public class Class1 extends Class2 {
+    private List&lt;Class3&gt; association;
+    private List&lt;Class4&gt; aggregation;
+    private List&lt;Class5&gt; composition; <i>//= new ArrayList&lt;Class5&gt;();</i>
+    <i>//private class Class5 {} // Class5 can be non-static inner or outer class</i>
+    
+    <i>// Set association and aggregation via constructor or setter as parameter</i>	
+    public Class1() {
+        composition = new ArrayList&lt;Class5&gt;();
+    }
+}
+
+public class Class2 {}
+public class Class3 {}
+public class Class4 {}
+public class Class5 {}
+	</pre></code></div>	</td>
+	  </tr>
+	</table>
+	
+    <table border="1">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Association</th>
+        <th>Aggregation</th>
+        <th>Composition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Variant</b></td>
+        <td></td>
+        <td>"has a"</td>
+        <td>"owns a"</td>
+      </tr>
+      <tr>
+        <td><b>Owner</b></td>
+        <td>No owner</td>
+        <td>Single owner</td>
+        <td>Single owner</td>
+      </tr>
+      <tr>
+        <td><b>Life time</b></td>
+        <td>Has its own lifetime</td>
+        <td>Has its own lifetime</td>
+        <td>Owner's life time</td>
+      </tr>
+      <tr>
+        <td><b>Child object</b></td>
+        <td>Child objects all are independent</td>
+        <td>Child objects belong to a single parent</td>
+        <td>Child objects belong to a single parent</td>
+      </tr>
+    </tbody>
+    </table>
+	<p>There is only a logical difference between association and aggregation.<br>
+	If Class1 object is destructed, Class3/Class4 object does not die.<br>
+	If Class1 object is destructed (garbage collected), Class5 object is also destructed.</p>	
+	
+  </body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Method Parameters</title>
+	<link rel="stylesheet" href="../../common.css">	
+  </head>
+  <body>
+    <h1>Method Parameters</h1>
+    <table>
+    <tr valign="top">
+      <td>
+	    C# types can be either reference types (<i>class, delegates, interface</i>) or value types (<i>struct, enum</i>).
+ 	    <ul>
+	      <li><i>Pass by value</i> means <b>passing a copy of the variable</b> to the method</li>
+	      <li><i>Pass by reference</i> means <b>passing access to the variable</b> to the method</li>
+	      <li>A variable of a <i>reference type</i> contains a reference to its data</li>
+	      <li>A variable of a <i>value type</i> contains its data directly</li>	  
+	    </ul>	  
+	  </td>
+      <td><center><img src="images\coffee.png" width="70%" height="70%"/></center></td>
+    </tr>
+    </table>	
+	
+	<div class="code"><code>	
+<pre>struct IntHolderStruct
+{
+    public int value;
+
+    <i>//public IntHolderStruct() { } // Struct cannot contain explicit parameterless constructor</i>
+    public IntHolderStruct(IntHolderStruct intHolderStruct) { value = intHolderStruct.value; }
+}
+
+class IntHolder
+{
+    public int value;
+	
+    public IntHolder() { }
+    public IntHolder(IntHolder intHolder) { value = intHolder.value; }
+}
+
+static void IncrementValueTypeByValue(int value) { value++; } // 0
+static void IncrementValueTypeByReference(ref int value) { value++; } // 1
+
+static void IncrementReferenceTypeByValue(IntHolder intHolder) { intHolder = new IntHolder(); intHolder.value++; } // 0
+static void IncrementReferenceTypeByValue2(IntHolder intHolder) { intHolder.value++; } // 1
+
+static void IncrementReferenceTypeByReference(ref IntHolder intHolder) { intHolder = new IntHolder(); intHolder.value++; } // 1
+static void IncrementReferenceTypeByReference2(ref IntHolder intHolder) { intHolder.value++; } // 1
+
+static void IncrementValueTypeByValue(IntHolderStruct intHolderStruct) { intHolderStruct = new IntHolderStruct(); intHolderStruct.value++; } // 0
+static void IncrementValueTypeByValue2(IntHolderStruct intHolderStruct) { intHolderStruct.value++; } // 0
+
+static void IncrementValueTypeByReference(ref IntHolderStruct intHolderStruct) { intHolderStruct = new IntHolderStruct(); intHolderStruct.value++; } // 1
+static void IncrementValueTypeByReference2(ref IntHolderStruct intHolderStruct) { intHolderStruct.value++; } // 1
+
+static void CopyConstructorTest()
+{
+    IntHolder intHolder = new IntHolder();
+    IntHolder intHolderRef = intHolder;
+    IntHolder intHolderCopy = new IntHolder(intHolder);
+
+    intHolder.value++;
+    Console.WriteLine(intHolder.value); // 1
+    Console.WriteLine(intHolderRef.value); // 1
+    Console.WriteLine(intHolderCopy.value); // 0
+
+    intHolder = null;
+    Console.WriteLine(intHolder == null); // True
+    Console.WriteLine(intHolderRef == null); // False
+    Console.WriteLine(intHolderCopy == null); // False
+}
+
+static void CopyConstructorStructTest()
+{    
+    IntHolderStruct intHolderStruct = new IntHolderStruct();
+    IntHolderStruct intHolderStructRef = intHolderStruct;
+    IntHolderStruct intHolderStructCopy = new IntHolderStruct(intHolderStruct);
+
+    intHolderStruct.value++;
+    Console.WriteLine(intHolderStruct.value); // 1
+    Console.WriteLine(intHolderStructRef.value); // 0
+    Console.WriteLine(intHolderStructCopy.value); // 0
+	
+    <i>// intHolderStruct = null; // Struct is a non-nullable value type</i>
+}
+
+static void StringTest()
+{
+    String str = new String(""); <i>// Immutable Object (String, string)</i>
+    String strRef = str;
+    str = "abc";
+    Console.WriteLine(str);    <i>// "abc"</i>
+    Console.WriteLine(strRef); <i>// ""</i>
+
+    StringBuilder strBuilder = new StringBuilder(); <i>// Mutable Object</i>
+    StringBuilder strBuilderRef = strBuilder;
+    strBuilder.Append("abc");
+    Console.WriteLine(strBuilder);    <i>// "abc"</i>
+    Console.WriteLine(strBuilderRef); <i>// "abc"</i>   
+}
+
+static void Main(string[] args)
+{
+    int intByValue = 0;
+    int intByReference = 0;
+    IncrementValueTypeByValue(intByValue);
+    IncrementValueTypeByReference(ref intByReference);
+    Console.WriteLine(intByValue);     // 0 (Java and C# always passes arguments by value, NOT by reference) 
+    Console.WriteLine(intByReference); // 1 (C#: use ref, C: use &)
+
+    IntHolder intHolderByValue = new IntHolder(); intHolderByValue.value = 0;
+    IntHolder intHolderByValue2 = new IntHolder(); intHolderByValue2.value = 0;
+    IncrementReferenceTypeByValue(intHolderByValue);
+    IncrementReferenceTypeByValue2(intHolderByValue2);
+    Console.WriteLine(intHolderByValue.value); // 0 (Java, C#, C)
+    Console.WriteLine(intHolderByValue2.value); // 1 (Java, C#, C)
+
+    IntHolder intHolderByReference = new IntHolder(); intHolderByReference.value = 0;
+    IntHolder intHolderByReference2 = new IntHolder(); intHolderByReference2.value = 0;
+    IncrementReferenceTypeByReference(ref intHolderByReference);
+    IncrementReferenceTypeByReference2(ref intHolderByReference2);
+    Console.WriteLine(intHolderByReference.value); // 1 (C#, C)
+    Console.WriteLine(intHolderByReference2.value); // 1 (C#, C)   
+    
+    IntHolderStruct intHolderStructByValue = new IntHolderStruct(); intHolderStructByValue.value = 0;
+    IntHolderStruct intHolderStructByValue2 = new IntHolderStruct(); intHolderStructByValue2.value = 0;
+    IncrementValueTypeByValue(intHolderStructByValue);
+    IncrementValueTypeByValue2(intHolderStructByValue2);
+    Console.WriteLine(intHolderStructByValue.value); // 0 (C#, C)
+    Console.WriteLine(intHolderStructByValue2.value); // 0 (C#, C)
+
+    IntHolderStruct intHolderStructByReference = new IntHolderStruct(); intHolderStructByReference.value = 0;
+    IntHolderStruct intHolderStructByReference2 = new IntHolderStruct(); intHolderStructByReference2.value = 0;
+    IncrementValueTypeByReference(ref intHolderStructByReference);
+    IncrementValueTypeByReference2(ref intHolderStructByReference2);
+    Console.WriteLine(intHolderStructByReference.value); // 1 (C#, C)
+    Console.WriteLine(intHolderStructByReference2.value); // 1 (C#, C)
+
+    CopyConstructorTest();
+    CopyConstructorStructTest();
+    StringTest();	
+}
+
+    
+</pre></code></div>	
+<br>	
+  </body>
+</html>
