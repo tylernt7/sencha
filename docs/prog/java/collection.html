@@ -228,5 +228,33 @@
 	<p>Vector is slower than ArrayList because Vector is synchronized.<br>	
 	A Set cannot contain duplicate elements.</p>	
 
+	<h2>ArrayList vs. LinkedList</h2>	
+    <table border="1">
+    <thead>
+      <tr>
+        <th>Operations</th>
+        <th>ArrayList</th>
+        <th>LinkedList</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>get(int index)</td>
+        <td>O(1), faster</td>
+        <td>O(n)</td>
+        <td>Array: random access. LinkedList: start from the beginning</td>
+      </tr>
+      <tr>
+        <td>remove(int index)<br>add(int index, E element)<br></td>
+        <td>O(n/2)</td>
+        <td>O(n/4), faster</td>
+        <td>Array: new array, copy, shift. LinkedList: change pointer/reference</td>
+      </tr>
+    </tbody>
+    </table>	
+	<p><img src="images\linkedlist.jpeg" width="50%" height="50%"/>
+
+  
   </body>
 </html>

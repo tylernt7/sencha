@@ -9,7 +9,7 @@
 	
     <h2>Creating a thread</h2>
 	<p>There are two ways to create a thread. When a class extends the Thread class, you cannot extend any other class, but by implementing the Runnable interface, it is possible to extend from another class as well (class MyClass extends OtherClass implements Runnable).</p>
-    <h3>Extending the Thread class and overriding its run() method</h3>
+    <h3>Extending the Thread class</h3>
     <div class="code"><code><pre>public class MyThread extends Thread {
     @Override	
     public void run() {
@@ -18,7 +18,7 @@
 }
 
 public void createThread() {    	
-    new MyThread().start(); <i>// New thread created</i>
+    <b>new MyThread().start();</b> <i>// New thread created</i>
 }
 </pre></code></div>
 
@@ -41,7 +41,7 @@ public interface Runnable {
 
 public void createThread() {
     Runnable runnable = () -> System.out.println("New thread created");
-    new Thread(runnable).start(); <i>// New thread created</i>
+    <b>new Thread(runnable).start();</b> <i>// New thread created</i>
 }
         </pre></td>
         <td>
@@ -60,7 +60,7 @@ public class MyRunnable implements Runnable {
 
 public void createThread() {
     Runnable runnable = new MyRunnable();
-    new Thread(runnable).start(); <i>// New thread created</i>
+    <b>new Thread(runnable).start();</b> <i>// New thread created</i>
 }
 
 <i>// Or using anonymous class</i>
@@ -82,8 +82,10 @@ public void createThreadUsingAnonymousClass() {
 	<ul>
 	<li><b>boolean isAlive()</b>: Tests if this thread is alive. A thread is alive if it has been started and has not yet died. Use isAlive() to prevent <a href="https://www.w3schools.com/java/tryjava.asp?filename=demo_threads_concurrency2">concurrency</a> problems (when the threads and main program are reading and writing the same variables, the values are unpredictable).</li>
 	<li><b>void setDaemon(boolean on)</b>: Marks this thread as either a daemon thread or a user thread. A <i>daemon thread</i> is a thread that will terminate, when the program finishes. The Java Virtual Machine exits when the only threads running are all daemon threads. This method must be invoked before the thread is started. Daemon threads are useful for background supporting tasks such as garbage collection (GC), releasing memory of unused objects and removing unwanted entries from the cache. Most of the JVM threads are daemon threads. A VMThread is a special thread in the HotSpot VM. It performs special tasks in the VM such as garbage collection. A <i>user thread</i> is a thread that can be controlled by users, e.g. GUI or socket handler thread</li>
+	<li><b>void start()</b>: Causes this thread to begin execution. It creates a new thread (threads running in PARALLEL)</li>
+	<li><b>void run()</b>: Runnable object's run method is called. It does not create any thread (threads running like normal methods)</li>	
+	<li><b>void join()</b>: Waits for this thread to die. It waits for this thread to complete (threads running like normal methods)</li>
 	</ul>
-
 
 	
 	
@@ -91,6 +93,7 @@ public void createThreadUsingAnonymousClass() {
 <p>
 ui- gomb - nem válaszol - ui szállon van<br>
 sync - deadlock - arraylist<br>
+
 
 
 

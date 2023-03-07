@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Garbage Collection</title>
+  </head>
+  <body>
+    <h1>Garbage Collection</h1>
+	<h2>Does Garbage Collection occur in permanent generation space in JVM?</h2>
+	<p>Garbage Collection does occur in PermGen space and if PermGen space is full or cross a threshold, it can trigger a full garbage collection. If you look carefully at the output of the garbage collector, you will find that PermGen space is also garbage collected. This is the reason why correct sizing of PermGen space is important to avoid frequent full garbage collections.</p>
+	
+	<h2>Garbage Collection of Remote Objects</h2>
+	<p>In a distributed system, just as in the local system, it is desirable to automatically delete those remote objects that are no longer referenced by any client. <i>RMI (Remote Method Invocation)</i> uses a <i>reference-counting garbage collection algorithm</i>.</p>
+	<p>To accomplish reference-counting garbage collection, the RMI runtime keeps track of all live references within each Java Virtual Machine. When a live reference enters a Java Virtual Machine, its reference count is incremented. The first reference to an object sends a "referenced" message to the server for the object. As live references are found to be unreferenced in the local Virtual Machine, the count is decremented. When the last reference has been discarded, an "unreferenced" message is sent to the server.</p>
+	<p>When a remote object is not referenced by any client, the RMI runtime refers to it using a weak reference. The weak reference allows the Java Virtual Machine's garbage collector to discard the object if no other local references to the object exist. The <i>distributed garbage collection (DGC)</i> algorithm interacts with the local Java Virtual Machine's garbage collector in the usual ways by holding normal or weak references to objects.</p>
+	
+	<h2>What are the layers of RMI Architecture?</h2>
+	<p>The RMI implementation consists of three abstraction layers:</p>
+	<p>1. <i>Stub and Skeleton</i> layer: This layer lies just beneath the view of the developer. This layer intercepts method calls made by the client to the interface reference variable and redirects these calls to a remote RMI Service.</p>
+	<p>2. <i>Remote Reference</i> Layer: This layer interprets and manages references made from the clients to the remote service objects (servers' remote objects). The connection is a one-to-one (unicast) link.</p>
+	<p>3. <i>Transport</i> layer: This layer connects the two JVM participating in the service. This layer is based on TCP/IP connections between machines in a network. It provides basic connectivity, as well as some firewall penetration strategies.</p>
+	<center><img src="images\rmi.png" width="75%" height="75%"/></center>
+	
+	
+  </body>
+</html>

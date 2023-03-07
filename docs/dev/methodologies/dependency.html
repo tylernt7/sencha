@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dependency Injection</title>
+    <link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Dependency Injection</h1>
+	
+	<p>You do not have to focus on object creation, you focus on the implementation of your business logic. Dependency injection framework will give you the object when you require it.</p>
+	<p>Package javax.inject specifies a means for obtaining objects in such a way as to maximize reusability, testability and maintainability compared to traditional approaches such as constructors, factories, and service locators (e.g., JNDI). This process, known as <i>dependency injection</i>, is beneficial to most nontrivial applications.</p>	
+	<p>Contexts and Dependency Injection (CDI) enables your objects to have their dependencies provided to them automatically, instead of creating them or receiving them as parameters. CDI also manages the lifecycle of those dependencies for you.</p>
+	
+	<h2>java.time.Clock (Java 8) - ToDo summarize articles below</h2>
+	<ul>
+	  <li>https://dev.to/rnowif/controlling-the-time-in-java-43kh</li>
+	  <li>https://mincong.io/2020/05/24/java-clock/</li>	  
+	  <li>https://blog.indrek.io/articles/unit-testing-classes-that-depend-on-time/</li>
+	  <li>https://dzone.com/articles/mocking-the-javatime-api-for-better-testability</li>
+	  <li>https://www.code4it.dev/blog/inject-and-test-datetime-dependency</li>
+	  <li>https://stackoverflow.com/questions/27067049/unit-testing-a-class-with-a-java-8-clock</li>		  
+	  <li>https://stackoverflow.com/questions/10837215/dependency-injection-for-date-object</li>
+	</ul>
+	
+	<h2>Wiring the app together (access to the repositories)</h2>
+	<ul>
+	  <li>Singletons (global variables, easy but could make unit testing messy)</li>
+	  <li>Dependency injection framework (e.g. Dagger 2)</li>
+	  <li>Instantiate when needed (could work if they have no state)</li>
+	</ul>
+
+	<h2>Frameworks</h2>
+	<ul>
+	  <li>Guice - Java 8</li>
+	  <li>CDI (Contexts and Dependency Injection) - Java EE 6 (Weld)</li>
+	  <li>Spring IoC</li>
+	  <li>Dagger 2 (@Inject, @Provides, @Component, @Module, @BindsInstance) - Java 8/11 and Android</li>
+	</ul>
+	
+
+	<h2>Types of dependency injection</h2>
+	<b>Without dependency injection</b>
+	<p>The client directly constructs and controls which service it uses.</p>
+	<div class="code"><code><pre>public class Client {
+    private Service service;
+
+    Client() {
+        <i>// The dependency is hard-coded.</i>
+        this.service = new ExampleService();
+    }
+}</pre></code></div><br>
+	  <b>Constructor injection</b>
+	  <p>Once we register a service, the IoC container automatically performs constructor injection if a service type is included as a parameter in a constructor — a process called <i>auto-wiring</i>. This ensures the client is always in a valid state, since it cannot be instantiated without its necessary dependencies.</p>
+	  <div class="code"><code><pre>public class Client {
+    private Service service;
+
+    <i>// The dependency is injected through a constructor.</i>
+    Client(Service service) {
+        if (service == null) {
+            throw new InvalidParameterException("service must not be null");
+        }
+        this.service = service;
+    }
+}</pre></code></div><br>
+	  <b>Setter injection</b>
+	  <p>Clients can allow injectors to manipulate their dependencies at any time through a setter method. This offers flexibility, but makes it difficult to ensure that all dependencies are injected and valid before the client is used.</p>
+	  <div class="code"><code><pre>public class Client {
+    private Service service;
+
+    <i>// The dependency is injected through a setter method.</i>
+    public void setService(Service service) {
+        if (service == null) {
+            throw new InvalidParameterException("service must not be null");
+        }
+        this.service = service;
+    }
+}}</pre></code></div><br>	  	
+	  <b>Interface injection</b>
+	  <p>The injecting method is provided through an interface. The module of the injecting class defines an interface that dependent classes must implement in order to have the dependencies made available at runtime.</p>	  
+	  <div class="code"><code><pre>public interface ServiceSetter {
+    public void setService(Service service);
+}
+
+public class Client implements ServiceSetter {
+    <i>// Internal reference to the service used by this client.</i>
+    private Service service;
+
+    <i>// Set the service that this client is to use.</i>
+    @Override
+    public void setService(Service service) {
+        if (service == null) {
+            throw new InvalidParameterException("service must not be null");
+        }
+        this.service = service;		
+    }
+}</pre></code></div><br>
+
+	<h2>@Transactional with CDI</h2>
+	<p>The <i>@Transactional</i> annotation can roll back the transaction if an unchecked exception (RuntimeException) occurs. See <a href="https://www.informatik-aktuell.de/entwicklung/programmiersprachen/java-ee-transactional-deklarative-transaktionssteuerung-mit-cdi-auch-ohne-ejb.html">here</a></p>
+
+	<h2>Lifecycle of a Stateful Session Bean</h2>
+	<ul>
+	  <li>1. Create (instantiation: default constructor call or a constructor call annotated with @Inject)</li>
+	  <li>2. Dependency injection</li>
+	  <li>2.1. Initialize the values of all injected fields (@Autowired fields)</li>
+	  <li>2.2. Call all initializer methods (@Autowired setters)</li>
+	  <li>3. @PostConstruct callback, if any</li>
+	  <li>4. Init method, or ejbCreate<Method>, if any</li>
+	  <li>5. @PrePassivate callback, if any (from Ready to Passive stage)</li>
+	  <li>6. @PostActivate callback, if any (from Passive to Ready stage)</li>
+	  <li>7. @Remove</li>
+	  <li>8. @PreDestroy callback, if any</li>
+	  <li>9. Garbage collection (release reference)</li>	  
+	</ul>	
+
+	<h2>Interface BeanPostProcessor</h2>
+	<ul>
+	  <li>1. BeanPostProcessor's postProcessBeforeInitialization()</li>
+	  <li>2. InitializingBean's afterPropertiesSet() or a custom init-method</li>
+	  <li>3. BeanPostProcessor's postProcessAfterInitialization</li>	  
+	</ul>	
+
+    <h2>References</h2>	
+    <ul>
+      <li><a href="https://en.wikipedia.org/wiki/Dependency_injection">Dependency injection (Wikipedia)</a></li>
+      <li><a href="https://www.youtube.com/watch?v=K43qyHJXmWI">Spring | Autowire | Dependency Injection | Spring Boot (YouTube)</a></li>
+    </ul>
+
+  </body>
+</html>
+

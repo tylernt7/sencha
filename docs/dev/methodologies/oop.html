@@ -5,113 +5,64 @@
 	<link rel="stylesheet" href="../../common.css">
   </head>
   <body>
-    <h1>Object-Oriented Programming (OOP)</h1>
+    <h1>Object-Oriented Programming (OOP)</h1>	
+	
+	<h2>Concepts of OOP</h2>
+	<ul>
+	  <li><b>Class</b>: A class is a blueprint or prototype from which (individual) objects are created. It models the state and behavior of a real-world object.</li>
+	  <li><b>Object</b>: An object is an instance of a class. Real-world objects have state and behavior: dogs have state (name, color) and behavior (barking, fetching). A software object stores its state in fields (variables) and exposes its behavior through methods (functions). </li>
+	  	  
+	  <li><b>Interface</b>: An interface defines the behavior (signatures/declarations/prototypes/syntaxes of methods) that a class must implement. It also sets the communication boundary between two pieces of software. It defines the interaction with the outside world (external systems).
+	  <ul><li>Different groups of programmers agree to a <i>"contract"</i> (interface) that describes how their software interacts. Each group should be able to write their code without any knowledge of how the other group's code is written.</li></ul>
+	  <ul><li>An interface is a reference type, similar to a class, that can contain only constants, method signatures, default methods, static methods, and nested types. Method bodies exist only for default methods and static methods. Interfaces cannot be instantiated - they can only be implemented by classes or extended by other interfaces.</li></ul>
+	  <ul><li><a href="https://www.artima.com/lejava/articles/designprinciples.html">Program to an Interface (P2I)</a> principle states that concrete objects must implement an interface that is used in the caller program rather than the concrete object itself. Therefore, you can easily substitute a different implementation with little impact on client code in the future. It's best practice to use an interface for the code that is most likely to change implementation. You could change the ArrayList implementation to a LinkedList. You might have difficulties with the <i>Programming to an Implementation</i> if a list implementation might change in the future, or if you need different list at runtime.
+	  <ul><li>List list = new ArrayList(); <i>// Program to an Interface</i></li></ul>
+	  <ul><li>ArrayList arrayList = new ArrayList(); <i>// Program to an Implementation</i></li></ul>
+	  </li></ul>		  
+	  <ul><li><i>Marker Interface</i>: An interface that does not have any methods or constants. E.g. <i>Cloneable, Serializable</i> or <i>Remote</i> interfaces indicate whether an object can be cloned, serialized or available remotely. On Android the main purpose of <i>@NonNull</i> is informational to the other developers that they shall not pass null value.</li></ul>
+	  </li>
+	  <li><b>Package</b>: A package is a namespace for organizing classes and interfaces in a logical manner. It defines scope to a set of related objects in an application.</li>
+	</ul>
 	
 	<h2>Basic Principles of OOP</h2>
 	<ul>
-	  <li><b>Data Abstraction</b> <i>(Adatabsztrakció)</i>: Data visibility levels</li>
-	  <li><b>Encapsulation</b> <i>(Egységbezárás)</i>: Wrapping attributes and operations (fields and methods) into a single entity (object)</li>
-	  <li><b>Inheritance</b> <i>(Öröklés)</i>: Using fields and methods of another object</li>
-	  <li><b>Polymorphism</b> <i>(Többalakúság, sokoldalúság)</i>: one name, many forms / one interface, multiple methods</li>
+	  <li><b>Data Abstraction / Information Hiding</b> <i>(Adatabsztrakció / Információ elrejtése)</i>: Hiding the characteristics and behavior from other objects using visibility levels (private, protected), so as to prevent misuse. </li>
+	  
+	  <li><b>Encapsulation</b> <i>(Egységbezárás)</i>: Enclosing attributes and operations (fields and methods) into a single unit/entity (object). Encapsulation in Java is implemented by making instance variables private and providing indirect access using methods (sometimes simply getters and setters) to read and manipulate them. Encapsulation describes the ability of an object to hide its data and methods from the rest of the world. A major goal of encapsulation is to allow objects to protect themselves against arbitrary manipulation of their state. Invalid state can be month -3 or day of month 42.</li>	  	
+	  <li><b>Inheritance</b> <i>(Öröklés)</i>: A more specific class (subclass, derived class, child class) can be created from a general class (superclass, base class, parent class). A subclass inherits fields, methods, and nested classes from its superclass. Constructors are not inherited by subclasses, but the constructor of the superclass can be invoked from the subclass. 
+	  <ul><li>Every class is implicitly a subclass of Object</li></ul>
+	  <ul><li>C# and Java support single inheritance only: every class has only one direct superclass</li></ul>
+	  <ul><li>Do not develop a hierarchy of three or more classes: <i>favor composition over inheritance</i></li></ul></li>	 
+	  <center><p><img src="images\composition.png" width="40%" height="40%"/></p></center>
+	  
+	  <li><b>Polymorphism</b> <i>(Többalakúság, sokoldalúság)</i>: An object can have many different forms: one name, many forms / one interface, multiple methods. Multiple classes can be used interchangeably, even though each class implements the same methods in different ways, e.g. each Shape (Circle or Square) has a draw() method to draw the particular shape.</li>
 	  <ul><li>Ad hoc polymorphism
 	    <ul><li>Function overloading
-	      <ul><li>Overriding: same method name, same parameter</li></ul>
-	      <ul><li>Overloading: same method name, different parameter</li></ul></li></ul>
-	    <ul><li>Operator overloading</li></ul></li></ul>
+	      <ul><li>Overriding: Same method name, same parameter (inheritance)</li></ul>
+	      <ul><li>Overloading: Same method name, different parameter type/number/order (same class)</li></ul></li></ul>
+	    <ul><li>Operator overloading: A user-defined type can overload a predefined operator (<i>operator</i> in C++/C#)</li></ul></li></ul>				
 	  <ul><li>Parametric polymorphism
-	    <ul><li>Generic function</li></ul>
-	    <ul><li>Generic programming</li></ul></li></ul>	  	  
-	  <ul><li>Subtyping: abstract class or interface as method parameter (e.g. cats and dogs subtypes of animals)
-	    <ul><li>Virtual function</li></ul>
-	    <ul><li>Single and dynamic dispatch</li></ul>	
-		<ul><li>Double dispatch</li></ul>
-	    <ul><li>Multiple dispatch</li></ul>	
-	    <ul><li>Predicate dispatch</li></ul></li></ul>	  	  	  
+	    <ul><li>Generic programming: C++ templates and C#/Java generics</li></ul></li></ul>
+	  <ul><li>Subtyping: Methods that operate on supertypes can also operate on subtypes (Liskov Substitution Principle), e.g. circles and squares subtypes of shapes (inheritance)
+	    <ul><li>Virtual function/method: An (overridable) method whose implementation is determined at runtime based on the actual (dynamic) type/class of the object
+		  <ul><li><i>Shape circle = new Circle(); circle.draw();</i> - The draw() method of the Circle object is called (and not of the Shape class)</li></ul>
+		  <ul><li>In Java methods are virtual</li></ul>
+		  <ul><li>In C++/C# methods must have <i>virtual</i> keyword if they are not <i>abstract</i> (in the base class)</li></ul>		  
+		</li></ul>		
+	    <ul><li>Single dispatch:&nbsp;&nbsp;&nbsp;&nbsp&nbsp;The implementation of a method depends on the actual type of the object at runtime (C#/Java)</li></ul>
+		<ul><li>Double dispatch:&nbsp;&nbsp;&nbsp;&nbsp;The implementation of a method depends on the actual types of two arguments at runtime (<i>dynamic</i> in C#)</li></ul>
+		<ul><li>Multiple dispatch:&nbsp;&nbsp;The implementation of a method depends on the actual types of all the arguments at runtime (<i>dynamic</i> in C#, MultiJava)</li></ul>
+	    <ul><li>Predicate dispatch: Each implementation of a method includes a guard specifying the conditions under
+which the method should be called (JPred)</li></ul>
+	    <ul><li><i>Note</i>: Java only supports single dispatch (i.e. single-argument polymorphism): only the first argument (the <i>this</i> object) is used. <a href="https://en.wikipedia.org/wiki/Multiple_dispatch#Java">Multiple dispatch</a> can be emulated with multiple levels of single dispatch</li></ul>
+        </li></ul>	 
+        <center><p><img src="images\dispatch.png" width="30%" height="30%"/></p></center>		
 	</ul>		
-	
-	<h2>SOLID</h2>
-	<p>The SOLID design principles are a subset of many principles/patterns promoted by Robert C. Martin. See <a href="http://staff.cs.utu.fi/~jounsmed/doos_06/material/DesignPrinciplesAndPatterns.pdf">Link</a>.</p>
-	<ul>
-	  <li><b><u>S</u>ingle Responsibility Principle</b> <i>(Egyetlen felelősség elv)</i>: There should never be more than one reason for a class to change</li>
-	  <ul><li>Every class (or module) should have only one responsibility</li></ul>
-	  <ul><li>There should be only one reason for the change</li></ul>
-
-	  <li><b><u>O</u>pen Closed Principle</b> <i>(Nyílt zárt elv)</i>: A class (or module) should be open for extension but closed for modification. In other words, add functionality by adding new code, not rewriting old code.</li>
-	  <b>Violating Open Closed Principle</b><br>
-	  Introducing a new algorithm would result in changing the existing code. 
-	  <div class="code"><code>	   
-<pre>private void drawAllShapes(List&lt;Shape&gt; shapes) { <i>// Shape is an interface with getType() method</i>
-    for (Shape shape : shapes) {
-        switch (shape.getType()) {
-            case Circle: <i>// if (shape instanceof Circle)</i>
-                drawCircle((Circle) shape);
-                break;
-            case Square:
-                drawSquare((Square) shape);
-                break;
-        }
-    }
-}</pre>
-	  </code></div>	 
-The problem can be solved through polymorphism (subtyping):
-	  <div class="code"><code>	   
-<pre>private void drawAllShapes(List&lt;Shape&gt; shapes) { <i>// Shape is an interface or abstract class with draw() method</i>
-    for (Shape shape : shapes) {
-        shape.draw();
-    }
-}</pre>
-
-	  </code></div>	 
-Note: The instanceof operator (e.g. instanceof SHA256Hash) should be also avoided<br>
-	  <b>Related Design Patterns</b><br>
-	  <ul>
-	    <li>Strategy Pattern</li>  
-	    <li>Template Method Pattern</li>
-	  </ul> 
-	  <b>References</b><br>	  
-	  <ul>
-	    <li><a href="https://dl.ebooksworld.ir/motoman/Pearson.Agile.Software.Development.Principles.Patterns.and.Practices.www.EBooksWorld.ir.pdf">Agile Software Development. Principles, Patterns, and Practices. Robert C. Martin (Chapter 9. OCP: The Open–Closed Principle)</a></li>
-	    <li><a href="http://www.agileleanhouse.com/lib/lib/People/RobertCMartin/Agile-Principles-Patterns-and-Practices.pdf">Agile Principles, Patterns, and Practices in C#. Martin C. Robert (Chapter 9. The Open/Closed Principle (OCP))</a></li>
-	  </ul>		  
-
-	  <li><b><u>L</u>iskov Substitution Principle</b> <i>(Liskov helyettesítési elv)</i>: Subclasses should be substitutable for their base classes</li>
-	  <ul><li>Every class should be replaceable by its derived class without changing the correct operation of the program</li></ul>
-	  <ul><li>Functions that use pointers or references to base classes must be able to use objects of derived classes without knowing it</li></ul>
-	  <ul><li>If the <i>Derived</i> class is a descendant of the <i>Base</i> class, the <i>Derived</i> can be freely substituted in any place (parameter, variable, etc.) where we expect a <i>Base</i> type</li></ul>
-	  <center><p><img src="images\liskov.png" /></p></center>
-	  <b>Violating Liskov Substitution Principle</b><br>
-	  Setting string is possible in the Base class, while the Derived no longer supports this.
-	  <div class="code"><code>	   
-<pre>public class Base {
-    private String string;
-    public void setString(String string) { 
-        this.string = string; 
-    }
-}
-public class Derived extends Base {
-    @Override
-    public void setString(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-}</pre>
-	  </code></div>	  
-
-	  <li><b><u>I</u>nterface Segregation Principle</b> <i>(Interfész elválasztási elv)</i>: Many client specific interfaces are better than one general purpose interface</li>
-	  <ul><li>Clients should not be forced to depend upon interfaces/methods that they do not use</li></ul>
-
-	  <li><b><u>D</u>ependency Inversion Principle</b> <i>(Függőség megfordítási elv)</i>: Depend upon Abstractions. Do not depend upon concretions</li> 
-	  <ul><li>Depending upon interfaces or abstract functions and classes, rather than upon concrete functions and classes</li></ul>
-	  <ul><li>High-level modules should not depend on low-level modules. Both depend on abstractions</li></ul>
-	  <ul><li>Abstractions should not depend on details</li></ul>
-	  <center><p><img src="images\dependency.png" /></p></center>
-	</ul>		
-	<p>These principles	make object-oriented software application flexible, robust, reusable, and developable (understandable and maintainable).</p>
-	
 	<h2>Other Principles</h2>
 	<ul>	
-	  <li><b>IoC (Inversion of Control)</b> <i>(Kontroll megfordítása)</i>: Transfering the control of objects to a framework</li>
+	  <li><b>IoC (Inversion of Control)</b> <i>(Kontroll megfordítása)</i>: Transferring the control of objects to a framework</li>
 	  <ul><li>Service Locator Pattern</li></ul>	  
-	  <ul><li>Dependency Injection: Spring framework</li></ul>
+	  <ul><li>Dependency Injection</li></ul>
 	  <ul><li>Contextualized Lookup</li></ul>
 	  <ul><li>Template Method Design Pattern</li></ul>
 	  <ul><li>Strategy Design Pattern</li></ul>		  
@@ -125,9 +76,6 @@ public class Derived extends Base {
 	  <br>
 	  <li><b>POJO (Plain Old Java Object)</b>: Ordinary Java object, e.g. <a href="https://download.oracle.com/otn-pub/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/beans.101.pdf">JavaBean</a> (serializable, no-argument constructor, getter and setter methods)</li>
 	  <li><b>POCO (Plain Old CLR Object)</b>: Simple class with no (framework) dependencies</li>
-
-
-
 	</ul>		  
   </body>
 </html>

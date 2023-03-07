@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Classes</title>
+    <link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Classes</h1>
+
+    <h2>Inner Classes and Enclosing Instances</h2>		
+    <ul>
+      <li>An inner class is a nested class that is not declared static</li>
+      <li>Inner classes may not declare static initializers or member interfaces</li>
+      <li>Inner classes may not declare static members, unless they are compile-time constant fields</li>
+      <li>Inner classes may inherit static members that are not compile-time constants even though they may not declare them</li>
+      <li>Nested classes that are not inner classes may declare static members freely</li>
+      <li>Member interfaces are always implicitly static so they are never considered to be inner classes</li>
+    </ul>
+	
+    <div class="code"><code><pre>class HasStatic {
+    static int j = 100;
+}
+class Outer {
+    class Inner extends HasStatic {
+        static final int x = 3;  // OK: constant variable
+        static int y = 4;  // Compile-time error: an inner class
+    }
+    static class NestedButNotInner{
+        static int z = 5;    // OK: not an inner class
+    }
+    interface NeverInner {}  // Implicitly static, so never inner
+}</pre></code></div>
+
+	
+    <h2>Abstract Class versus Interface</h2>	
+    <table border="1">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Abstract Class</th>
+        <th>Interface</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Method</b></td>
+        <td>abstract method</td>
+        <td>(abstract) method </td>
+      </tr>
+      <tr>
+        <td><b>Method body</b></td>
+        <td>yes if no abstract</td>
+        <td>no</td>
+      </tr>
+      <tr>
+        <td><b>Inheritance</b></td>
+        <td>single</td>
+        <td>multiple</td>
+      </tr>
+      <tr>
+        <td><b>Fields</b></td>
+        <td>(static) constant fields if no inner, instance fields</td>
+        <td>(static) constant fields</td>
+      </tr>
+      <tr>
+        <td><b>Constructors</b></td>
+        <td>yes</td>
+        <td>no</td>
+      </tr>
+      <tr>
+        <td><b>Visibility if no inner</b></td>
+        <td>public, none (package)</td>
+        <td>public, none (package)</td>
+      </tr>
+      <tr>
+        <td><b>Visibility if inner</b></td>
+        <td>all</td>
+        <td>all</td>
+      </tr>
+      <tr>
+        <td><b>Visibility for fields</b></td>
+        <td>all</td>
+        <td>public, none (package)</td>
+      </tr>
+      <tr>
+        <td><b>Visibility for methods</b></td>
+        <td>all (private if not abstract)</td>
+        <td>public, none (package)</td>
+      </tr>
+    </tbody>
+    </table>
+	See <a href="solid.html">SOLID</a>
+	
+    <h2>Detailed Initialization Procedure</h2>		
+    <ul>
+      <li>1. Load the class</li>
+      <li>2. Initialize the static fields (constant variables)</li>
+      <li>3. Execute static initialization blocks (once) in textual order</li>
+      <li>4. Execute main()</li>
+      <li>5. Execute super()</li>
+      <li>6. Initialize the instance fields (instance variables)</li>
+      <li>7. Execute instance initialization blocks (every time a new instance is created) in textual order</li>
+      <li>8. Execute constructor</li>
+      <li>9. Execute methods</li>
+      <li><i>Note</i>: Inner classes are executed when they are called</li>
+    </ul>
+
+    <div class="code"><code><pre>class SuperClass {
+    public SuperClass() { System.out.println("super()"); }
+}
+
+public class SubClass extends SuperClass {    
+    //static int staticField = 1/0;
+    //int instanceField = 2/0;   
+    
+    static { System.out.println("static init block"); }
+    
+    { System.out.println("instance init block"); }
+    
+    public SubClass() { super();  System.out.println("constructor"); }
+
+    public static void main(String[] args) {        
+        System.out.println("static main()");
+        new SubClass().myMethod();
+        //new SubClass().myMethod();        
+    }
+
+    private void myMethod() { System.out.println("myMethod"); }
+}</pre></code></div>
+<pre><i>Output</i>:
+static init block
+static main()
+super()
+instance init block
+constructor
+myMethod
+</pre>
+
+
+    <h2>References</h2>	
+    <ul>
+      <li><a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1.3">Inner Classes and Enclosing Instances</a></li>
+      <li><a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-12.html#jls-12.4.2">Detailed Initialization Procedure</a></li>
+    </ul>	
+  </body>
+</html>
+

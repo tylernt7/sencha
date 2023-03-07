@@ -33,15 +33,17 @@
 	<b>If the try block returns R, then the finally block is executed</b>
 <ul><li>If the finally block completes, then the <i>try statement</i> returns R</li>
 <li>If the finally block returns S, then the <i>try statement</i> returns S (and R is discarded)</li>
-<li>The return statement in the finally block discards unhandled exceptions. C# compiler gives error message (<i>CS0157</i>) for the return statement in the finally block.</li>
+<li>The return statement in the finally block discards unhandled exceptions. C# compiler gives error message (<i>CS0157</i>) for the return statement in the finally block</li>
 </ul>
 
 
 <p>An <i>abrupt completion</i> can be break, continue, return, throw and yield statements. The try statements can only have return and throw statements.</p>
 
-<p>The finally block may not execute if the JVM exits (System.exit) or there is an infinite loop while the try or catch code is being executed. If thread is interrupted, then the finally block is still executed.</p>
-
-
+<b>The finally Block</b>
+<ul><li>The finally block always executes when the try block exits. This ensures that the finally block is executed even if an unexpected exception occurs</li>
+<li>The finally block may not execute if the JVM exits (System.exit) or there is an infinite loop while the try or catch code is being executed</li>
+<li>If thread is interrupted, then the finally block is still executed</li>
+</ul>
 
 	<div class="code"><code>	
 <table width="100%">
@@ -56,9 +58,6 @@
     	System.out.println(str);
     }	
 }
-
-
-
 
 </pre></td>
     <td><pre>public static String concatStringDecompiled() { <i>// decompiled (simplifying StringBuilder().toString())</i>
@@ -92,7 +91,8 @@
 
     <h2>The try-with-resources Statement</h2>
 	<p>A <i>resource</i> is an object that must be closed after the program is finished with it.
-	<ul><li>Any object that implements java.io.Closeable interface, can be used as a resource</li>
+	<ul><li>Any object that implements <i>(java.io.Closeable extends) java.lang.AutoCloseable</i> interface, can be used as a resource</li>
+	<li>Putting cleanup code in a finally block is always a good practice, even when no exceptions are anticipated</li>
 	<li>The close methods of resources are called in the <i>opposite</i> order of their creation</li></ul>
 	<div class="code"><code>	
 <table width="100%">
@@ -134,6 +134,16 @@ public static void copyJava7() throws Exception {
     </table>
 	</code></div>
 
+	<h2>Finalization of Class Instances</h2>
+	<p>The class <i>Object</i> has a <i>protected</i> method called <i>finalize</i>; this method can be overridden by other classes. Before the storage for an object is reclaimed by the garbage collector, the Java Virtual Machine will invoke the <i>finalizer</i> of that object.</p>
+<div class="code"><code><pre>@Override
+protected void finalize() throws Throwable { 
+    try {
+        /* finalize object */
+    } finally { 
+        super.finalize(); 
+    } 
+}</pre></code></div>
 	<h2>Java Language Specification</h2>
  	<ul>
 	  <li><a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-14.html#jls-14.20.2">Execution of try-finally and try-catch-finally</a></li>

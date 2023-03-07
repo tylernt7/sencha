@@ -35,7 +35,7 @@ class IntHolder
     public int value;
 	
     public IntHolder() { }
-    public IntHolder(IntHolder intHolder) { value = intHolder.value; }
+    public IntHolder(IntHolder intHolder) { value = intHolder.value; } // avoid clone()
 }
 
 static void IncrementValueTypeByValue(int value) { value++; } // 0
@@ -53,7 +53,7 @@ static void IncrementValueTypeByValue2(IntHolderStruct intHolderStruct) { intHol
 static void IncrementValueTypeByReference(ref IntHolderStruct intHolderStruct) { intHolderStruct = new IntHolderStruct(); intHolderStruct.value++; } // 1
 static void IncrementValueTypeByReference2(ref IntHolderStruct intHolderStruct) { intHolderStruct.value++; } // 1
 
-static void CopyConstructorTest()
+static void CopyConstructorTest() 
 {
     IntHolder intHolder = new IntHolder();
     IntHolder intHolderRef = intHolder;
@@ -140,9 +140,12 @@ static void Main(string[] args)
     CopyConstructorStructTest();
     StringTest();	
 }
-
     
 </pre></code></div>	
-<br>	
+See <a href="https://jonskeet.uk/csharp/parameters.html">here</a> 
+
+    <h2>Cloneable Interface</h2>
+	<p>ToDo: To create a copy of an object in Java, you can use the clone() method of the Object class. This method creates a shallow copy of the object, meaning that only the object's references are copied, not its values.</p>
+	<p>ToDo: https://www.geeksforgeeks.org/clone-method-in-java-2/</p>
   </body>
 </html>
