@@ -19,7 +19,14 @@ UPDATE Customers SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE Cus
 DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
 SELECT MIN(Price) AS SmallestPrice FROM Products;
 SELECT COUNT(ProductID) FROM Products;
+SELECT SUM(Quantity) FROM OrderDetails;
 SELECT * FROM Customers WHERE Country IN ('Germany', 'France', 'UK');
+
+The HAVING clause was added to SQL because the WHERE keyword cannot be used with aggregate functions.
+SELECT COUNT(CustomerID), Country
+FROM Customers
+GROUP BY Country
+HAVING COUNT(CustomerID) > 5;
 
 SELECT Orders.OrderID, Customers.CustomerName
        FROM Orders INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
@@ -30,6 +37,15 @@ A stored procedure is a prepared SQL code that you can save, so the code can be 
 CREATE PROCEDURE SelectAllCustomers AS SELECT * FROM Customers GO;
 EXEC SelectAllCustomers;
 
+A trigger is a stored procedure which automatically invokes whenever an event occurs(a row is inserted, or columns are updated)
+create trigger stud_marks 
+before INSERT 
+on 
+Student 
+for each row 
+set Student.total = Student.subj1 + Student.subj2 + Student.subj3, Student.per = Student.total * 60 / 100;
+
+
 SQL Server / Oracle / MS Access:
 CREATE DATABASE testDB;
 DROP DATABASE testDB;
@@ -37,6 +53,7 @@ CREATE TABLE Persons (
     ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     LastName varchar(255)
 );
+ALTER TABLE Customers ADD Email varchar(255);
 
 PostgreSQL 
 CREATE TABLE po_headers (
@@ -55,7 +72,9 @@ CHECK - Ensures that the values in a column satisfies a specific condition
 DEFAULT - Sets a default value for a column if no value is specified
 CREATE INDEX - Used to create and retrieve data from the database very quickly
 
+Date:
 SELECT * FROM Orders WHERE OrderDate='2008-11-11'
+
 
 PostgreSQL Data Types
 boolean, alias: bool
