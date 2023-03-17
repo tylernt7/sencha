@@ -8,7 +8,7 @@
     <h1>Multithreading</h1> 
 	
     <h2>Creating a thread</h2>
-	<p>There are two ways to create a thread. When a class extends the Thread class, you cannot extend any other class, but by implementing the Runnable interface, it is possible to extend from another class as well (class MyClass extends OtherClass implements Runnable).</p>
+	<p>There are two ways to create a thread. When a class extends the Thread class, you cannot extend any other class because Java does not support multiple inheritance, but by implementing the Runnable interface, it is possible to extend from another class as well (class MyClass extends OtherClass implements Runnable).</p>
     <h3>Extending the Thread class</h3>
     <div class="code"><code><pre>public class MyThread extends Thread {
     @Override	

@@ -9,25 +9,27 @@
 
   <h2>Example (ToDo)</h2>
     <div class="code"><code><pre>
-List<Integer> list = new ArrayList<Integer>();
-
-for(int i = 1; i< 10; i++){
+//List&lt;Integer&gt; list = Arrays.asList(3, 4, 6, 12, 20);
+//Vector v = new Vector();	
+	
+List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();
+for(int i = 1; i&lt; 10; i++){
       list.add(i);
 }
 
-Stream<Integer> stream = list.stream();
+Stream&lt;Integer&gt; stream = list.stream();
 
-stream.forEach(p -> System.out.println(p));
+stream.forEach(p -&gt; System.out.println(p));
 
-List<Integer> evenNumbersList = stream.filter(i -> i%2 == 0).collect(Collectors.toList());
+List&lt;Integer&gt; evenNumbersList = stream.filter(i -&gt; i%2 == 0).collect(Collectors.toList());
 
-memberNames.stream().filter((s) -> s.startsWith("A")).forEach(System.out::println);
+memberNames.stream().filter((s) -&gt; s.startsWith("A")).forEach(System.out::println);
 
-memberNames.stream().filter((s) -> s.startsWith("A")).map(String::toUpperCase).forEach(System.out::println);
+memberNames.stream().filter((s) -&gt; s.startsWith("A")).map(String::toUpperCase).forEach(System.out::println);
 
-String firstMatchedName = memberNames.stream().filter((s) -> s.startsWith("L")).findFirst().get();
+String firstMatchedName = memberNames.stream().filter((s) -&gt; s.startsWith("L")).findFirst().get();
 
-Stream<Integer> stream = list.parallelStream();
+Stream&lt;Integer&gt; stream = list.parallelStream();
 
 </pre></code></div>
 

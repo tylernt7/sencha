@@ -273,6 +273,7 @@ private void draw() { ... }
 	  <ul><li>Every class should be replaceable by its derived class without changing the correct operation of the program</li></ul>
 	  <ul><li>Functions that use pointers or references to base classes must be able to use objects of derived classes without knowing it</li></ul>
 	  <ul><li>If the <i>Derived</i> class is a descendant of the <i>Base</i> class, the <i>Derived</i> can be freely substituted in any place (parameter, variable, etc.) where we expect a <i>Base</i> type</li></ul>
+	  <ul><li><i>Note</i>: Liskov is an American woman</li></ul>
 	  <center><p><img src="images\liskov.png" /></p></center>
 	  <b>Violating Liskov Substitution Principle</b><br>
 	  Setting string is possible in the Base class, while the Derived no longer supports this.
@@ -289,7 +290,7 @@ public class Derived extends Base {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }</pre>
-	  </code></div>	  
+	  </code></div>	
 
 	  <li><b><u>I</u>nterface Segregation Principle</b> <i>(Interfész elválasztási elv)</i>: Many client specific interfaces are better than one general purpose interface</li>
 	  <ul><li>Clients should not be forced to depend upon interfaces/methods that they do not use</li></ul>

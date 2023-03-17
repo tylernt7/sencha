@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Java Virtual Machine (JVM)</title>
+    <link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Java Virtual Machine (JVM)</h1>
+
+    <h2>Java Virtual Machine (JVM)</h2>
+    <b>HotSpot</b>
+    <ul>
+    <li>Compiler: JIT (Just In Time)</li>
+    <li>Garbage Collectors: see above</li>
+    <li>Supported languages: Java</li>	
+    <li>JVM execution is sometimes faster: Running fibonacci-, primenumber-, and stream-benchmarks on native image (GraalVM) is 5x slower, as the JVM is better able to optimize the execution of the bytecode (it collects statistics and optimizes the execution of the application based on this)</li>
+    </ul>
+    <b>GraalVM</b>
+    <ul>
+    <li>Compiler: JIT (Just In Time), AOT (Ahead Of Time)</li>
+    <li>Garbage Collectors: Serial (default), G1, Epsilon</li>
+    <li>Supported languages: JavaScript, Python, Ruby</li>
+    <li>By compiling AOT, the native image starts up fast and uses less memory, making it ideal for cloud native deployment</li>
+    <li>Reflection: emulate class loading</li>
+    <li>Build cloud native applications: Native image utility compiles Java bytecode AOT (i.e., at build time) into platform-specific, self-contained machine binaries. The native executables start up almost 100X faster (cold startup) and consume up to 5X less memory compared to running on a JVM. No pre-installed runtime environment is required on the target machine. See <a href="https://docs.oracle.com/en/learn/graalvm-native-image-quick-start/index.html"><i>here</i></a></li>
+    <li>Microservices deployment: Supported microservices frameworks, such as Helidon, Micronaut, Quarkus, and Spring Boot</li>
+    </ul>
+    <b>OpenJ9</b>
+    <ul>
+    <li>Eclipse OpenJ9 is a high performance, enterprise calibre, flexibly licensed, openly governed cross platform JVM extending and augmenting the runtime technology components</li>
+    <li>Optimized for fast startup, low memory footprint, quick ramp-up, and excellent throughput performance</li>
+    <li>Run Java applications cost-effectively in the cloud</li>
+    </ul>
+    <center><img src="images\graalvm.png" width="40%" height="40%"/></center>	
+	
+    <h2>JIT (HotSpot) Optimization</h2>
+	<p>The class files (compiled at compile time by javac) are further compiled at runtime by JIT, and they can be turned into very highly optimized machine code.</p>
+    <ul>
+    <li><b>Branch Prediction</b> (elágazás-előrejelzés, elágazásbecslés): The CPU (microprocessors with pipeline architecture) guesses a conditional jump in an executable program. If the CPU did a wrong guess (branch result is unpredictable), it drops the instructions and continues with the correct branch. The unnecessary operations have no noticeable effects.<br>
+	Processing a sorted array is faster than processing an unsorted array.
+	<div class="code"><code><pre>public class SumClass {
+  
+  public static void main(String[] args) {
+    int data[] = new int[32768];
+    Random rnd = new Random(0);
+    
+    for (int i = 0; i &lt; data.length; ++i) 
+      data[i] = rnd.nextInt() % 256;
+    
+    testAlgorithm(data);
+    Arrays.sort(data);
+    testAlgorithm(data);
+  }
+     
+  private static void testAlgorithm(int[] data) {
+    long start = System.nanoTime();
+    long sum = 0;
+  
+    for (int j = 0; j &lt; 100000; ++j) {
+      for (int i = 0; i &lt; data.length; ++i) {
+        if (data[i] &gt;= 128) sum += data[i];
+      }
+    }
+  
+    System.out.println("Sum: " + sum);
+    System.out.println("Time: " + (System.nanoTime() - start) / 1000000000.0);
+  }
+}</pre></code></div>
+    Output:<br>
+	Sum: 155184200000<br>
+	Time: 6.1833708<br>
+	Sum: 155184200000<br>
+	Time: 1.0047831<br>
+	</li>
+
+    <li><b>Loop Unrolling</b>: It consists of repeating several iterations of a loop within the loop body, and adjusting the loop index accordingly. As the body of the loop becomes larger, the compiler can schedule the instructions more efficiently. Also reduced is the overhead caused by the loop index increment and conditional check operations. The remainder of the loop is handled by removing a number of loop iterations from the loop, and moving them in front of or after the loop (Loop peeling).<br>
+	Each loop iteration is actually an Assembly jump back to the beginning of the instruction set. With Loop Unrolling, the JIT compiler opens up the loop and just repeats the corresponding Assembly instructions one after another.</li>
+	
+    <li><b>Escape Analysis</b> (Java 6u23): The compiler can analyze the scope of a new object's uses and decide whether to allocate it on the Java heap.<br>An object's escape state might be one of the following:
+	<ul>
+	<li><b>NoEscape</b>: An object does not escape method or thread and it is not passed to call. It could be replaced with scalar (object with unique type). Its allocation could be removed from generated code.</li>
+	<li><b>ArgEscape</b>: An object passed as an argument or referenced by an argument but does not globally escape method or thread. This state is determined by analyzing the bytecode of called method.</li>
+	<li><b>GlobalEscape</b>: An object escapes the method or thread. The compiler determines whether an object is reachable outside the allocating method or thread (checks if a local object can "escape" from the method where it was created). For example, an object stored in a static field, or, stored in a field of an escaped object, or, returned as the result of the current method.</li>	
+	</ul>
+	If the object does not escape, then the JVM could do something similar to an "automatic stack allocation" of the object. The object would not be allocated on the heap and it would never need to be managed by the garbage collector. As soon as the method containing the stack-allocated object returned, the memory that the object used would immediately be freed.<br>
+	The object allocations can avoid using the heap and instead their fields will be treated as individual values. The register allocator will normally place the broken-up object fields directly into registers, but if not enough free registers are available, the remaining fields will be placed on the stack (<i>stack spill</i>). 
+	<div class="code"><code><pre>public int add(int a, int b) {
+    return new Calculator(a, b).add();
+}</pre></code></div>
+    The compiler eliminates object allocations and locks for non-globally escaping objects.
+    <ul>
+	<li>If the compiler determines that the original object is never modified, it might optimize and eliminate the call to make a copy</li>
+	<li>If objects are used in a thread local manner, the compiler might optimize and remove the synchronization blocks (<i>lock elision</i>)</li>	
+	</ul>
+	</li>
+
+    <li><b>Method Inlining</b>: It substitutes the body of a method into the places where that method is called. Inlining saves the (time) cost of calling the method; no new stack frames need to be created. JVM tries to inline methods that contain less than 35 bytes of JVM bytecode (<i>-XX:MaxInlineSize</i>).<br>It is one of the first optimizations applied on the code by the JIT compiler. Inlining produces large blocks of code for the other optimizers to work on.<br>
+	The JIT compiler optimizes recursive calls. Not the entire recursion but a finite number of calls (<i>-XX:MaxRecursiveInlineLevel</i>), in other words, not in the form of Tail Call Optimization.<br>
+	<b>Constant Inlining</b> (substituting the value of static final variables) is performed by <i>javac</i> before <i>JIT</i>
+    <div class="code"><code><pre>public static final String str1 = "abc"; <i>// inlined compile-time constant</i>
+public static final String str2 = "abc".intern(); <i>// non-inlined compile-time constant (on the PermGen ???)</i>
+public static final String str3 = "abc".toString(); <i>// non-inlined compile-time constant (on the OldGen ???)</i></pre></code></div>
+    <i>Note</i>: Inconsistent values may result with recompilation: the constant variables can be inlined into other classes
+	</li>    
+	</ul>
+	
+	<b>JITWatch</b>: Log analyser and visualiser for the HotSpot JIT compiler. See <a href="https://github.com/AdoptOpenJDK/jitwatch">GitHub</a>
+	<div class="code"><code><pre>public class SimpleInliningTest{
+    public SimpleInliningTest() {
+        int sum = 0;
+
+        // 1_000_000 is F4240 in hex
+        for (int i = 0 ; i &lt; 1_000_000; i++) {
+            sum = this.add(sum, 99); // 63 hex
+        }
+
+        System.out.println("Sum:" + sum);
+    }
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        new SimpleInliningTest();
+    }
+}</pre></code></div>
+	
+    <h2>Compact Strings (Java 9)</h2>
+	<p>In Java 9 the internal character storage of the String, StringBuilder, and StringBuffer classes has been changed from a UTF-16 char array to a byte array plus a one-byte encoding-flag field. The new representation stores the characters either as ISO-8859-1 (also known as Latin-1) (one byte per character), or as UTF-16 (two bytes per character), based on the contents of the string. The encoding flag indicates which encoding is used.<br>
+	A new JVM option <i>-XX:-CompactStrings</i> has been introduced to disable this feature. If the option is not enabled, the JIT compiler is nevertheless optimized.
+	<ul>
+	<li>5-15% footprint (heap size) improvement (25% of heap are String objects)</li>
+	<li>Latin version is 20% faster while allocating 30% less garbage</li>
+	</ul>
+	</p>
+	
+    <h2>Why isn't String's .length() accurate?</h2>
+	<p>It isn't accurate because it will only account for the number of characters within the String. In other words, it will fail to account for code points outside of what is called the BMP (Basic Multilingual Plane), that is, code points with a value of U+10000 or greater.<br>
+	The reason is historical: when Java was first defined, one of its goal was to treat all text as Unicode; but at this time, Unicode did not define code points outside of the BMP. By the time Unicode defined such code points, it was too late for char to be changed.</p>
+	
+  </body>
+</html>

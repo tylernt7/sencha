@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Collection API</title>
+    <link rel="stylesheet" href="../../common.css">	
   </head>
   <body>
     <h1>Collection API</h1>
@@ -224,11 +225,27 @@
 	</tbody>
 	</table>	
 	<p></p>
-		
-	<p>Vector is slower than ArrayList because Vector is synchronized.<br>	
-	A Set cannot contain duplicate elements.</p>	
+	
+	<h2>ArrayList vs Vector</h2>
+	<p>Vector is slower than ArrayList because Vector is synchronized.<br>
+	Vector needs <i>external synchronization</i> because another thread can add an element right after isEmpty() and before add()</p>	
+    <div class="code"><code><pre>Vector vector = new Vector();
+synchronized (vector) {
+    <i>// Only add an element if the vector is empty</i>
+    if (vector.isEmpty()) {
+        vector.add(1);
+    }
+}</pre></code></div>
 
-	<h2>ArrayList vs. LinkedList</h2>	
+	<h2>List vs Set</h2>
+	<p>The Set interface (unordered) cannot contain duplicate elements, while the List interface (ordered) can.</p>	
+    <div class="code"><code><pre>Set set = new HashSet();
+set.add(1);
+set.add(2);
+set.add(1);</pre></code></div>
+Output: [1, 2] (no exception)
+
+	<h2>ArrayList vs LinkedList</h2>	
     <table border="1">
     <thead>
       <tr>
@@ -242,7 +259,7 @@
       <tr>
         <td>get(int index)</td>
         <td>O(1), faster</td>
-        <td>O(n)</td>
+        <td>O(n/4)</td>
         <td>Array: random access. LinkedList: start from the beginning</td>
       </tr>
       <tr>

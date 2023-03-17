@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Cryptography</title>
+    <link rel="stylesheet" href="../common.css">	
+  </head>
+  <body>
+    <h1>Cryptography</h1>
+		
+    <h2>Terminology</h2>
+	<p><b>Encryption</b> (coding): It is a cipher algorithm (mathematical function) that converts plaintext (a sequence of numbers) into another text</p>
+	<p><b>Decryption</b> (decoding): It is the reverse process of encryption</p>
+    <center><img src="images\cryptography_encryption.png" width="50%" height="50%"/></center>		
+	
+    <h2>Cryptography</h2>
+	Symmetric key ciphers:
+	<ul>
+	<li><b>Block cipher</b>: It encrypts fixed-length groups of bits (blocks of plaintext)</li>
+	<li><b>Stream cipher</b>: It encrypts each plaintext digit one at a time with the corresponding digit of a pseudorandom cipher stream (keystream)</li>
+	</ul>
+    <center><img src="images\cryptography.png" width="50%" height="50%"/></center>	
+	<i>Note</i>: Checksum algorithms, such as CRC32, are not suitable as hash functions because they meet much weaker requirements. Attacks exploit the linearity of the checksum (WEP).
+	
+	<h2>Public Key Infrastructure (PKI)</h2>
+	<p>A Public Key Infrastructure is a system that can manage (create, distribute, store and revoke) digital certificates. The purpose of a PKI is to secure the electronic communication (e-commerce, internet banking and confidential email). Certificates are used for authentication as well as validating the information.<br>
+	Each individual has a public key and a private key in an asymmetric system. The public key can verify a digital signature that the private key creates.</p>
+	<p>
+	<b>Authentication</b>: It confirms the identity of a user. It is performed by password verification.<br>
+	<b>Authorization</b>: It determines the access level granted a user. It happens after authentication. It is performed by assigning a user to pre-defined groups (classes). Each group lists available objects, along with an associated object-access type (read-only, write-only, or read-write privilege/permission).<br>
+	<b>Basic (Access) Authentication</b>: It requires users to provide a user name and password credentials.<br>
+	<b>Single Sign-On</b> (SSO): It lets users authenticate themselves just once to access information on any of several systems. 
+	</p>
+		
+	<b>RA (Registration Authority)</b>: authenticates the entity (people or organizations) making the request<br>
+	<b>CA (Certificate/Certification Authority)</b>: stores, signs and distributes the certificate<br>
+	<b>VA (Validation Authority)</b>: checks the validity of the certificate (signed X.509)<br>
+	<center><img src="images\cryptography_pki.png" width="50%" height="50%"/></center>	
+
+    <h2>Examples</h2>
+	<ul>
+	<li><b>Skype</b>: CRC32, MD5, SHA-1, AES128, RC4, RSA</li>
+	<li><b>Knorr-Bremse</b>: CRC16, SHA-512, DSA3072 (signature), *NIX crypt(3)</li>
+	<li><b>Bitcoin</b>: SHA-256</li>
+	</ul>	
+	
+    <h2>Implementation</h2>	
+	<ul>
+	<li>Bouncy Castle crypto package </li>
+	<li>PKI Tools
+	<ul>
+	  <li>Java 1: javakey.exe (key database and signer)</li>
+	  <li>Java 2: keytool.exe (creates and manages key stores), jarsigner.exe (signs or verifies JAR files)</li>
+	</ul>
+	</li>
+	<li>Single Sign-on Using Kerberos V5 protocol (Java 4)
+	<ul>
+	  <li>JAAS (Java Authentication and Authorization Service) for authentication and authorization (KerberosPrincipal, KerberosKey, KerberosTicket)</li>
+	  <li>Java GSS (Generic Security Service) API to establish a secure communication with a peer application (GSSContext, GSSManager) </li>
+	</ul>	
+	</li>
+	</ul>
+	
+    <h2>Java 4</h2>	
+<b>RC4 symmetric cipher</b>	
+	<div class="code"><code><pre><i>// Initialize cipher objects</i>
+Cipher encCipher = Cipher.getInstance("RC4");
+byte[] myKc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".getBytes(StandardCharsets.UTF_8); <i>// md5.digest();</i>
+SecretKey encKey = new SecretKeySpec(myKc, "RC4");
+encCipher.init(Cipher.ENCRYPT_MODE, encKey);
+<i>// Encrypt message</i>
+byte[] toBeEncrypted = "Hello".getBytes(StandardCharsets.UTF_8);
+byte[] cipherBlock = encCipher.update(toBeEncrypted);</pre></code></div>
+
+<br><b>RSA asymmetric cipher</b>
+<div class="code"><code><pre>KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+generator.initialize(2048);
+KeyPair pair = generator.generateKeyPair();
+PublicKey publicKey = pair.getPublic();
+PrivateKey privateKey = pair.getPrivate();
+
+<i>// Initialize cipher objects</i> 
+Cipher encCipher = Cipher.getInstance("RSA");
+encCipher.init(Cipher.ENCRYPT_MODE, publicKey);
+<i>// Encrypt message</i>
+byte[] toBeEncrypted = "Hello".getBytes(StandardCharsets.UTF_8);
+byte[] cipherBlock = encCipher.doFinal(toBeEncrypted);</pre></code></div>
+
+<br><b>MD5 hash</b>
+<div class="code"><code><pre>byte[] data = "ABC".getBytes(StandardCharsets.UTF_8);
+MessageDigest md5 = MessageDigest.getInstance("MD5");
+byte[] hash = md5.digest(data);
+
+System.out.println(DatatypeConverter.printHexBinary(hash)); <i>// 902FBDD2B1DF0C4F70B4A5D23525E932</i></pre></code></div>
+
+<br><b>DSA Signature (using the SHA1 hash algorithm)</b>
+<div class="code"><code><pre>// --- Generate Public and Private Keys ---        
+
+// Create a Key Pair Generator
+KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
+
+// Initialize the Key Pair Generator
+SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+keyGen.initialize(1024); //keyGen.initialize(1024, random);
+//keyGen.initialize(3072);
+
+// Generate the Pair of Keys
+KeyPair pair = keyGen.generateKeyPair();
+PrivateKey priv = pair.getPrivate();
+PublicKey pub = pair.getPublic(); 
+
+// --- Sign the Data ---
+
+// Get a Signature Object 
+Signature dsa = Signature.getInstance("SHA1withDSA", "SUN");
+//Signature dsa = Signature.getInstance("SHA512withDSA"); <i>// SHA512withDSA Signature not available</i>
+
+// Initialize the Signature Object
+dsa.initSign(priv);
+
+// Supply the Signature Object the Data to Be Signed
+byte[] data = "ABC".getBytes(StandardCharsets.UTF_8);
+dsa.update(data);
+
+// Generate the Signature
+byte[] realSig = dsa.sign();
+
+System.out.println(DatatypeConverter.printHexBinary(realSig)); <i>// 302C0214365FC79E5052D45787996206C1977625A7304229021467BF1B8AAE038EE47D305A9BB6C253D6D19696E7</i></pre></code></div>
+    
+
+  </body>
+</html>

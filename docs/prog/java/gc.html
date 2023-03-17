@@ -2,24 +2,145 @@
 <html>
   <head>
     <title>Garbage Collection</title>
+    <link rel="stylesheet" href="../../common.css">
   </head>
   <body>
     <h1>Garbage Collection</h1>
+	
+	<h2>Garbage Collection</h2>
+	<p>The (multithreaded) <i>Garbage Collector (GC)</i> automatically allocates and deallocates memory so programs are not burdened with that task. The <i>heap</i> is where your object data is stored. This area is managed by the garbage collector selected at startup. Most tuning options relate to sizing the heap and choosing the most appropriate garbage collector for your situation. Garbage Collection identifies which objects are in use and which are not, and deletes the unused objects. An unused object, or <i>unreferenced object</i>, is no longer referenced by any part of your program (e.g. when the program execution leaves the scope of the given object). So the memory used by an unreferenced object can be reclaimed.</p>	
+	
+	<h2>JVM Generations</h2>
+	<p>The information learned from the object allocation behavior can be used to enhance the performance of the JVM. Therefore, the heap is broken up into smaller parts or generations. The heap parts are: Young Generation, Old or Tenured Generation, and Permanent Generation.</p>
+	<center><img src="images\gc_heap.png" width="50%" height="50%"/></center>
+	
 	<h2>Does Garbage Collection occur in permanent generation space in JVM?</h2>
-	<p>Garbage Collection does occur in PermGen space and if PermGen space is full or cross a threshold, it can trigger a full garbage collection. If you look carefully at the output of the garbage collector, you will find that PermGen space is also garbage collected. This is the reason why correct sizing of PermGen space is important to avoid frequent full garbage collections.</p>
+	<p>Garbage Collection does occur in PermGen space and if PermGen space is full or cross a threshold, it can trigger a full garbage collection. If you look carefully at the output of the garbage collector, you will find that PermGen space is also garbage collected. This is the reason why correct sizing of PermGen space is important to avoid frequent full garbage collections.</p>	
+
+	<h2>Java Garbage Collectors</h2>
+	<i>Stop-the-world</i> – Stops all application threads while it works.<br>
+	<i>Concurrent</i> – Allows application threads to run while it works.<br>
+	<i>Parallel</i> – Multiple threads work on collecting at the same time.<br>
+	<ul>
+	<li><b>Mark and Sweep ("mark-sweep") Collector</b> (Java 1): It collects garbage by marking all live objects in a generation, then "sweeping" all unmarked (dead) objects onto various free lists to make larger segments of free memory. New objects are allocated from the free lists. It can create fragmented heaps because it does not compact the heap.</li>
+	<li><b>Mark and Compact ("mark-compact") Collector</b> (Java 2): Once the free space falls below a threshold, it collects garbage by marking all live objects in a generation, then sliding (copying) live objects to lower, unmarked (dead), memory addresses. After collection, all of the live objects are at the beginning of the heap, and free space is at the end of the heap (allowing contiguous allocation: no holes between objects).<br>In a JVM, a mark-compact collector is a stop-the-world collector. It suspends all of the application threads until collection is complete and the memory is reorganized, and then restarts them.</li>
+    <li><b>Semi-Space Copying (or Scavenge) Collector</b> (Java 2): It employs two storage areas to create and destroy objects. One semi-space (the "from-space") is used to create objects, and once it is full, the live objects are copied to the (intially empty) second semi-space (the "to-space"). Memory is compacted at no cost because only live objects are copied, and they are stored linearly. After a collection, the two semi-spaces switch roles, so the now-empty semi-space becomes the "to" space: new objects are created in the second one until it is full, at which point live objects are copied to the first. The semi-spaces exchange the from-space and to-space roles again and again. Dead objects are not freed explicitly; they're simply overwritten by new objects<br>It works well when the area contains a lot of garbage, since there won't be much live data to copy. Since it requires 100% overhead, it may not work well for really big generations.<br> In a JVM, a copying collector is a stop-the-world collector. Nevertheless, it is extremely efficient because it traverses the object list and copies the objects in a single cycle, and thus simultaneously collects the garbage and compacts the heap. The time to collect the semi-space, the "pause duration," is directly proportional to the total size of live objects.</li>	
+    <li><b>Incremental (or Train) Collector</b> (Java 2): It divides the heap into small fixed-size blocks and allocates the data among them. It runs only for brief periods of time (WHILE application threads are paused), leaving more (near-pauseless) processor time available for the application's use. It collects the garbage incrementally in only one block at a time, using the train algorithm. It organizes the blocks into cars and trains. Cars are grouped together into trains (cars which refer to each other tend to migrate into the same trains). In each collection cycle, the collector checks the cars and trains. If the train to which a car belongs contains only garbage, then the GC collects the entire train. If a car has references from other cars, then the GC copies objects to the respective cars, and, if the destination cars are full, it creates new cars as needed.</li>
+
+	<li><b>Serial Collector</b> (Java 5): Collections are done serially by only one thread (using a single virtual CPU). It uses a mark-compact collection method.<br>
+	<i>Usage Cases</i>: Single-threaded applications without low pause time requirements, a high number of JVMs are run on the same machine, embedded hardware with minimal memory (heap)<br>
+	<i>Command Line</i>: -XX:+UseSerialGC
+	</li>
+	<li><b>Parallel Collector</b> (Java 4.1): It uses multiple threads to perform the young genertion garbage collection (for N CPUs) with a single-threaded old generation collection (for single CPU). Compaction is done only in the old generation, whereas young generation is considered a copy collector.<br>
+	<i>Usage Cases</i>: Lot of work need to be done (throughput) and long pauses are acceptable (latency). For example, batch processing like printing reports or bills or performing a large number of database queries.<br>
+	<i>Command Line</i>: -XX:+UseParallelGC</li>	
+	<li><b>Parallel Old Collector</b> (Java 4.1): It is a multi-threaded young generation collection and multi-threaded old generation collection.<br>
+	<i>Command Line</i>: -XX:+UseParallelOldGC</li>	
 	
-	<h2>Garbage Collection of Remote Objects</h2>
-	<p>In a distributed system, just as in the local system, it is desirable to automatically delete those remote objects that are no longer referenced by any client. <i>RMI (Remote Method Invocation)</i> uses a <i>reference-counting garbage collection algorithm</i>.</p>
-	<p>To accomplish reference-counting garbage collection, the RMI runtime keeps track of all live references within each Java Virtual Machine. When a live reference enters a Java Virtual Machine, its reference count is incremented. The first reference to an object sends a "referenced" message to the server for the object. As live references are found to be unreferenced in the local Virtual Machine, the count is decremented. When the last reference has been discarded, an "unreferenced" message is sent to the server.</p>
-	<p>When a remote object is not referenced by any client, the RMI runtime refers to it using a weak reference. The weak reference allows the Java Virtual Machine's garbage collector to discard the object if no other local references to the object exist. The <i>distributed garbage collection (DGC)</i> algorithm interacts with the local Java Virtual Machine's garbage collector in the usual ways by holding normal or weak references to objects.</p>
+	<li><b>Concurrent Mark Sweep (CMS) Collector</b> (Java 4.0 partially, Java 4.1 fully): It collects the tenured generation. It minimizes the pause times by collecting concurrently with the application threads. It does not copy or compact the live objects on old or tenured generation. It uses the same algorithm as the parallel collector on young generation.<br>
+	<i>Usage Cases</i>: Applications (with multiple CPUs) with low pause times and a large heap. For example, desktop UI application that respond to events, a webserver responding to a request or a database responding to queries.<br>
+	<i>Command Line</i>: -XX:+UseConcMarkSweepGC</li>		
+	<li><b>Garbage First (G1) Collector</b> (Java 6u21 partially, Java 7u4 fully): It is a Parallel and CMS Collector with incremental compaction algorithm.<br>
+	Similar to other collectors, G1 splits the heap into (virtual) young and old generations. Space-reclamation efforts concentrate on the young generation where it is most efficient to do so, with occasional space-reclamation in the old generation. G1 reclaims space in the most efficient areas first (that is the areas that are mostly filled with garbage, therefore the name).<br>
+	<i>Usage Cases</i>: Applications running on multi-processor systems occupying a large memory area.<br>
+	<i>Command Line</i>: -XX:+UseG1GC<br>
+	<i>Note:</i> G1 is the default collector since Java 9. The Parallel GC is the default collector for Java 8 and earlier on "server" VM.</li>
+	<li><b>Epsilon: A No-Op Garbage Collector</b> (Java 11): It handles memory allocation but does not implement any memory reclamation mechanism ("epsilon" frequently means "empty symbol"). Once the available Java heap is exhausted, the JVM will shut down.<br>
+	<i>Usage Cases</i>: Test how much memory the application needs without crashing.<br>
+	<i>Command Line</i>: -XX:+UseEpsilonGC</li>
+	<li><b>Shenandoah Collector</b> (Java 12): G1 can evacuate its heap regions (move objects), only when the application is paused, while Shenandoah can relocate objects concurrently with the application.<br>
+	<i>Command Line</i>: -XX:+UseShenandoahGC<br>
+	<i>Note:</i> Backports to Java 8 and Java 11 are available.</li>
+	<li><b>Z Collector</b> (Java 11 partially, Java 12 fully): It is a low-latency concurrent collector. It runs concurrently with the application and pays no latency penalty for supporting class unloading (unloading of unused classes). It maintains very low pause times—within 2-10 ms<br>
+	<i>Usage Cases</i>: Applications that require low latency and/or use a very large heap.<br>
+	<i>Command Line</i>: -XX:+UseZGC</li>	
+	</ul>
+	<center><img src="images\gc_types.png" width="60%" height="60%"/></center>
+	<center><img src="images\gc_triangle.png" width="80%" height="80%"/></center>
 	
-	<h2>What are the layers of RMI Architecture?</h2>
-	<p>The RMI implementation consists of three abstraction layers:</p>
-	<p>1. <i>Stub and Skeleton</i> layer: This layer lies just beneath the view of the developer. This layer intercepts method calls made by the client to the interface reference variable and redirects these calls to a remote RMI Service.</p>
-	<p>2. <i>Remote Reference</i> Layer: This layer interprets and manages references made from the clients to the remote service objects (servers' remote objects). The connection is a one-to-one (unicast) link.</p>
-	<p>3. <i>Transport</i> layer: This layer connects the two JVM participating in the service. This layer is based on TCP/IP connections between machines in a network. It provides basic connectivity, as well as some firewall penetration strategies.</p>
-	<center><img src="images\rmi.png" width="75%" height="75%"/></center>
+	<h2>Memory Leaks</h2>
+	<p>A memory leak occurs when the application is unintentionally holding references to objects, and this prevents the objects from being garbage collected.<br>
+	<center><img src="images\memory_leak.png" width="40%" height="40%"/></center>
+	If your application's execution time becomes longer and longer, this could be an indication of a memory leak. In other words, virtual memory is being allocated but is not being returned when it is no longer needed. Eventually the application runs out of memory, and a <i>OutOfMemoryError</i> exception is thrown (because the Java heap is full).<br>
+	One potential source of this error arises with applications that make excessive use of finalizers. If a class has a <i>finalize</i> method, then objects of that type do not have their space reclaimed at garbage collection time. Instead, after garbage collection, the objects are queued for finalization, which occurs at a later time. Finalizers are executed by a daemon thread that services the finalization queue. If the finalizer thread cannot keep up, with the finalization queue, then the Java heap could fill up and this type of <i>OutOfMemoryError</i> exception would be thrown. One scenario that can cause this situation is when an application creates high-priority threads that cause the finalization queue to increase at a rate that is faster than the rate at which the finalizer thread is servicing that queue.<br>
+	<center><img src="images\finalization.png" width="40%" height="40%"/></center>
+	Diagnosing leaks in Java language code can be difficult using debugging tools. Therefore, if an object is no longer needed, remove all references to the object.</p>
 	
+	<h2>Weak References</h2>
+	<p>Weak reference objects, which do not prevent their referents from being made finalizable, finalized, and then reclaimed. Weak references are most often used to implement canonicalizing mappings.<br>
+	Suppose that the garbage collector determines at a certain point in time that an object is <i>weakly reachable</i>. At that time it will atomically clear all weak references to that object and all weak references to any other weakly-reachable objects from which that object is reachable through a chain of <i>strong and soft references</i>. At the same time it will declare all of the formerly weakly-reachable objects to be finalizable. At the same time or at some later time it will enqueue those newly-cleared weak references that are registered with reference queues.<br></p>
+	<b>Example</b>:
+	<div class="code"><code><pre>Object referent = new Object();
+ReferenceQueue&lt;Object&gt; referenceQueue = new ReferenceQueue&lt;&gt;();
+
+WeakReference weakReference1 = new WeakReference&lt;&gt;(referent); <i>// Creates a new weak reference that refers to the given object</i>
+WeakReference weakReference2 = new WeakReference&lt;&gt;(referent, referenceQueue); <i>// Creates a new weak reference that refers to the given object and is registered with the given queue</i>
+
+Object referent2 = weakReference1.get(); <i>// Returns this reference object's referent.</i>
+if (referent2 != null) { <i>// Safe check</i>
+    <i>// GC hasn't removed the instance yet</i>
+    weakReference1.clear(); <i>// Clears this reference object</i>
+} else {
+    <i>// GC has cleared the instance</i>
+}</pre></code></div>
+
+	<h2>Memory Leaks using inner classes</h2>
+	<p>Every non-static inner class (or anonymous class) holds an implicit reference to the outer class. This is why the methods of the outer class can be called in the inner class.</p>
+	<ul>
+	<li>The inner class object will not be garbage collected even if the outer class object is no longer in scope</li>
+	<li>The outer class object will not be garbage collected leading to a <i>huge</i> memory leak</li>
+	</ul>
+	<b>Solution</b>:	
+	<ul>
+	<li>Make the inner class static</li>
+	<li>If an inner class requires a reference to the outer class, use WeakReference</li>
+	</ul>	
+	<b>Notes</b>:	
+	<ul>
+	<li>Static inner classes do not hold any implicit reference to the outer class</li>
+	<li>It is recommended to use static inner classes instead of anonymous classes whenever possible</li>
+	</ul>
+	<b>Example</b>:<br><br>
+	<div class="code"><code><pre>public class SampleActivity extends Activity {	
+    private static class MyHandler extends Handler {
+        private final WeakReference&lt;SampleActivity&gt; mActivity;
+
+        public MyHandler(SampleActivity activity) {
+            mActivity = new WeakReference&lt;SampleActivity&gt;(activity);
+        }	
+    }
+
+    private final MyHandler mHandler = new MyHandler(this);
+}</pre></code></div>
 	
+	<br><b>References</b>:	
+	<ul>
+	<li><a href="https://www.androiddesignpatterns.com/2013/01/inner-class-handler-memory-leak.html">How to Leak a Context: Handlers & Inner Classes</a></li>
+	<li><a href="https://weidianhuang.medium.com/how-to-avoid-memory-leak-android-and-jvm-languages-b5283c58fe1f">How to avoid memory leak — Android and JVM languages</a></li>
+	</ul>	
+	
+	<h2>Example</h2>
+    <div class="code"><code><pre>1:   public class Duck {
+2:        public static void main(String[] args){
+3:              Duck tinyDuck = new Duck();
+4:              Duck bigDuck = new Duck();
+5:              Duck microDuck = tinyDuck;
+6:              tinyDuck = null;
+7:              Duck smallDuck = tinyDuck;
+8:              microDuck = null;
+9:              bigDuck = null;
+10:             bigDuck = new Duck();
+11:             System.gc();
+12:       }
+13:  }</pre></code></div>	
+The Duck object in line 3 becomes available for the Garbage Collector after line 8.<br>
+The Duck object in line 4 becomes available for the Garbage Collector after line 9.	
+	
+	<h2>Methods</h2>
+	<ul>
+	<li><b>void System.gc()</b>: Runs the garbage collector in the JVM (Java Virtual Machine). Calling the gc method suggests that the JVM expend effort toward recycling unused objects in order to make the memory they currently occupy available for (quick) reuse by the JVM. When control returns from the method call, the JVM has made its best effort to recycle (reclaim space from) all discarded/unused objects.<br>
+	There is <i>no guarantee</i> that this effort will recycle any particular number of unused objects, reclaim any particular amount of space, or complete at any particular time, if at all, before the method returns or ever (the JVM may start garbage collection now or at some point in the future). There is also no guarantee that this effort will determine the change of reachability in any particular number of objects, or that any particular number of Reference objects will be cleared and enqueued.<br>	
+	The JVM performs this recycling process automatically as needed, in a separate thread, even if the gc method is not invoked explicitly.</li>
+	</ul>
   </body>
 </html>

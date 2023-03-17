@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Exceptions</title>
-	<link rel="stylesheet" href="../../common.css">		
+    <link rel="stylesheet" href="../../common.css">		
   </head>
   <body>
     <h1>Exceptions</h1>
@@ -88,6 +88,26 @@
         abccde</td>
      </tr>
     </table>
+
+<div class="code"><code><pre>public class Car {
+   public String checkBattery() throws BatteryException {
+       <i>// implementation</i>
+   }
+   public String checkFuel() throws FuelException {
+       <i>// implementation</i>
+   }
+   public String start() {
+       try {
+           checkBattery();
+           checkFuel();
+       } catch (BatteryException be) {
+           return "BadBattery";
+       } finally {
+           return "";
+       }
+   }
+}</pre></code></div>
+<i>Output</i>:<br>No matter how the code reaches the finally block, the start() method can only return an empty string. Any FuelException that might arise will simply be abandoned. 
 
     <h2>The try-with-resources Statement</h2>
 	<p>A <i>resource</i> is an object that must be closed after the program is finished with it.

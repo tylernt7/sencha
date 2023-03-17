@@ -13,7 +13,7 @@
 	  <li><b>Object</b>: An object is an instance of a class. Real-world objects have state and behavior: dogs have state (name, color) and behavior (barking, fetching). A software object stores its state in fields (variables) and exposes its behavior through methods (functions). </li>
 	  	  
 	  <li><b>Interface</b>: An interface defines the behavior (signatures/declarations/prototypes/syntaxes of methods) that a class must implement. It also sets the communication boundary between two pieces of software. It defines the interaction with the outside world (external systems).
-	  <ul><li>Different groups of programmers agree to a <i>"contract"</i> (interface) that describes how their software interacts. Each group should be able to write their code without any knowledge of how the other group's code is written.</li></ul>
+	  <ul><li>Different groups of programmers agree to a <i>"contract" (agreement)</i> that describes how their software interacts. Each group should be able to write their code without any knowledge of how the other group's code is written.</li></ul>
 	  <ul><li>An interface is a reference type, similar to a class, that can contain only constants, method signatures, default methods, static methods, and nested types. Method bodies exist only for default methods and static methods. Interfaces cannot be instantiated - they can only be implemented by classes or extended by other interfaces.</li></ul>
 	  <ul><li><a href="https://www.artima.com/lejava/articles/designprinciples.html">Program to an Interface (P2I)</a> principle states that concrete objects must implement an interface that is used in the caller program rather than the concrete object itself. Therefore, you can easily substitute a different implementation with little impact on client code in the future. It's best practice to use an interface for the code that is most likely to change implementation. You could change the ArrayList implementation to a LinkedList. You might have difficulties with the <i>Programming to an Implementation</i> if a list implementation might change in the future, or if you need different list at runtime.
 	  <ul><li>List list = new ArrayList(); <i>// Program to an Interface</i></li></ul>
@@ -29,7 +29,7 @@
 	  <li><b>Data Abstraction / Information Hiding</b> <i>(Adatabsztrakció / Információ elrejtése)</i>: Hiding the characteristics and behavior from other objects using visibility levels (private, protected), so as to prevent misuse. </li>
 	  
 	  <li><b>Encapsulation</b> <i>(Egységbezárás)</i>: Enclosing attributes and operations (fields and methods) into a single unit/entity (object). Encapsulation in Java is implemented by making instance variables private and providing indirect access using methods (sometimes simply getters and setters) to read and manipulate them. Encapsulation describes the ability of an object to hide its data and methods from the rest of the world. A major goal of encapsulation is to allow objects to protect themselves against arbitrary manipulation of their state. Invalid state can be month -3 or day of month 42.</li>	  	
-	  <li><b>Inheritance</b> <i>(Öröklés)</i>: A more specific class (subclass, derived class, child class) can be created from a general class (superclass, base class, parent class). A subclass inherits fields, methods, and nested classes from its superclass. Constructors are not inherited by subclasses, but the constructor of the superclass can be invoked from the subclass. 
+	  <li><b>Inheritance</b> <i>(Öröklés)</i>: A more specific class (<i>subclass</i>, derived class, child class) can be created from a general class (<i>superclass</i>, base class, parent class). A subclass inherits fields, methods, and nested classes from its superclass. Constructors are not inherited by subclasses, but the constructor of the superclass can be invoked from the subclass. 
 	  <ul><li>Every class is implicitly a subclass of Object</li></ul>
 	  <ul><li>C# and Java support single inheritance only: every class has only one direct superclass</li></ul>
 	  <ul><li>Do not develop a hierarchy of three or more classes: <i>favor composition over inheritance</i></li></ul></li>	 
@@ -41,8 +41,12 @@
 	      <ul><li>Overriding: Same method name, same parameter (inheritance)</li></ul>
 	      <ul><li>Overloading: Same method name, different parameter type/number/order (same class)</li></ul></li></ul>
 	    <ul><li>Operator overloading: A user-defined type can overload a predefined operator (<i>operator</i> in C++/C#)</li></ul></li></ul>				
-	  <ul><li>Parametric polymorphism
-	    <ul><li>Generic programming: C++ templates and C#/Java generics</li></ul></li></ul>
+      <ul><li>Parametric polymorphism
+	    <ul><li>Generic programming: C++ templates and C#/Java generics
+		  <ul><li><i>class ArrayList&lt;E&gt; {} // List&lt;Integer&gt; l = new ArrayList&lt;&gt;();</i></li>
+		  <li><i>class HashMap&lt;K,V&gt; {} // Map&lt;Integer, String&gt; m = new HashMap&lt;&gt;();</i></li></ul>
+		</li></ul>
+      </li></ul>
 	  <ul><li>Subtyping: Methods that operate on supertypes can also operate on subtypes (Liskov Substitution Principle), e.g. circles and squares subtypes of shapes (inheritance)
 	    <ul><li>Virtual function/method: An (overridable) method whose implementation is determined at runtime based on the actual (dynamic) type/class of the object
 		  <ul><li><i>Shape circle = new Circle(); circle.draw();</i> - The draw() method of the Circle object is called (and not of the Shape class)</li></ul>
