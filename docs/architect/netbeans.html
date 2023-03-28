@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <title>NetBeans IDE</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>NetBeans IDE</h1>
+	
+    <h2>Create a RESTful Web Service Using NetBeans IDE 17</h2>	
+	<b>Create a Web Application</b>
+    <ul>
+	<li>Select File -> New Project</li>
+	<li>Select Java Web (Java with Ant). Select Web Application</li>
+	<li>Select <b>GlassFish Server 5.1.0</b></li>
+	<li>Right-click the project and select New</li>
+	<li>Select Web Services. Select RESTful Web Services from Patterns</li>
+	<li>Select Simple Root Resource
+	<ul>
+	<li>Resource Package: helloworld</li>
+	<li>Path: helloworld</li>
+	<li>Class Name: HelloWorldResource</li>
+	<li>MIME Type: application/json</li>
+	</ul>
+	</li>
+	<li>In HelloWorldResource.java, find the getJson() method. Replace it with <i>return "{\"text\":\"Hello World\"}";</i></li>
+	<li>In index.html, replace title and div</li>
+	</ul>	
+		
+	<b>Test the Application</b>		
+	<ul>
+	<li>Right-click the project and select Test RESTful Web Services</li>
+	<li>Test client appears in the browser with the URL <a href="http://localhost:8080/WebApplication/test-resbeans.html">http://localhost:8080/WebApplication/test-resbeans.html</a></li>
+	<li>Select the helloworld resource in the left pane</li>
+	<li>Click the Test button in the right pane</li>
+	</ul>
+	
+	<b>Run the Application</b>		
+	<ul>	
+	<li>Right-click the project and select Run</li>
+	<li>This will build and deploy the application to GlassFish Server</li>
+	<li>In a browser, open the following URL for index.html: <a href="http://localhost:8080/WebApplication/">http://localhost:8080/WebApplication/</a></li>
+	<li>In a browser, open the following URL for JSON Resource: <a href="http://localhost:8080/WebApplication/webresources/helloworld">http://localhost:8080/WebApplication/webresources/helloworld</a></li>
+	</ul>
+		
+	<b>Generate RESTful Java client code (Jersey Client)</b>		
+	<ul>	
+	<li>Right-click the project and select New</li>
+	<li>Select Web Services. Select RESTful Java Client
+	<ul>
+	<li>Package: helloworld</li>
+	<li>REST Resource: HelloWorldResource</li>
+	</ul>
+	</li>	
+	<li>Create a new NewJerseyClientTest.java</li>
+	
+	<div class="code"><code><pre>public static void main(String[] args) {
+    NewJerseyClient client = new NewJerseyClient();
+    try {
+        Object response = client.getJson();
+        System.out.println(response);
+    } finally {
+        client.close();
+    }
+}</pre></code></div>
+	</ul>
+	
+	<b>Create a new resource</b>
+    <div class="code"><code><pre>@Path("ping")
+public class PingResource {
+
+    @GET
+    public Response ping() {
+        return Response.ok("pong").build();
+    }
+}</pre></code></div><br>	
+	
+	<b>Swagger API</b>
+    <ul>	
+	<li><b>Swagger UI</b>: It is a collection of HTML, JavaScript, and CSS assets that dynamically generate visual documentation from the OpenAPI (formerly known as Swagger) Specification</li>
+	<li><b>Swagger Codegen</b>: It contains a template-driven engine to generate documentation, API clients and server stubs in different languages by parsing your OpenAPI / Swagger definition</li>
+	</ul>
+	
+	<b>Generate a JAX-RS Server using Swagger Editor</b>
+    <ul>	
+	<li>Access <a href="https://editor.swagger.io/">https://editor.swagger.io/</a> in your browser</li>
+	<li>Select File -> Import file to import the YAML file</li>
+	<li>Select Generate Server -> jaxrs-spec</li>
+	<li><i>Note</i>
+	<ul>
+	<li>It is possible to convert Swagger YAML file to JSON or OpenAPI 3</li>
+	<li>For offline generation, see <a href="https://developer.yodlee.com/docs/api/1.1/generating-clients-using-swagger">this</a></li>
+	<li>Swagger Annotations Library can be downloaded from <a href="https://mvnrepository.com/artifact/io.swagger/swagger-annotations/1.5.3">Maven Repository</a></li>
+	</ul>
+	</li>
+	</ul>
+  </body>
+</html>

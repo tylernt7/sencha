@@ -11,7 +11,7 @@
     <b>HotSpot</b>
     <ul>
     <li>Compiler: JIT (Just In Time)</li>
-    <li>Garbage Collectors: see above</li>
+    <li>Garbage Collectors: see Garbage Collectors</li>
     <li>Supported languages: Java</li>	
     <li>JVM execution is sometimes faster: Running fibonacci-, primenumber-, and stream-benchmarks on native image (GraalVM) is 5x slower, as the JVM is better able to optimize the execution of the bytecode (it collects statistics and optimizes the execution of the application based on this)</li>
     </ul>
@@ -23,7 +23,7 @@
     <li>By compiling AOT, the native image starts up fast and uses less memory, making it ideal for cloud native deployment</li>
     <li>Reflection: emulate class loading</li>
     <li>Build cloud native applications: Native image utility compiles Java bytecode AOT (i.e., at build time) into platform-specific, self-contained machine binaries. The native executables start up almost 100X faster (cold startup) and consume up to 5X less memory compared to running on a JVM. No pre-installed runtime environment is required on the target machine. See <a href="https://docs.oracle.com/en/learn/graalvm-native-image-quick-start/index.html"><i>here</i></a></li>
-    <li>Microservices deployment: Supported microservices frameworks, such as Helidon, Micronaut, Quarkus, and Spring Boot</li>
+    <li>Microservices deployment: Supported microservices frameworks, such as Spring Boot, Quarkus, Micronaut and Helidon</li>
     </ul>
     <b>OpenJ9</b>
     <ul>

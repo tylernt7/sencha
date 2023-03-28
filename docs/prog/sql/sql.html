@@ -22,14 +22,20 @@ SELECT COUNT(ProductID) FROM Products;
 SELECT SUM(Quantity) FROM OrderDetails;
 SELECT * FROM Customers WHERE Country IN ('Germany', 'France', 'UK');
 
-The HAVING clause was added to SQL because the WHERE keyword cannot be used with aggregate functions.
+The <b>HAVING</b> clause was added to SQL because the <b>WHERE</b> keyword cannot be used with <b>aggregate</b> functions.
 SELECT COUNT(CustomerID), Country
 FROM Customers
 GROUP BY Country
 HAVING COUNT(CustomerID) > 5;
 
 SELECT Orders.OrderID, Customers.CustomerName
-       FROM Orders INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
+       FROM Orders <b>INNER JOIN</b> Customers ON Orders.CustomerID=Customers.CustomerID;
+	   
+<b>Group By</b> arranges similar data into groups and <b>Order By</b> sorts the data in ascending or descending order	   
+SELECT COUNT(CustomerID), Country
+FROM Customers
+GROUP BY Country
+ORDER BY COUNT(CustomerID) DESC;
 
 SELECT COUNT(CustomerID), Country FROM Customers GROUP BY Country;
 
@@ -37,7 +43,7 @@ A stored procedure is a prepared SQL code that you can save, so the code can be 
 CREATE PROCEDURE SelectAllCustomers AS SELECT * FROM Customers GO;
 EXEC SelectAllCustomers;
 
-A trigger is a stored procedure which automatically invokes whenever an event occurs(a row is inserted, or columns are updated)
+A <b>trigger</b> is a stored procedure which automatically invokes whenever an event occurs(a row is inserted, or columns are updated)
 create trigger stud_marks 
 before INSERT 
 on 
@@ -55,7 +61,7 @@ CREATE TABLE Persons (
 );
 ALTER TABLE Customers ADD Email varchar(255);
 
-PostgreSQL 
+<b>PostgreSQL</b>
 CREATE TABLE po_headers (
 	po_no INTEGER PRIMARY KEY,
 	vendor_no INTEGER,
@@ -82,7 +88,30 @@ integer, alias: int
 character(n), alias: char [ (n) ]
 character varying(n) or text, alias: varchar [ (n) ]
 
+<b>KNORR BREMSE</b>
+
+DROP TABLE if exists projects,issues CASCADE;
+
+CREATE TABLE issues (
+	iid         serial PRIMARY KEY,
+	pid         integer REFERENCES projects(pid) NOT NULL,
+	creator     varchar(255) NOT NULL,
+	description text,
+	updated     timestamp
+);
+
+CREATE TYPE customtype AS ENUM ('timestamp', 'label');
+
+INSERT INTO versions (vid, pid, name) values (DEFAULT,1,'1.0');
+
+
+Statement statement = connection.createStatement();                               
+ResultSet resultSet = statement.executeQuery("SELECT cfid,name,type FROM customfields ORDER BY cfid ASC");    
+resultSet.next();
+issue.setId(resultSet.getInt(1));
+
 <p><img src="images/join.png"/></p>
+<p><img src="https://lh6.googleusercontent.com/I7BWNmU-rtwMozqKzbWBRgnk2sIv1a1FGElwOheS4ybu8o8erqvNR8Z57CsHndxMpdKlUq8jqaDqyUt7pR775-lSupnm_Cqe5nyncxH3eh0MTf3IA2cWz_8rnMWyDXFIrf-z_MM18zMVs_rQuiIigOw"/></p>
 </pre></code></div>	
   </body>
 </html>

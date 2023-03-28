@@ -43,11 +43,11 @@ The problem can be solved through polymorphism (subtyping):
     </thead>
     <tbody>
       <tr valign="top">
-        <td><pre>abstract class Shape {
-    public abstract void draw();
+        <td><pre><b>abstract class</b> Shape {
+    public <b>abstract</b> void draw();
 }
 
-class Circle extends Shape {
+class Circle <b>extends</b> Shape {
     //private double radius;
     //private Point center;
 
@@ -57,7 +57,7 @@ class Circle extends Shape {
     }
 }
 
-class Square extends Shape {
+class Square <b>extends</b> Shape {
     //private double side;
     //private Point topLeft;
 
@@ -84,11 +84,11 @@ public static void main(String[] args) {
     new ShapeDrawerAbstractClass().draw();
 }
 </pre></td>
-    <td><pre>interface Shape {
+    <td><pre><b>interface</b> Shape {
     public void draw();
 }
 
-class Circle implements Shape {
+class Circle <b>implements</b> Shape {
     //private double radius;
     //private Point center;	
 
@@ -98,7 +98,7 @@ class Circle implements Shape {
     }
 }
 
-class Square implements Shape {
+class Square <b>implements</b> Shape {
     //private double side;
     //private Point topLeft;	
 
@@ -130,19 +130,19 @@ public static void main(String[] args) {
     </table>
     </code></div>	
 
-Note: The instanceof operator (e.g. instanceof Circle) should be also avoided<br>
+<i>Note</i>: The instanceof operator (e.g. instanceof Circle) should be also avoided<br><br>
 
     <div class="code"><code>
     <table border="1" width="100%">
     <thead>
       <tr>
-        <th width="50%">Using Abstraction to Gain Explicit Closure</th>
-        <th width="50%">Using Data-Driven Approach to Achieve Closure</th>
+        <th width="50%">Using Abstraction to Gain Explicit Closure<br><i>Interface Comparable&lt;T&gt;</i></th>
+        <th width="50%">Using Data-Driven Approach to Achieve Closure<br><i>Interface Comparator&lt;T&gt;</i></th>
       </tr>
     </thead>
     <tbody>
       <tr valign="top">
-        <td><pre>interface Shape extends Comparable&lt;Shape&gt; {
+        <td><pre>interface Shape extends <b>Comparable</b>&lt;Shape&gt; {
     public void draw();
 }
 
@@ -156,7 +156,7 @@ class Circle implements Shape {
     }
 
     @Override
-    public int compareTo(Shape o) {
+    public int <b>compareTo</b>(Shape o) {
         if (o.getClass() == Square.class) {
             return -1;
         } else {
@@ -175,7 +175,7 @@ class Square implements Shape {
     }
 
     @Override
-    public int compareTo(Shape o) {
+    public int <b>compareTo</b>(Shape o) {
         if (o.getClass() == Circle.class) {
             return 1;
         } else {
@@ -185,7 +185,7 @@ class Square implements Shape {
 }
 
 private void drawAllShapes(List&lt;Shape&g; shapes) {
-    Collections.sort(shapes);
+    <b>Collections.sort</b>(shapes);
     for (Shape shape : shapes) {
         shape.draw();
     }
@@ -193,7 +193,7 @@ private void drawAllShapes(List&lt;Shape&g; shapes) {
 
 private void draw() { ... }
 </pre></td>
-    <td><pre>class ShapeComparer implements Comparator&lt;Shape&gt; {
+    <td><pre>class ShapeComparer implements <b>Comparator</b>&lt;Shape&gt; {
         private Map&lt;Class&lt;?&gt;, Integer&gt; priorities = new HashMap&lt;&gt;();
         //private static Hashtable priorities = new Hashtable(); // in C#
 
@@ -211,7 +211,7 @@ private void draw() { ... }
         }
 
         @Override
-        public int compare(Shape o1, Shape o2) {
+        public int <b>compare</b>(Shape o1, Shape o2) {
             int priority1 = getPriorityFor(o1.getClass());
             int priority2 = getPriorityFor(o2.getClass());
             //return ((Integer)priority1).compareTo(priority2); // in C#
@@ -245,7 +245,7 @@ private void draw() { ... }
 
     private void drawAllShapes(List&lt;Shape&gt; shapes) {
         // Sort by priority
-        Collections.sort(shapes, new ShapeComparer());
+        <b>Collections.sort</b>(shapes, new ShapeComparer());
         for (Shape shape : shapes) {
             shape.draw();
         }
@@ -257,6 +257,7 @@ private void draw() { ... }
     </tbody>
     </table>
     </code></div>	
+	<i>Note</i>: <b>Comparable</b> provides a <i>single</i> sorting sequence, while <b>Comparator</b> provides <i>multiple</i> sorting sequences.<br><br>
 
 	  <b>Related Design Patterns</b><br>
 	  <ul>

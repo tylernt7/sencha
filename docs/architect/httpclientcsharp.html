@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <title>HTTP Client (C#)</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>HTTP Client (C#)</h1>
+	
+    <h2>AsyncHttpClient</h2>
+    <div class="code"><code><pre>// <b>HttpClient</b> is intended to be instantiated once per application, rather than per-use
+private static readonly HttpClient Client = new HttpClient()
+{
+    BaseAddress = new Uri("https://api.binance.com") <i>// Public Rest API for Binance</i>
+};
+
+// <b>Kerberos</b> for Single Sign-on (SSO)
+// Uses Windows credentials (user name, password, and domain) of the user running the application
+private static readonly HttpClient Client1 = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true })
+{
+    BaseAddress = new Uri("https://example.com"),
+    DefaultRequestHeaders =
+    {
+        Accept = {new MediaTypeWithQualityHeaderValue("application/json")}
+    },
+    Timeout = TimeSpan.FromMinutes(3),
+};
+
+// <b>Basic Authentication</b> with username/password
+private static readonly string authenticationString = string.Format("{0}:{1}", "username", "password");
+private static readonly string base64String = Convert.ToBase64String(Encoding.ASCII.GetBytes(authenticationString));
+private static readonly HttpClient Client2 = new HttpClient()
+{
+    BaseAddress = new Uri("https://example.com"),
+    DefaultRequestHeaders =
+    {
+        Accept = {new MediaTypeWithQualityHeaderValue("application/json")},
+        Authorization = new AuthenticationHeaderValue("Basic", base64String)
+    },
+    Timeout = TimeSpan.FromMinutes(3),
+};
+
+private static async Task GetRequestAsync(string requestUri)
+{
+    // Calls asynchronous network methods in a try/catch block to handle exceptions
+    try
+    {
+        // Uses ConfigureAwait(false) to improve performance and avoid deadlocks
+        using var response = await Client.GetAsync(requestUri).ConfigureAwait(false);
+
+        // Throws an exception if IsSuccessStatusCode is false
+        response.EnsureSuccessStatusCode();
+
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        // Above three lines can be replaced with new helper method below
+        // var responseBody = await client.GetStringAsync(uri);
+
+        Console.WriteLine(responseBody);
+        //var myObject = JsonConvert.DeserializeObject&lt;MyType&gt;(responseBody); // Newtonsoft.Json.dll
+    }
+    catch (HttpRequestException e)
+    {
+        Console.WriteLine("Error Message: {0}", e.Message);
+    }
+}
+
+static void Main(string[] args)
+{
+    var requestUri = "/api/v3/avgPrice?symbol=BTCUSDT";
+    GetRequestAsync(requestUri).Wait();
+}</pre></code></div>
+
+  </body>
+</html>

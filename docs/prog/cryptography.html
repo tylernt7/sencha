@@ -39,7 +39,7 @@
     <h2>Examples</h2>
 	<ul>
 	<li><b>Skype</b>: CRC32, MD5, SHA-1, AES128, RC4, RSA</li>
-	<li><b>Knorr-Bremse</b>: CRC16, SHA-512, DSA3072 (signature), *NIX crypt(3)</li>
+	<li><b>Knorr-Bremse</b>: CRC16, MD5, PBEWithMD5AndDES (DES), Twofish, SHA-512, DSA3072 (signature), *NIX crypt(3)</li>
 	<li><b>Bitcoin</b>: SHA-256</li>
 	</ul>	
 	
@@ -64,11 +64,11 @@
 <b>RC4 symmetric cipher</b>	
 	<div class="code"><code><pre><i>// Initialize cipher objects</i>
 Cipher encCipher = Cipher.getInstance("RC4");
-byte[] myKc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".getBytes(StandardCharsets.UTF_8); <i>// md5.digest();</i>
+byte[] myKc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".getBytes(StandardCharsets.UTF_8);
 SecretKey encKey = new SecretKeySpec(myKc, "RC4");
 encCipher.init(Cipher.ENCRYPT_MODE, encKey);
 <i>// Encrypt message</i>
-byte[] toBeEncrypted = "Hello".getBytes(StandardCharsets.UTF_8);
+byte[] toBeEncrypted = "ABC".getBytes(StandardCharsets.UTF_8);
 byte[] cipherBlock = encCipher.update(toBeEncrypted);</pre></code></div>
 
 <br><b>RSA asymmetric cipher</b>
@@ -82,18 +82,43 @@ PrivateKey privateKey = pair.getPrivate();
 Cipher encCipher = Cipher.getInstance("RSA");
 encCipher.init(Cipher.ENCRYPT_MODE, publicKey);
 <i>// Encrypt message</i>
-byte[] toBeEncrypted = "Hello".getBytes(StandardCharsets.UTF_8);
+byte[] toBeEncrypted = "ABC".getBytes(StandardCharsets.UTF_8);
 byte[] cipherBlock = encCipher.doFinal(toBeEncrypted);</pre></code></div>
 
 <br><b>MD5 hash</b>
-<div class="code"><code><pre>byte[] data = "ABC".getBytes(StandardCharsets.UTF_8);
+    <div class="code"><code>
+    <table border="1" width="100%">
+    <thead>
+      <tr>
+        <th width="50%">Java</th>
+        <th width="50%">C#</th>
+      </tr>
+    </thead>
+  <tr style="vertical-align:top">
+    <td><pre>byte[] data = "ABC".getBytes(StandardCharsets.UTF_8);
 MessageDigest md5 = MessageDigest.getInstance("MD5");
-byte[] hash = md5.digest(data);
+byte[] hash = md5.digest(data);</pre></td>
+    <td><pre>using (var md5 = new MD5CryptoServiceProvider())
+{
+    var buffer = Encoding.ASCII.GetBytes("ABC");
+    var hash = md5.ComputeHash(buffer);
+}</pre></td>
+    </tr>
+    </table>
+    </code></div>
 
-System.out.println(DatatypeConverter.printHexBinary(hash)); <i>// 902FBDD2B1DF0C4F70B4A5D23525E932</i></pre></code></div>
 
 <br><b>DSA Signature (using the SHA1 hash algorithm)</b>
-<div class="code"><code><pre>// --- Generate Public and Private Keys ---        
+    <div class="code"><code>
+    <table border="1" width="100%">
+    <thead>
+      <tr>
+        <th width="50%">Java</th>
+        <th width="50%">C#</th>
+      </tr>
+    </thead>
+  <tr style="vertical-align:top">
+    <td><pre>// --- Generate Public and Private Keys ---        
 
 // Create a Key Pair Generator
 KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
@@ -101,7 +126,7 @@ KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
 // Initialize the Key Pair Generator
 SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
 keyGen.initialize(1024); //keyGen.initialize(1024, random);
-//keyGen.initialize(3072);
+//keyGen.initialize(3072); // for SHA512
 
 // Generate the Pair of Keys
 KeyPair pair = keyGen.generateKeyPair();
@@ -112,7 +137,8 @@ PublicKey pub = pair.getPublic();
 
 // Get a Signature Object 
 Signature dsa = Signature.getInstance("SHA1withDSA", "SUN");
-//Signature dsa = Signature.getInstance("SHA512withDSA"); <i>// SHA512withDSA Signature not available</i>
+<i>// SHA512withDSA Signature not available before Java 16</i>
+//Signature dsa = Signature.getInstance("SHA512withDSA"); 
 
 // Initialize the Signature Object
 dsa.initSign(priv);
@@ -123,9 +149,24 @@ dsa.update(data);
 
 // Generate the Signature
 byte[] realSig = dsa.sign();
+</pre></td>
+    <td><pre>using (var dsa = new DSACryptoServiceProvider()) // .NET Core 2.0
+{
+    dsa.FromXmlString(xmlString); // P, Q, G, Y, J, Seed, PgenCounter, X
+    var buffer = Encoding.ASCII.GetBytes("ABC");
+    var signature = dsa.SignData(buffer); // DSA uses the SHA1 hash algorithm
+    //signature.Length == 40;
+}
 
-System.out.println(DatatypeConverter.printHexBinary(realSig)); <i>// 302C0214365FC79E5052D45787996206C1977625A7304229021467BF1B8AAE038EE47D305A9BB6C253D6D19696E7</i></pre></code></div>
-    
-
+using (var dsa = new DSACng(3072)) // .NET 6
+{
+    dsa.FromXmlString(xmlString); // P, Q, G, Y, Seed, PgenCounter, X
+    var buffer = Encoding.ASCII.GetBytes("ABC");
+    var signature = dsa.SignData(buffer, HashAlgorithmName.SHA512);
+    //signature.Length == 64;
+}</pre></td>
+    </tr>
+    </table>
+    </code></div>   
   </body>
 </html>

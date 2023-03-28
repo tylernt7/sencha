@@ -13,6 +13,10 @@
 	<h2>Synchronization Wrappers</h2>
 	<p><img src="images\synch_wrappers.png" width="50%" height="50%"/></p>
 	<p>Synchronized collections lock the whole collection while concurrent collections lock only the relevant segments of the object (ConcurrentHashMap) or copy the whole object and swap with a newer one (CopyOnWriteArrayList).</p>
+	<ul>
+	<li><i>CopyOnWriteArrayList</i>: A <i>thread-safe</i> variant of ArrayList in which all modifying methods (set, add, remove, replaceAll, sort) are implemented by making a new internal copy of the underlying array without the need for synchronization (JVM merges both original and cloned copies later). It can be iterated in a thread-safe way without throwing ConcurrentModificationException, while other threads can continue inserting or removing elements. See <a href="https://www.benchresources.net/copyonwritearraylist-with-read-and-update-operations-in-java">this</a></li>
+	</ul>
+		
 	<p><i>public static &lt;T&gt; List&lt;T&gt; Collections.singletonList(T o)</i>: Returns an immutable (megváltoztathatatlan) list containing only the specified object. This list will always contain only one element. When we try to add/remove an element on the returned singleton list, it will give UnsupportedOperationException.</p>
 	
 	<h2>Concurrent Collections</h2>	
@@ -243,7 +247,7 @@ synchronized (vector) {
 set.add(1);
 set.add(2);
 set.add(1);</pre></code></div>
-Output: [1, 2] (no exception)
+Output: [1, 2] (no Exception)
 
 	<h2>ArrayList vs LinkedList</h2>	
     <table border="1">
