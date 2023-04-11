@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Maven</title>
+    <link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Maven</h1>
+	
+	<h2>Installation</h2>
+	Maven is a Java tool, so you must have JDK 8 or above installed. Download Maven from <a href="https://maven.apache.org/download.html">Apache</a>
+	
+	<h2>Create the Project</h2>
+	<div class="code"><code><pre>mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false</pre></code></div>
+	<p>The <i>generate</i> goal created a directory with the same name given as the artifactId containing:<br>
+	pom.xml<br>
+	src/main/java/com/mycompany/app/App.java<br>
+	src/test/java/com/mycompany/app/AppTest.java</p>
+	
+	<h2>Lifecycles</h2>
+	<ul>
+	<li><b>Clean Lifecycle Phases</b>: pre-clean, clean, post-clean</li>
+	<li><b>Default Lifecycle Phases</b>: validate, compile, test, package, verify, install, deploy</li>
+	<li><b>Site Lifecycle Phases</b>: pre-site, site, post-site, site-deploy</li>
+	</ul>
+	
+	<h2>Phases</h2>
+	<ul>
+	<li><b>validate</b>: checks if all necessary information is available for the build</li>
+	<li><b>compile</b>: compiles the source code</li>
+	<li><b>test-compile</b>: compiles the test source code</li>
+	<li><b>test</b>: runs unit tests</li>
+	<li><b>package</b>: takes the compiled code and package it in its distributable format (jar, war, ...), such as a target/my-app-1.0-SNAPSHOT.jar</li>
+	<li><b>integration-test</b>: processes and deploys the package if necessary into an environment where integration tests can be run</li>
+	<li><b>verify</b>: runs any checks to verify the package is valid and meets quality criteria</li>
+	<li><b>install</b>: installs the package into the <i>local</i> repository, for use as a dependency in other projects locally</li>
+	<li><b>deploy</b>: copies the package to the <i>remote</i> repository, for sharing with other developers and projects</li>
+	<li><b>clean</b>: cleans up artifacts created by prior builds</li>
+	<li><b>site</b>: generates site documentation for this project</li>
+	</ul>
+	
+	<h2>Plugins and Goals</h2>	
+	The Compiler Plugin has two goals (plugin:goal)
+	<ul>
+	<li><b>compiler:compile</b>: is bound to the compile phase and is used to compile the main source files</li>
+	<li><b>compiler:testCompile</b>: is bound to the test-compile phase and is used to compile the test source files</li>
+	</ul>	
+	Commands:
+	<ul>
+	<li><b>mvn &lt;PHASE&gt;</b>: it runs lifecycle up to a specific phase</li>
+	<li><b>mvn &lt;PLUGIN&gt;:&lt;GOAL&gt;</b>: it runs a specific goal</li>
+	</ul>
+	Examples:
+	<ul>
+	<li><b>mvn package</b>: validate, compile, test, package</li>
+	<li><b>mvn install</b>: &nbsp;&nbsp;&nbsp;validate, compile, test, package, verify, install</li>
+	</ul>	
+	
+	<center><p><img src="images\maven.png" width="50%" height="50%"/></p></center>
+	
+	<h2>POM (Project Object Model)</h2>
+	<p>The pom.xml file is a single configuration file that contains the information required to manage the project <i>dependency</i> list (e.g. JUnit) and to <i>build</i> a project (e.g. create a JAR file)</p>
+
+<div class="code"><code><pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+	
+  &lt;!-- The Basics --&gt;
+  &lt;groupId&gt;...&lt;/groupId&gt;
+  &lt;artifactId&gt;...&lt;/artifactId&gt;
+  &lt;version&gt;...&lt;/version&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;...&lt;/groupId&gt;
+      &lt;artifactId&gt;...&lt;/artifactId&gt;
+      &lt;version&gt;...&lt;/version&gt;
+      &lt;type&gt;...&lt;/type&gt;
+      &lt;scope&gt;...&lt;/scope&gt;
+    &lt;/dependency&gt;  
+  &lt;/dependencies&gt;
+  &lt;parent&gt;...&lt;/parent&gt;
+  &lt;properties&gt;
+    &lt;java.version&gt;...&lt;/java.version&gt;
+  &lt;/properties&gt;
+  
+  &lt;!-- Build Settings --&gt;
+  &lt;build&gt;
+    &lt;finalName&gt;...&lt;/finalName&gt;  
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;...&lt;/groupId&gt;
+        &lt;artifactId&gt;...&lt;/artifactId&gt;
+        &lt;version&gt;...&lt;/version&gt;
+        &lt;configuration&gt;
+          &lt;transformers&gt;...&lt;/transformers&gt;
+          &lt;filters&gt;...&lt;/filters&gt;
+        &lt;/configuration&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;phase&gt;...&lt;/phase&gt;
+            &lt;goals&gt;...&lt;/goals&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+ 
+  &lt;!-- More Project Information --&gt;
+  &lt;name&gt;...&lt;/name&gt;
+  &lt;description&gt;...&lt;/description&gt;
+ 
+  &lt;!-- Environment Settings --&gt;
+&lt;/project&gt;</pre></code></div>
+
+  </body>
+</html>
+

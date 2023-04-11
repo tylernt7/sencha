@@ -42,7 +42,7 @@ private static readonly HttpClient Client2 = new HttpClient()
 
 private static async Task GetRequestAsync(string requestUri)
 {
-    // Calls asynchronous network methods in a try/catch block to handle exceptions
+    // Calls <b>asynchronous</b> network methods in a try/catch block to handle exceptions
     try
     {
         // Uses ConfigureAwait(false) to improve performance and avoid deadlocks

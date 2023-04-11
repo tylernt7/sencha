@@ -6,8 +6,70 @@
   </head>
   <body>
     <h1>Stream API</h1>
+	
+	<h2>Stream operations and pipelines</h2>
+	<ul>
+	<li><b>Source</b>: Collection, array, generator function, I/O channel</li>
+	<li><b>Intermediate operations</b> (stream-producing): return a new stream, "lazy"
+	<ul>
+	<li>Stateless operations (no state from previously seen elements when processing new elements): <i>filter, map; flatMap, peek</i></li>
+	<li>Stateful operations (state from previously seen elements when processing new elements): <i>distinct, sorted; limit, skip</i></li>
+	</ul>
+	</li>
+	<li><b>Terminal operations</b> (value- or side-effect-producing: traverse the stream to produce a result or a side-effect, "eager"): <i>forEach, reduce, sum, collect; toArray, count, min, max, average, allMatch, anyMatch, noneMatch, findAny, findFirst, groupingBy</i>
+	<ul><li>Escape-hatch operations (access the elements by calling the next() method of the iterator), "lazy": <i>iterator, spliterator</i></li></ul>
+	</li>	
+	<li><b>Stream pipelines</b>: consists of a source followed by zero or more intermediate operations and a terminal operation</li>
+	
+	<li><b>Short-circuiting intermediate operations</b>: when presented with infinite input, it may produce a finite stream</li>
+	<li><b>Short-circuiting terminal operations</b>: when presented with infinite input, it may terminate in finite time</li>
+	</ul>
+	
+	<h2>Examples</h2>
+	<div class="code"><code><pre>
+private Optional&lt;String&gt; longerThanFiveCharacters(List&lt;String&gt; words) {
+    return words.stream().filter(w -&gt; w.length() &gt; 5).findFirst();
+}    
 
-  <h2>Example (ToDo)</h2>
+private Optional&lt;String&gt; threeConsecutiveVowels(List&lt;String&gt; words) {
+    return words.stream().filter(w -&gt; w.matches(".*[aeiou]{3}.*")).findFirst();
+}
+
+private int filterMapReduce(List&lt;Employee&gt; employees) {
+    return employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();
+    //return employees.stream().parallel().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();
+    //return employees.parallelStream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();
+    
+    //return employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).reduce(0, (x, y) -&gt; x + y);
+    //return employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).reduce(0, Integer::sum);
+}
+
+private Map&lt;String, Integer&gt; salariesByDept(List&lt;Employee&gt; employees) {
+    Collector&lt;Employee, ?, Integer&gt; summingSalaries = Collectors.summingInt(Employee::getSalary);
+
+    return employees.stream().collect(Collectors.groupingBy(Employee::getDepartment, summingSalaries));
+}
+
+private List&lt;Integer&gt; sideEffects() {        
+    // Unnecessary use of side-effects (forEach() and peek())!
+    List&lt;Integer&gt; results = new ArrayList&lt;&gt;();
+    IntStream.range(0, 5).parallel().map(x -&gt; x * 2).forEach(s -&gt; results.add(s));
+    
+    // No side-effects!
+    List&lt;Integer&gt; results1 = new ArrayList&lt;&gt;();
+    IntStream.range(0, 5).map(x -&gt; x * 2).forEach(s -&gt; results1.add(s));
+
+    // No side-effects!
+    List&lt;Integer&gt; results2 = IntStream.range(0, 5).boxed().parallel().map(x -&gt; x * 2).collect(Collectors.toList());
+
+    return results2;
+}
+</pre></code></div>
+
+
+
+
+	<h2>Example (ToDo)</h2>
     <div class="code"><code><pre>
 //List&lt;Integer&gt; list = Arrays.asList(3, 4, 6, 12, 20);
 //Vector v = new Vector();	
@@ -34,5 +96,29 @@ Stream&lt;Integer&gt; stream = list.parallelStream();
 
 </pre></code></div>
 
+	<h2>Example (ToDo2)</h2>
+    <div class="code"><code><pre>
+.stream().map(lutIndex -&gt; Integer.toString(lutIndex)).collect(Collectors.toList())));
+.stream().map(Integer::parseInt).collect(Collectors.toList()); 
+.stream().mapToInt(i -&gt; i).toArray()
+.stream().filter(ds -&gt; ds.getLutIndex() == bfs.getLutIndex() && ds.getNodeId() == d.getNodeId()).collect(Collectors.toList());
+.stream().filter(fg -&gt; fg.getName().equals(IBCTSAPI)).findFirst().orElse(null);
+.stream().forEach(cf -&gt; contentMap.put(cf));
+.stream().forEach((msg) -&gt; { stopTrigger(msg); if (... });
+.stream().anyMatch(s -&gt; t.getName().startsWith(s)))).collect(Collectors.toList());
+.stream().sorted((ds1, ds2) -&gt; Integer.compare(ds1.getOrder(), ds2.getOrder())).forEach( (ds) -&gt; { ds.setOrder(atomicInteger.getAndIncrement()); }
+guava.jar: Streams.mapWithIndex()
+
+.SingleOrDefault(
+.FirstOrDefault(s =&gt; s.ID == signalRef);
+.LastOrDefault()
+.Select(item =&gt; item.WSURL).Where(item =&gt; !string.IsNullOrEmpty(item)).GroupBy(item =&gt; item).Any(item =&gt; item.Count() &gt; 1);
+.OrderBy(item =&gt; item.Key).Select(item =&gt; item).ToList();
+var query2 = fruits.Select((fruit, i) =&gt; new string(i+": " + fruit));
+yield: k:\svn_leader\trunk\Documents\Development\ebooks\software_engineering\C_sharp_demos\LambdaDemo\EnumerableUtils.cs 
+.GroupBy(x =&gt; x.BitOffset).SelectMany(x =&gt; x.Skip(1).Take(1)).Any()
+.Skip(index).Take(1).SelectMany(x =&gt; x.Collection.OfType&lt;UnitView&gt;()).ToList();
+var query = fruits.Select((fruit, index) =&gt; new { index, str = fruit.Substring(0, index) });	
+</pre></code></div>
   </body>
 </html>

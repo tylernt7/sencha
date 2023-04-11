@@ -8,11 +8,11 @@
     <h1>REST API</h1>
 	
     <h2>Terminology</h2>
-    <p><b>URL</b> (Uniform Resource Locator): Web address</p>
-	<p><b>HTTP</b> (Hypertext Transfer Protocol): Stateless protocol for the transmission of information on the application layer (TCP port 80)</p>
-	<p><b>HTTPS</b> (Hypertext Transfer Protocol Secure): Secure communication protocol using encryption (TCP port 443, HTTPS = HTTP + SSL/TLS)</p>
+    <p><b>URL</b> (<b>U</b>niform <b>R</b>esource <b>L</b>ocator): Web address</p>
+	<p><b>HTTP</b> (<b>H</b>yper<b>t</b>ext <b>T</b>ransfer <b>P</b>rotocol): Stateless protocol for the transmission of information on the application layer (TCP port 80)</p>
+	<p><b>HTTPS</b> (<b>H</b>yper<b>t</b>ext <b>T</b>ransfer <b>P</b>rotocol <b>S</b>ecure): Secure communication protocol using encryption (TCP port 443, HTTPS = HTTP + SSL/TLS)</p>
 	
-    <p><b>REST API</b> (REpresentational State Transfer - Application Programming Interface): Guiding principles or constraints of the RESTful architecture are:
+    <p><b>REST API</b> (<b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer - <b>A</b>pplication <b>P</b>rogramming <b>I</b>nterface): Guiding principles or constraints of the RESTful architecture are:
 	<ul>
 	<li>Client–server architecture: Clients communicating with a server via the Internet</li>
 	<li>Stateless protocol: The server must not retain session/context/cookie information from previous requests</li>
@@ -21,7 +21,14 @@
 	<li>Layered system: Intermediary servers e.g. proxy, load balancer or security layer</li>
 	<li>Code on demand (optional): Downloading and executing code in the form of Java applets or JavaScripts</li>		
 	</ul>
-	</p>	
+	</p>
+	
+	<p><b>JAX-RS</b> (<a href="https://jcp.org/aboutJava/communityprocess/final/jsr311/index.html"><i>JSR 311</i></a>, Specification): <b>J</b>ava <b>A</b>PI for <b>R</b>ESTful Web <b>S</b>ervices
+	<ul>
+	<li>Reference Implementation: Jersey</li>
+	<li>Other implementations: RESTeasy, Apache CXF, Restlet</li>
+	</ul>
+	<center><img src="images\jax_rs.png" width="75%" height="75%"/></center></p>
 	
 	<h2>Request methods</h2>
     <table border="1">

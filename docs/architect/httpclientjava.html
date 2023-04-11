@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>HTTP Client (Java)</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>HTTP Client (Java)</h1>
+	
+    <h2>HttpClient (Java 11)</h2>
+    <div class="code"><code><pre>public static void main(String[] args) throws Exception {
+    String baseAddress = "https://api.binance.com";
+    URI uri = new URI(baseAddress + "/api/v3/avgPrice?symbol=BTCUSDT");
+    //uri = new URI("http://localhost:8080/WebApplication/webresources/helloworld");
+    
+    // <b>Basic Authentication</b> with username/password	
+    // Sets authentication property in the http header
+    String password = "user" + ":" + "pass";                
+    Charset charset = StandardCharsets.ISO_8859_1; // StandardCharsets.UTF_8, StandardCharsets.US_ASCII
+    String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes(charset));
+    	
+    HttpRequest getRequest = HttpRequest.newBuilder()
+            .uri(uri)
+            //.timeout(Duration.ofMinutes(2))
+            //.header("Content-Type", "application/json")
+            .header("Authorization", "Basic " + encodedPassword)
+            .GET()
+            .build();
+            
+    // An <b>HttpClient</b> is immutable, and can be used to send requests and retrieve their responses        
+    HttpClient client = HttpClient.newBuilder()
+            //.connectTimeout(Duration.ofSeconds(20))
+            //.authenticator(Authenticator.getDefault())
+            .build();
+    //HttpClient client = HttpClient.newHttpClient();
+    
+    // <b>Synchronously</b> sent request: the method blocks until the response has been received
+    HttpResponse<String> getResponse = client.send(getRequest, BodyHandlers.ofString());
+    // <b>Asynchronously</b> sent request: the method returns immediately
+    /*client.sendAsync(getRequest, BodyHandlers.ofString())
+            .thenApply(HttpResponse::body)
+            .thenAccept(System.out::println);  
+    System.in.read(); // read key */
+    
+    System.out.println("HTTP status code: " + getResponse.statusCode());
+    System.out.println(getResponse.body());
+} </pre></code></div>
+  <p>HttpURLConnection is available since Java 1.1. Apache Commons also offers an HTTP client.</p>
+
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Docker</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Docker</h1>
+	
+    <h2>Docker</h2>	
+    <p>Docker is a <i>containerization environment</i> (container-based virtualization). Docker is a set of tools that enables you to <b>create, deploy, and run</b> applications using containers. Containers can be run on any machine that has Docker installed: you can run your application on your local machine or on a remote server without the risk of a missing software library or different Java version</p>
+	
+	<h2>Difference between Virtual Machines and Dockers</h2>
+	Both Virtual Machines and Dockers provide isolated environments to run applications
+	<ul>
+	<li>A VM virtualizes both the operating system kernel and the application layer, and runs on its own guest operating system
+	<ul>
+	<li>VirtualBox, Hyper-V, VMware Workstation</li>
+	</ul>
+	</li>
+	<li>A Docker virtualizes only the application layer, and runs on top of the host operating system
+	<ul>
+	<li>Dockers bundle their own software, binaries/libraries and configuration files</li>
+	<li>Dockers use fewer resources than virtual machines because of single operating system kernel</li>
+	</ul>
+	</li>
+	</ul>
+    <center><img src="images\vm.png" width="50%" height="50%"/></center>
+	
+	<h2>Docker Architecture</h2>
+	<ul>
+	<li><b>Software Components</b>
+	<ul>
+	<li><b>Docker daemon</b> (<i>dockerd</i>): it manages Docker containers and handles container objects</li>
+	<li><b>Docker client</b> (<i>docker</i>): it interacts with Docker daemons</li>
+	</ul>
+	</li>
+	<li><b>Object Components</b>
+	<ul>
+	<li><b>Docker container</b>: it runs applications</li>
+	<li><b>Docker image</b>: it stores applications</li>
+	<li><b>Docker service</b> (<i>swarm</i>): it controls Docker containers</li>	
+	</ul>
+	</li>	
+	<li><b>Registry Components</b>
+    <ul>
+	<li><b>Docker repository</b> (Docker Hub or Artifactory): it downloads ("<i>pull</i>") images for use or uploads ("<i>push</i>") images that have been built</li>	
+    </ul>	
+	</li>
+	</ul>
+	<center><img src="images\docker_architecture.png" width="50%" height="50%"/></center>	
+	
+	<h2>References</h2>
+ 	<ul>
+	  <li><a href="https://www.oracle.com/cloud/what-is-cloud-computing/">What is Cloud Computing?</a></li>
+	  <li><a href="https://www.oracle.com/cx/what-is-crm/">What is CRM?</a></li>
+	  <li><a href="https://www.oracle.com/cloud/cloud-native/container-registry/what-is-docker/">What is Docker?</a></li>
+	  <li><a href="https://www.oracle.com/cloud/cloud-native/container-engine-kubernetes/what-is-kubernetes/">What is Kubernetes?</a></li>
+ 	</ul>	
+  </body>
+</html>
+
+

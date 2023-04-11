@@ -30,7 +30,7 @@
 	<b>Test the Application</b>		
 	<ul>
 	<li>Right-click the project and select Test RESTful Web Services</li>
-	<li>Test client appears in the browser with the URL <a href="http://localhost:8080/WebApplication/test-resbeans.html">http://localhost:8080/WebApplication/test-resbeans.html</a></li>
+	<li>Test client appears in the browser with the URL <a href="http://localhost:8080/RESTfulWebServices/test-resbeans.html">http://localhost:8080/RESTfulWebServices/test-resbeans.html</a></li>
 	<li>Select the helloworld resource in the left pane</li>
 	<li>Click the Test button in the right pane</li>
 	</ul>
@@ -39,8 +39,8 @@
 	<ul>	
 	<li>Right-click the project and select Run</li>
 	<li>This will build and deploy the application to GlassFish Server</li>
-	<li>In a browser, open the following URL for index.html: <a href="http://localhost:8080/WebApplication/">http://localhost:8080/WebApplication/</a></li>
-	<li>In a browser, open the following URL for JSON Resource: <a href="http://localhost:8080/WebApplication/webresources/helloworld">http://localhost:8080/WebApplication/webresources/helloworld</a></li>
+	<li>In a browser, open the following URL for index.html: <a href="http://localhost:8080/RESTfulWebServices/">http://localhost:8080/RESTfulWebServices/</a></li>
+	<li>In a browser, open the following URL for JSON Resource: <a href="http://localhost:8080/RESTfulWebServices/webresources/helloworld">http://localhost:8080/RESTfulWebServices/webresources/helloworld</a></li>
 	</ul>
 		
 	<b>Generate RESTful Java client code (Jersey Client)</b>		
@@ -73,19 +73,23 @@ public class PingResource {
     public Response ping() {
         return Response.ok("pong").build();
     }
-}</pre></code></div><br>	
+}</pre></code></div>
+<p>In a browser, open the following URL for index.html: <a href="http://localhost:8080/RESTfulWebServices/webresources/ping">http://localhost:8080/RESTfulWebServices/webresources/ping</a></p>
 	
 	<b>Swagger API</b>
     <ul>	
 	<li><b>Swagger UI</b>: It is a collection of HTML, JavaScript, and CSS assets that dynamically generate visual documentation from the OpenAPI (formerly known as Swagger) Specification</li>
 	<li><b>Swagger Codegen</b>: It contains a template-driven engine to generate documentation, API clients and server stubs in different languages by parsing your OpenAPI / Swagger definition</li>
+	<li><b>Swagger Annotations</b>: They are special comments that you can add to your code to describe your API endpoints, parameters, responses, models, and more. They help you to keep your documentation in sync with your code, and they also enable you to generate Swagger files (JSON or YAML) that you can use with other tools</li>
 	</ul>
 	
 	<b>Generate a JAX-RS Server using Swagger Editor</b>
     <ul>	
 	<li>Access <a href="https://editor.swagger.io/">https://editor.swagger.io/</a> in your browser</li>
 	<li>Select File -> Import file to import the YAML file</li>
-	<li>Select Generate Server -> jaxrs-spec</li>
+	<li>Select Generate Server -> <b>jaxrs-spec</b></li>
+	<li>Edit RestApplication.java from <i>@ApplicationPath("/")</i> to <i>@ApplicationPath("/RESTfulWebServices/")</i></li>
+	<li>In a browser, open the following URL for index.html: <a href="http://localhost:8080/RESTfulWebServices/webresources/users/1">http://localhost:8080/RESTfulWebServices/webresources/users/1</a></li>
 	<li><i>Note</i>
 	<ul>
 	<li>It is possible to convert Swagger YAML file to JSON or OpenAPI 3</li>
@@ -94,5 +98,39 @@ public class PingResource {
 	</ul>
 	</li>
 	</ul>
+	
+    <b>Setting up Javalin with Maven</b>
+    <ul>
+	<li>Select File -> New Project</li>
+	<li>Select Java with Maven. Select Java Application
+	<ul>
+	<li>Project Name: JavalinMaven</li>	
+	<li>Group Id: io.javalin</li>
+	<li>Version: 1.0.0</li>
+	<li>Package: io.javalin.javalinmaven</li>
+	</ul>	
+	</li>
+	<li>Paste the Javalin dependency into the generated pom.xml</li>
+	
+    <div class="code"><code><pre>&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;io.javalin&lt;/groupId&gt;
+        &lt;artifactId&gt;javalin&lt;/artifactId&gt;
+        &lt;version&gt;5.4.2&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;slf4j-simple&lt;/artifactId&gt;
+    &lt;version&gt;2.0.6&lt;/version&gt;
+&lt;/dependency&gt;</pre></code></div>
+    <li>Select Run -> Build Project. It will download JAR files from central including jetty-server and slf4j-simple</li>
+	<li>Paste the Javalin snippet into the main method</li>
+	<div class="code"><code><pre>var app = Javalin.create(/*config*/)
+    .get("/", ctx -> ctx.result("Hello World"))
+    .start(7070);</pre></code></div>
+	<li>Select Run -> Run Project</li>
+	<li>In a browser, open the following URL: <a href="http://localhost:7070/">http://localhost:7070/</a></li>
+	</ul>	
   </body>
 </html>

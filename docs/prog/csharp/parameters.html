@@ -4,22 +4,30 @@
     <title>Method Parameters</title>
 	<link rel="stylesheet" href="../../common.css">	
   </head>
-  <body>
+  <body>  
     <h1>Method Parameters</h1>
     <table>
     <tr valign="top">
       <td>
-	    C# types can be either reference types (<i>class, delegates, interface</i>) or value types (<i>struct, enum</i>).
+	    C# types can be either reference types (<i>class, delegates, interface</i>) or value types (<i>struct, enum</i>)
  	    <ul>
 	      <li><i>Pass by value</i> means <b>passing a copy of the variable</b> to the method</li>
 	      <li><i>Pass by reference</i> means <b>passing access to the variable</b> to the method</li>
 	      <li>A variable of a <i>reference type</i> contains a reference to its data</li>
-	      <li>A variable of a <i>value type</i> contains its data directly</li>	  
+	      <li>A variable of a <i>value type</i> contains its data directly</li>	 
+	      <li>A reference, like a pointer, stores the memory address of an object
+		  <ul>
+		  <li>The class name and System.identityHashCode() separated by the '@' character is given when an object is printed</li>
+		  <li>Java hides the location (memory addresses) of objects to give the implementation more flexibility (the JVM often moves objects around in memory during garbage collection) and to improve security (you can not use raw pointers to trash memory or access non-existent objects)</li>
+		  </ul>
+		  </li>			  
 	    </ul>	  
 	  </td>
-      <td><center><img src="images\coffee.png" width="70%" height="70%"/></center></td>
+      <td><center><img src="images\coffee.gif" width="100%" height="100%"/></center></td>	  
     </tr>
-    </table>	
+    </table>
+	<img src="images\inc.png" width="100%" height="100%"/>
+	<img src="images\threads.png" width="100%" height="100%"/>
 	
 	<div class="code"><code>	
 <pre>struct IntHolderStruct
@@ -139,10 +147,23 @@ static void Main(string[] args)
     CopyConstructorTest();
     CopyConstructorStructTest();
     StringTest();	
-}
-    
-</pre></code></div>	
+}</pre></code></div>	
 See <a href="https://jonskeet.uk/csharp/parameters.html">here</a> 
+
+    <h2>Swap primitive types in Java</h2>
+	<p>Java is <i>always</i> pass by value
+	<ul>
+	<li><i>int</i> is a primitive type</li>
+	<li><i>Integer</i> is an immutable object</li>
+	<li>a variable of <i>array</i> type holds a reference to an object</li>
+	</ul>
+		
+    <div class="code"><code><pre>void swap(int[] array) {
+    int temp = array[0];
+    array[0] = array[1];
+    array[1] = temp;
+}
+</pre></code></div>	
 
     <h2>Cloneable Interface</h2>
 	<p>ToDo: To create a copy of an object in Java, you can use the clone() method of the Object class. This method creates a shallow copy of the object, meaning that only the object's references are copied, not its values.</p>

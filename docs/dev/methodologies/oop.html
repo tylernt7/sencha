@@ -12,7 +12,7 @@
 	  <li><b>Class</b>: A class is a blueprint or prototype from which (individual) objects are created. It models the state and behavior of a real-world object.</li>
 	  <li><b>Object</b>: An object is an instance of a class. Real-world objects have state and behavior: dogs have state (name, color) and behavior (barking, fetching). A software object stores its state in fields (variables) and exposes its behavior through methods (functions). </li>
 	  	  
-	  <li><b>Interface</b>: An interface defines the behavior (signatures/declarations/prototypes/syntaxes of methods) that a class must implement. It also sets the communication boundary between two pieces of software. It defines the interaction with the outside world (external systems).
+	  <li><b>Interface</b>: An interface <i>declares</i> one or more (abstract) methods (signatures/declarations/prototypes/syntaxes of methods) that a class must implement. Interfaces specify <i>"what"</i> to do (draw something) but <i>"not how"</i> to do it. It also sets the communication boundary between two pieces of software. It describes the interaction with the outside world (external systems). E.g. <i>int add(int a, int b);</i>
 	  <ul><li>Different groups of programmers agree to a <i>"contract" (agreement)</i> that describes how their software interacts. Each group should be able to write their code without any knowledge of how the other group's code is written.</li></ul>
 	  <ul><li>An interface is a reference type, similar to a class, that can contain only constants, method signatures, default methods, static methods, and nested types. Method bodies exist only for default methods and static methods. Interfaces cannot be instantiated - they can only be implemented by classes or extended by other interfaces.</li></ul>
 	  <ul><li><a href="https://www.artima.com/lejava/articles/designprinciples.html">Program to an Interface (P2I)</a> principle states that concrete objects must implement an interface that is used in the caller program rather than the concrete object itself. Therefore, you can easily substitute a different implementation with little impact on client code in the future. It's best practice to use an interface for the code that is most likely to change implementation. You could change the ArrayList implementation to a LinkedList. You might have difficulties with the <i>Programming to an Implementation</i> if a list implementation might change in the future, or if you need different list at runtime.
@@ -21,6 +21,32 @@
 	  </li></ul>		  
 	  <ul><li><i>Marker Interface</i>: An interface that does not have any methods or constants. E.g. <i>Cloneable, Serializable</i> or <i>Remote</i> interfaces indicate whether an object can be cloned, serialized or available remotely. On Android the main purpose of <i>@NonNull</i> is informational to the other developers that they shall not pass null value.</li></ul>
 	  </li>
+	  
+	  <li><b>Annotation</b> (a form of metadata): It provides data about a program. It has no direct effect on the operation of the code they annotate. It can be used as information for the compiler or compile-time, runtime processing. An annotation type is a special kind of interface type.</li>
+	  <div class="code"><code><pre><i>// If you want to be able to look up your annotation via reflection,
+// the retention should be set to RUNTIME</i>
+@Retention(RetentionPolicy.RUNTIME)
+@interface MyAnnotation {
+    public String element1();
+    public String element2() default "N/A";
+}</pre></code></div><br>
+	  <div class="code"><code><pre>@MyAnnotation(element1 = "value1", element2 = "value2")
+//@MyAnnotation(element1 = "value1")
+public void myMethod() {
+    try {
+        Method method = getClass().getMethod("myMethod");
+        //Method method = getClass().getMethod("myMethod", new Class&lt;?&gt;[]{Integer.class}); // With parameters
+
+        MyAnnotation annotation = method.getAnnotation(MyAnnotation.class);
+        if (annotation != null) {
+            String element1 = annotation.element1();
+            System.out.println(element1); <i>// "value1"</i>
+        }
+    } catch (Exception ex) {
+        System.err.println(ex.getMessage());
+    }
+}</pre></code></div>
+	  
 	  <li><b>Package</b>: A package is a namespace for organizing classes and interfaces in a logical manner. It defines scope to a set of related objects in an application.</li>
 	</ul>
 	

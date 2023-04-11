@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Platforms</title>
+    <link rel="stylesheet" href="../../common.css">	
   </head>
   <body>
     <h1>Java Platforms</h1>
@@ -13,8 +14,9 @@
       <ul><li>Jakarta EE 8 - 10 (2019 - 2022)</li></ul>
       <ul><li>Java EE 5 - 8 (2006 - 2017)</li></ul>
       <ul><li>J2EE 1.2 - 1.4 (1999 - 2003)</li></ul>
-      <ul><li>Application servers: Glassfish, Oracle WebLogic, JBoss, Tomcat</li></ul>
-      <ul><li>Frameworks: Spring, Hibernate, Struts, JSF, GWT</li></ul>
+      <ul><li><b>Application servers</b>: Glassfish (Grizzly Web Server), Tomcat (Catalina Web Server), WildFly/JBoss (Undertow Web Server), Oracle WebLogic (built-in Web Server)</li></ul>
+	  <ul><li><b>Web servers</b>: Nginx (pronounced "engine x"), Apache, Jetty, Mongoose, IIS (Internet Information Services)</li></ul>
+      <ul><li><b>Frameworks</b>: Spring, Hibernate, Struts, JSF, GWT</li></ul>
       <li><b>Java ME</b>: Java Platform, Micro Edition</li>
       <ul><li>Java for Mobile Devices</li></ul>
       <li><b>Java FX</b>: Java Platform, Java FX Script<sup>TM</sup></li>
@@ -80,5 +82,29 @@
     </tbody>
     </table>	
 	
+	<h2>Difference between web server and application server</h2>
+	<p>A web server is a subset of an application server. A web server delivers static web content - HTML pages, files, images, video — in response to HTTP requests from a web browser. An application server delivers static and dynamic content, such as transaction results, decision support, or real-time analytics. A web server includes reverse proxy (gateway between the outer firewall and the inner firewall) and load balancing (automated traffic distribution using e.g. round-robin algorithm). By placing a web server in front of an application server, performance and security can be ensured (static content, load balancing).</p>
+	<center><img src="images\web_server.png" width="75%" height="75%"/></center>
+	
+	<h2>How to manage Nginx on Linux?</h2>
+	<div class="code"><code><pre>sudo service nginx start
+sudo service nginx stop
+sudo service nginx restart
+sudo service nginx reload</pre></code></div>
+OR
+	<div class="code"><code><pre>sudo systemctl start nginx
+sudo systemctl stop nginx
+sudo systemctl restart nginx
+sudo systemctl reload nginx</pre></code></div>
+    Note: 
+    <ul>
+    <li>To run commands with superuser privileges as the system administrator (root), use the <i>sudo</i> command</li>
+    <li>The <i>systemctl</i> is a more powerful version of <i>service</i>. With <i>systemctl</i> you can use more advanced commands
+    </li>
+    </ul>
+
+
   </body>
 </html>
+
+

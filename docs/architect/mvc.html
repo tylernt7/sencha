@@ -10,7 +10,7 @@
     <h2>Purpose</h2>	
 	<p>MVC is an architectural pattern used to decouple/separate/divide data (model), user-interface (view) and application logic (controller).</p> 
  	<ul>
-	  <li><b>Model</b>: data (persistence, validation, conversion)</li>
+	  <li><b>Model</b>: data (business logic, persistence, validation, conversion)</li>
 	  <ul><li><i>Passive model</i>: controller notifies the view when model changes</li></ul>
 	  <ul><li><i>Active model</i>: model notifies the view when model changes (observer pattern)</li></ul>
 	  <li><b>View</b>: data presentation (grids, trees, panels)</li>
@@ -20,9 +20,9 @@
 	</ul> 
  
     <h2>Difference between MVC (1970), MVP (1990) and MVVM (2005)</h2>
-	<p>In the MVC pattern, the controller gets all user input. Depending on the kind of input, it shows up a different view or modifies the model.</p>
-	<p>In the MVP pattern, the view gets the user input and forwards it to the presenter. The presenter then modifies the view or the model depending on the type of user action. The presenter pushes the data into the view.</p>
-	<p>In the MVVM pattern, the view gets the user input and forwards it to the viewmodel (using commands). The view actively pulls the data from the viewmodel (using data binding).</p>
+	<p>In the MVC (<b>M</b>odel <b>V</b>iew <b>C</b>ontroller) pattern, the controller gets all user input. Depending on the kind of input, it shows up a different view or modifies the model.</p>
+	<p>In the MVP (<b>M</b>odel <b>V</b>iew <b>P</b>resenter) pattern, the view gets the user input and forwards it to the presenter. The presenter then modifies the view or the model depending on the type of user action. The presenter pushes the data into the view.</p>
+	<p>In the MVVM (<b>M</b>odel <b>V</b>iew <b>V</b>iew<b>M</b>odel) pattern, the view gets the user input and forwards it to the viewmodel (using commands). The view actively pulls the data from the viewmodel (using data binding).</p>
 	<p>Note that the model is not aware of the view or the controller -- it simply broadcasts change notifications (events) to all interested listeners.</p>
 	<center><p>
 	<img src="images\mvc_mvp_mvvm.png" width="60%" height="60%"/>

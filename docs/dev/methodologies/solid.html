@@ -275,7 +275,7 @@ private void draw() { ... }
 	  <ul><li>Functions that use pointers or references to base classes must be able to use objects of derived classes without knowing it</li></ul>
 	  <ul><li>If the <i>Derived</i> class is a descendant of the <i>Base</i> class, the <i>Derived</i> can be freely substituted in any place (parameter, variable, etc.) where we expect a <i>Base</i> type</li></ul>
 	  <ul><li><i>Note</i>: Liskov is an American woman</li></ul>
-	  <center><p><img src="images\liskov.png" /></p></center>
+	  <center><p><img src="images\liskov.png"/></p></center>
 	  <b>Violating Liskov Substitution Principle</b><br>
 	  Setting string is possible in the Base class, while the Derived no longer supports this.
 	  <div class="code"><code>	   
@@ -293,8 +293,12 @@ public class Derived extends Base {
 }</pre>
 	  </code></div>	
 
-	  <li><b><u>I</u>nterface Segregation Principle</b> <i>(Interfész elválasztási elv)</i>: Many client specific interfaces are better than one general purpose interface</li>
-	  <ul><li>Clients should not be forced to depend upon interfaces/methods that they do not use</li></ul>
+	  <li><b><u>I</u>nterface Segregation Principle</b> <i>(Interfész szétválasztási elv)</i>: Many client specific interfaces are better than one general purpose interface</li>
+	  <ul>
+	  <li>Avoid <i>"fat" interfaces</i></li>
+	  <li>Clients should not be forced to depend upon interfaces/methods that they do not use</li>
+	  </ul>
+	  <center><p><img src="images\interface_segregation.png" width="75%" height="75%"/></p></center>
 
 	  <li><b><u>D</u>ependency Inversion Principle</b> <i>(Függőség megfordítási elv)</i>: Depend upon Abstractions. Do not depend upon concretions</li> 
 	  <ul><li>Depending upon interfaces or abstract functions and classes, rather than upon concrete functions and classes</li></ul>
