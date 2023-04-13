@@ -1,9 +1,485 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>Welcome</title>
-</head>
-<body>
-  <h1>Welcome</h1>
-</body>
+  <head>
+    <title>Stream API</title>
+    <link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+
+<p><u><strong>REST API</strong></u></p>
+<p><span size="2"><strong>REST API</strong></span><span size="2">&nbsp;(</span><span size="2"><strong>RE</strong></span><span size="2">presentational&nbsp;</span><span size="2"><strong>S</strong></span><span size="2">tate&nbsp;</span><span size="2"><strong>T</strong></span><span size="2">ransfer -&nbsp;</span><span size="2"><strong>A</strong></span><span size="2">pplication&nbsp;</span><span size="2"><strong>P</strong></span><span size="2">rogramming&nbsp;</span><span size="2"><strong>I</strong></span>nterface)</p>
+<ul>
+    <li>
+        <p>Client&ndash;server architecture</p>
+    </li>
+    <li>
+        <p>Stateless protocol</p>
+    </li>
+    <li>
+        <p>Caching</p>
+    </li>
+    <li>
+        <p>Uniform interface</p>
+    </li>
+    <li>
+        <p>Layered system</p>
+    </li>
+    <li>
+        <p>Code on demand (optional)</p>
+    </li>
+</ul>
+<p><strong>Request methods</strong></p>
+<ul>
+    <li>
+        <p>GET: Retrieve&nbsp;</p>
+    </li>
+    <li>
+        <p>POST: Create&nbsp;</p>
+    </li>
+    <li>
+        <p>PUT: Update (Create if not exist)</p>
+    </li>
+    <li>
+        <p>DELETE: Delete</p>
+    </li>
+</ul>
+<p><span size="2"><strong>JAX-RS&nbsp;</strong></span><span size="2">(Specification):&nbsp;</span><span size="2"><strong>J</strong></span><span size="2">ava&nbsp;</span><span size="2"><strong>A</strong></span><span size="2">PI for&nbsp;</span><span size="2"><strong>R</strong></span><span size="2">ESTful Web&nbsp;</span><span size="2"><strong>S</strong></span><span size="2">ervices&nbsp;</span></p>
+<ul>
+    <li>
+        <p>Reference Implementation: Jersey</p>
+    </li>
+    <li>
+        <p>Other implementations: RESTeasy, Apache CXF, Restlet</p>
+    </li>
+</ul>
+<p><br></p>
+<p><u><strong>Model&ndash;View&ndash;Controller</strong></u></p>
+<p><span size="2"><strong>MVC</strong></span><span size="2">&nbsp;(</span><span size="2"><strong>M</strong></span><span size="2">odel&nbsp;</span><span size="2"><strong>V</strong></span><span size="2">iew&nbsp;</span><span size="2"><strong>C</strong></span>ontroller)</p>
+<ul>
+    <li>
+        <p>Model: data (business logic, persistence, validation, conversion)</p>
+    </li>
+    <li>
+        <p>View: presentation (UI: grids, trees, panels)</p>
+    </li>
+    <li>
+        <p>Controller: handling user interactions (rendering, routing, instantiating)</p>
+    </li>
+</ul>
+<p><span size="2"><strong>MVP</strong></span><span size="2">&nbsp;(</span><span size="2"><strong>M</strong></span><span size="2">odel&nbsp;</span><span size="2"><strong>V</strong></span><span size="2">iew&nbsp;</span><span size="2"><strong>P</strong></span>resenter)</p>
+<p><span size="2"><strong>MVVM</strong></span><span size="2">&nbsp;(</span><span size="2"><strong>M</strong></span><span size="2">odel&nbsp;</span><span size="2"><strong>V</strong></span><span size="2">iew&nbsp;</span><span size="2"><strong>V</strong></span><span size="2">iew</span><span size="2"><strong>M</strong></span>odel)</p>
+<p><br></p>
+<p><u><strong>Design Patterns</strong></u></p>
+<p><strong>Creational patterns</strong></p>
+<ul>
+    <li>
+        <p>Abstract Factory</p>
+    </li>
+    <li>
+        <p>Factory Method</p>
+    </li>
+    <li>
+        <p>Singleton: One global instance, private constructor (Runtime.exec())</p>
+    </li>
+</ul>
+<p><strong>Structural patterns</strong></p>
+<ul>
+    <li>
+        <p>Composite</p>
+    </li>
+    <li>
+        <p>Decorator</p>
+    </li>
+</ul>
+<p><strong>Behavioral patterns</strong></p>
+<ul>
+    <li>
+        <p>Chain of Responsibility: Pass the request until an object handles it (GUI object tree)</p>
+    </li>
+    <li>
+        <p>Observer: If one object changes, all dependents are notified and updated (MVC)</p>
+    </li>
+    <li>
+        <p>Strategy: Replaceable methods (Payment Methods: PayPal, Credit Card)</p>
+    </li>
+    <li>
+        <p>Template Method</p>
+    </li>
+</ul>
+<p><br></p>
+<p><u><strong>Object-Oriented Programming (OOP)</strong></u></p>
+<p><span size="2"><strong>Interface</strong></span><span size="2">: Declares methods (signatures/prototypes of methods),&nbsp;</span><span size="2"><em>&quot;what&quot;</em></span><span size="2">&nbsp;to do but&nbsp;</span><span size="2"><em>&quot;not how&quot;&nbsp;</em></span>to do (JPA), contract/agreement</p>
+<p><span size="2"><strong>Annotation</strong></span> (a form of metadata): @interface MyAnnotation { String element1(); }</p>
+<p><strong>Principles</strong></p>
+<ul>
+    <li>
+        <p>Data Abstraction: Visibility (private, protected)</p>
+    </li>
+    <li>
+        <p>Encapsulation: Getters and Setters&nbsp;</p>
+    </li>
+    <li>
+        <p>Inheritance: Subclass - Superclass</p>
+    </li>
+    <li>
+        <p>Polymorphism: Many forms (overriding, overloading)</p>
+    </li>
+</ul>
+<p><span size="2"><strong>IoC</strong></span> (Inversion of Control): Dependency Injection: Framework does object creation (Guice, Dagger)</p>
+<p><span size="2"><strong>Law of Demeter</strong></span>: don&apos;t talk to strangers (A &rarr; B &rarr; C)</p>
+<p><strong>Abstract Class versus Interface</strong></p>
+<ul>
+    <li>
+        <p>Method body: Abstract Class - if method is not abstract</p>
+    </li>
+    <li>
+        <p>Constructors: Abstract Class</p>
+    </li>
+    <li>
+        <p>Inheritance: Abstract Class - single, Interface - multiple</p>
+    </li>
+    <li>
+        <p>Fields: Abstract Class - instance fields, Interface - constant fields</p>
+    </li>
+</ul>
+<p><strong>Initialization Procedure</strong></p>
+<ul>
+    <li>
+        <p>static init block &rarr; static main() &rarr; super() &rarr; instance init block &rarr; constructor &rarr; myMethod</p>
+    </li>
+</ul>
+<p><br></p>
+<p><u><strong>SOLID</strong></u></p>
+<p><span size="2"><strong>S</strong></span>ingle Responsibility: One reason for change</p>
+<p><span size="2"><strong>O</strong></span>pen Closed: Open for extension but Closed for modification</p>
+<p><span size="2"><strong>L</strong></span>iskov Substitution: Substitutable subclasses</p>
+<p><span size="2"><strong>I</strong></span><span size="2">nterface Segregation: Avoid &quot;fat&quot; interfaces&nbsp;</span></p>
+<p><span size="2"><strong>D</strong></span>ependency Inversion: Depend on Abstractions and Interfaces</p>
+<p><br></p>
+<p><u><strong>Unified Modeling Language (UML)</strong></u></p>
+<p><strong>Structural diagrams</strong></p>
+<ul>
+    <li>
+        <p>Class diagram</p>
+    </li>
+    <li>
+        <p>Component diagram</p>
+    </li>
+</ul>
+<p><strong>Behavioral diagrams</strong></p>
+<ul>
+    <li>
+        <p>Use case diagram</p>
+    </li>
+    <li>
+        <p>Sequence diagram</p>
+    </li>
+</ul>
+<p><span size="2"><strong>Relationships</strong></span>: Association (Owner), Aggregation (Wheel), Composition (Frame) &ndash; bicycle</p>
+<p><br></p>
+<p><br></p>
+<p><u><strong>V-Model</strong></u></p>
+<p><span size="2"><strong>Verification</strong></span>: Are you doing what is written?</p>
+<p><span size="2"><strong>Validation</strong></span>: Is the description good?</p>
+<table cellpadding="5" cellspacing="0" width="964">
+    <tbody>
+        <tr>
+            <td width="50%">
+                <p><u><strong>C ryptography</strong></u></p>
+            </td>
+            <td width="50%">
+                <p><br></p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<ul>
+    <li>
+        <p><span size="2"><strong>Symmetric</strong></span> (secret key)</p>
+        <ul>
+            <li>
+                <p><span size="2"><em>Block cipher</em></span>: AES, DES, Twofish</p>
+            </li>
+            <li>
+                <p><span size="2"><em>Stream cipher</em></span>: RC4</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p><span size="2"><strong>Asymmetric</strong></span> (public and private key): DSA, RSA</p>
+    </li>
+    <li>
+        <p><span size="2"><strong>Hash functions</strong></span>: MD5, SHA</p>
+    </li>
+</ul>
+<p><br></p>
+<p><u><strong>Method Parameters</strong></u></p>
+<table cellpadding="5" cellspacing="0" width="969">
+    <tbody>
+        <tr>
+            <td height="11" valign="bottom" width="19.69860064585576%">
+                <p><br></p>
+            </td>
+            <td valign="bottom" width="11.733046286329387%">
+                <p><strong>Value type</strong></p>
+            </td>
+            <td valign="bottom" width="15.392895586652314%">
+                <p><strong>Reference type</strong></p>
+            </td>
+            <td valign="top" width="53.17545748116254%">
+                <p><br></p>
+            </td>
+        </tr>
+        <tr>
+            <td height="11" valign="bottom" width="19.69860064585576%">
+                <p><strong>Pass by value (Java)</strong></p>
+            </td>
+            <td valign="bottom" width="11.733046286329387%">
+                <p>Copy of data</p>
+            </td>
+            <td valign="bottom" width="15.392895586652314%">
+                <p>Copy of reference</p>
+            </td>
+            <td valign="top" width="53.17545748116254%">
+                <p><br></p>
+            </td>
+        </tr>
+        <tr>
+            <td height="11" valign="bottom" width="19.69860064585576%">
+                <p><strong>Pass by reference</strong></p>
+            </td>
+            <td valign="bottom" width="11.733046286329387%">
+                <p>Data</p>
+            </td>
+            <td valign="bottom" width="15.392895586652314%">
+                <p>Reference</p>
+            </td>
+            <td valign="top" width="53.17545748116254%">
+                <p><br></p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p><br></p>
+<table cellpadding="5" cellspacing="0" width="100%">
+    <tbody>
+        <tr>
+            <td width="50%">
+                <p>String str = new String(&quot;&quot;); // int, Integer, ...</p>
+                <p>String strRef = str;</p>
+                <p>str = &quot;abc&quot;; // str = &quot;abc&quot;, strRef = &quot;&quot;</p>
+                <p>StringBuilder strBuilder = new StringBuilder(); // Date, array, ...</p>
+                <p>StringBuilder strBuilderRef = strBuilder;</p>
+                <p>strBuilder.append(&quot;abc&quot;); // strBuilder = &quot;abc&quot;, strBuilderRef = &quot;abc&quot;</p>
+            </td>
+            <td width="50%">
+                <p>increment(int value) { value++; } // 0 &rarr; 0</p>
+                <p><span size="2">increment(IntHolder&nbsp;</span>ih<span size="2">) {&nbsp;</span>ih.value++; } // 0 &rarr; 1</p>
+                <p><span size="2">increment(IntHolder&nbsp;</span>ih<span size="2">) {&nbsp;</span>ih<span size="2">&nbsp;= new IntHolder();&nbsp;</span>ih.value++; } // 0 &rarr; 0</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p><br></p>
+<p><u><strong>Collection API</strong></u></p>
+<ul>
+    <li>
+        <p>Vector: synchronized</p>
+    </li>
+    <li>
+        <p>ArrayList: not synchronized</p>
+    </li>
+    <li>
+        <p>LinkedList: get - slow, add/remove: fast</p>
+    </li>
+    <li>
+        <p>CopyOnWriteArrayList: thread-safe (copy instead of synchronization)</p>
+    </li>
+    <li>
+        <p>HashSet: unordered, no duplicate</p>
+    </li>
+</ul>
+<p><br></p>
+<p><u><strong>Exceptions</strong></u></p>
+<p>Checked (compile time) or Unchecked (run time)</p>
+<p>try-with-resources (AutoCloseable): try (InputStream in = ...) { ... }</p>
+<p><br></p>
+<p><u><strong>Garbage Collection</strong></u></p>
+<p>Automatic reclaimer on the heap (Serial, Parallel, CMS, G1)</p>
+<p><br></p>
+<p><u><strong>JUnit</strong></u></p>
+<p><span size="2">JUnit4:&nbsp;</span></p>
+<ul>
+    <li>
+        <p>@BeforeClass, @AfterClass, @Before, @After, @Test&nbsp;</p>
+    </li>
+    <li>
+        <p>@RunWith(Parameterized.class), @Parameters + constructor</p>
+    </li>
+</ul>
+<p><span size="2">JUnit5:&nbsp;</span></p>
+<ul>
+    <li>
+        <p>@BeforeAll, @AfterAll, @BeforeEach, @AfterEach, @Test&nbsp;</p>
+    </li>
+    <li>
+        <p>@ParameterizedTest, @ValueSource(ints = {1, 3, 5}), @MethodSource + Stream</p>
+    </li>
+</ul>
+<p><br></p>
+<p><u><strong>Multithreading</strong></u></p>
+<p>class MyThread extends Thread { run() {} } --&gt; new MyThread().start();</p>
+<p>class MyRunnable implements Runnable { run() {} } --&gt; new Thread(runnable).start();</p>
+<p>Lambda Expression: Runnable runnable = () -&gt; System.out.println(&quot;New thread created&quot;); new Thread(runnable).start();</p>
+<p>Methods: isAlive, setDaemon, start, run, join</p>
+<p><br></p>
+<p><u><strong>Mutable and Immutable Objects</strong></u></p>
+<p>Mutable (modifiable): StringBuffer, StringBuilder, Date, Vector, ...</p>
+<p>Immutable: String, Instant, record, Integer, ...</p>
+<p>Thread-safe: String (Immutable), StringBuffer (Synchronized)</p>
+<p><br></p>
+<p><u><strong>Comparison</strong></u></p>
+<p><span size="2"><strong>Interface Comparable&lt;T&gt;&nbsp;</strong></span>// single sorting</p>
+<p>public int compareTo(Shape o) {}</p>
+<p>Collections.sort(shapes);</p>
+<p><span size="2"><strong>Interface Comparator&lt;T&gt;&nbsp;</strong></span>// multiple sorting</p>
+<p>public int compare(Shape o1, Shape o2) {}</p>
+<p>Collections.sort(shapes, new ShapeComparer());</p>
+<p><u><strong>Stream API</strong></u></p>
+<ul>
+    <li>
+        <p>Intermediate operations: filter, map (stateless); distinct, sorted (stateful)&nbsp;</p>
+    </li>
+    <li>
+        <p>Terminal operations: forEach, reduce, sum, collect; anyMatch, findFirst, groupingBy</p>
+    </li>
+    <li>
+        <p>filter-map-reduce examples:&nbsp;</p>
+        <ul>
+            <li>
+                <p>employees.stream().filter(e -&gt; e.getDepartment().equals(&quot;HR&quot;)).mapToInt(e -&gt; e.getSalary()).sum();</p>
+            </li>
+            <li>
+                <p>employees.stream().map(Employee::getName).collect(Collectors.toList());</p>
+            </li>
+            <li>
+                <p>IntStream.range(0, 5).boxed().map(x -&gt; x * 2).collect(Collectors.toList());</p>
+            </li>
+            <li>
+                <p>Map&lt;String, List&lt;Employee&gt;&gt; map = employees.stream().collect(Collectors.groupingBy(Employee::getDepartment));<br>&nbsp;map.values().stream().flatMap(List::stream).forEach(System.out::println);</p>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+   <h1>SQL</h1>
+	
+    <h2>Example (ToDo)</h2>
+    <div class="code"><code><pre>	
+SELECT * FROM Customers;
+SELECT CustomerName, City FROM Customers;
+SELECT * FROM Customers WHERE Country='Germany' AND City='Berlin';
+SELECT * FROM Customers ORDER BY Country;
+
+INSERT INTO Customers (CustomerName, ContactName) VALUES ('Cardinal', 'Tom B. Erichsen');
+UPDATE Customers SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE CustomerID = 1;
+DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
+SELECT MIN(Price) AS SmallestPrice FROM Products;
+SELECT COUNT(ProductID) FROM Products;
+SELECT SUM(Quantity) FROM OrderDetails;
+SELECT * FROM Customers WHERE Country IN ('Germany', 'France', 'UK');
+
+The <b>HAVING</b> clause was added to SQL because the <b>WHERE</b> keyword cannot be used with <b>aggregate</b> functions.
+SELECT COUNT(CustomerID), Country
+FROM Customers
+GROUP BY Country
+HAVING COUNT(CustomerID) > 5;
+
+SELECT Orders.OrderID, Customers.CustomerName
+       FROM Orders <b>INNER JOIN</b> Customers ON Orders.CustomerID=Customers.CustomerID;
+	   
+<b>Group By</b> arranges similar data into groups and <b>Order By</b> sorts the data in ascending or descending order	   
+SELECT COUNT(CustomerID), Country
+FROM Customers
+GROUP BY Country
+ORDER BY COUNT(CustomerID) DESC;
+
+SELECT COUNT(CustomerID), Country FROM Customers GROUP BY Country;
+
+A stored procedure is a prepared SQL code that you can save, so the code can be reused over and over again.
+CREATE PROCEDURE SelectAllCustomers AS SELECT * FROM Customers GO;
+EXEC SelectAllCustomers;
+
+A <b>trigger</b> is a stored procedure which automatically invokes whenever an event occurs(a row is inserted, or columns are updated)
+create trigger stud_marks 
+before INSERT 
+on 
+Student 
+for each row 
+set Student.total = Student.subj1 + Student.subj2 + Student.subj3, Student.per = Student.total * 60 / 100;
+
+
+SQL Server / Oracle / MS Access:
+CREATE DATABASE testDB;
+DROP DATABASE testDB;
+CREATE TABLE Persons (
+    ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    LastName varchar(255)
+);
+ALTER TABLE Customers ADD Email varchar(255);
+
+<b>PostgreSQL</b>
+CREATE TABLE po_headers (
+	po_no INTEGER PRIMARY KEY,
+	vendor_no INTEGER,
+	description TEXT
+);
+
+SQL Constraints
+NOT NULL - Ensures that a column cannot have a NULL value
+UNIQUE - Ensures that all values in a column are different
+PRIMARY KEY - A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table
+FOREIGN KEY - Prevents actions that would destroy links between tables. 
+	FOREIGN KEY is a field(s) in one table, that refers to the PRIMARY KEY in another table.
+CHECK - Ensures that the values in a column satisfies a specific condition
+DEFAULT - Sets a default value for a column if no value is specified
+CREATE INDEX - Used to create and retrieve data from the database very quickly
+
+Date:
+SELECT * FROM Orders WHERE OrderDate='2008-11-11'
+
+
+PostgreSQL Data Types
+boolean, alias: bool
+integer, alias: int
+character(n), alias: char [ (n) ]
+character varying(n) or text, alias: varchar [ (n) ]
+
+<b>KNORR BREMSE</b>
+
+DROP TABLE if exists projects,issues CASCADE;
+
+CREATE TABLE issues (
+	iid         serial PRIMARY KEY,
+	pid         integer REFERENCES projects(pid) NOT NULL,
+	creator     varchar(255) NOT NULL,
+	description text,
+	updated     timestamp
+);
+
+CREATE TYPE customtype AS ENUM ('timestamp', 'label');
+
+INSERT INTO versions (vid, pid, name) values (DEFAULT,1,'1.0');
+
+
+Statement statement = connection.createStatement();                               
+ResultSet resultSet = statement.executeQuery("SELECT cfid,name,type FROM customfields ORDER BY cfid ASC");    
+resultSet.next();
+issue.setId(resultSet.getInt(1));
+
+<p><img src="images/join.png"/></p>
+<p><img src="https://lh6.googleusercontent.com/I7BWNmU-rtwMozqKzbWBRgnk2sIv1a1FGElwOheS4ybu8o8erqvNR8Z57CsHndxMpdKlUq8jqaDqyUt7pR775-lSupnm_Cqe5nyncxH3eh0MTf3IA2cWz_8rnMWyDXFIrf-z_MM18zMVs_rQuiIigOw"/></p>
+</pre></code></div>	
+
+  </body>
 </html>
