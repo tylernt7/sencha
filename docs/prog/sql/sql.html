@@ -7,111 +7,229 @@
   <body>
     <h1>SQL</h1>
 	
-    <h2>Example (ToDo)</h2>
-    <div class="code"><code><pre>	
-SELECT * FROM Customers;
-SELECT CustomerName, City FROM Customers;
-SELECT * FROM Customers WHERE Country='Germany' AND City='Berlin';
-SELECT * FROM Customers ORDER BY Country;
+	<h2>Introduction</h2>
+	<p><b>SQL</b> (Structured Query Language): ANSI/ISO standard language for accessing and manipulating databases. SQL is pronounced as S-Q-L or Sequel</p>
+	<p><b>RDBMS</b> (Relational DataBase Management System): The data in RDBMS is stored in database objects called tables. A table is a collection of related data entries and it consists of <i>fields</i> (columns) and <i>records</i> (rows).</p>
+	
+	<h2>Queries</h2>
+	<p>The <i>HAVING</i> clause was added to SQL because the <i>WHERE</i> keyword cannot be used with aggregate functions (COUNT, AVG, SUM, MIN and MAX)</p>
+	<p><i>GROUP BY</i> arranges records (with the same values) into groups and <i>ORDER BY</i> sorts the records in ascending or descending order</p>
+	
+	<p>Select all the customers from the country "Germany" or "UK" who are older than 30:</p>
+	<div class="code"><code><pre>
+SELECT *
+FROM Customers
+WHERE Country IN ('Germany','UK') AND Age>30;</pre></code></div>
 
-INSERT INTO Customers (CustomerName, ContactName) VALUES ('Cardinal', 'Tom B. Erichsen');
-UPDATE Customers SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE CustomerID = 1;
-DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
-SELECT MIN(Price) AS SmallestPrice FROM Products;
-SELECT COUNT(ProductID) FROM Products;
-SELECT SUM(Quantity) FROM OrderDetails;
-SELECT * FROM Customers WHERE Country IN ('Germany', 'France', 'UK');
-
-The <b>HAVING</b> clause was added to SQL because the <b>WHERE</b> keyword cannot be used with <b>aggregate</b> functions.
-SELECT COUNT(CustomerID), Country
+	<p>List the countries with more than 5 customers. Sort the countries in descending order (high to low):</p>
+	<div class="code"><code><pre>
+SELECT Country, COUNT(CustomerID) AS TotalCustomers
 FROM Customers
 GROUP BY Country
-HAVING COUNT(CustomerID) > 5;
+HAVING COUNT(CustomerID) > 5
+ORDER BY Country DESC;</pre></code></div>
 
-SELECT Orders.OrderID, Customers.CustomerName
-       FROM Orders <b>INNER JOIN</b> Customers ON Orders.CustomerID=Customers.CustomerID;
-	   
-<b>Group By</b> arranges similar data into groups and <b>Order By</b> sorts the data in ascending or descending order	   
-SELECT COUNT(CustomerID), Country
+	<p>Select records that have matching values in both "Customers" and "Orders" tables:</p>
+	<div class="code"><code><pre>
+SELECT Customers.CustomerName, Orders.OrderDate
 FROM Customers
-GROUP BY Country
-ORDER BY COUNT(CustomerID) DESC;
+INNER JOIN Orders 
+ON Customers.CustomerID=Orders.CustomerID;</pre></code></div>
 
-SELECT COUNT(CustomerID), Country FROM Customers GROUP BY Country;
-
-A stored procedure is a prepared SQL code that you can save, so the code can be reused over and over again.
-CREATE PROCEDURE SelectAllCustomers AS SELECT * FROM Customers GO;
-EXEC SelectAllCustomers;
-
-A <b>trigger</b> is a stored procedure which automatically invokes whenever an event occurs(a row is inserted, or columns are updated)
-create trigger stud_marks 
-before INSERT 
-on 
-Student 
-for each row 
-set Student.total = Student.subj1 + Student.subj2 + Student.subj3, Student.per = Student.total * 60 / 100;
-
-
-SQL Server / Oracle / MS Access:
-CREATE DATABASE testDB;
-DROP DATABASE testDB;
-CREATE TABLE Persons (
-    ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    LastName varchar(255)
-);
-ALTER TABLE Customers ADD Email varchar(255);
-
-<b>PostgreSQL</b>
-CREATE TABLE po_headers (
-	po_no INTEGER PRIMARY KEY,
-	vendor_no INTEGER,
-	description TEXT
-);
-
-SQL Constraints
-NOT NULL - Ensures that a column cannot have a NULL value
-UNIQUE - Ensures that all values in a column are different
-PRIMARY KEY - A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table
-FOREIGN KEY - Prevents actions that would destroy links between tables. 
-	FOREIGN KEY is a field(s) in one table, that refers to the PRIMARY KEY in another table.
-CHECK - Ensures that the values in a column satisfies a specific condition
-DEFAULT - Sets a default value for a column if no value is specified
-CREATE INDEX - Used to create and retrieve data from the database very quickly
-
-Date:
-SELECT * FROM Orders WHERE OrderDate='2008-11-11'
-
-
-PostgreSQL Data Types
-boolean, alias: bool
-integer, alias: int
-character(n), alias: char [ (n) ]
-character varying(n) or text, alias: varchar [ (n) ]
-
-<b>KNORR BREMSE</b>
-
-DROP TABLE if exists projects,issues CASCADE;
-
-CREATE TABLE issues (
-	iid         serial PRIMARY KEY,
-	pid         integer REFERENCES projects(pid) NOT NULL,
-	creator     varchar(255) NOT NULL,
-	description text,
-	updated     timestamp
-);
-
-CREATE TYPE customtype AS ENUM ('timestamp', 'label');
-
-INSERT INTO versions (vid, pid, name) values (DEFAULT,1,'1.0');
-
-
-Statement statement = connection.createStatement();                               
-ResultSet resultSet = statement.executeQuery("SELECT cfid,name,type FROM customfields ORDER BY cfid ASC");    
-resultSet.next();
-issue.setId(resultSet.getInt(1));
-
-<p><img src="images/join.png"/></p>
-<p><img src="https://lh6.googleusercontent.com/I7BWNmU-rtwMozqKzbWBRgnk2sIv1a1FGElwOheS4ybu8o8erqvNR8Z57CsHndxMpdKlUq8jqaDqyUt7pR775-lSupnm_Cqe5nyncxH3eh0MTf3IA2cWz_8rnMWyDXFIrf-z_MM18zMVs_rQuiIigOw"/></p>
+	<h2>Different Types of SQL JOINs</h2>
+<center><img src="images/joins.png" width="60%" height="60%"/></center>	
 </pre></code></div>	
+
+	<h2>Updates</h2>
+	<p>Create a database called "testDB", and then delete it:</p>
+	<div class="code"><code><pre>
+CREATE DATABASE testDB;
+DROP DATABASE testDB;</pre></code></div>	
+	
+	<p>Create a table that contains columns using autoincrementing integer (serial). Before that, delete objects (such as views) that depend on the table (CASCADE)<br><i>PostgreSQL</i>:</p>
+	<div class="code"><code><pre>
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TYPE IF EXISTS order_status CASCADE;
+
+CREATE TYPE order_status AS ENUM ('open', 'pending', 'complete');
+CREATE TABLE orders (
+    order_id     serial PRIMARY KEY,
+    customer_id  integer REFERENCES customers(customer_id) NOT NULL,    
+    order_number varchar(40) NOT NULL,
+    description  text,
+    order_date   timestamp,
+    status       order_status,
+    total        numeric
+);
+
+INSERT INTO orders (order_id, customer_id, order_number, order_date, status, total)
+VALUES (DEFAULT, 1, "112-9019047-2947466", TO_TIMESTAMP('2017-03-31 9:30:20', 'YYYY-MM-DD HH24:MI:SS'), 'open', 39.2);
+</pre></code></div>
+	
+	<p>Update the Name to "Juan" for all records where country is "Mexico" and delete all the customers "Ricardo" from the "Customers" table:</p>
+	<div class="code"><code><pre>
+UPDATE Customers
+SET Name='Juan'
+WHERE Country='Mexico';
+
+DELETE FROM Customers WHERE Name='Ricardo';
+</pre></code></div>
+	
+	<p>Delete all rows in a table without deleting the table. The table structure, attributes, and indexes will be unchanged:</p>
+	<div class="code"><code><pre>
+DELETE FROM Customers;
+</pre></code></div>
+	
+	<p>Add an "Email" column to the "Customers" table and delete "Country" column:</p>
+	<div class="code"><code><pre>
+ALTER TABLE Customers
+ADD COLUMN Email varchar(255);
+ALTER TABLE Customers
+DROP COLUMN Country;
+</pre></code></div>
+
+	<p>Add primary and foreign key constraints to a table<br><i>PostgreSQL</i>:</p>
+	<div class="code"><code><pre>
+ALTER TABLE orders ADD CONSTRAINT orders_pk PRIMARY KEY (order_id);
+ALTER TABLE orders ADD CONSTRAINT orders_fk FOREIGN KEY (customer_id) REFERENCES customers (customer_id);
+</pre></code></div>
+	
+	<h2>SQL Constraints</h2>	
+	<ul>
+	<li>NOT NULL - Ensures that a column cannot have a NULL value</li>
+	<li>UNIQUE - Ensures that all values in a column are different</li>
+	<li>PRIMARY KEY - A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table</li>
+	<li>FOREIGN KEY - A field in one table, that refers to the PRIMARY KEY in another table</li>
+	<li>CHECK - Ensures that the values in a column satisfies a specific condition</li>
+	<li>DEFAULT - Sets a default value for a column if no value is specified</li>
+	<li>CREATE INDEX - Used to create and retrieve data from the database very quickly</li>	
+	</ul>
+	
+	<h2>Stored Procedures</h2>
+	<p>A stored procedure is a prepared SQL code (query) that you can save, so the code can be reused over and over again. You can also pass parameters to a stored procedure</p>
+	<i>SQL Server</i>:
+	<div class="code"><code><pre>
+CREATE PROCEDURE SelectAllCustomers @Country varchar(30)
+AS
+SELECT * FROM Customers WHERE Country = @Country
+
+EXEC SelectAllCustomers @Country = 'Germany';
+</pre></code></div>	
+	<i>PostgreSQL</i>:<br>
+String constant (definition) form for all languages, parsed at execution time:
+	<div class="code"><code><pre>
+CREATE OR REPLACE PROCEDURE select_all_customers(country varchar(30))
+LANGUAGE plpgsql
+AS 
+$$
+BEGIN
+  SELECT * FROM Customers WHERE Country = country;
+END
+$$;
+
+CALL select_all_customers('Germany');
+</pre></code></div>	
+or LANGUAGE SQL (sql_body) form for LANGUAGE SQL, parsed at procedure definition time:
+	<div class="code"><code><pre>
+CREATE OR REPLACE PROCEDURE select_all_customers(country varchar(30))
+LANGUAGE SQL
+BEGIN ATOMIC
+  SELECT * FROM Customers WHERE Country = country;
+END;
+
+CALL select_all_customers('Germany');
+</pre></code></div>	
+	
+	<h2>Triggers</h2>
+	<p>A trigger is a stored procedure that automatically runs when an event occurs (a row is inserted or columns are updated)</p>
+	<i>SQL Server</i>:
+	<div class="code"><code><pre>
+CREATE TRIGGER reminder  
+ON Customers  
+BEFORE INSERT  
+AS RAISERROR ('Notify Customer Relations', 16, 10);    
+</pre></code></div>	
+	<i>PostgreSQL</i>:<br>
+	<div class="code"><code><pre>
+CREATE OR REPLACE FUNCTION raise_exception()
+RETURNS TRIGGER 
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+  RAISE EXCEPTION 'Notify Customer Relations';
+END
+$$;
+
+CREATE TRIGGER reminder
+    BEFORE INSERT ON customers
+    FOR EACH ROW
+    EXECUTE PROCEDURE raise_exception();
+</pre></code></div>	
+	
+	<h2>Indexes</h2>
+	<p>Indexes are used to retrieve data from the database more quickly than otherwise. They are used to speed up searches/queries.</p>
+	<p>Updating a table with indexes takes more time than updating a table without (because the indexes also need an update). So, only create indexes on columns that will be frequently searched against.</p>
+	<p><i>SELECT Country FROM Customers WHERE CustomerID = constant AND Name = constant;</i></p>
+	<i>SQL Server</i>:
+	<div class="code"><code><pre>
+CREATE INDEX IX_Customers_CustomerID
+  ON Customers (CustomerID DESC, Name ASC);
+
+CREATE CLUSTERED INDEX IX_Customers_CustomerID 
+  ON Customers (CustomerID, Name);
+
+CREATE UNIQUE INDEX IX_Customers_Name
+  ON Customers(Name);
+
+DROP INDEX IX_Customers_CustomerID   
+  ON Customers;  
+</pre></code></div>	
+	<i>PostgreSQL</i>:<br>
+	<div class="code"><code><pre>
+CREATE INDEX customers_customer_id_index 
+ON customers (customer_id DESC, name ASC);
+
+CREATE UNIQUE INDEX customers_name_index
+ON customers(name);
+  
+DROP INDEX customers_customer_id_index;
+</pre></code></div>		
+	
+    <h2>Java DataBase Connectivity (JDBC) </h2>
+    <div class="code"><code><pre>
+try {
+    con.setAutoCommit(false);
+
+    Statement stmt = con.createStatement();
+	
+    ResultSet rs = stmt.executeQuery("SELECT ...");
+    rs.next();
+    String name = rs.getString("NAME"); // rs.getString(1);
+
+    int rows = stmt.executeUpdate("UPDATE ...");
+
+    stmt.addBatch("INSERT ...");
+    stmt.addBatch("INSERT ...");
+    stmt.executeBatch();
+
+    con.commit();	
+} catch (SQLException e) {
+    con.rollback();    
+} finally {
+    con.setAutoCommit(true);
+}
+</pre></code></div>	
+
+
   </body>
 </html>
+
+
+
+
+
+
+
+
+
