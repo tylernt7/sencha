@@ -2,3 +2,7 @@
   border: 1px outset gray;
   background-color: lightgray;    
 }
+
+ul, pre {
+  margin: 0;
+}

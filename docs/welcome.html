@@ -151,17 +151,17 @@
       <tbody>
           <tr>
               <td width="50%">
-                  String str = new String(""); // int, Integer, ...<br>
-                  String strRef = str;<br>
-                  str = "abc"; // str = "abc", strRef = ""<br>
-                  StringBuilder strBuilder = new StringBuilder(); // Date, array, ...<br>
-                  StringBuilder strBuilderRef = strBuilder;<br>
-                  strBuilder.append("abc"); // strBuilder = "abc", strBuilderRef = "abc"
+<pre>String str = new String(""); // int, Integer, ...
+String strRef = str;
+str = "abc"; // str = "abc", strRef = ""
+StringBuilder strBuilder = new StringBuilder(); // Date, array, ...
+StringBuilder strBuilderRef = strBuilder;
+strBuilder.append("abc"); // strBuilder = "abc", strBuilderRef = "abc"</pre>
               </td>
               <td width="50%">
-                  increment(int value) { value++; } // 0 &rarr; 0<br>
-                  increment(IntHolder ih) { ih.value++; } // 0 &rarr; 1<br>
-                  increment(IntHolder ih) { ih = new IntHolder(); ih.value++; } // 0 &rarr; 0
+<pre>increment(int value) { value++; } // 0 &rarr; 0
+increment(IntHolder ih) { ih.value++; } // 0 &rarr; 1
+increment(IntHolder ih) { ih = new IntHolder(); ih.value++; } // 0 &rarr; 0</pre>
               </td>
           </tr>
       </tbody>
@@ -196,9 +196,9 @@
   </ul>
   <br>
   <u><b>Multithreading</b></u><br>
-  class MyThread extends Thread { run() {} } &rarr; new MyThread().start();<br>
-  class MyRunnable implements Runnable { run() {} } &rarr; new Thread(runnable).start();<br>
-  Lambda Expression: Runnable runnable = () &rarr; System.out.println("New thread created"); new Thread(runnable).start();<br>
+  <pre>class MyThread extends Thread { run() {} } ... new MyThread().start();
+class MyRunnable implements Runnable { run() {} } ... new Thread(runnable).start();</pre>
+  <b>Lambda Expression</b>: <pre>Runnable runnable = () -> System.out.println("New thread created"); new Thread(runnable).start();</pre>
   Methods: isAlive, setDaemon, start, run, join<br>
   <br>
   <u><b>Mutable and Immutable Objects</b></u><br>
@@ -207,35 +207,36 @@
   Thread-safe: String (Immutable), StringBuffer (Synchronized)<br>
   <br>
   <u><b>Comparison</b></u><br>
-  <b>Interface Comparable&lt;T&gt;</b> // single sorting<br>
-  public int compareTo(Shape o) {}<br>
-  Collections.sort(shapes);<br>
-  <b>Interface Comparator&lt;T&gt;</b> // multiple sorting<br>
-  public int compare(Shape o1, Shape o2) {}<br>
-  Collections.sort(shapes, new ShapeComparer());<br>
+  <pre><b>Interface Comparable&lt;T&gt;</b> // single sorting
+public int compareTo(Shape o) {}
+Collections.sort(shapes);
+<b>Interface Comparator&lt;T&gt;</b> // multiple sorting
+public int compare(Shape o1, Shape o2) {}
+Collections.sort(shapes, new ShapeComparer());</pre>
   <br>
   <u><b>Stream API</b></u>
   <ul>
-      <li>Intermediate operations: filter, map (stateless); distinct, sorted (stateful) </li>
-      <li>Terminal operations: forEach, reduce, sum, collect; anyMatch, findFirst, groupingBy</li>
-      <li>filter-map-reduce examples: 
+      <li><b>Intermediate operations</b>: filter, map (stateless); distinct, sorted (stateful) </li>
+      <li><b>Terminal operations</b>: forEach, reduce, sum, collect; anyMatch, findFirst, groupingBy</li>
+      <li>filter-map-reduce examples	  
           <ul>
               <li>
-                  employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();
+                  <pre>employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();</pre>
               </li>
               <li>
-                  employees.stream().map(Employee::getName).collect(Collectors.toList());
+                  <pre>employees.stream().map(Employee::getName).collect(Collectors.toList());</pre>
               </li>
               <li>
-                  IntStream.range(0, 5).boxed().map(x -&gt; x * 2).collect(Collectors.toList());
+                  <pre>IntStream.range(0, 5).boxed().map(x -&gt; x * 2).collect(Collectors.toList());</pre>
               </li>
               <li>
-                  Map&lt;String, List&lt;Employee&gt;&gt; map = employees.stream().collect(Collectors.groupingBy(Employee::getDepartment));<br> map.values().stream().flatMap(List::stream).forEach(System.out::println);
+                  <pre>Map&lt;String, List&lt;Employee&gt;&gt; map = employees.stream().collect(Collectors.groupingBy(Employee::getDepartment));
+map.values().stream().flatMap(List::stream).forEach(System.out::println);</pre>
               </li>
-          </ul>
+          </ul>		  
       </li>
   </ul>
-  
+  <br>
   <u><b>Structured Query Language (SQL)</b></u><br>
   <pre>
   <b>SELECT</b> Country, COUNT(CustomerID) AS TotalCustomers
