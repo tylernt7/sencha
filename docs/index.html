@@ -5,11 +5,31 @@
   <link rel="stylesheet" href="iframe.css">
 </head>
 <body>
+
 <div id="left-div">
   <iframe id="left-iframe" src="topics.html"></iframe>
 </div>
+
 <div id="right-div">
   <iframe id="right-iframe" name="page" src="welcome.html"></iframe>
+  
+<button onclick="toggle(this);">Hide frame</button>
+<script>
+  let toggle = button => {
+    let element = document.getElementById("left-div");
+    let hidden = element.getAttribute("hidden");
+    
+    if (hidden) {
+       element.removeAttribute("hidden");
+       button.innerText = "Hide frame";
+    } else {
+       element.setAttribute("hidden", "hidden");
+       button.innerText = "Show frame";
+    }
+  }
+</script>
+  
 </div>
+
 </body>
 </html>

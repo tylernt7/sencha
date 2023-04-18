@@ -6,8 +6,7 @@
   </head>
   <body>
 
-  <u><b>REST API</b></u><br>
-  <b>REST API</b> (<b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer - <b>A</b>pplication <b>P</b>rogramming <b>I</b>nterface)
+  <u><b>REST API</b></u> (<b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer - <b>A</b>pplication <b>P</b>rogramming <b>I</b>nterface)
   <ul>
       <li>Client-server architecture</li>
       <li>Stateless protocol</li>
@@ -29,8 +28,7 @@
       <li>Other implementations: RESTeasy, Apache CXF, Restlet</li>
   </ul>
   <br>
-  <u><b>Model-View-Controller</b></u><br>
-  <b>MVC</b> (<b>M</b>odel <b>V</b>iew <b>C</b>ontroller)
+  <u><b>MVC</b></u> (<b>M</b>odel <b>V</b>iew <b>C</b>ontroller)
   <ul>
       <li>Model: data (business logic, persistence, validation, conversion)</li>
       <li>View: presentation (UI: grids, trees, panels)</li>
@@ -44,7 +42,7 @@
   <ul>
       <li>Abstract Factory</li>
       <li>Factory Method</li>
-      <li>Singleton: One global instance, private constructor (Runtime.exec())</li>
+      <li>Singleton: One global instance, private constructor - AppServices (CommsManager, Repository), Runtime.exec()</li>
   </ul>
   <b>Structural patterns</b>
   <ul>
@@ -59,7 +57,7 @@
       <li>Template Method</li>
   </ul>
   <br>
-  <u><b>Object-Oriented Programming (OOP)</b></u><br>
+  <u><b>OOP</b></u> (<b>O</b>bject-<b>O</b>riented <b>P</b>rogramming)<br>
   <b>Interface</b>: Declares methods (signatures/prototypes of methods), <i>"what"</i> to do but <i>"not how" </i>to do (JPA), contract/agreement<br>
   <b>Annotation</b> (a form of metadata): @interface MyAnnotation { String element1(); }<br>
   <b>Principles</b>
@@ -90,7 +88,7 @@
   <b>I</b>nterface Segregation: Avoid "fat" interfaces<br> 
   <b>D</b>ependency Inversion: Depend on Abstractions and Interfaces<br>
   <br>
-  <u><b>Unified Modeling Language (UML)</b></u><br>
+  <u><b>UML</b></u> (<b>U</b>nified <b>M</b>odeling <b>L</b>anguage)<br>
   <b>Structural diagrams</b>
   <ul>
       <li>Class diagram</li>
@@ -106,22 +104,18 @@
   <u><b>V-Model</b></u><br>
   <b>Verification</b>: Are you doing what is written?<br>
   <b>Validation</b>: Is the description good?<br>
+  <b>Traceability</b>: vertical, horizontal<br>
+  <b>Specification</b>: <i>Design Spec</i>, Architecture Spec, System <i>Req Spec</i>, User Req Spec<br>
+  <b>Testing</b>: Component, Integration, System, Acceptance<br>    
   <br>
-  <u><b>Cryptography</b></u>
+  <u><b>Cryptography</b></u><br>
+  <b>Symmetric</b> (secret key)
   <ul>
-      <li><b>Symmetric</b> (secret key)
-          <ul>
-              <li>
-                  <i>Block cipher</i>: AES, DES, Twofish
-              </li>
-              <li>
-                  <i>Stream cipher</i>: RC4
-              </li>
-          </ul>
-      </li>
-      <li><b>Asymmetric</b> (public and private key): DSA, RSA</li>
-      <li><b>Hash functions</b>: MD5, SHA</li>
+    <li><i>Block cipher</i>: AES, DES, Twofish</li>
+    <li><i>Stream cipher</i>: RC4</li>
   </ul>
+  <b>Asymmetric</b> (public and private key): DSA, RSA<br>
+  <b>Hash functions</b>: MD5, SHA<br>
   <br>
   <u><b>Method Parameters</b></u>
   <table border="1">
@@ -166,45 +160,43 @@ increment(IntHolder ih) { ih = new IntHolder(); ih.value++; } // 0 &rarr; 0</pre
           </tr>
       </tbody>
   </table>
+  <br>  
+  <u><b>Mutable and Immutable Objects</b></u><br>
+  <b>Mutable</b> (modifiable): StringBuffer, StringBuilder, Date, Vector, ...<br>
+  <b>Immutable</b>: String, Instant, record, Integer, ...<br>
+  <b>Thread-safe</b>: String (Immutable), StringBuffer (Synchronized)<br>  
   <br>
-  <u><b>Collection API</b></u>
-  <ul>
-      <li>Vector: synchronized</li>
-      <li>ArrayList: not synchronized</li>
-      <li>LinkedList: get - slow, add/remove: fast</li>
-      <li>CopyOnWriteArrayList: thread-safe (copy instead of synchronization)</li>
-      <li>HashSet: unordered, no duplicate</li>
-  </ul>
+  <u><b>Collection API</b></u><br>
+  <b>Vector</b>: synchronized<br>
+  <b>ArrayList</b>: not synchronized<br>
+  <b>LinkedList</b>: get - slow, add/remove: fast<br>
+  <b>CopyOnWriteArrayList</b>: thread-safe (copy instead of synchronization)<br>
+  <b>HashSet</b>: unordered, no duplicate<br>
   <br>
   <u><b>Exceptions</b></u><br>
-  Checked (compile time) or Unchecked (run time)<br>
-  try-with-resources (AutoCloseable): try (InputStream in = ...) { ... }<br>
+  <b>Checked</b> (compile time) or <b>Unchecked</b> (run time)<br>
+  <b>try-with-resources</b> (<i>AutoCloseable</i>): try (InputStream in = ...) { ... }<br>
   <br>
   <u><b>Garbage Collection</b></u><br>
-  Automatic reclaimer on the heap (Serial, Parallel, CMS, G1)<br>
+  Automatic reclaimer on the <i>heap</i> (Serial, Parallel, CMS, G1)<br>
   <br>
   <u><b>JUnit</b></u><br>
-  JUnit4: 
+  <b>JUnit4</b> 
   <ul>
-      <li>@BeforeClass, @AfterClass, @Before, @After, @Test</li>
-      <li>@RunWith(Parameterized.class), @Parameters + constructor</li>
+      <li><pre>@BeforeClass, @AfterClass, @Before, @After, @Test</pre></li>
+      <li><pre>@RunWith(Parameterized.class), @Parameters + constructor</pre></li>
   </ul>
-  JUnit5: 
+  <b>JUnit5</b> 
   <ul>
-      <li>@BeforeAll, @AfterAll, @BeforeEach, @AfterEach, @Test </li>
-      <li>@ParameterizedTest, @ValueSource(ints = {1, 3, 5}), @MethodSource + Stream</li>
+      <li><pre>@BeforeAll, @AfterAll, @BeforeEach, @AfterEach, @Test</pre></li>
+      <li><pre>@ParameterizedTest, @ValueSource(ints = {1, 3, 5}), @MethodSource + Stream</pre></li>
   </ul>
   <br>
   <u><b>Multithreading</b></u><br>
   <pre>class MyThread extends Thread { run() {} } ... new MyThread().start();
 class MyRunnable implements Runnable { run() {} } ... new Thread(runnable).start();</pre>
-  <b>Lambda Expression</b>: <pre>Runnable runnable = () -> System.out.println("New thread created"); new Thread(runnable).start();</pre>
-  Methods: isAlive, setDaemon, start, run, join<br>
-  <br>
-  <u><b>Mutable and Immutable Objects</b></u><br>
-  Mutable (modifiable): StringBuffer, StringBuilder, Date, Vector, ...<br>
-  Immutable: String, Instant, record, Integer, ...<br>
-  Thread-safe: String (Immutable), StringBuffer (Synchronized)<br>
+  <b>Lambda Expression</b>: Runnable runnable = () -> System.out.println("New thread created"); new Thread(runnable).start();<br>
+  <b>Methods</b>: isAlive, setDaemon, start, run, join<br>
   <br>
   <u><b>Comparison</b></u><br>
   <pre><b>Interface Comparable&lt;T&gt;</b> // single sorting
@@ -214,56 +206,46 @@ Collections.sort(shapes);
 public int compare(Shape o1, Shape o2) {}
 Collections.sort(shapes, new ShapeComparer());</pre>
   <br>
-  <u><b>Stream API</b></u>
+  <u><b>Stream API</b></u><br>
+  <b>Intermediate operations</b>: filter, map (stateless); distinct, sorted (stateful)<br>
+  <b>Terminal operations</b>: forEach, reduce, sum, collect; anyMatch, findFirst, groupingBy<br>
+  <b>filter-map-reduce</b> examples<br>	  
   <ul>
-      <li><b>Intermediate operations</b>: filter, map (stateless); distinct, sorted (stateful) </li>
-      <li><b>Terminal operations</b>: forEach, reduce, sum, collect; anyMatch, findFirst, groupingBy</li>
-      <li>filter-map-reduce examples	  
-          <ul>
-              <li>
-                  <pre>employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();</pre>
-              </li>
-              <li>
-                  <pre>employees.stream().map(Employee::getName).collect(Collectors.toList());</pre>
-              </li>
-              <li>
-                  <pre>IntStream.range(0, 5).boxed().map(x -&gt; x * 2).collect(Collectors.toList());</pre>
-              </li>
-              <li>
-                  <pre>Map&lt;String, List&lt;Employee&gt;&gt; map = employees.stream().collect(Collectors.groupingBy(Employee::getDepartment));
-map.values().stream().flatMap(List::stream).forEach(System.out::println);</pre>
-              </li>
-          </ul>		  
-      </li>
-  </ul>
+      <li><pre>employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();</pre></li>
+      <li><pre>employees.stream().map(Employee::getName).collect(Collectors.toList());</pre></li>			 
+      <li><pre>IntStream.range(0, 5).boxed().map(x -&gt; x * 2).collect(Collectors.toList());</pre></li>
+      <li><pre>Map&lt;String, List&lt;Employee&gt;&gt; map = employees.stream().collect(Collectors.groupingBy(Employee::getDepartment));
+map.values().stream().flatMap(List::stream).forEach(System.out::println);</pre></li>
+  </ul>		  
+
   <br>
-  <u><b>Structured Query Language (SQL)</b></u><br>
-  <pre>
-  <b>SELECT</b> Country, COUNT(CustomerID) AS TotalCustomers
-  FROM Customers
-  WHERE Country IN ('Germany','UK') AND Age>30
-  GROUP BY Country
-  HAVING COUNT(CustomerID) > 5
-  ORDER BY Country DESC;
-  <b>SELECT</b> * FROM A INNER JOIN B ON A.Key=B.Key;
-  <b>CREATE</b> TABLE ..., INSERT INTO ..., UPDATE ..., DELETE ...
-  <b>CREATE</b> TABLE orders (
-      order_id     serial PRIMARY KEY,
-      customer_id  integer REFERENCES customers(customer_id) NOT NULL, 
-      order_number varchar(40) NOT NULL,
-      description  text,
-      order_date   timestamp,
-      status       order_status,
-      total        numeric
-  );</pre>
+  <u><b>SQL</b></u> (<b>S</b>tructured <b>Q</b>uery <b>L</b>anguage)<br>
   <b>Stored Procedures</b>: saved SQL code to reuse again<br>
   <b>Triggers</b>: stored procedure that runs when an event occurs<br>
   <b>Indexes</b>: quick queries, on columns that are frequently searched<br>
-  <b>Java DataBase Connectivity (JDBC)</b> 
+  <b>JDBC (Java DataBase Connectivity)</b> 
   <ul>
   <li>Statement: executeQuery, executeUpdate, executeBatch</li>
   <li>Connection: setAutoCommit, commit, rollback</li>
-  </ul>
+  </ul>  
+  <pre><b>SELECT</b> Country, COUNT(CustomerID) AS TotalCustomers
+FROM Customers
+WHERE Country IN ('Germany','UK') AND Age>30
+GROUP BY Country
+HAVING COUNT(CustomerID) > 5
+ORDER BY Country DESC;
+<b>SELECT</b> * FROM A INNER JOIN B ON A.Key=B.Key;
+<b>CREATE</b> TABLE ..., INSERT INTO ..., UPDATE ..., DELETE ...
+<b>CREATE</b> TABLE orders (
+    order_id     serial PRIMARY KEY,
+    customer_id  integer REFERENCES customers(customer_id) NOT NULL, 
+    order_number varchar(40) NOT NULL,
+    description  text,
+    order_date   timestamp,
+    status       order_status,
+    total        numeric
+);</pre>
+
   
   </body>
 </html>
