@@ -6,57 +6,6 @@
   </head>
   <body>
 
-  <u><b>REST API</b></u> (<b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer - <b>A</b>pplication <b>P</b>rogramming <b>I</b>nterface)
-  <ul>
-      <li>Client-server architecture</li>
-      <li>Stateless protocol</li>
-      <li>Caching</li>
-      <li>Uniform interface</li>
-      <li>Layered system</li>
-      <li>Code on demand (optional)</li>
-  </ul>
-  <b>Request methods</b>
-  <ul>
-      <li>GET: Retrieve </li>
-      <li>POST: Create </li>
-      <li>PUT: Update (Create if not exist)</li>
-      <li>DELETE: Delete</li>
-  </ul>
-  <b>JAX-RS </b>(Specification): <b>J</b>ava <b>A</b>PI for <b>R</b>ESTful Web <b>S</b>ervices 
-  <ul>
-      <li>Reference Implementation: Jersey</li>
-      <li>Other implementations: RESTeasy, Apache CXF, Restlet</li>
-  </ul>
-  <br>
-  <u><b>MVC</b></u> (<b>M</b>odel <b>V</b>iew <b>C</b>ontroller)
-  <ul>
-      <li>Model: data (business logic, persistence, validation, conversion)</li>
-      <li>View: presentation (UI: grids, trees, panels)</li>
-      <li>Controller: handling user interactions (rendering, routing, instantiating)</li>
-  </ul>
-  <b>MVP</b> (<b>M</b>odel <b>V</b>iew <b>P</b>resenter)<br>
-  <b>MVVM</b> (<b>M</b>odel <b>V</b>iew <b>V</b>iew<b>M</b>odel)<br>
-  <br>
-  <u><b>Design Patterns</b></u><br>
-  <b>Creational patterns</b>
-  <ul>
-      <li>Abstract Factory</li>
-      <li>Factory Method</li>
-      <li>Singleton: One global instance, private constructor - AppServices (CommsManager, Repository), Runtime.exec()</li>
-  </ul>
-  <b>Structural patterns</b>
-  <ul>
-      <li>Composite</li>
-      <li>Decorator</li>
-  </ul>
-  <b>Behavioral patterns</b>
-  <ul>
-      <li>Chain of Responsibility: Pass the request until an object handles it (GUI object tree)</li>
-      <li>Observer: If one object changes, all dependents are notified and updated (MVC)</li>
-      <li>Strategy: Replaceable methods (Payment Methods: PayPal, Credit Card)</li>
-      <li>Template Method</li>
-  </ul>
-  <br>
   <u><b>OOP</b></u> (<b>O</b>bject-<b>O</b>riented <b>P</b>rogramming)<br>
   <b>Interface</b>: Declares methods (signatures/prototypes of methods), <i>"what"</i> to do but <i>"not how" </i>to do (JPA), contract/agreement<br>
   <b>Principles</b>
@@ -86,20 +35,49 @@
   <b>L</b>iskov Substitution: Substitutable subclasses<br>
   <b>I</b>nterface Segregation: Avoid "fat" interfaces<br> 
   <b>D</b>ependency Inversion: Depend on Abstractions and Interfaces<br>
+  <br>  
+  <u><b>MVC</b></u> (<b>M</b>odel <b>V</b>iew <b>C</b>ontroller)
+  <ul>
+      <li>Model: data (business logic, persistence, validation, conversion)</li>
+      <li>View: presentation (UI: grids, trees, panels)</li>
+      <li>Controller: handling user interactions (rendering, routing, instantiating)</li>
+  </ul>
+  <b>MVP</b> (<b>M</b>odel <b>V</b>iew <b>P</b>resenter)<br>
+  <b>MVVM</b> (<b>M</b>odel <b>V</b>iew <b>V</b>iew<b>M</b>odel)<br>  
   <br>
   <u><b>UML</b></u> (<b>U</b>nified <b>M</b>odeling <b>L</b>anguage)<br>
-  <b>Structural diagrams</b>
+  <b>Structure diagrams</b> (elements and relationships)
   <ul>
       <li>Class diagram</li>
       <li>Component diagram</li>
   </ul>
-  <b>Behavioral diagrams</b>
+  <b>Behavior diagrams</b> (interactions and messaging)
   <ul>
       <li>Use case diagram</li>
       <li>Sequence diagram</li>
   </ul>
   <b>Relationships</b>: Association (Owner), Aggregation (Wheel), Composition (Frame) - bicycle<br>
   <br>
+  <u><b>Design Patterns</b></u><br>
+  <b>Creational patterns</b>
+  <ul>
+      <li>Abstract Factory</li>
+      <li>Factory Method</li>
+      <li>Singleton: Use private constructor, share common data among objects (AppServices.isUserLoggedIn(), Runtime.exec())</li>
+  </ul>
+  <b>Structural patterns</b>
+  <ul>
+      <li>Composite</li>
+      <li>Decorator</li>
+  </ul>
+  <b>Behavioral patterns</b>
+  <ul>
+      <li>Chain of Responsibility: Pass the request until an object handles it (GUI object tree)</li>
+      <li>Observer: If one object changes, all dependents are notified and updated (MVC)</li>
+      <li>Strategy: Replaceable methods (Payment Methods: PayPal, Credit Card)</li>
+      <li>Template Method</li>
+  </ul>
+  <br>  
   <u><b>V-Model</b></u><br>
   <b>Verification</b>: Are you doing what is written?<br>
   <b>Validation</b>: Is the description good?<br>
@@ -163,7 +141,7 @@ increment(IntHolder ih) { ih = new IntHolder(); ih.value++; } // 0 &rarr; 0</pre
   <u><b>Mutable and Immutable Objects</b></u><br>
   <b>Mutable</b> (modifiable): StringBuffer, StringBuilder, Date, Vector, ...<br>
   <b>Immutable</b>: String, Instant, record, Integer, ...<br>
-  <b>Thread-safe</b>: String (Immutable), StringBuffer (Synchronized)<br>  
+  <b>Thread-safe</b>: String (immutable), StringBuffer (synchronized)<br>  
   <br>
   <u><b>Collection API</b></u><br>
   <b>Vector</b>: synchronized<br>
@@ -178,18 +156,6 @@ increment(IntHolder ih) { ih = new IntHolder(); ih.value++; } // 0 &rarr; 0</pre
   <br>
   <u><b>Garbage Collection</b></u><br>
   Automatic reclaimer on the <i>heap</i> (Serial, Parallel, CMS, G1)<br>
-  <br>
-  <u><b>JUnit</b></u><br>
-  <b>JUnit4</b> 
-  <ul>
-      <li><pre>@BeforeClass, @AfterClass, @Before, @After, @Test</pre></li>
-      <li><pre>@RunWith(Parameterized.class), @Parameters + constructor</pre></li>
-  </ul>
-  <b>JUnit5</b> 
-  <ul>
-      <li><pre>@BeforeAll, @AfterAll, @BeforeEach, @AfterEach, @Test</pre></li>
-      <li><pre>@ParameterizedTest, @ValueSource(ints = {1, 3, 5}), @MethodSource + Stream</pre></li>
-  </ul>
   <br>
   <u><b>Multithreading</b></u><br>
   <pre>class MyThread extends Thread { run() {} } ... new MyThread().start();
@@ -216,8 +182,21 @@ Collections.sort(shapes, new ShapeComparer());</pre>
       <li><pre>Map&lt;String, List&lt;Employee&gt;&gt; map = employees.stream().collect(Collectors.groupingBy(Employee::getDepartment));
 map.values().stream().flatMap(List::stream).forEach(System.out::println);</pre></li>
   </ul>		  
-
   <br>
+  
+  <u><b>JUnit</b></u><br>
+  <b>JUnit4</b> 
+  <ul>
+      <li><pre>@BeforeClass, @AfterClass, @Before, @After, @Test</pre></li>
+      <li><pre>@RunWith(Parameterized.class), @Parameters + constructor</pre></li>
+  </ul>
+  <b>JUnit5</b> 
+  <ul>
+      <li><pre>@BeforeAll, @AfterAll, @BeforeEach, @AfterEach, @Test</pre></li>
+      <li><pre>@ParameterizedTest, @ValueSource(ints = {1, 3, 5}), @MethodSource + Stream</pre></li>
+  </ul>
+  <br>
+  
   <u><b>SQL</b></u> (<b>S</b>tructured <b>Q</b>uery <b>L</b>anguage)<br>
   <b>Stored Procedures</b>: saved SQL code to reuse again<br>
   <b>Triggers</b>: stored procedure that runs when an event occurs<br>
@@ -226,16 +205,18 @@ map.values().stream().flatMap(List::stream).forEach(System.out::println);</pre><
   <ul>
   <li>Statement: executeQuery, executeUpdate, executeBatch</li>
   <li>Connection: setAutoCommit, commit, rollback</li>
-  </ul>  
-  <pre><b>SELECT</b> Country, COUNT(CustomerID) AS TotalCustomers
+  </ul> 
+  <b>Queries</b>  
+  <ul><li><pre>SELECT Country, COUNT(CustomerID) AS TotalCustomers
 FROM Customers
-WHERE Country IN ('Germany','UK') AND Age>30
+WHERE Country IN ('Germany','UK') AND Age > 30
 GROUP BY Country
 HAVING COUNT(CustomerID) > 5
-ORDER BY Country DESC;
-<b>SELECT</b> * FROM A INNER JOIN B ON A.Key=B.Key;
-<b>CREATE</b> TABLE ..., INSERT INTO ..., UPDATE ..., DELETE ...
-<b>CREATE</b> TABLE orders (
+ORDER BY Country DESC;</pre></li>
+<li><pre>SELECT * FROM A INNER JOIN B ON A.Key = B.Key;</pre></li></ul>
+  <b>Updates</b> 
+  <ul><li><pre>CREATE/DROP TABLE ..., INSERT INTO ... VALUES ..., UPDATE ..., DELETE FROM ..., ALTER TABLE ...</pre></li>
+<li><pre>CREATE TABLE orders (
     order_id     serial PRIMARY KEY,
     customer_id  integer REFERENCES customers(customer_id) NOT NULL, 
     order_number varchar(40) NOT NULL,
@@ -243,8 +224,29 @@ ORDER BY Country DESC;
     order_date   timestamp,
     status       order_status,
     total        numeric
-);</pre>
-
+);</pre></li></ul>
+  <br>
+  <u><b>REST API</b></u> (<b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer - <b>A</b>pplication <b>P</b>rogramming <b>I</b>nterface)
+  <ul>
+      <li>Client-server architecture</li>
+      <li>Stateless protocol</li>
+      <li>Caching</li>
+      <li>Uniform interface</li>
+      <li>Layered system</li>
+      <li>Code on demand (optional)</li>
+  </ul>
+  <b>Request methods</b>
+  <ul>
+      <li>GET: Retrieve </li>
+      <li>POST: Create </li>
+      <li>PUT: Update (Create if not exist, idempotent)</li>
+      <li>DELETE: Delete</li>
+  </ul>
+  <b>JAX-RS </b>(Specification): <b>J</b>ava <b>A</b>PI for <b>R</b>ESTful Web <b>S</b>ervices 
+  <ul>
+      <li>Reference Implementation: Jersey</li>
+      <li>Other implementations: RESTeasy, Apache CXF, Restlet</li>
+  </ul>
   
   </body>
 </html>

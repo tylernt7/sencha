@@ -9,8 +9,24 @@
 	
     <h2>Intent</h2>	
  	<ul>
-	  <li>Ensure a class only has <i>one instance</i>, and provide a <i>global</i> point of access to it.</li>  
-	  <li>Examples: java.lang.Runtime (e.g. exec, exit, freeMemory), java.util.logging.Logger (not singleton because of parameters), print jobs</li>
+	  <li>Ensure a class only has <i>one instance</i>, and provide a <i>global</i> point of access to it.</li> 
+	  <li>Share <i>common data</i> among objects that does not frequently change<ul>
+	  <li>Master Data: project-independent settings</li>
+	  <li>Configuration Data: project-dependent settings</li>
+	  </ul></li> 	  
+	  
+      <li>Examples: 
+        <ul><li>java.lang.Runtime (e.g. exec, exit, freeMemory)</li>
+        <li>java.util.logging.Logger (not singleton because of parameters)</li>
+		<li>Badoo<ul>
+		<li>AppServices (CommsManager, Repository, ApplicationSettings)</li>
+		<li>Repository (static final variables, sessionId, appUser, isLoggedIn, eventReceived, saveHostList, resourceManager)</li>
+		</ul></li>
+		<li>EsraConfigurator2<ul>
+		<li>Parameters (projectName, boards, fileSizeLimit, generationMode (ANSI_C, ASCET_4, ASCET_6), commitDatabase)</li>
+		</ul></li>
+		<li>Print jobs</li>
+        </ul></li>
 	</ul> 
 	<center><p><img src="images\singleton_printer.png" width="40%" height="40%"/></p></center>
     
