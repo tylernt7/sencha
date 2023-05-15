@@ -55,7 +55,7 @@ CREATE TYPE order_status AS ENUM ('open', 'pending', 'complete');
 CREATE TABLE orders (
     order_id     serial PRIMARY KEY,
     customer_id  integer REFERENCES customers(customer_id) NOT NULL,    
-    order_number varchar(40) NOT NULL,
+    order_number varchar(50) UNIQUE NOT NULL,
     description  text,
     order_date   timestamp,
     status       order_status,
