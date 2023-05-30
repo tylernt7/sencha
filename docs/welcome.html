@@ -176,10 +176,10 @@ Collections.sort(shapes, new ShapeComparer());</pre>
   <b>Terminal operations</b>: forEach, reduce, sum, collect; anyMatch, findFirst, groupingBy<br>
   <b>filter-map-reduce</b> examples<br>	  
   <ul>
-      <li><pre>employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();</pre></li>
-      <li><pre>employees.stream().map(Employee::getName).collect(Collectors.toList());</pre></li>			 
+      <li><pre>products.stream().filter(p -&gt; p.getCategory().getName().equals("Beverages")).mapToDouble(p -&gt; p.getPrice()).sum();</pre></li>
+      <li><pre>products.stream().map(Product::getName).collect(Collectors.toList());</pre></li>			 
       <li><pre>IntStream.range(0, 5).boxed().map(x -&gt; x * 2).collect(Collectors.toList());</pre></li>
-      <li><pre>Map&lt;String, List&lt;Employee&gt;&gt; map = employees.stream().collect(Collectors.groupingBy(Employee::getDepartment));
+      <li><pre>Map&lt;String, List&lt;Product&gt;&gt; map = products.stream().collect(Collectors.groupingBy(p -&gt; p.getCategory().getName()));
 map.values().stream().flatMap(List::stream).forEach(System.out::println);</pre></li>
   </ul>		  
   <br>
@@ -207,23 +207,26 @@ map.values().stream().flatMap(List::stream).forEach(System.out::println);</pre><
   <li>Connection: setAutoCommit, commit, rollback</li>
   </ul> 
   <b>Queries</b>  
-  <ul><li><pre>SELECT Country, COUNT(CustomerID) AS TotalCustomers
-FROM Customers
-WHERE Country IN ('Germany','UK') AND Age > 30
-GROUP BY Country
-HAVING COUNT(CustomerID) > 5
-ORDER BY Country DESC;</pre></li>
-<li><pre>SELECT * FROM A INNER JOIN B ON A.Key = B.Key;</pre></li></ul>
+  <ul><li><pre>SELECT categories.name, products.name AS most_expensive_product
+FROM categories 
+INNER JOIN products ON categories.category_id = products.category_id
+WHERE categories.name IN ('Beverages', 'Confections') AND products.price > 50 
+GROUP BY categories.name
+HAVING MAX(products.price)
+ORDER BY products.price DESC
+LIMIT 3;</pre></li></ul>
   <b>Updates</b> 
   <ul><li><pre>CREATE/DROP TABLE ..., INSERT INTO ... VALUES ..., UPDATE ..., DELETE FROM ..., ALTER TABLE ...</pre></li>
-<li><pre>CREATE TABLE orders (
-    order_id     serial PRIMARY KEY,
-    customer_id  integer REFERENCES customers(customer_id) NOT NULL, 
-    order_number varchar(40) NOT NULL,
-    description  text,
-    order_date   timestamp,
-    status       order_status,
-    total        numeric
+<li><pre>CREATE TYPE product_status AS ENUM ('available', 'out of stock', 'discontinued');
+CREATE TABLE products (
+    product_id       serial PRIMARY KEY,
+    category_id      integer REFERENCES categories(category_id) NOT NULL, 
+    product_number   varchar(50) UNIQUE NOT NULL,	
+    name             varchar(50) NOT NULL,
+    description      text,
+    price            numeric(10,2) CHECK (price > 0),
+    status           product_status NOT NULL, 
+    created_at       timestamp DEFAULT CURRENT_TIMESTAMP
 );</pre></li></ul>
   <br>
   <u><b>REST API</b></u> (<b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer - <b>A</b>pplication <b>P</b>rogramming <b>I</b>nterface)

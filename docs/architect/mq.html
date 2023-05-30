@@ -7,6 +7,21 @@
   <body>
     <h1>Message Queue</h1>
 	
+    <h2>Overview (ToDo)</h2>
+Communication between an iCOM OCU on a moving vehicle and the related offboard system has to cope with networks prone to disruptions (poor mobile radio network coverage in rural areas, train in tunnel etc.). For robust operation on both sides on one hand and guaranteed transmission of information on the other, asynchronous, message base data transfer has been chosen as the solution for this challenge.<br>
+For robustness and flexibility, communication between components of the offboard system is also realized via messaging, at least where communication takes place across server boundaries.<br>
+A central element in message based communication is the message broker, which receives messages from connected systems and delivers them to interested parties. Two basic mechanisms are available to send and receive messages:<br>
+Queues: a producer can send a message to a queue. On the other side, there can be one or more message consumers. The consumer which comes first reads the message, and the message is deleted from the queue.<br>
+Topic: a producer can send a message to a topic. All interested consumers can read a copy of the message, without the first one deleting it from the topic.<br>
+As implementation of the message broker, ActiveMQ has been selected. It delivers a rich, stable set of message broker functions, like persistent caching of messages which cannot be delivered at once, failover and load sharing configurations of brokers, SSL secured communication, and network connectors for different communication protocols (tcp, MQTT etc.). Furthermore, ActiveMQ can be easily extended by using Camel as message routing engine.<br>
+The message broker architecture and the message routing concept are critical for iCOMs robustness, performance and extensibility. For a growing productive environment, rules have to be set and followed for creation and use of queues, topics and routes. Setting these rules is the aim of this document.<br>
+
+    <h2>SOI 5.3.6 Loss of messages, due to large volume of messages getting queued-up in ActiveMQ (ToDo)</h2>
+Since Active-MQ buffers messages in a database (kahadb), messages can only get lost, when this database overflows. This can be due to an Amq configuration, that made the database small or due to disk overflow.<br>
+Please be aware, that after a connection outage (or a scheduled connection shutdown), the back office will be flooded with messages from all devices after reconnect.<br>
+This can cause very high temporary volume of messages.<br>
+
+
     <h2>ToDo</h2>
 RabbitMQ, Kafka<br>
 

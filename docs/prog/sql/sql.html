@@ -15,83 +15,129 @@
 	<p>The <i>HAVING</i> clause was added to SQL because the <i>WHERE</i> keyword cannot be used with aggregate functions (COUNT, AVG, SUM, MIN and MAX)</p>
 	<p><i>GROUP BY</i> arranges records (with the same values) into groups and <i>ORDER BY</i> sorts the records in ascending or descending order</p>
 	
-	<p>Select all the customers from the country "Germany" or "UK" who are older than 30:</p>
+	<p>List the most expensive products that belongs to either "Beverages" or "Confections" categories and have a price greater than 50. Sort the products by price in descending order (high to low):</p>
 	<div class="code"><code><pre>
-SELECT *
-FROM Customers
-WHERE Country IN ('Germany','UK') AND Age > 30;</pre></code></div>
+SELECT categories.name, products.name AS most_expensive_product
+FROM categories 
+INNER JOIN products ON categories.category_id = products.category_id
+WHERE categories.name IN ('Beverages', 'Confections') AND products.price > 50 
+GROUP BY categories.name
+HAVING MAX(products.price)
+ORDER BY products.price DESC
+LIMIT 3;</pre></code></div>
 
-	<p>List the countries with more than 5 customers. Sort the countries in descending order (high to low):</p>
-	<div class="code"><code><pre>
-SELECT Country, COUNT(CustomerID) AS TotalCustomers
-FROM Customers
-GROUP BY Country
-HAVING COUNT(CustomerID) > 5
-ORDER BY Country DESC;</pre></code></div>
+	<p>A subquery can be used to rewrite the HAVING MAX(products.price) clause to a WHERE clause: WHERE ... AND (SELECT MAX(price) FROM products)</p>
 
-	<p>Select records that have matching values in both "Customers" and "Orders" tables:</p>
-	<div class="code"><code><pre>
-SELECT Customers.CustomerName, Orders.OrderDate
-FROM Customers
-INNER JOIN Orders 
-ON Customers.CustomerID=Orders.CustomerID;</pre></code></div>
+	<b>SQL Query Order of Execution</b>
+    <table border=1>
+    <thead>
+      <tr>
+        <th>Order</th>
+        <th>Clause</th>
+        <th>Function</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>FROM</td>
+        <td>Chooses (and joins tables) to get base data</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>WHERE</td>
+        <td>Filters the base data</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>GROUP BY</td>
+        <td>Aggregates the base data</td>
+      </tr>
+	  <tr>
+        <td>4</td>
+        <td>HAVING</td>
+        <td>Filters the aggregated data</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>SELECT</td>
+        <td>Returns the final data</td>
+      </tr>
+	  <tr>
+        <td>6</td>
+        <td>ORDER BY</td>
+        <td>Sorts the final data</td>
+      </tr>	  
+      </tr>
+	  <tr>
+        <td>7</td>
+        <td>LIMIT</td>
+        <td>Limits the final data</td>
+      </tr>		  
+    </tbody>
+    </table>
+
 
 	<h2>Different Types of SQL JOINs</h2>
 <center><img src="images/joins.png" width="60%" height="60%"/></center>	
 </pre></code></div>	
 
 	<h2>Updates</h2>
-	<p>Create a database called "testDB", and then delete it:</p>
+	<p>Create a database, and then delete it:</p>
 	<div class="code"><code><pre>
-CREATE DATABASE testDB;
-DROP DATABASE testDB;</pre></code></div>	
+CREATE DATABASE northwind;
+DROP DATABASE northwind;</pre></code></div>	
 	
 	<p>Create a table that contains columns using autoincrementing integer (serial). Before that, delete objects (such as views) that depend on the table (CASCADE)<br><i>PostgreSQL</i>:</p>
 	<div class="code"><code><pre>
-DROP TABLE IF EXISTS orders CASCADE;
-DROP TYPE IF EXISTS order_status CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+DROP TYPE IF EXISTS product_status CASCADE;
 
-CREATE TYPE order_status AS ENUM ('open', 'pending', 'complete');
-CREATE TABLE orders (
-    order_id     serial PRIMARY KEY,
-    customer_id  integer REFERENCES customers(customer_id) NOT NULL,    
-    order_number varchar(50) UNIQUE NOT NULL,
-    description  text,
-    order_date   timestamp,
-    status       order_status,
-    total        numeric
+CREATE TYPE product_status AS ENUM ('available', 'out of stock', 'discontinued');
+CREATE TABLE products (
+    product_id       serial PRIMARY KEY,
+    category_id      integer REFERENCES categories(category_id) NOT NULL, 
+    product_number   varchar(50) UNIQUE NOT NULL,	
+    name             varchar(50) NOT NULL,
+    description      text,
+    price            numeric(10,2) CHECK (price > 0),
+    status           product_status NOT NULL, 
+    created_at       timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO orders (order_id, customer_id, order_number, order_date, status, total)
-VALUES (DEFAULT, 1, "112-9019047-2947466", TO_TIMESTAMP('2017-03-31 9:30:20', 'YYYY-MM-DD HH24:MI:SS'), 'open', 39.2);
+INSERT INTO products (category_id, product_number, name, price, status, created_at)
+VALUES (1, 'NWTB-1', 'Chai', 18, 'available', TO_TIMESTAMP('2000-10-30 17:35:30', 'YYYY-MM-DD HH24:MI:SS'));
 </pre></code></div>
 	
-	<p>Update the Name to "Juan" for all records where country is "Mexico" and delete all the customers "Ricardo" from the "Customers" table:</p>
+	<p>Increase the price by 10% for all products that belong to the "Beverages" category and delete all products that belong to the "Confections" category:</p>
 	<div class="code"><code><pre>
-UPDATE Customers
-SET Name='Juan'
-WHERE Country='Mexico';
+UPDATE products
+SET price = price * 1.1
+WHERE category_id = 1;	
 
-DELETE FROM Customers WHERE Name='Ricardo';
+DELETE FROM products
+WHERE category_id = 3;
 </pre></code></div>
 	
 	<p>Delete all rows in a table without deleting the table. The table structure, attributes, and indexes will be unchanged:</p>
 	<div class="code"><code><pre>
-DELETE FROM Customers;
+DELETE FROM products;
 </pre></code></div>
 	
-	<p>Add an "Email" column to the "Customers" table and delete "Country" column:</p>
+	<p>Add a new column named "quantity_in_stock" with the data type of integer and delete an old column named "description" from the products table:</p>
 	<div class="code"><code><pre>
-ALTER TABLE Customers
-ADD COLUMN Email varchar(255);
-ALTER TABLE Customers
-DROP COLUMN Country;
+ALTER TABLE products
+ADD COLUMN quantity_in_stock integer,
+DROP COLUMN description;
 </pre></code></div>
 
 	<p>Add primary and foreign key constraints to a table<br><i>PostgreSQL</i>:</p>
 	<div class="code"><code><pre>
-ALTER TABLE orders ADD CONSTRAINT orders_pk PRIMARY KEY (order_id);
-ALTER TABLE orders ADD CONSTRAINT orders_fk FOREIGN KEY (customer_id) REFERENCES customers (customer_id);
+ALTER TABLE products 
+ADD CONSTRAINT products_pk PRIMARY KEY (product_id);
+
+ALTER TABLE products
+ADD CONSTRAINT products_fk FOREIGN KEY (category_id) REFERENCES categories (category_id);
 </pre></code></div>
 	
 	<h2>SQL Constraints</h2>	
@@ -109,91 +155,108 @@ ALTER TABLE orders ADD CONSTRAINT orders_fk FOREIGN KEY (customer_id) REFERENCES
 	<p>A stored procedure is a prepared SQL code (query) that you can save, so the code can be reused over and over again. You can also pass parameters to a stored procedure</p>
 	<i>SQL Server</i>:
 	<div class="code"><code><pre>
-CREATE PROCEDURE SelectAllCustomers @Country varchar(30)
+CREATE OR ALTER PROCEDURE UpdateProductPrice @Price numeric(10,2)
 AS
-SELECT * FROM Customers WHERE Country = @Country
+UPDATE Products SET Price = @Price WHERE CategoryID = 1;
 
-EXEC SelectAllCustomers @Country = 'Germany';
+EXEC UpdateProductPrice @Price = 15;
 </pre></code></div>	
 	<i>PostgreSQL</i>:<br>
 String constant (definition) form for all languages, parsed at execution time:
 	<div class="code"><code><pre>
-CREATE OR REPLACE PROCEDURE select_all_customers(country varchar(30))
+CREATE OR REPLACE PROCEDURE update_product_price(p numeric(10,2))
 LANGUAGE plpgsql
-AS 
-$$
+AS $$
 BEGIN
-  SELECT * FROM Customers WHERE Country = country;
-END
+  UPDATE products SET price = p WHERE category_id = 1;
+END;
 $$;
 
-CALL select_all_customers('Germany');
+CALL update_product_price(15);
 </pre></code></div>	
-or LANGUAGE SQL (sql_body) form for LANGUAGE SQL, parsed at procedure definition time:
+LANGUAGE SQL (sql_body) form for LANGUAGE SQL, parsed at procedure definition time:
 	<div class="code"><code><pre>
-CREATE OR REPLACE PROCEDURE select_all_customers(country varchar(30))
+CREATE OR REPLACE PROCEDURE update_product_price(p numeric(10,2))
+LANGUAGE SQL
+AS $$
+UPDATE products SET price = p WHERE category_id = 1;
+$$;
+
+CALL update_product_price(15);
+</pre></code></div>	
+or
+	<div class="code"><code><pre>
+CREATE OR REPLACE PROCEDURE update_product_price(p numeric(10,2))
 LANGUAGE SQL
 BEGIN ATOMIC
-  SELECT * FROM Customers WHERE Country = country;
+  UPDATE products SET price = p WHERE category_id = 1;
 END;
 
-CALL select_all_customers('Germany');
+CALL update_product_price(15);
 </pre></code></div>	
 	
 	<h2>Triggers</h2>
 	<p>A trigger is a stored procedure that automatically runs when an event occurs (a row is inserted or columns are updated)</p>
 	<i>SQL Server</i>:
 	<div class="code"><code><pre>
-CREATE TRIGGER reminder  
-ON Customers  
-BEFORE INSERT  
-AS RAISERROR ('Notify Customer Relations', 16, 10);    
+CREATE OR ALTER TRIGGER UpdateProduct
+ON Products  
+AFTER UPDATE  
+AS PRINT 'Product was updated.';
 </pre></code></div>	
 	<i>PostgreSQL</i>:<br>
 	<div class="code"><code><pre>
-CREATE OR REPLACE FUNCTION raise_exception()
+CREATE OR REPLACE FUNCTION update_product()
 RETURNS TRIGGER 
 LANGUAGE plpgsql
-AS
-$$
+AS $$
 BEGIN
-  RAISE EXCEPTION 'Notify Customer Relations';
-END
+  RAISE NOTICE 'Product was updated.';
+  RETURN NEW;
+END;
 $$;
 
-CREATE TRIGGER reminder
-    BEFORE INSERT ON customers
-    FOR EACH ROW
-    EXECUTE PROCEDURE raise_exception();
+CREATE OR REPLACE TRIGGER update_product
+    AFTER UPDATE ON products
+    FOR EACH ROW 
+    EXECUTE PROCEDURE update_product();	
 </pre></code></div>	
+	
+    <p>Some examples of when to use triggers are:</p>
+	<ul>
+	<li><b>Logging</b>: You can use a trigger to automatically write to another table or a log file on insertion, update, or deletion of data from a table. This can help you keep track of the changes made to the data and who made them.</li>
+	<li><b>Data validation</b>: You can use a trigger to perform some checks or validations on the data before inserting, updating, or deleting it. For example, you can use a trigger to ensure that the email address of a user is valid, or that the price of a product is positive.</li>
+	<li><b>Data synchronization</b>: You can use a trigger to keep related tables updated when data changes in one table. For example, you can use a trigger to update the stock quantity of a product when a new order is placed, or to update the total amount of an invoice when a new line item is added.</li>
+	<li><b>Business logic</b>: You can use a trigger to enforce some business rules or logic on the data. For example, you can use a trigger to calculate the commission for a salesperson based on the sales amount, or to send an email notification when a new customer is registered</li>
+	</ul>	
 	
 	<h2>Indexes</h2>
 	<p>Indexes are used to retrieve data from the database more quickly than otherwise. They are used to speed up searches/queries.</p>
 	<p>Updating a table with indexes takes more time than updating a table without (because the indexes also need an update). So, only create indexes on columns that will be frequently searched against.</p>
-	<p><i>SELECT Country FROM Customers WHERE CustomerID = constant AND Name = constant;</i></p>
+	<p><i>SELECT * FROM products WHERE product_id = constant AND name = constant;</i></p>
 	<i>SQL Server</i>:
 	<div class="code"><code><pre>
-CREATE INDEX IX_Customers_CustomerID
-  ON Customers (CustomerID DESC, Name ASC);
+CREATE INDEX Products_ProductID_Name_Index 
+  ON Products (ProductID DESC, Name ASC);
 
-CREATE CLUSTERED INDEX IX_Customers_CustomerID 
-  ON Customers (CustomerID, Name);
+CREATE CLUSTERED INDEX Products_ProductID_Name_Index 
+  ON Products (ProductID, Name);
 
-CREATE UNIQUE INDEX IX_Customers_Name
-  ON Customers(Name);
+CREATE UNIQUE INDEX Products_ProductNumber_Index
+  ON Products (ProductNumber);
 
-DROP INDEX IX_Customers_CustomerID   
-  ON Customers;  
+DROP INDEX Products_ProductID_Name_Index    
+  ON Products;  
 </pre></code></div>	
 	<i>PostgreSQL</i>:<br>
 	<div class="code"><code><pre>
-CREATE INDEX customers_customer_id_index 
-ON customers (customer_id DESC, name ASC);
+CREATE INDEX products_product_id_name_index 
+ON products (product_id DESC, name ASC);
 
-CREATE UNIQUE INDEX customers_name_index
-ON customers(name);
+CREATE UNIQUE INDEX products_product_number_index
+ON products (product_number);
   
-DROP INDEX customers_customer_id_index;
+DROP INDEX products_product_id_name_index;
 </pre></code></div>		
 	
     <h2>JDBC (<b>J</b>ava <b>D</b>ata<b>B</b>ase <b>C</b>onnectivity)</h2>

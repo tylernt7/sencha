@@ -58,43 +58,42 @@ private void print(List&lt;String&gt; words) {
     words.forEach(System.out::println);
 }
 
-private int filterMapReduce(List&lt;Employee&gt; employees) {        
-    return employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();
+private double filterMapReduce(List&lt;Product&gt; products) {        
+    return products.stream().filter(p -&gt; p.getCategory().getName().equals("Beverages")).mapToDouble(p -&gt; p.getPrice()).sum();
     
-    //return employees.stream().parallel().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();
-    //return employees.parallelStream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).sum();
+    //return products.stream().parallel().filter(p -&gt; p.getCategory().getName().equals("Beverages")).mapToDouble(p -&gt; p.getPrice()).sum();
+    //return products.parallelStream().filter(p -&gt; p.getCategory().getName().equals("Beverages")).mapToDouble(p -&gt; p.getPrice()).sum();
 
-    //return employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).reduce(0, (x, y) -&gt; x + y);
-    //return employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).mapToInt(e -&gt; e.getSalary()).reduce(0, Integer::sum);
+    //return products.stream().filter(p -&gt; p.getCategory().getName().equals("Beverages")).mapToDouble(p -&gt; p.getPrice()).reduce(0, (x, y) -&gt; x + y);
+    //return products.stream().filter(p -&gt; p.getCategory().getName().equals("Beverages")).mapToDouble(p -&gt; p.getPrice()).reduce(0, Double::sum);
     
-    //return employees.stream().filter(e -&gt; e.getDepartment().equals("HR")).collect(Collectors.summingInt(Employee::getSalary));
+    //return products.stream().filter(p -&gt; p.getCategory().getName().equals("Beverages")).collect(Collectors.summingDouble(Product::getPrice));
 }
 
-private Set&lt;String&gt; nameSet(List&lt;Employee&gt; employees) {
-    //List&lt;String&gt; list = employees.stream().map(Employee::getName).collect(Collectors.toList());
-    return employees.stream().map(Employee::getName).collect(Collectors.toCollection(TreeSet::new));
+private Set&lt;String&gt; nameSet(List&lt;Product&gt; products) {
+    //List&lt;String&gt; list = products.stream().map(Product::getName).collect(Collectors.toList());
+    return products.stream().map(Product::getName).collect(Collectors.toCollection(TreeSet::new));
 }
 
-private Map&lt;String, Integer&gt; salariesByDept(List&lt;Employee&gt; employees) {
-    Collector&lt;Employee, ?, Integer&gt; summingSalaries = Collectors.summingInt(Employee::getSalary);
-
-    return employees.stream().collect(Collectors.groupingBy(Employee::getDepartment, summingSalaries));                        
+private Map&lt;String, Double&gt; pricesByCategory(List&lt;Product&gt; products) {
+    Collector&lt;Product, ?, Double&gt; summingPrices = Collectors.summingDouble(Product::getPrice);
+    return products.stream().collect(Collectors.groupingBy(p -&gt; p.getCategory().getName(), summingPrices));      
 }    
 
-private Map&lt;String, List&lt;Employee&gt;&gt; employeesByDept(List&lt;Employee&gt; employees) {
+private Map&lt;String, List&lt;Product&gt;&gt; productsByCategory(List&lt;Product&gt; products) {
     // HashMap
-    Map&lt;String, List&lt;Employee&gt;&gt; map = employees.parallelStream().collect(Collectors.groupingBy(Employee::getDepartment));
-    //Stream&lt;Employee&gt; stream = map.values().stream().flatMap(list -> list.stream());
-    Stream&lt;Employee&gt; stream = map.values().stream().flatMap(List::stream);
-    System.out.println(stream.collect(Collectors.toList()));
-    return map;	
-
+    Map&lt;String, List&lt;Product&gt;&gt; map = products.parallelStream().collect(Collectors.groupingBy(p -&gt; p.getCategory().getName()));
+    //Stream&lt;Product&gt; stream = map.values().stream().flatMap(list -&gt; list.stream());
+    Stream&lt;Product&gt; stream = map.values().stream().flatMap(List::stream);
+    //System.out.println(stream.collect(Collectors.toList()));
+    return map;
+    
     // ConcurrentHashMap
-    //return employees.parallelStream().unordered().collect(groupingByConcurrent(Employee::getDepartment));
+    //return products.parallelStream().unordered().collect(groupingByConcurrent(p -&gt; p.getCategory().getName()));
 }
 
-private Map&lt;Boolean, List&lt;Employee&gt;&gt; partitioning(List&lt;Employee&gt; employees) {
-    return employees.stream().collect(Collectors.partitioningBy(e -&gt; e.getSalary() &gt;= 200));
+private Map&lt;Boolean, List&lt;Product&gt;&gt; partitioning(List&lt;Product&gt; products) {
+    return products.stream().collect(Collectors.partitioningBy(p -&gt; p.getPrice() &gt;= 20));
 }
 
 private void skipLimit() {
