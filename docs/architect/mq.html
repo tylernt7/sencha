@@ -21,9 +21,19 @@ Since Active-MQ buffers messages in a database (kahadb), messages can only get l
 Please be aware, that after a connection outage (or a scheduled connection shutdown), the back office will be flooded with messages from all devices after reconnect.<br>
 This can cause very high temporary volume of messages.<br>
 
+    <h2>RabbitMQ</h2>
+	RabbitMQ.Client<br>
+	Send.cs:    ConnectionFactory, channel.QueueDeclare, channel.BasicPublish<br>
+	Receive.cs: ConnectionFactory, channel.QueueDeclare, new EventingBasicConsumer(channel).Received += ..., channel.BasicConsume<br>
+	MassTransit (free): Event bus implementation that supports RabbitMQ (transport) and Prometheus (metrics)<br>
+	NServiceBus (commercial): third-party library that can export metrics to Prometheus
+	<center><img src="https://learn.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/media/rabbitmq-event-bus-development-test-environment/rabbitmq-implementation.png" width="50%" height="50%"/></center>
+
+
+    <h2>Kafka</h2>
+    ToDo
 
     <h2>ToDo</h2>
-RabbitMQ, Kafka<br>
 
 https://www.oracle.com/technical-resources/articles/java/intro-java-message-service.html<br>
 https://de.wikipedia.org/wiki/Message_Queuing<br>
