@@ -6,8 +6,8 @@
   </head>
   <body>
 
-  <u><b>OOP</b></u> (<b>O</b>bject-<b>O</b>riented <b>P</b>rogramming)<br>
-  <b>Interface</b>: Declares methods (signatures/prototypes of methods), <i>"what"</i> to do but <i>"not how" </i>to do (JPA), contract/agreement<br>
+  <u><b>OOP</b></u> (<b>O</b>bject-<b>O</b>riented <b>P</b>rogramming)<br> 
+  <b>Interface</b>: Declares methods (signatures/prototypes of methods), <i>"what"</i> to do but <i>"not how"</i>to do (JPA), contract/agreement<br>
   <b>Principles</b>
   <ul>
       <li>Data Abstraction: Visibility (private, protected)</li>
@@ -16,7 +16,7 @@
       <li>Polymorphism: Many forms (overriding, overloading)</li>
   </ul>
   <b>IoC</b> (Inversion of Control): Dependency Injection: Framework does object creation (Guice, Dagger)<br>
-  <b>Law of Demeter</b>: don&apos;t talk to strangers (A &rarr; B &rarr; C)<br>
+  <b>Law of Demeter</b>: don't talk to strangers (A &rarr; B &rarr; C)<br>
   <b>Abstract Class versus Interface</b><br>
   <ul>
       <li>Method body: Abstract Class - if method is not abstract</li>
@@ -30,11 +30,20 @@
   </ul>
   <br>
   <u><b>SOLID</b></u><br>
-  <b>S</b>ingle Responsibility: One reason for change<br>
-  <b>O</b>pen Closed: Open for extension but Closed for modification<br>
-  <b>L</b>iskov Substitution: Substitutable subclasses<br>
-  <b>I</b>nterface Segregation: Avoid "fat" interfaces<br> 
-  <b>D</b>ependency Inversion: Depend on Abstractions and Interfaces<br>
+  <table>
+    <tr>
+      <td>
+	    <b>S</b>ingle Responsibility: One reason for change<br>
+	    <b>O</b>pen Closed: Open for extension but Closed for modification<br>
+	    <b>L</b>iskov Substitution: Substitutable subclasses<br>
+	    <b>I</b>nterface Segregation: Avoid "fat" interfaces<br> 
+	    <b>D</b>ependency Inversion: Depend on Abstractions and Interfaces<br>	  
+	  </td>
+      <td>
+	    <img src="images\uml_payment.png" width="30%" height="30%"/>
+	  </td>
+    </tr>
+  </table>
   <br>  
   <u><b>MVC</b></u> (<b>M</b>odel <b>V</b>iew <b>C</b>ontroller)
   <ul>
@@ -96,26 +105,21 @@
   <br>
   <u><b>Method Parameters</b></u>
   <table border="1">
-      <tbody>
-          <tr>
-              <td></td>
-              <td><b>Value type</b></td>
-              <td><b>Reference type</b></td>
-              <td></td>
-          </tr>
-          <tr>
-              <td><b>Pass by value (Java)</b></td>
-              <td>Copy of data</td>
-              <td>Copy of reference</td>
-              <td></td>
-          </tr>
-          <tr>
-              <td><b>Pass by reference</b></td>
-              <td>Data</td>
-              <td>Reference</td>
-              <td></td>
-          </tr>
-      </tbody>
+    <tr>
+        <td></td>
+        <td><b>Value type</b></td>
+        <td><b>Reference type</b></td>
+    </tr>
+    <tr>
+        <td><b>Pass by value (Java)</b></td>
+        <td>Copy of data</td>
+        <td>Copy of reference</td>
+    </tr>
+    <tr>
+        <td><b>Pass by reference</b></td>
+        <td>Data</td>
+        <td>Reference</td>
+    </tr>
   </table>
   <br>
   <table>
@@ -239,17 +243,39 @@ CREATE TABLE products (
       <li>Code on demand (optional)</li>
   </ul>
   <b>Request methods</b>
-  <ul>
-      <li>GET: Retrieve </li>
-      <li>POST: Create </li>
-      <li>PUT: Update (Create if not exist, idempotent)</li>
-      <li>DELETE: Delete</li>
-  </ul>
+  <table border="1">
+    <tr>
+      <td>GET</td>
+      <td>Retrieve</td>
+      <td>/products/{id}</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>POST</td>
+      <td>Create</td>
+      <td>/products</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>PUT</td>
+      <td>Update</td>
+      <td>/products/{id}</td>
+      <td>idempotent: create if not exist</td>
+    </tr>
+    <tr>
+      <td>DELETE</td>
+      <td>Delete</td>
+      <td>/products/{id}</td>
+      <td></td>
+    </tr>
+  </table>  
   <b>JAX-RS </b>(Specification): <b>J</b>ava <b>A</b>PI for <b>R</b>ESTful Web <b>S</b>ervices 
   <ul>
       <li>Reference Implementation: Jersey</li>
       <li>Other implementations: RESTeasy, Apache CXF, Restlet</li>
   </ul>
+  
+  Arial 9 pt, Courier New 8 pt
   
   </body>
 </html>
