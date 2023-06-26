@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Compose file</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Compose file</h1>
+	
+	<h2>docker-compose.yml</h2>
+	<ul>
+	<li>A YAML file</li>
+	<li>It defines and runs multiple containers as <i>a single service</i></li>		
+	</ul>
+	</li>	
+	
+	<h2>Commands</h2>
+	<table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>Usage</b></td>
+      <td style="width: 50%;"><b>Description</b></td>
+    </tr>
+    <tr>
+      <td>docker-compose -f docker-compose.yml build</td>
+	  <td>Build the images</td>
+    </tr>	
+    <tr>
+      <td>docker-compose -f docker-compose.yml up</td>
+	  <td>Build the images (if they do not exist) and start the containers</td>
+    </tr>
+    <tr>
+      <td>docker-compose -f docker-compose.yml up --build</td>
+	  <td>Build the images (force the rebuild) and start the containers</td>
+    </tr>
+    <tr>
+      <td>docker-compose -f docker-compose.yml up --no-build</td>
+	  <td>Create and start the containers</td>
+    </tr>
+    <tr>
+      <td>docker-compose -f docker-compose.yml up --remove-orphans</td>
+	  <td>Remove the orphan containers</td>
+    </tr>
+    <tr>
+      <td>docker-compose -f docker-compose.yml -f docker-compose.override.yml up</td>
+	  <td>Combine several files into a single configuration</td>
+    </tr>
+    <tr>
+      <td>docker-compose images</td>
+	  <td>List images built by docker-compose</td>
+    </tr>
+    <tr>
+      <td>docker-compose down db</td>
+	  <td>Stop and remove a service/container</td>
+    </tr>
+    <tr>
+      <td>docker-compose down --rmi db</td>
+	  <td>Stop and remove a service/container and remove the image</td>
+    </tr>
+    <tr>
+      <td>docker-compose start db</td>
+	  <td>Start a service/container</td>
+    </tr>
+    <tr>
+      <td>docker-compose stop db</td>
+	  <td>Stop a service/container</td>
+    </tr>	
+    </table>	
+
+	<h2>Examples</h2>	
+    <table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>JDK</b></td>
+      <td style="width: 50%;"><b>DOTNET</b></td>
+    </tr>
+    <tr>
+      <td>
+<pre>version: "3.9"
+services:
+  app:
+    container_name: app	  
+    image: openjdk:11-jdk
+    build: .
+    command: java -jar /app/target/my-app-1.0-SNAPSHOT.jar
+    ports:
+      - "8080:8080" # map port 8080 of the container to port 8080 of the host (use quotes)    
+    volumes:
+      - .:/app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mydb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update 
+    depends_on:
+      - db # this service will start after the db service is ready
+    networks:
+      - mynet # this service joins the network named mynet	  
+  db:
+    container_name: db  
+    image: postgres:14.1-alpine
+    ports:
+      - "5432:5432" # map port 5432 of the container to port 5432 of the host (use quotes)
+    expose:
+      - 5432 # expose port 5432 of the container to other services on the same network	  
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data # persist the data on the host
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # run the script on the first run
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=mydb
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    restart: always # restart the container whenever it stops
+    networks:
+      - mynet # this service joins the network named mynet
+	  
+networks:
+  mynet:</pre>
+	  </td>
+      <td>
+<pre>version: "3.9"
+services:
+  app:
+    container_name: app	  
+    image: mcr.microsoft.com/dotnet/sdk:6.0
+    build: .
+    command: dotnet run --project /app/App/App.csproj
+    ports:
+      - "8000:80" # map port 8000 of the container to port 80 of the host (use quotes)    
+    volumes:
+      - .:/app    
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection
+    =Host=db;Port=5432;Database=mydb;User Id=postgres;Password=postgres;	
+    depends_on:
+      - db # this service will start after the db service is ready
+    networks:
+      - mynet # this service joins the network named mynet	  
+  db:
+    container_name: db  
+    image: postgres:14.1-alpine
+    ports:
+      - "5432:5432" # map port 5432 of the container to port 5432 of the host (use quotes)
+    expose:
+      - 5432 # expose port 5432 of the container to other services on the same network	  
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data # persist the data on the host
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # run the script on the first run	  
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=mydb
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    restart: always # restart the container whenever it stops
+    networks:
+      - mynet # this service joins the network named mynet
+	  
+networks:
+  mynet:</pre>  
+	  </td>
+    </tr>
+    </table>	
+
+  </body>
+</html>
+
+

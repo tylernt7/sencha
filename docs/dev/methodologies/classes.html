@@ -53,15 +53,30 @@ class Outer {
         <td>no</td>
       </tr>
       <tr>
-        <td><b>Inheritance</b></td>
-        <td>single</td>
-        <td>multiple</td>
+        <td><b>Default method</b></td>
+        <td>no (Java), public virtual keyword (C# 8)</td>
+        <td>default modifier (Java 8), virtual keyword (C# 8)</td>
       </tr>
       <tr>
-        <td><b>Fields</b></td>
-        <td>(static) constant fields if no inner, instance fields</td>
-        <td>(static) constant fields</td>
+        <td><b>Static method</b></td>
+        <td>yes</td>
+        <td>Java 8, C# 11</td>
+      </tr>	  
+      <tr>
+        <td><b>Inheritance</b></td>
+        <td>single<br>extends (Java), : (C#)</td>
+        <td>multiple<br>implements (Java), : (C#)</td>
       </tr>
+      <tr>
+        <td><b>Constant fields</b></td>
+        <td>(public) static final (Java), const (C#)</td>
+        <td>(public) static final or datatype (Java), const (C#)</td>
+      </tr>
+      <tr>
+        <td><b>Instance fields</b></td>
+        <td>yes</td>
+        <td>no</td>
+      </tr>	  
       <tr>
         <td><b>Constructors</b></td>
         <td>yes</td>
@@ -84,7 +99,7 @@ class Outer {
       </tr>
       <tr>
         <td><b>Visibility for methods</b></td>
-        <td>all (private if not abstract)</td>
+        <td>all (private if not abstract method)</td>
         <td>public, none (package)</td>
       </tr>
     </tbody>

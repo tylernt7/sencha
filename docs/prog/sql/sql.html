@@ -93,15 +93,16 @@ DROP DATABASE northwind;</pre></code></div>
 DROP TABLE IF EXISTS products CASCADE;
 DROP TYPE IF EXISTS product_status CASCADE;
 
-CREATE TYPE product_status AS ENUM ('available', 'out of stock', 'discontinued');
+CREATE TYPE stock_status AS ENUM ('not available', 'in stock', 'discontinued');
 CREATE TABLE products (
     product_id       serial PRIMARY KEY,
     category_id      integer REFERENCES categories(category_id) NOT NULL, 
     product_number   varchar(50) UNIQUE NOT NULL,	
     name             varchar(50) NOT NULL,
     description      text,
+    image            bytea,
     price            numeric(10,2) CHECK (price > 0),
-    status           product_status NOT NULL, 
+    status           stock_status NOT NULL, 
     created_at       timestamp DEFAULT CURRENT_TIMESTAMP
 );
 

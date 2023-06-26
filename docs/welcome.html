@@ -55,17 +55,26 @@
   <b>MVVM</b> (<b>M</b>odel <b>V</b>iew <b>V</b>iew<b>M</b>odel)<br>  
   <br>
   <u><b>UML</b></u> (<b>U</b>nified <b>M</b>odeling <b>L</b>anguage)<br>
-  <b>Structure diagrams</b> (elements and relationships)
-  <ul>
-      <li>Class diagram</li>
-      <li>Component diagram</li>
-  </ul>
-  <b>Behavior diagrams</b> (interactions and messaging)
-  <ul>
-      <li>Use case diagram</li>
-      <li>Sequence diagram</li>
-  </ul>
-  <b>Relationships</b>: Association (Owner), Aggregation (Wheel), Composition (Frame) - bicycle<br>
+  <table>
+    <tr>
+      <td>
+        <b>Structure diagrams</b> (elements and relationships)
+        <ul>
+            <li>Class diagram</li>
+            <li>Component diagram</li>
+        </ul>
+        <b>Behavior diagrams</b> (interactions and messaging)
+        <ul>
+            <li>Use case diagram</li>
+            <li>Sequence diagram</li>
+        </ul>
+        <b>Relationships</b>: Association (Owner), Aggregation (Wheel), Composition (Frame) - bicycle<br>
+	  </td>
+      <td>
+	    <img src="images\uml_product.png" width="75%" height="75%"/>
+	  </td>
+    </tr>
+  </table>    
   <br>
   <u><b>Design Patterns</b></u><br>
   <b>Creational patterns</b>
@@ -221,15 +230,16 @@ ORDER BY products.price DESC
 LIMIT 3;</pre></li></ul>
   <b>Updates</b> 
   <ul><li><pre>CREATE/DROP TABLE ..., INSERT INTO ... VALUES ..., UPDATE ..., DELETE FROM ..., ALTER TABLE ...</pre></li>
-<li><pre>CREATE TYPE product_status AS ENUM ('available', 'out of stock', 'discontinued');
+<li><pre>CREATE TYPE stock_status AS ENUM ('not available', 'in stock', 'discontinued');
 CREATE TABLE products (
     product_id       serial PRIMARY KEY,
     category_id      integer REFERENCES categories(category_id) NOT NULL, 
     product_number   varchar(50) UNIQUE NOT NULL,	
     name             varchar(50) NOT NULL,
     description      text,
+    image            bytea,
     price            numeric(10,2) CHECK (price > 0),
-    status           product_status NOT NULL, 
+    status           stock_status NOT NULL, 
     created_at       timestamp DEFAULT CURRENT_TIMESTAMP
 );</pre></li></ul>
   <br>

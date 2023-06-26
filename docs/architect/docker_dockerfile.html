@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dockerfile</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Dockerfile</h1>
+	
+    <h2>todo</h2>
+cache or done
+	
+    <h2>Dockerfile</h2>	
+	<ul>
+	<li>A plain text file</li>
+	<li>It specifies instructions for building (creating) <i>a single image</i></li>
+	<li>It does not automatically copy all the files in the directory where the Dockerfile located (build context)</li>
+	<li>The COPY instruction can only copy files from the build context, the ADD instruction can copy files outside the build context too </li>
+	<li>It contains the application code (base image) and its dependencies</li>
+	<li>It adds or modifies files and directories, runs commands, sets environment variables and exposes ports</li>
+	</ul>
+
+	<h2>Commands</h2>
+	<table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>Usage</b></td>
+      <td style="width: 50%;"><b>Description</b></td>
+    </tr>	
+    <tr>
+      <td>docker build -t myimage:2.1 .</td>
+	  <td>Build the image</td>
+    </tr>
+    <tr>
+      <td>docker images</td>
+	  <td>List all the images</td>
+    </tr>
+    <tr>
+      <td>docker run --rm myimage:2.1</td>
+	  <td>Create and run a new container from an image (automatically remove the container when it exits)</td>
+    </tr>
+    <tr>
+      <td>docker rmi -f myimage:2.1</td>
+	  <td>Remove the image</td>
+    </tr>	
+    </table>	
+	
+	<h2>Examples</h2>
+    <table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>JDK</b></td>
+      <td style="width: 50%;"><b>DOTNET</b></td>
+    </tr>
+    <tr>
+      <td>
+<pre><i># Use the official openjdk 8 image as the base image</i>
+FROM openjdk:8-jdk AS build
+
+<i># Set the working directory to /app</i>
+WORKDIR /app
+
+<i># Copy the file hello.txt to this image</i>
+COPY hello.txt .
+
+<i># Change the permissions of hello.txt to chmod 644</i>
+<i># Owner/User: read and write, Group and Others: read</i>
+RUN chmod 644 hello.txt
+
+<i># Run the cat command to display the contents of hello.txt</i>
+CMD ["cat", "hello.txt"]
+
+<i># Copy the pom.xml file and download the dependencies from Maven</i>
+COPY pom.xml ./
+RUN mvn dependency:go-offline
+
+<i># Copy the rest of the source code and build the app</i>
+COPY src ./src
+RUN mvn package -DskipTests
+
+<i># Use the official openjdk 8 image as the final image</i>
+FROM openjdk:8-jre AS runtime
+
+<i># Set the working directory to /app</i>
+WORKDIR /app
+
+<i># Copy the app jar file from the build image</i>
+COPY --from=build /app/target/my-app-*.jar ./my-app.jar
+
+<i># Install some dependencies with apt-get</i>
+RUN apt-get update && apt-get install -y \
+curl \
+netcat \
+&& rm -rf /var/lib/apt/lists/*
+
+<i># Run some commands with java</i>
+RUN java -jar my-app.jar --version
+RUN java -jar my-app.jar --help
+
+<i># Listen on port 8080 with TCP protocol</i>
+EXPOSE 8080
+
+<i># Run the app as the entrypoint</i>
+ENTRYPOINT ["java", "-jar", "my-app.jar"]</pre>
+	  </td>
+      <td>
+<pre><i># Use the official dotnet 6.0 SDK image as the base image</i>
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+
+<i># Set the working directory to /app</i>
+WORKDIR /app
+
+
+
+
+
+
+
+
+
+
+
+<i># Copy the csproj file and download the dependencies from NuGet</i>
+COPY *.csproj ./
+RUN dotnet restore
+
+<i># Copy the rest of the source code and build the app</i>
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+<i># Use the official dotnet 6.0 runtime image as the final image</i>
+FROM mcr.microsoft.com/dotnet/runtime:6.0 AS runtime
+
+<i># Set the working directory to /app</i>
+WORKDIR /app
+
+<i># Copy the app binaries from the build image</i>
+COPY --from=build /app/out ./
+
+<i># Install some dependencies with apt-get</i>
+RUN apt-get update && apt-get install -y \
+curl \
+libgdiplus \
+&& rm -rf /var/lib/apt/lists/*
+
+<i># Run some commands with dotnet</i>
+RUN dotnet tool install --global dotnet-ef
+RUN dotnet ef database update
+
+<i># Listen on port 80 with TCP protocol</i>
+EXPOSE 80
+
+<i># Run the app as the entrypoint</i>
+ENTRYPOINT ["dotnet", "MyApp.dll"]</pre>  
+	  </td>
+    </tr>
+    </table>
+See <a href="https://aka.ms/containerfastmode">https://aka.ms/containerfastmode</a> to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.<br>
+FROM scratch: The scratch image is a minimal image that can be used as a starting point (empty filesystem) for building containers.
+
+
+
+  </body>
+</html>
+
+
