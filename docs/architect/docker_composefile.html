@@ -22,7 +22,11 @@
     </tr>
     <tr>
       <td>docker-compose -f docker-compose.yml build</td>
-	  <td>Build the images</td>
+	  <td>Build the images, Build or rebuild services</td>
+    </tr>			
+	<tr>
+      <td>docker-compose up</td>
+	  <td>Build the images (if they do not exist), create and start the containers. Use the default files (docker-compose.yml and docker-compose.override.yml)</td>	  
     </tr>	
     <tr>
       <td>docker-compose -f docker-compose.yml up</td>
@@ -57,13 +61,26 @@
 	  <td>Stop and remove a service/container and remove the image</td>
     </tr>
     <tr>
+      <td>docker-compose start</td>
+	  <td>Start all services/containers</td>
+    </tr>
+    <tr>
+      <td>docker-compose stop</td>
+	  <td>Stop all services/containers</td>
+    </tr>
+    <tr>
       <td>docker-compose start db</td>
-	  <td>Start a service/container</td>
+	  <td>Start a single service/container</td>
     </tr>
     <tr>
       <td>docker-compose stop db</td>
-	  <td>Stop a service/container</td>
+	  <td>Stop a single service/container</td>
+    </tr>
+    <tr>
+      <td>docker-compose restart</td>
+	  <td>Restart all services/containers</td>
     </tr>	
+	
     </table>	
 
 	<h2>Examples</h2>	
