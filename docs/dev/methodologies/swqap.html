@@ -87,19 +87,19 @@
 	<p>SIT: System Integration Testing</p>		
 	
     <h2>4 Software Development Processes</h2>	
-    <h3>4.1 Version Control System</h3>
+    <h3>4.1 Version Management</h3>
 	<p>Git as a version control system is a software tool that helps to track and manage changes to the software code, documents, and other artifacts in a software project. It helps to ensure the quality, consistency, and reliability of the software products or services, by enabling different types of testing, reviewing, and deploying on different versions or branches of the software code. It also helps to communicate the changes, updates, and statuses of the software code to the software project team, the software provider, and the software customers or users.</p>
 	<center><img src="images/gitflow.png" width="75%" height="75%"/></center>
-	Gitflow defines the following types of branches:
+	<a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Gitflow</a> defines the following types of branches:
 	<ul>	
-	<li>1 A Development Branch is forked from Master Branch</li>
-	<li>2 A Release Branch is forked from Development Branch</li>
-	<li>3 Feature branches are forked from Development Branch</li>
-	<li>4 When a feature is complete, it is merged into the Development Branch</li>
-	<li>5 When the Release Branch is done, it is merged into Master Branch (and Development Branch)</li>
-	<li>6 If an issue in Master Branch is detected, a Hotfix Branch is forked from Master Branch</li>
-	<li>7 Once the hotfix is complete, it is merged to both Master Branch and Development Branch</li>
-	<li>8 Master Branch should be tagged with a version number</li>
+	<li>A Development Branch is forked from Master Branch</li>
+	<li>A Release Branch is forked from Development Branch</li>
+	<li>Feature branches are forked from Development Branch</li>
+	<li>When a feature is complete, it is merged into the Development Branch</li>
+	<li>When the Release Branch is done, it is merged into Master Branch (and Development Branch)</li>
+	<li>If an issue in Master Branch is detected, a Hotfix Branch is forked from Master Branch</li>
+	<li>Once the hotfix is complete, it is merged to both Master Branch and Development Branch</li>
+	<li>Master Branch should be tagged with a version number</li>
 	</ul>
 	The Master Branch stores the releases, and the Development Branch serves as an integration branch for features. Each new feature should reside in its own branch. Features, bug fixes and documentations go in Release Branch. Hotfix Branches are used to quickly patch releases.
 	
