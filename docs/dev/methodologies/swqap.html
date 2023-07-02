@@ -6,9 +6,28 @@
   </head>
   <body>
     <h1>SWQAP (Software Quality Assurance Plan)</h1>
-	<h2>Created</h2>
-	<p>Date: 6/30/2023</p>
-	<p>Name: Attila Balint</p>
+
+	<h3>Revision History</h3>
+    <table border="1">
+    <thead>
+      <tr>
+        <th>Rev.</th>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Section</th>
+        <th>Description of Change </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>00.01</td>
+        <td>6/30/2023</td>
+        <td>Attila Balint</td>
+        <td>all</td>
+        <td>initial revision</td>
+      </tr>
+    </tbody>
+    </table>
 
     <h2>1 Introduction</h2>
     <h3>1.1 Purpose</h3>	
@@ -70,6 +89,19 @@
     <h2>4 Software Development Processes</h2>	
     <h3>4.1 Version Control System</h3>
 	<p>Git as a version control system is a software tool that helps to track and manage changes to the software code, documents, and other artifacts in a software project. It helps to ensure the quality, consistency, and reliability of the software products or services, by enabling different types of testing, reviewing, and deploying on different versions or branches of the software code. It also helps to communicate the changes, updates, and statuses of the software code to the software project team, the software provider, and the software customers or users.</p>
+	<center><img src="images/gitflow.png" width="75%" height="75%"/></center>
+	Gitflow defines the following types of branches:
+	<ul>	
+	<li>1 A Development Branch is forked from Master Branch</li>
+	<li>2 A Release Branch is forked from Development Branch</li>
+	<li>3 Feature branches are forked from Development Branch</li>
+	<li>4 When a feature is complete, it is merged into the Development Branch</li>
+	<li>5 When the Release Branch is done, it is merged into Master Branch (and Development Branch)</li>
+	<li>6 If an issue in Master Branch is detected, a Hotfix Branch is forked from Master Branch</li>
+	<li>7 Once the hotfix is complete, it is merged to both Master Branch and Development Branch</li>
+	<li>8 Master Branch should be tagged with a version number</li>
+	</ul>
+	The Master Branch stores the releases, and the Development Branch serves as an integration branch for features. Each new feature should reside in its own branch. Features, bug fixes and documentations go in Release Branch. Hotfix Branches are used to quickly patch releases.
 	
     <h3>4.2 Branching Strategy</h3>
 	<p>A branching strategy is a set of rules and guidelines that define how branches are created, named, managed, merged, deleted, and documented in a software project. A branching strategy helps to organize and coordinate the work of multiple developers or teams on a shared codebase, using a version control system. It also helps to ensure the quality, stability, and security of the software product or service, by enabling different types of testing, reviewing, and deploying on different branches.</p>
@@ -99,27 +131,32 @@
     <h3>4.5 Testing Process</h3>
 	<p>ToDo</p>	
 	
-    <h3>4.6 Integration Process</h3>
-	<p>ToDO</p>	
+    <h3>4.6 Deployment Process</h3>		
+	General requirements:
+	<ul>
+	<li>The source code and parameter files shall allow the system to be rebuilt and run error-free on any docker container-based environment, as well as setting up the persistence environment from scratch (using migration database scripts)</li>
+	</ul>	
 	
-    <h3>4.7 Deployment Process</h3>
-	<p>we must have a separate SIT environment for testing which is managed solely by IP. The DEV environment would stay under SW control.
-The SIT environment would be built of docker containers orchestrated by docker compose. These containers’ images would be built now on developer machines and later in Gitlab CI/CD, the SIT environment itself would not be used for source code compilation and build (like the DEV now).</p>
-
-	<p>To achieve the mentioned goals the application containers’ parameterization should be externalized and able to set according to the target environment by docker compose or Kubernetes/Helm.
-Now the parameters are included in the built application package (kind of hardwired), which must be changed within a short timeframe to make SIT deployment feasible.</p>
-
-	<p>The SIT deployment job is assigned to Attila. To not compromise the roadmap and delivery of SW team by this high impact change, Attila could participate in its development as contributor and submit the changes via MRs reviewed by SW colleagues. This way these technical changes can be developed and tested apart from the business-related developments.</p>
-
-	<p>Development must be completely stopped on DEV and the following version tracking rules will be introduced:<br>
-1. You need a DevTest branch, only this version can be installed on the DEV environment.<br>
-2. The branch you want to test on DEV must be merged (PR) into the DevTest branch.<br>
-3. The DevTest branch version that has been installed must be tagged with the date of installation and the name of the installing user, the ticket numbers must also be included in the commit (in any case).<br>
-4. The version handed over for testing from the DevTest branch must be merged (released, PR) into the master and divided (you have to figure out how, but I would be happy with a version number as well)<br>
-5. Installs on Attila SIT with a specific tag (version number) from the master.</p>
-
-	<p>In the future, if we do not receive a master version that can be installed on the SIT without errors, I cannot accept it as fulfillment. This is not equivalent to the fact that there are no bugs, but it means that the system can be reproduced from source code and parameter files on any docker container-based environment and starts without errors, including pulling up the persistence environment from scratch (aka database scripts).</p>			
-
+	DEV (10.10.70.2) deployment requirements:
+	<ul>
+	<li>The deployment shall be Softwave's responsibility</li>		
+	<li>The Release Branch shall be used for deployment</li>
+	<li>The Feature Branch for DEV testing shall be merged into the Release Branch</li>
+	<li>The Release Branch shall be tagged using installation versioning (date-username)</li>
+	<li>The issue IDs shall be included in the Git commit</li>
+	<li>The Release Branch for SIT testing shall be merged into the Master Branch</li>
+	<li>The Master Branch shall be tagged using semantic versioning (major.minor.patch)</li>
+	</ul>	
+		
+	SIT (10.10.70.4) deployment requirements:
+	<ul>
+	<li>The deployment shall be Innopay's responsibility</li>		
+	<li>The version tag shall be used for deployment</li>
+	<li>SIT shall use docker compose (or Kubernetes/Helm later) to run containers</li>
+	<li>Containers shall be built on local machines (or Gitlab CI/CD later)</li>
+	<li>Environment variables (or parameter files later) shall be used to configure the containers (e.g. database credentials)</li>
+	</ul>
+	
     <h2>4 Tools</h2>	
 	<p>ToDO</p>	
 
@@ -139,7 +176,7 @@ Now the parameters are included in the built application package (kind of hardwi
 	<p>ToDO</p>	
 	
 
-	
+	commitba be kell kerüljenek a ticket számok is.
   </body>
 </html>
 
