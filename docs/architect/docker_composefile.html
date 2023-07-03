@@ -10,7 +10,9 @@
 	<h2>docker-compose.yml</h2>
 	<ul>
 	<li>A YAML file</li>
-	<li>It defines and runs multiple containers as <i>a single service</i></li>		
+	<li>It defines and runs multi-container applications with Docker</li>
+	<li>A container is a standalone instance of an image that runs in isolation on a host machine</li>
+	<li>A service defines which container image to use and which commands to run in the container</li>	
 	</ul>
 	</li>	
 	
@@ -21,32 +23,28 @@
       <td style="width: 50%;"><b>Description</b></td>
     </tr>
     <tr>
-      <td>docker-compose -f docker-compose.yml build</td>
-	  <td>Build the images, Build or rebuild services</td>
+      <td>docker-compose build</td>
+	  <td>Build or rebuild services</td>
     </tr>			
 	<tr>
       <td>docker-compose up</td>
-	  <td>Build the images (if they do not exist), create and start the containers. Use the default files (docker-compose.yml and docker-compose.override.yml)</td>	  
-    </tr>	
-    <tr>
-      <td>docker-compose -f docker-compose.yml up</td>
-	  <td>Build the images (if they do not exist) and start the containers</td>
-    </tr>
-    <tr>
-      <td>docker-compose -f docker-compose.yml up --build</td>
-	  <td>Build the images (force the rebuild) and start the containers</td>
-    </tr>
-    <tr>
-      <td>docker-compose -f docker-compose.yml up --no-build</td>
-	  <td>Create and start the containers</td>
-    </tr>
-    <tr>
-      <td>docker-compose -f docker-compose.yml up --remove-orphans</td>
-	  <td>Remove the orphan containers</td>
+	  <td>Build the images (if they do not exist), create and start the services. Use the default files (docker-compose.yml and docker-compose.override.yml)</td>	  
     </tr>
     <tr>
       <td>docker-compose -f docker-compose.yml -f docker-compose.override.yml up</td>
 	  <td>Combine several files into a single configuration</td>
+    </tr>	
+    <tr>
+      <td>docker-compose up --build</td>
+	  <td>Build the images (force the rebuild) and start the services</td>
+    </tr>
+    <tr>
+      <td>docker-compose up --no-build</td>
+	  <td>Create and start the services</td>
+    </tr>
+    <tr>
+      <td>docker-compose up --remove-orphans</td>
+	  <td>Remove containers for services not defined in the Compose file</td>
     </tr>
     <tr>
       <td>docker-compose images</td>
@@ -54,33 +52,44 @@
     </tr>
     <tr>
       <td>docker-compose down db</td>
-	  <td>Stop and remove a service/container</td>
+	  <td>Stop and remove a service</td>
     </tr>
     <tr>
       <td>docker-compose down --rmi db</td>
-	  <td>Stop and remove a service/container and remove the image</td>
+	  <td>Stop and remove a service and remove the image</td>
+    </tr>
+    <tr>
+      <td>docker-compose rm</td>
+	  <td>Remove stopped services</td>
     </tr>
     <tr>
       <td>docker-compose start</td>
-	  <td>Start all services/containers</td>
+	  <td>Start all services</td>
     </tr>
     <tr>
       <td>docker-compose stop</td>
-	  <td>Stop all services/containers</td>
+	  <td>Stop all services</td>
     </tr>
     <tr>
       <td>docker-compose start db</td>
-	  <td>Start a single service/container</td>
+	  <td>Start a single service</td>
     </tr>
     <tr>
       <td>docker-compose stop db</td>
-	  <td>Stop a single service/container</td>
+	  <td>Stop a single service</td>
     </tr>
     <tr>
       <td>docker-compose restart</td>
-	  <td>Restart all services/containers</td>
+	  <td>Restart all services</td>
     </tr>	
-	
+    <tr>
+      <td>docker-compose push</td>
+	  <td>Push service images to repository</td>
+    </tr>	
+    <tr>
+      <td>docker-compose pull</td>
+	  <td>Pull service images from repository</td>
+    </tr>			
     </table>	
 
 	<h2>Examples</h2>	

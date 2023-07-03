@@ -35,12 +35,48 @@ cache or done
 	  <td>List all the images</td>
     </tr>
     <tr>
+      <td>docker ps -a</td>
+	  <td>List all the containers</td>
+    </tr>	
+    <tr>
       <td>docker run --rm myimage:2.1</td>
-	  <td>Create and run a new container from an image (automatically remove the container when it exits)</td>
+	  <td>Create and run a new container from an image<br>(automatically remove the container when it exits)</td>
     </tr>
     <tr>
       <td>docker rmi -f myimage:2.1</td>
-	  <td>Remove the image</td>
+	  <td>Remove one or more images (force removal)</td>
+    </tr>
+    <tr>
+      <td>docker image rm -f myimage:2.1</td>
+	  <td>Remove one or more images (force removal)</td>
+    </tr>
+    <tr>
+      <td>docker rm -f mycontainer</td>
+	  <td>Remove one or more containers (force removal)</td>
+    </tr>
+    <tr>
+      <td>docker exec -it mycontainer sh (deprecated)<br>docker container exec -it mycontainer sh</td>
+	  <td>Execute a command (a new shell) in a running container</td>
+    </tr>
+    <tr>
+      <td>docker cp ./some_file mycontainer:/work<br>docker cp mycontainer:/var/logs/ /tmp/app_logs</td>
+	  <td>Copy files/folders between a container and the local filesystem</td>
+    </tr>	
+    <tr>
+      <td>docker network ls</td>
+	  <td>Lists all the networks</td>
+    </tr>	
+    <tr>
+      <td>docker network prune</td>
+	  <td>Remove all unused networks</td>
+    </tr>
+    <tr>
+      <td>docker inspect NAME|ID</td>
+	  <td>Return low-level information on Docker objects</td>
+    </tr>
+    <tr>
+      <td>docker system prune</td>
+	  <td>Remove unused data (containers, networks, images, volumes)</td>
     </tr>	
     </table>	
 	

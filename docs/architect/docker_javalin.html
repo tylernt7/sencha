@@ -66,27 +66,7 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]</pre></code></div>
 	  --env, -e: Set environment variables (e.g. MYVAR2=foo)<br>
 	  --name: Assign a name to the container (e.g. test)<br>
 	  --volume, -v: Bind mount a volume (e.g. /doesnt/exist:/foo)<br>
-	  
-	  <li><b>Docker Commands</b>
-	  <div class="code"><code><pre><i>docker ps</i>: List containers
-<i>docker exec -it &lt;CONTAINER_ID&gt; sh</i>: Execute a command in a running container
-<i>docker cp ./some_file &lt;CONTAINER_ID&gt;:/work</i>: Copy files/folders from the local filesystem to the container
-<i>docker cp &lt;CONTAINER_ID&gt;:/var/logs/ /tmp/app_logs</i>: Copy files/folders from the container to the local filesystem
-<i>docker rm</i>: Remove one or more containers
-<i>docker image rm</i>: Remove one or more images</pre></code></div>
-	  
-	  <li><b>Docker Compose</b>: Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application's services: <i>docker-compose.yml</i> contains images and ports. Then, with a single command, you create and start all the services from your configuration.
-	  <div class="code"><code><pre><i>docker compose start</i>: Start services
-<i>docker compose stop</i>: Stop services
-<i>docker compose stop [SERVICE...]</i>: Stop a single service 
-<i>docker compose restart</i>: Restart service containers
-<i>docker compose build</i>: Build or rebuild services
-<i>docker compose rm</i>: Removes stopped service containers
-<i>docker compose pull</i>: Pull service images from repository
-<i>docker compose up</i>: Create and start containers
-</pre></code></div>
-
-	  
+	  	  
 	  <li><b>Access the application</b>: Navigate to <a href="http://localhost:7000">http://localhost:7000</a> in the browser</li>
 	  <li><b>Deploy the application</b>: Containers can be deployed on Azure (Azure ACI), Amazon (AWS ECS) or Kubernetes<br>
 	  
