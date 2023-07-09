@@ -10,51 +10,63 @@
 	<h2>Commands</h2>
 	<table border="1" style="width: 100%;">
     <tr>
-      <td style="width: 50%;"><b>Usage</b></td>
+      <td style="width: 25%;"><b>Linux command</b></td>
+	  <td style="width: 25%;"><b>Windows command</b></td>
       <td style="width: 50%;"><b>Description</b></td>
     </tr>		
     <tr>
       <td>sudo</td>
+	  <td>runas</td>
 	  <td>Run commands as the superuser or root</td>
     </tr>
     <tr>
       <td>ls</td>
-	  <td>List the files and directories in the current or specified directory</td>
+	  <td>dir</td>
+	  <td>List the files and directories in the current directory (sort entries alphabetically)</td>	  	  
     </tr>
     <tr>
       <td>pwd</td>
-	  <td>Print the current working directory</td>
+	  <td>cd</td>
+	  <td>Print the current (working) directory</td>
     </tr>
     <tr>
-      <td>cat</td> 
-	  <td>Concatenate or print files to the standard output</td>
+      <td>cat <i>(cat /etc/hosts)</i></td>
+	  <td>type</td> 
+	  <td>Concatenate or print file(s) to the standard output</td>
     </tr>
     <tr>
       <td>hostname</td>
-	  <td>Display or set the hostname of the system</td>
-    </tr>
-    <tr>
-      <td>apt-get update</td>
-	  <td>Update the list of available packages and their versions from the repositories</td>
-    </tr>
-    <tr>
-      <td>apt-get install ping</td>
-	  <td>Install the ping package</td>
-    </tr>
-    <tr>
-      <td>apt-get install iputils-ping</td>
-	  <td>Install the iputils-ping package</td>
+	  <td>hostname</td>
+	  <td>Print the name of the current host</td>
     </tr>
     <tr>
       <td>ping</td>
+	  <td>ping</td>
 	  <td>Low-level network connectivity test of a host or IP address</td>
     </tr>	
     <tr>
+      <td>apt-get update</td>
+	  <td>choco upgrade all</td>
+	  <td>Update the list of available packages and their versions from the repositories<br>(run before installing any packages)</td>
+    </tr>
+    <tr>
+      <td>apt-get install iputils-ping <i>(Linux)</i><br>apt-get install inetutils-ping <i>(non-Linux)</i></td>
+	  <td>choco install</td>
+	  <td>Install the ping package </td>
+    </tr>
+    <tr>
       <td>top</td>
-	  <td>Monitor the system performance and the processes running on it</td>
+	  <td>tasklist</td>
+	  <td>Monitor the system performance and the running processes (table of processes)</td>
     </tr>
 	<tr>
+      <td>clear</td>
+	  <td>cls</td>
+	  <td>Clear the (terminal) screen</td>
+    </tr>		
+	<tr>
       <td>exit</td>
+	  <td>exit</td>
 	  <td>Terminate the current shell session or process</td>
     </tr>	
     </table>	

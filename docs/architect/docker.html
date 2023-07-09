@@ -13,12 +13,12 @@
 	<h2>Difference between Virtual Machines and Dockers</h2>
 	Both Virtual Machines and Dockers provide isolated environments to run applications
 	<ul>
-	<li>A VM virtualizes both the operating system kernel and the application layer, and runs on its own guest operating system
+	<li>A VM virtualizes both the <i>operating system kernel</i> and the <i>application layer</i>, and runs on its own guest operating system
 	<ul>
 	<li>VirtualBox, Hyper-V, VMware Workstation</li>
 	</ul>
 	</li>
-	<li>A Docker virtualizes only the application layer, and runs on top of the host operating system
+	<li>A Docker virtualizes only the <i>application layer</i>, and runs on top of the host operating system
 	<ul>
 	<li>Dockers bundle their own software, binaries/libraries and configuration files</li>
 	<li>Dockers use fewer resources than virtual machines because of single operating system kernel</li>
@@ -50,12 +50,22 @@
 	</ul>
 	<center><img src="images\docker_architecture.png" width="50%" height="50%"/></center>	
 		
+	<h2>Dockerfile, Docker Image, and Docker Container</h2>
+	<center><img src="images\docker_container.png" width="50%" height="50%"/></center>
+		
+	<h2>chroot</h2>
+	<p>A <i>chroot</i> (change root) is an operation in the Unix/Linux operating systems that changes the root directory for the running process. A program that is run in a modified environment (chroot jail) is imprisoned in this directory (a smaller system) and cannot access files outside of it.</p>
+	<p>A Docker container provides more isolation than chroot by using multiple namespace types, such as pid, user, uts, ipc, net and mnt.</p>
+	<p>To have a functional chroot environment, the kernel virtual file systems and configuration files also have to be mounted/copied from host to chroot (independent Linux system with a separate file system).</p>
+	<center><img src="images\chroot.png" width="50%" height="50%"/></center>
+	
 	<h2>References</h2>
  	<ul>
 	  <li><a href="https://www.oracle.com/cloud/what-is-cloud-computing/">What is Cloud Computing?</a></li>
 	  <li><a href="https://www.oracle.com/cx/what-is-crm/">What is CRM?</a></li>
 	  <li><a href="https://www.oracle.com/cloud/cloud-native/container-registry/what-is-docker/">What is Docker?</a></li>
 	  <li><a href="https://www.oracle.com/cloud/cloud-native/container-engine-kubernetes/what-is-kubernetes/">What is Kubernetes?</a></li>
+	  <li><a href="https://www.youtube.com/watch?v=wYE3d7PE_Mc">What is Dockerfile, Docker Image, and Docker Container</a></li>
  	</ul>	
   </body>
 </html>

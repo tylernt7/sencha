@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="common.css">
+  </head>
+  <body>
+    <h1>Interjú kérdések</h1>
+	
+    <h2>SQL</h2>
+    <p><b>Kérdés</b>: Mit ért tárolt eljárás alatt SQL-ben?<br>
+    <b>Válasz</b>: A tárolt eljárások olyan SQL parancsok halmaza, amelyeket az adatbázisban tárolnak és újra felhasználhatóak. Egy tárolt eljárás bemeneti és kimeneti paramétereket is fogadhat, így több kliens is használhatja ugyanazt az eljárást a hálózaton keresztül különböző bemeneti adatokkal.<br> 
+    <b>Innopay példa</b>: sp_delete_payment_requests</p>
+    
+    <p><b>Kérdés</b>: Milyen előnyei és hátrányai vannak az adatbázis tábla tartomány szerinti particionálásának (PARTITION BY RANGE)?<br>
+    <b>Válasz</b>: Ebben a technikában az adatok egy értéktartomány alapján vannak felosztva.<br>
+    - Előnye: Lehetővé teszi azon adatok hatékony levágását, amelyekre nincs szükség egy adott lekérdezéshez. Ez jelentős teljesítményjavuláshoz vezethet nagy adatkészletek kezelésekor.<br>
+    - Hátránya: Megkövetelheti a partíciós séma és funkció manuális karbantartását, például a határértékek megváltoztatását, a partíciók összevonását vagy felosztását, hogy alkalmazkodni tudjon az adatok vagy üzleti követelmények változásaihoz.<br>
+    <b>Innopay példa</b>: CREATE TABLE data.payment_requests_partitioned (...) PARTITION BY RANGE (transaction_status)</p>
+    
+    <p><b>Kérdés</b>: Hogyan biztosítja az SQL szabvány az elosztott tranzakciók atomiságát és konzisztenciáját?<br>
+    <b>Válasz</b>: Az SQL szabvány az elosztott tranzakciók atomiságát és konzisztenciáját a COMMIT és a ROLLBACK utasításokkal biztosítja. A COMMIT utasítás véglegesíti a tranzakció által végrehajtott módosításokat, és lezárja a tranzakciót. A ROLLBACK utasítás visszaállítja az adatbázist a tranzakció kezdete előtti állapotra, és lezárja a tranzakciót. Mindkét utasítás hatására a tranzakcióban érintett adatok feloldódnak, és más tranzakciók számára elérhetővé válnak.<br>
+    <b>Innopay példa</b>:
+    <pre>void SavePartner() {
+  try {
+  	SavePartner();
+  	transaction.Commit();
+  } catch {
+  	transaction.Rollback();
+  }
+}</pre></p>
+        
+	<h2>.NET</h2>
+    
+    <p><b>Kérdés</b>: Sorolja fel a SOLID alapelveket<br>
+    <b>Válasz</b>:<br>
+    - Single Responsibility Principle (Egyetlen felelősség elv)<br>
+    - Open Closed Principle (Nyílt zárt elv)<br>
+    - Liskov Substitution Principle (Liskov helyettesítési elv)<br>
+    - Interface Segregation Principle (Interfész szétválasztási elv)<br>
+    - Dependency Inversion Principle (Függőség megfordítási elv)</p>
+    
+    <p><b>Kérdés</b>: Mi a különbség az AddSingleton és az AddTransient metódusok között az ASP.NET Core függőségi injekcióban?<br>
+    <b>Válasz</b>:<br>
+    - AddSingleton: A szolgáltatások az első kéréskor jönnek létre (az objektumok minden kérésnél ugyanazok)<br>
+    - AddTransient: A szolgáltatások minden alkalommal létrejönnek, amikor kérik őket (az objektumok mindig mások)<br>
+    - AddScoped: A szolgáltatások webes kliens kérésenként/kapcsolatonként egyszer jönnek létre (az objektumok ugyanazok egy adott kérésnél, de minden új kérésnél eltérőek)<br>
+    <b>Innopay példa</b>: Persistence\DependencyInjection.cs (AddSingleton, AddTransient)</p>
+        
+	<h2>Mikroszolgáltatások</h2>
+    
+    <p><b>Kérdés</b>: Milyen szinkron és aszinkron technológiákat ismer mikroszolgáltatások kommunikációja esetén?<br>
+    <b>Válasz</b>:<br>
+    - Szinkron kommunikációs módszerek: REST, SOAP, WebSocket és gRPC<br>
+    - Aszinkron kommunikációs módszerek: RabbitMQ, ActiveMQ és Apache Kafka<br>
+    <b>Innopay példa</b>: REST, SOAP és RabbitMQ<br>
+    
+    <p><b>Kérdés</b>: Sorolja fel a REST API leggyakrabban használt HTTP(s) request metódusait és mire szolgálnak<br>
+    <b>Válasz</b>:<br>
+    - GET: Egy erőforrás lekérdezése<br>
+    - POST:	Egy új erőforrás létrehozása<br>
+    - PUT: Egy meglévő erőforrás frissítése (idempotens)<br>
+    - DELETE: Egy meglévő erőforrás törlése<br>
+    <b>Innopay példa</b>: Payment request</p>
+    
+    <p><b>Kérdés</b>: Hogyan állíthat be és használhat környezeti változókat a Docker Compose alkalmazásban?<br>
+    <b>Válasz</b>:<br>
+    - .env fájl létrehozása a docker-compose.yml fájl mellett<br>
+    - Az environment attribútum használata a Docker Compose fájlban<br>
+    - Az env_file attribútum használata a Docker Compose fájlban<br>
+    - Környezeti változók használata a shellben<br>
+    <b>Innopay példa</b>: IQR, PKI</p>
+    
+    <p><b>Kérdés</b>: Hogyan teheti biztonságossá a RESTful API-kat OAuth2 és JSON Web Tokens (JWT) használatával?<br>
+	<b>Válasz</b>:<br>
+    - Az OAuth2 használata az OAuth2 autorizáció keretrendszer megvalósításához<br>
+    - Az Authorization Server és a Resource Server konfigurálása<br>
+    - A JWT tokenek használata hozzáférési tokenként az állapot nélküli hitelesítéshez, és az "Authorization" header-ben átadása<br>
+    <b>Innopay példa</b>: Keycloak</p>
+
+  </body>
+</html>

@@ -27,7 +27,7 @@ cache or done
       <td style="width: 50%;"><b>Description</b></td>
     </tr>	
     <tr>
-      <td>docker build -t myimage:2.1 .</td>
+      <td>docker build -t IMAGE .</td>
 	  <td>Build the image</td>
     </tr>
     <tr>
@@ -39,24 +39,28 @@ cache or done
 	  <td>List all the containers</td>
     </tr>	
     <tr>
-      <td>docker run --rm myimage:2.1</td>
+      <td>docker run --rm IMAGE</td>
 	  <td>Create and run a new container from an image<br>(automatically remove the container when it exits)</td>
     </tr>
     <tr>
-      <td>docker rmi -f myimage:2.1</td>
+      <td>docker rmi -f IMAGE</td>
 	  <td>Remove one or more images (force removal)</td>
     </tr>
     <tr>
-      <td>docker image rm -f myimage:2.1</td>
+      <td>docker image rm -f IMAGE</td>
 	  <td>Remove one or more images (force removal)</td>
     </tr>
     <tr>
-      <td>docker rm -f mycontainer</td>
+      <td>docker rm -f CONTAINER</td>
 	  <td>Remove one or more containers (force removal)</td>
     </tr>
     <tr>
-      <td>docker exec -it mycontainer sh (deprecated)<br>docker container exec -it mycontainer sh</td>
+      <td>docker exec -it CONTAINER sh <i>(deprecated)</i><br>docker container exec -it CONTAINER sh<br>docker container exec -it CONTAINER /bin/bash</td>
 	  <td>Execute a command (a new shell) in a running container</td>
+    </tr>
+    <tr>
+      <td>docker logs CONTAINER > container_name.log<br>docker container logs CONTAINER > container_name.log</td>
+	  <td>Fetch the logs of a container</td>
     </tr>
     <tr>
       <td>docker cp ./some_file mycontainer:/work<br>docker cp mycontainer:/var/logs/ /tmp/app_logs</td>
@@ -64,8 +68,12 @@ cache or done
     </tr>	
     <tr>
       <td>docker network ls</td>
-	  <td>Lists all the networks</td>
-    </tr>	
+	  <td>List all the networks</td>
+    </tr>
+    <tr>
+      <td>docker network connect NETWORK CONTAINER</td>
+	  <td>Connect a container to a network</td>
+    </tr>
     <tr>
       <td>docker network prune</td>
 	  <td>Remove all unused networks</td>
@@ -79,6 +87,8 @@ cache or done
 	  <td>Remove unused data (containers, networks, images, volumes)</td>
     </tr>	
     </table>	
+	
+	
 	
 	<h2>Examples</h2>
     <table border="1" style="width: 100%;">

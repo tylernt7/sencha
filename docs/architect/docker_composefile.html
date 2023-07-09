@@ -23,74 +23,89 @@
       <td style="width: 50%;"><b>Description</b></td>
     </tr>
     <tr>
-      <td>docker-compose build</td>
+      <td>docker compose build</td>
 	  <td>Build or rebuild services</td>
     </tr>			
 	<tr>
-      <td>docker-compose up</td>
+      <td>docker compose up</td>
 	  <td>Build the images (if they do not exist), create and start the services. Use the default files (docker-compose.yml and docker-compose.override.yml)</td>	  
     </tr>
     <tr>
-      <td>docker-compose -f docker-compose.yml -f docker-compose.override.yml up</td>
+      <td>(!) docker compose -f docker-compose.yml -f docker-compose.override.yml up</td>
 	  <td>Combine several files into a single configuration</td>
     </tr>	
     <tr>
-      <td>docker-compose up --build</td>
+      <td>docker compose up --build</td>
 	  <td>Build the images (force the rebuild) and start the services</td>
     </tr>
     <tr>
-      <td>docker-compose up --no-build</td>
+      <td>docker compose up --no-build</td>
 	  <td>Create and start the services</td>
     </tr>
     <tr>
-      <td>docker-compose up --remove-orphans</td>
+      <td>docker compose up --remove-orphans</td>
 	  <td>Remove containers for services not defined in the Compose file</td>
     </tr>
     <tr>
-      <td>docker-compose images</td>
+      <td>docker compose images</td>
 	  <td>List images built by docker-compose</td>
     </tr>
     <tr>
-      <td>docker-compose down db</td>
+      <td>docker compose down SERVICE</td>
 	  <td>Stop and remove a service</td>
     </tr>
     <tr>
-      <td>docker-compose down --rmi db</td>
-	  <td>Stop and remove a service and remove the image</td>
+      <td>(!) docker compose down --rmi all --volumes</td>
+	  <td>Stop and remove all containers, images, networks and volumes</td>
     </tr>
     <tr>
-      <td>docker-compose rm</td>
+      <td>docker compose rm</td>
 	  <td>Remove stopped services</td>
     </tr>
     <tr>
-      <td>docker-compose start</td>
+      <td>docker compose start</td>
 	  <td>Start all services</td>
     </tr>
     <tr>
-      <td>docker-compose stop</td>
+      <td>docker compose stop</td>
 	  <td>Stop all services</td>
     </tr>
     <tr>
-      <td>docker-compose start db</td>
+      <td>docker compose start SERVICE</td>
 	  <td>Start a single service</td>
     </tr>
     <tr>
-      <td>docker-compose stop db</td>
+      <td>docker compose stop SERVICE</td>
 	  <td>Stop a single service</td>
     </tr>
     <tr>
-      <td>docker-compose restart</td>
+      <td>docker compose restart</td>
 	  <td>Restart all services</td>
+    </tr>
+	<tr>
+      <td>docker compose ls</td>
+	  <td>List running Compose projects</td>
     </tr>	
     <tr>
-      <td>docker-compose push</td>
+      <td>docker compose ps</td>
+	  <td>List containers for a Compose project (with current status and exposed ports)</td>
+    </tr>
+    <tr>
+      <td>docker compose push</td>
 	  <td>Push service images to repository</td>
     </tr>	
     <tr>
-      <td>docker-compose pull</td>
+      <td>docker compose pull</td>
 	  <td>Pull service images from repository</td>
     </tr>			
     </table>	
+	
+	<h2>Specifying Compose files</h2>
+	<p>The -f option for docker compose is used to specify the name and path of one or more Compose files. By default, Docker Compose looks for a file named compose.yaml or docker-compose.yaml in the current directory or its parent directories. If you want to use a different file name or location, you can use the -f option to tell Docker Compose where to find it. For example: <i>docker compose -f my-compose-file.yml COMMAND</i></p>
+	
+	<h2>Docker Compose CLI</h2>
+	<p>Compose v1 (written in Python): docker-compose</p>
+	<p>Compose v2 (written in Go): docker compose</p>	
 
 	<h2>Examples</h2>	
     <table border="1" style="width: 100%;">
