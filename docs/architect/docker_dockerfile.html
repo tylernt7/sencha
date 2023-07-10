@@ -39,6 +39,14 @@ cache or done
 	  <td>List all the containers</td>
     </tr>	
     <tr>
+      <td>docker start CONTAINER</td>
+	  <td>Start a stopped container</td>
+    </tr>
+    <tr>
+      <td>docker stop CONTAINER</td>
+	  <td>Stop a running container</td>
+    </tr>		
+    <tr>
       <td>docker run --rm IMAGE</td>
 	  <td>Create and run a new container from an image<br>(automatically remove the container when it exits)</td>
     </tr>
@@ -65,7 +73,29 @@ cache or done
     <tr>
       <td>docker cp ./some_file mycontainer:/work<br>docker cp mycontainer:/var/logs/ /tmp/app_logs</td>
 	  <td>Copy files/folders between a container and the local filesystem</td>
+    </tr>
+    <tr>
+      <td>docker save IMAGE > IMAGE.tar</td>
+	  <td>Save an image to a tar archive</td>
+    </tr>
+    <tr>
+      <td>docker load &lt; IMAGE.tar</td>
+	  <td>Load an image from a tar archive</td>
     </tr>	
+    <tr>
+      <td>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</td>
+	  <td>
+--detach, -d: Run container in background and print container ID<br>	  
+--env: Set environment variables<br>
+--hostname: Container host name<br>
+--label: Set meta data on a container<br>
+--network: Connect a container to a network<br>
+--publish, -p: Publish a container’s port(s) to the host<br>
+--restart no: Restart policy to apply when a container exits<br>
+--runtime runc: Runtime to use for this container<br>
+--volume: Bind mount a volume<br>
+--workdir: Working directory inside the container</td>
+    </tr>
     <tr>
       <td>docker network ls</td>
 	  <td>List all the networks</td>
