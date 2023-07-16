@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Public Key Infrastructure (PKI)</title>
+    <link rel="stylesheet" href="../common.css">	
+  </head>
+  <body>
+    <h1>Public Key Infrastructure (PKI)</h1>
+		
+	<h2>Concept</h2>
+	<p>A Public Key Infrastructure is a system that can manage (create, distribute, store and revoke) digital certificates. The purpose of a PKI is to secure the electronic communication (e-commerce, internet banking and confidential email). Certificates are used for authentication as well as validating the information.<br>
+	Each individual has a public key and a private key in an asymmetric system. The public key can verify a digital signature that the private key creates.</p>
+
+	<li><b>Authentication</b>: It confirms the identity of a user. It is performed by password verification.<br>
+      <ul>
+	    <li><b>Basic (Access) Authentication</b>: It requires users to provide a user name and password credentials.</li>
+	    <li><b>Single Sign-On (SSO)</b>: It lets users authenticate themselves just once to access information on any of several systems.</li>			
+      </ul>		
+	</li>
+	<li><b>Authorization</b>: It determines the access level granted a user. It happens after authentication. It is performed by assigning a user to pre-defined groups (classes). Each group lists available objects, along with an associated object-access type (read-only, write-only, or read-write privilege/permission).<br>
+	</li>
+	
+	<h2>Keycloak</h2>
+	<p>Keycloak is an open source identity and access management (IAM) solution. It provides authentication, authorization, user federation (LDAP and Active Directory) and user management for applications and services.</p>
+	<b>Standard Protocols</b>
+    <ul>
+	  <li><b>OAuth 2.0</b>: OAuth2 clients (front end applications) can obtain access tokens from the authorization server using the token endpoint and use these same tokens to access resources protected by a resource server (back end services).</li>
+	  <li><b>OpenID Connect 1.0</b>: OpenID Connect is an identity layer on top of OAuth 2.0 to verify the identity of a user by an ID token (using SSO).</li>	  	
+	  <li><b>SAML 2.0</b>: SAML (Security Assertion Markup Language) uses XML-based messages to exchange data between an identity provider and a service provider (using SSO).</li>	  
+    </ul>
+	
+	<h2>Definitions</h2>
+	<b>Digital Signature</b>: It is an electronic fingerprint that proves the authenticity and integrity of a digital document. The signature verifier can make sure that the signed content was signed by the alleged sender and was received in an unchanged form.<br>
+	<b>Digital Certificate</b>: It is an electronic document that proves the ownership of a public key and verifies the identity and authenticity of an individual user or device by checking the signature of the Certificate Authority (CA) that issued the certificate.<br>	
+	<b>Chain of Trust (Certificate Chain)</b>: It is an ordered list of certificates that enable the receiver to verify the trustworthiness of a sender (e.g. SSL/TLS certificate). If the certificate is not issued directly by Root CA, a chain is formed. An intermediate certificate is considered reliable if the Root CA is responsible for it, i.e. the certificate of the intermediate CA was issued by the Root CA and has not been revoked in the meantime. Each certificate in the chain is signed by the entity that issued the next certificate in the chain. The chain terminates with a Root CA certificate, which is a self-signed certificate that is trusted by the receiver's browser or device.<br>
+	ToDo: picture<br>
+	<b>DER</b>: Distinguished Encoding Rules, a binary certificate format for encoding data structures defined by ASN.1. DER is used for encoding X.509 certificates, certificate revocation lists (CRLs), certificate trust lists (CTLs), online certificate status protocol (OCSP), public and private keys.<br>
+	<b>PEM</b>: ToDo<br>
+	<b>PKCS#7</b>: Public-Key Cryptography Standards #7, a standard syntax for storing signed and/or encrypted data, such as certificates, CRLs, or messages. PKCS#7 can use either DER (binary) or PEM (Base64 ASCII) encoding. The latest version, 1.5, is described in RFC 2315.<br>
+	<b>PKCS#11</b>:ToDo<br>
+	<b>ASN.1</b>: Abstract Syntax Notation One, a standard interface description language for defining data structures and data serialization formats in a platform-independent way (formal notation to describe data types). The ASN.1 encoding rules include BER (Basic Encoding Rules), DER, PER and XER. BouncyCastle includes support for ASN.1 data structures and encodings, as well as various protocols and standards that use ASN.1, such as X.509, CMS, OCSP, etc.<br>	
+	<b>OID</b>: Object IDentifier, a sequence of numbers (such as 2.5.4.3) identifying objects in a unique way in X.509 certificates (a basic ASN.1 type). OIDs are used to identify various elements in certificates, such as algorithms, extensions, policies, etc.<br>
+	<b>AIA</b>: Authority Information Access, an extension in X.509 certificates that indicates how to access CA information and services about the issuer of the certificate as detailed in RFC 3280.<br>
+
+	<h2>Design</h2>
+	<b>RA (Registration Authority)</b>: It authenticates the entity (people or organizations) making the request<br>
+	<b>CA (Certificate/Certification Authority)</b>: It stores, signs, issues and revokes certificates<br>
+	<b>VA (Validation Authority)</b>: It checks the validity of the certificates (signed X.509)<br>
+	<center><img src="images\pki.png" width="50%" height="50%"/></center>	 
+  </body>
+</html>

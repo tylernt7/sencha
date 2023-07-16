@@ -10,7 +10,7 @@
     <h2>Terminology</h2>
 	<p><b>Encryption</b> (coding): It is a cipher algorithm (mathematical function) that converts plaintext (a sequence of numbers) into another text</p>
 	<p><b>Decryption</b> (decoding): It is the reverse process of encryption</p>
-    <center><img src="images\cryptography_encryption.png" width="50%" height="50%"/></center>		
+    <center><img src="images\encryption.png" width="50%" height="50%"/></center>		
 	
     <h2>Cryptography</h2>
 	Symmetric key ciphers:
@@ -18,24 +18,9 @@
 	<li><b>Block cipher</b>: It encrypts fixed-length groups of bits (blocks of plaintext)</li>
 	<li><b>Stream cipher</b>: It encrypts each plaintext digit one at a time with the corresponding digit of a pseudorandom cipher stream (keystream)</li>
 	</ul>
-    <center><img src="images\cryptography.png" width="50%" height="50%"/></center>	
+	<center><img src="images\cryptography.png" width="50%" height="50%"/></center>	
 	<i>Note</i>: Checksum algorithms, such as CRC32, are not suitable as hash functions because they meet much weaker requirements. Attacks exploit the linearity of the checksum (WEP).
 	
-	<h2>Public Key Infrastructure (PKI)</h2>
-	<p>A Public Key Infrastructure is a system that can manage (create, distribute, store and revoke) digital certificates. The purpose of a PKI is to secure the electronic communication (e-commerce, internet banking and confidential email). Certificates are used for authentication as well as validating the information.<br>
-	Each individual has a public key and a private key in an asymmetric system. The public key can verify a digital signature that the private key creates.</p>
-	<p>
-	<b>Authentication</b>: It confirms the identity of a user. It is performed by password verification.<br>
-	<b>Authorization</b>: It determines the access level granted a user. It happens after authentication. It is performed by assigning a user to pre-defined groups (classes). Each group lists available objects, along with an associated object-access type (read-only, write-only, or read-write privilege/permission).<br>
-	<b>Basic (Access) Authentication</b>: It requires users to provide a user name and password credentials.<br>
-	<b>Single Sign-On</b> (SSO): It lets users authenticate themselves just once to access information on any of several systems. 
-	</p>
-		
-	<b>RA (Registration Authority)</b>: authenticates the entity (people or organizations) making the request<br>
-	<b>CA (Certificate/Certification Authority)</b>: stores, signs and distributes the certificate<br>
-	<b>VA (Validation Authority)</b>: checks the validity of the certificate (signed X.509)<br>
-	<center><img src="images\cryptography_pki.png" width="50%" height="50%"/></center>	
-
     <h2>Examples</h2>
 	<ul>
 	<li><b>Skype</b>: CRC32, MD5, SHA-1, AES128, RC4, RSA</li>
