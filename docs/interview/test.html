@@ -26,6 +26,9 @@ RabbitMQ enables synchronous processing of messages between microservices.<br>
 
 Storing binary data (e.g. images) as string can cause corruption or distortion of the data.<br>
 <i>True</i><br>
+
+SOAP UI can only test SOAP based web services, for other services (e.g. REST) Postman can be used<br>
+<i>True</i><br>
 	
     <p><b>Question</b>: How can you make the following code more extensible and maintainable without modifying its existing logic?</p>
 	 <div class="code"><code><pre>
@@ -128,6 +131,7 @@ public class EmailSender : IEmailSender
   public async Task SendEmailAsync(string email, string subject, string message)
   {
     var mailMessage = new MailMessage("noreply@example.com", email, subject, message);
+	// CS4017: Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
     <b>await</b> _client.SendMailAsync(mailMessage);
   }
 }
