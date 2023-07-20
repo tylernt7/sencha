@@ -24,12 +24,12 @@ Businesses may prefer to keep their applications on on-premise infrastructure fo
 RabbitMQ enables synchronous processing of messages between microservices.<br>
 <i>False. RabbitMQ enables asynchronous processing of messages between microservices, meaning that it allows you to put a message in a queue without processing it immediately. This way, the message producer and consumer do not have to wait for each other or be available at the same time. Asynchronous processing can improve the scalability, reliability, and performance of microservices</i><br>
 
+SOAP UI can only test SOAP based web services, for other services (e.g. REST) Postman can be used.<br>
+<i>False. SOAP UI is a tool for testing web services, both SOAP and REST based.</i><br>
+	
 Storing binary data (e.g. images) as string can cause corruption or distortion of the data.<br>
 <i>True</i><br>
 
-SOAP UI can only test SOAP based web services, for other services (e.g. REST) Postman can be used<br>
-<i>True</i><br>
-	
     <p><b>Question</b>: How can you make the following code more extensible and maintainable without modifying its existing logic?</p>
 	 <div class="code"><code><pre>
 public interface Payment
@@ -151,7 +151,7 @@ public class Startup
 
 public class HomeController : Controller
 {
-  private <b>readonly</b> IEmailSender _emailSender;
+  private <b>readonly</b> IEmailSender _emailSender; // The read-only modifier means that the field can only be assigned a value once.
   
   public HomeController(IEmailSender emailSender)
   {
@@ -186,8 +186,9 @@ Some disadvantages of base64 encoding are:<br>
 •  Check the padding of the string. There should be at most 2 padding characters at the end of the string, and they should be =.<br>
 •  Try to decode the string using a base64 decoder. If it succeeds without errors, it is likely that the string is base64 encoded.<br>
 	
-    <p><b>Question</b>: Implement a method that returns the nth fibonacci number.<br>https://leetcode.com/problems/fibonacci-number/<br>
-    <b>Answer</b>: Using recursive approach:
+    <p><b>Question</b>: Implement a method that returns the nth fibonacci number.<br>
+	<a href="https://leetcode.com/problems/fibonacci-number">https://leetcode.com/problems/fibonacci-number</a><br>
+    <b>Answer</b>: A Fibonacci number is a number that is an element of the Fibonacci sequence. The Fibonacci sequence is a sequence of numbers where each number is the sum of the previous two numbers, except for the first two numbers, which are 0 and 1.<br>Using recursive approach:
 	 <div class="code"><code><pre>public int Fibonacci(int n)
 {
   if (n &lt;= 0)
