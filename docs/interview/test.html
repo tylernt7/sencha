@@ -131,7 +131,7 @@ public class EmailSender : IEmailSender
   public async Task SendEmailAsync(string email, string subject, string message)
   {
     var mailMessage = new MailMessage("noreply@example.com", email, subject, message);
-	// CS4017: Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
+    // CS4017: Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
     <b>await</b> _client.SendMailAsync(mailMessage);
   }
 }
