@@ -131,17 +131,21 @@ public class EmailSender : IEmailSender
   public async Task SendEmailAsync(string email, string subject, string message)
   {
     var mailMessage = new MailMessage("noreply@example.com", email, subject, message);
-    // CS4017: Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
+    // CS4017: Because this call is not awaited, execution of the current method continues before the call is completed. 
+    // Consider applying the 'await' operator to the result of the call.
     <b>await</b> _client.SendMailAsync(mailMessage);
   }
 }
 
 public class Startup 
 {
+
+  // It configures the dependency injection services for an ASP.NET Core application. The lambda expression takes a parameter of type IServiceProvider, 
+  // which is an interface for resolving dependencies. The AddTransient method registers the EmailSender class as a transient service for the IEmailSender interface, 
+  // meaning that a new instance of EmailSender will be created every time it is requested by another service or controller.
   public void ConfigureServices(IServiceCollection services)
   {
-    services.<b>AddTransient</b>&lt;IEmailSender>(sp => new EmailSender(new SmtpClient("smtp.example.com")));
-	
+    services.<b>AddTransient</b>&lt;IEmailSender>(sp => new EmailSender(new SmtpClient("smtp.example.com")));	
   }
 }
 
