@@ -31,20 +31,125 @@
 	
 	<h2>Definitions</h2>
 	<b>Digital Signature</b>: It is an electronic fingerprint that proves the authenticity and integrity of a digital document. The signature verifier can make sure that the signed content was signed by the alleged sender and was received in an unchanged form.<br>
-	<b>Digital Certificate</b>: It is an electronic document that proves the ownership of a public key and verifies the identity and authenticity of an individual user or device by checking the signature of the Certificate Authority (CA) that issued the certificate.<br>	
-	<b>Chain of Trust (Certificate Chain)</b>: It is an ordered list of certificates that enable the receiver to verify the trustworthiness of a sender (e.g. SSL/TLS certificate). If the certificate is not issued directly by Root CA, a chain is formed. An intermediate certificate is considered reliable if the Root CA is responsible for it, i.e. the certificate of the intermediate CA was issued by the Root CA and has not been revoked in the meantime. Each certificate in the chain is signed by the entity that issued the next certificate in the chain. The chain terminates with a Root CA certificate, which is a self-signed certificate that is trusted by the receiver's browser or device.<br>
-	<center><img src="images\chain_of_trust.png" width="50%" height="50%"/></center><br>
+	<b>Digital Certificate</b>: It is an electronic document that proves the ownership of a public key and verifies the identity and authenticity of an individual user or device by checking the signature of the Certificate Authority (CA) that issued the certificate.<br>
 	<b>DER</b>: Distinguished Encoding Rules, a binary certificate format for encoding data structures defined by ASN.1. DER is used for encoding X.509 certificates, certificate revocation lists (CRLs), certificate trust lists (CTLs), online certificate status protocol (OCSP), public and private keys.<br>
-	<b>PEM</b>: ToDo<br>
-	<b>PKCS#7</b>: Public-Key Cryptography Standards #7, a standard syntax for storing signed and/or encrypted data, such as certificates, CRLs, or messages. PKCS#7 can use either DER (binary) or PEM (Base64 ASCII) encoding. The latest version, 1.5, is described in RFC 2315.<br>
+	<b>PEM</b>: Privacy Enhanced Mail, a file that stores one or more items in Base64 encoding, such as a certificate, a certificate chain, a public or private key.<br>
+	<b>PKCS#7</b>: Public-Key Cryptography Standards #7, defines a standard syntax for storing signed and/or encrypted data, such as certificates, CRLs, or messages. PKCS#7 can use either DER (binary) or PEM (Base64 ASCII) encoding. The latest version, 1.5, is described in RFC 2315.<br>
 	<b>PKCS#11</b>: Public-Key Cryptography Standards #11, defines a platform-independent API to access cryptographic tokens, such as hardware security modules (HSM) and smart cards. It allows applications to perform cryptographic operations, such as generating, encrypting, decrypting, signing, verifying and storing keys and data. Some software that use PKCS #11 are Mozilla Firefox, OpenSSL, and Oracle Solaris.<br>
+	<b>PKCS#12</b>: Public-Key Cryptography Standards #12, defines a file format for storing multiple cryptographic objects, such as certificates, certificate chains, public and private keys, in a single file. PKCS#12 files are encrypted and signed. PKCS#12 is the successor to Microsoft's "PFX".<br>	
 	<b>ASN.1</b>: Abstract Syntax Notation One, a standard interface description language for defining data structures and data serialization formats in a platform-independent way (formal notation to describe data types). The ASN.1 encoding rules include BER (Basic Encoding Rules), DER (Distinguished Encoding Rules), PER (Packed Encoding Rules) and XER (XML Encoding Rules). The Bouncy Castle APIs support ASN.1 data structures and encodings, as well as various protocols and standards that use ASN.1, such as X.509, CMS, OCSP, etc.<br>	
 	<b>OID</b>: Object IDentifier, a sequence of numbers (such as 2.5.4.3) identifying objects in a unique way in X.509 certificates (a basic ASN.1 type). OIDs are used to identify various elements in certificates, such as algorithms, extensions, policies, etc.<br>
 	<b>AIA</b>: Authority Information Access, an extension in X.509 certificates that indicates how to access CA information and services about the issuer of the certificate as detailed in RFC 3280.<br>
-
+    <b>HSM</b>: Hardware Security Module, a device for the secure execution of cryptographic operations (encryption, decryption, authorization, authentication and digital signing). It generates and stores keys inside a hardened, tamper-resistant device. It prevents physical/unauthorised tampering with self-destruct mechanisms.<br>
+	
+	<h2>Chain of Trust (Certificate Chain)</h2>		
+	<p>It is an ordered list of certificates that enable the receiver to verify the trustworthiness of a sender (e.g. SSL/TLS certificate). If the certificate is not issued directly by Root CA, a chain is formed. An intermediate certificate is considered reliable if the Root CA is responsible for it, i.e. the certificate of the intermediate CA was issued by the Root CA and has not been revoked in the meantime. Each certificate in the chain is signed by the entity that issued the next certificate in the chain. The chain terminates with a Root CA certificate, which is a self-signed certificate that is trusted by the receiver's browser or device.</p>
+	<center><img src="images\chain_of_trust.png" width="50%" height="50%"/></center><br>	
+	
+    <table border="1">
+    <thead>
+      <tr>
+        <th></th>       
+        <th>End-entity Certificate (Végfelhasználói Tanúsítvány)</th>
+        <th>Intermediate Certificate (Közbenső/Köztes Tanúsítvány)</th>
+        <th>Root Certificate (Gyökér/Fő Tanúsítvány)</th>		
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Algorithm</td>
+        <td>NIST P-384 standard<br>IEEE P1363 format<br></td>
+        <td>ECDSA P-384 keys, RSA or DSA</td>		
+        <td>ECDSA P-384 keys, RSA or DSA</td>		
+      </tr>
+      <tr>
+        <td>Expiry</td>
+        <td>13 months or less (5-ször több mint a legkisebb egység)</td>
+        <td>5 years or less</td>
+        <td>10-20 years</td>		
+      </tr>
+      <tr>
+        <td></td>
+        <td>Certificate Revoke Lists (CRLs) should be generated hourly</td>
+        <td>Certificate Revoke Lists (CRLs) should be generated hourly</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Volume of CRL: 3 pieces per hour for all active intermediate CAs</td>
+        <td>Volume of CRL: 3 pieces per hour for root CA</td>
+        <td></td>
+      </tr>
+    </tbody>
+    </table>
+	
+	<h2>OpenSSL commands</h2>
+    <table border="1">
+    <thead>
+      <tr>
+        <th>Usage</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>openssl pkcs12 -in input.p12 -out output.pem -nodes</td>
+        <td>Create a PEM file from a PKCS#12 file</td>
+      </tr>
+      <tr>
+        <td>openssl pkcs12 -export -in input.pem -out output.p12</td>
+        <td>Create a PKCS#12 file from a PEM file</td>
+      </tr>
+      <tr>
+        <td>openssl x509 -in cert.pem -pubkey -noout > pubkey.pem</td>
+        <td>Extract the public key from a certificate in PEM format and write it to a file named pubkey.pem</td>
+      </tr>	
+      <tr>
+        <td>openssl genrsa 2048 > host.key<br>openssl req -new -x509 -nodes -sha256 -days 365 -key host.key -out host.crt</td>
+        <td>Generate a self-signed certificate and a private key</td>
+      </tr>
+      <tr>
+        <td>openssl req -new -x509 -key pubkey.pem -out cert.crt</td>
+        <td>Create a self-signed certificate in PEM format</td>
+      </tr>
+      <tr>
+        <td>openssl genrsa -out privkey.key 2048</td>
+        <td>Create a private key in PEM format</td>
+      </tr>	  
+    </tbody>
+    </table>	
+	
+	<h2>File extensions</h2>
+    <table border="1">
+    <thead>
+      <tr>
+        <th>File extension</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>.crt</td>
+        <td>public key to decrypt and verify data sent by servers</td>
+      </tr>
+      <tr>
+        <td>.key</td>
+        <td>private key to encrypt and package data for clients to verify</td>
+      </tr>	  
+    </tbody>
+    </table>
+	
+	<h2>Types of certificate</h2>
+	<ul>
+	<li>TLS/SSL server certificate</li>
+	<li>TLS/SSL client certificate</li>
+	<li>Email certificate</li>
+	<li>Code-signing certificate</li>
+	</ul>
+	
 	<h2>Design</h2>
 	<b>RA (Registration Authority)</b>: It authenticates the entity (people or organizations) making the request<br>
-	<b>CA (Certificate/Certification Authority)</b>: It stores, signs, issues and revokes certificates<br>
+	<b>CA (Certificate/Certification Authority)</b>: It stores, signs, issues and revokes certificates <i>(tárol, aláír, kiállít, visszavon tanúsítványokat)</i><br>
 	<b>VA (Validation Authority)</b>: It checks the validity of the certificates (signed X.509)<br>
 	<center><img src="images\pki.png" width="50%" height="50%"/></center>	 
   </body>
