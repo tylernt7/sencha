@@ -33,8 +33,11 @@
 	<b>Digital Signature</b>: It is an electronic fingerprint that proves the authenticity and integrity of a digital document. The signature verifier can make sure that the signed content was signed by the alleged sender and was received in an unchanged form.<br>
 	<b>Digital Certificate</b>: It is an electronic document that proves the ownership of a public key and verifies the identity and authenticity of an individual user or device by checking the signature of the Certificate Authority (CA) that issued the certificate.<br>
 	<b>DER</b>: Distinguished Encoding Rules, a binary certificate format for encoding data structures defined by ASN.1. DER is used for encoding X.509 certificates, certificate revocation lists (CRLs), certificate trust lists (CTLs), online certificate status protocol (OCSP), public and private keys.<br>
-	<b>PEM</b>: Privacy Enhanced Mail, a file that stores one or more items in Base64 encoding, such as a certificate, a certificate chain, a public or private key.<br>
-	<b>PKCS#7</b>: Public-Key Cryptography Standards #7, defines a standard syntax for storing signed and/or encrypted data, such as certificates, CRLs, or messages. PKCS#7 can use either DER (binary) or PEM (Base64 ASCII) encoding. The latest version, 1.5, is described in RFC 2315.<br>
+	<b>PEM</b>: Privacy Enhanced Mail, a file that stores one or more items in Base64 encoding, such as a certificate, a certificate chain, a public or private key.<br>	
+	<b>CRL</b>: Certificate Revocation List, a list of certificates that have been revoked by the issuing Certificate Authority (CA). The volume of CRL depends on the number and size of the revoked certificates, as well as the frequency and format of the CRL updates. A daily or weekly updated base CRL can contain hundreds or thousands of revoked certificates, each with a serial number and a revocation reason and revocation date. A CRL also has a signature from the CA and a validity period. When a client application (web browser or email client) uses a certificate for authentication or encryption, it does not only check the certificate signature and validity but also downloads the most recently issued CRL from the CA's website to check that the certificate has not been revoked. A new CRL is issued on a regular periodic basis (hourly, daily, or weekly). The nextUpdate field of the CRL is the expiration date of the CRL. <a href="https://www.ietf.org/rfc/rfc5280.txt">RFC5280</a><br>
+	<b>OCSP</b>: Online Certificate Status Protocol, an alternate certificate revocation technology instead of CRL. <a href="https://www.ietf.org/rfc/rfc6960.txt">RFC6960</a><br>	
+	<b>PKCS#7</b>: Public-Key Cryptography Standards #7, defines a standard syntax for storing signed and/or encrypted data, such as certificates, CRLs, or messages. PKCS#7 can use either DER (binary) or PEM (Base64 ASCII) encoding. The latest version, 1.5, is described in RFC 2315.<br>	
+	<b>PKCS#10</b>: Public-Key Cryptography Standards #10, defines the format and syntax of a certificate signing request (CSR), which is a message sent by an entity to a certificate authority (CA) to apply for a digital identity certificate. <a href="https://www.ietf.org/rfc/rfc2986.txt">RFC2986</a><br>	
 	<b>PKCS#11</b>: Public-Key Cryptography Standards #11, defines a platform-independent API to access cryptographic tokens, such as hardware security modules (HSM) and smart cards. It allows applications to perform cryptographic operations, such as generating, encrypting, decrypting, signing, verifying and storing keys and data. Some software that use PKCS #11 are Mozilla Firefox, OpenSSL, and Oracle Solaris.<br>
 	<b>PKCS#12</b>: Public-Key Cryptography Standards #12, defines a file format for storing multiple cryptographic objects, such as certificates, certificate chains, public and private keys, in a single file. PKCS#12 files are encrypted and signed. PKCS#12 is the successor to Microsoft's "PFX".<br>	
 	<b>ASN.1</b>: Abstract Syntax Notation One, a standard interface description language for defining data structures and data serialization formats in a platform-independent way (formal notation to describe data types). The ASN.1 encoding rules include BER (Basic Encoding Rules), DER (Distinguished Encoding Rules), PER (Packed Encoding Rules) and XER (XML Encoding Rules). The Bouncy Castle APIs support ASN.1 data structures and encodings, as well as various protocols and standards that use ASN.1, such as X.509, CMS, OCSP, etc.<br>	
@@ -42,44 +45,87 @@
 	<b>AIA</b>: Authority Information Access, an extension in X.509 certificates that indicates how to access CA information and services about the issuer of the certificate as detailed in RFC 3280.<br>
     <b>HSM</b>: Hardware Security Module, a device for the secure execution of cryptographic operations (encryption, decryption, authorization, authentication and digital signing). It generates and stores keys inside a hardened, tamper-resistant device. It prevents physical/unauthorised tampering with self-destruct mechanisms.<br>
 	
+	<h2>Certificate Revocation</h2>
+	<p>To revoke a root certificate, the root CA can issue a CRL that contains its own serial number, and sign it with its own private key. The vendor (operating system, browser) or the user can also revoke the root certificate from the trusted root store.	
+	<p>To revoke an intermediate certificate, you need to be the root CA that issued it, or have access to the root CA's private key. By revoking an intermediate certificate, you also invalidate all the end-entity certificates that were issued by that intermediate CA, since they are part of the same certificate chain.</p>
+	<p>To revoke an end-entity certificate, you need to be the intermediate CA that issued it, or have access to the intermediate CA's private key. By revoking an end-entity certificate, you only affect that specific certificate and not the others that were issued by the same intermediate CA.</p>
+	Revocation Reasons:
+	<ul>
+	<li><b>0 - Unspecified</b>: The CA did not specify a reason for revoking the certificate</li>
+	<li><b>1 - Key Compromise</b>: The private key associated with the certificate has been compromised</li>
+    <li><b>2 - CA Compromise</b>: The private key of the CA that issued the certificate has been compromised</li>
+	<li><b>3 - Affiliation Changed</b>: The certificate holder has changed their name or other information in the certificate</li>
+	<li><b>4 - Superseded</b>: The certificate has been replaced by a newer one</li>
+	<li><b>5 - Cessation Of Operation</b>: The certificate is no longer needed</li>
+	<li><b>6 - Certificate Hold</b>: The certificate has been temporarily suspended</li>
+	<li><b>8 - Remove From CRL</b>: The certificate has been removed from the CRL and is no longer revoked</li>
+	<li><b>9 - Privilege Withdrawn</b>: The certificate holder has lost some privileges or rights that were granted by the certificate</li>
+	<li><b>10 - AA Compromise</b>: The private key of an Attribute Authority (AA) that vouched for some attributes in the certificate has been compromised</li>
+	<li><b>11 - Weak Algorithm Or Key</b>: The certificate key uses a weak cryptographic algorithm, or the key is too short, or the key was generated in an unsafe manner</li>	
+	</ul>
+	
 	<h2>Chain of Trust (Certificate Chain)</h2>		
 	<p>It is an ordered list of certificates that enable the receiver to verify the trustworthiness of a sender (e.g. SSL/TLS certificate). If the certificate is not issued directly by Root CA, a chain is formed. An intermediate certificate is considered reliable if the Root CA is responsible for it, i.e. the certificate of the intermediate CA was issued by the Root CA and has not been revoked in the meantime. Each certificate in the chain is signed by the entity that issued the next certificate in the chain. The chain terminates with a Root CA certificate, which is a self-signed certificate that is trusted by the receiver's browser or device.</p>
 	<center><img src="images\chain_of_trust.png" width="50%" height="50%"/></center><br>	
 	
+	<h2>Signature algorithms</h2>
+	<ul>
+	<li><b>RSA</b>: MD1RSA, MD2RSA, MD4RSA, MD5RSA, MD6RSA (weak hash function)</li>	
+	<li><b>RSA</b>: SHA1RSA, SHA224RSA, SHA256RSA, SHA384RSA, SHA512RSA</li>
+	<li><b>DSA</b>: SHA1DSA, SHA224DSA, SHA256DSA, SHA384DSA, SHA512DSA</li>
+	<li><b>ECDSA</b>: SHA1ECDSA, SHA224ECDSA, SHA256ECDSA, SHA384ECDSA, SHA512ECDSA</li>
+    </ul>
+	
+	<h2>Public keys</h2>
+	<ul>	
+	<li><b>DH</b>:  (512), (1024), 2048, 3072, 4096, (6144), (7680), (8192) Bits</li>
+	<li><b>DSA</b>: (512), 1024, 2048, (3072), 4096, (6144), (7680), 8192, (15360), (16384) Bits</li>	
+	<li><b>RSA</b>: (512), 1024, 2048, (3072), 4096, (6144), (7680), 8192, (15360), (16384) Bits</li>	
+	<li><b>EC</b>: prime239v3/secp224r1 (nistP224), prime256v1/secp256r1 (ECDSA_P256), prime384v1/secp384r1 (ECDSA_P384), prime521v1/secp521r1 (ECDSA_P521)</li>		
+    </ul>
+	ECDSA_P384 is for signing and verifying, while ECDH_P384 is for exchanging keys. 
+	
+	<h2>ToDo</h2>	
+	wiki:  ECDSA_P256 (sha256RSA)<br>
+	google: ECDH_P256 (sha384ECDSA)<br>
+<br>
+To give you some examples, I searched for some popular websites using SSL Labs and Qualys SSL Server Test, and found that some of them use certificates with Diffie-Hellman key. Here are some of them:<br>
+•  Google: Google uses a certificate issued by Google Trust Services LLC, valid from March 9, 2021 to June 1, 2021. The signature algorithm is SHA256 with RSA, and the key exchange algorithm is ECDH with secp256r1 curve.<br>
+•  Facebook: Facebook uses a certificate issued by DigiCert Inc., valid from March 10, 2021 to June 8, 2021. The signature algorithm is SHA256 with RSA, and the key exchange algorithm is ECDH with X25519 curve.<br>
+•  Wikipedia: Wikipedia uses a certificate issued by Let's Encrypt Authority X3, valid from March 22, 2021 to June 20, 2021. The signature algorithm is SHA256 with RSA, and the key exchange algorithm is ECDH with secp384r1 curve.<br>
+<br>
+crl<br>
+jegyzőkönyv<br>
+<br>
     <table border="1">
     <thead>
       <tr>
         <th></th>       
-        <th>End-entity Certificate (Végfelhasználói Tanúsítvány)</th>
-        <th>Intermediate Certificate (Közbenső/Köztes Tanúsítvány)</th>
-        <th>Root Certificate (Gyökér/Fő Tanúsítvány)</th>		
+        <th>End-entity Certificate<br>(Végfelhasználói Tanúsítvány)</th>
+        <th>Intermediate/Subordinate Certificate<br>(Közbenső/Köztes/Alárendelt Tanúsítvány)</th>
+        <th>Root Certificate<br>(Gyökér/Fő Tanúsítvány)</th>
+		<th>CRLs<br>(Visszavont Tanúsítványok)</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>Algorithm</td>
-        <td>NIST P-384 standard<br>IEEE P1363 format<br></td>
-        <td>ECDSA P-384 keys, RSA or DSA</td>		
-        <td>ECDSA P-384 keys, RSA or DSA</td>		
+        <td colspan="4"><center>ECDSA P-384 (NIST standard, IEEE P1363 format), RSA or DSA</center></td>
       </tr>
       <tr>
         <td>Expiry</td>
         <td>13 months or less (5-ször több mint a legkisebb egység)</td>
         <td>5 years or less</td>
-        <td>10-20 years</td>		
+        <td>10-20 years</td>
+        <td>hourly</td>
       </tr>
       <tr>
+        <td>Volume</td>
         <td></td>
-        <td>Certificate Revoke Lists (CRLs) should be generated hourly</td>
-        <td>Certificate Revoke Lists (CRLs) should be generated hourly</td>
         <td></td>
-      </tr>
-      <tr>
         <td></td>
-        <td>Volume of CRL: 3 pieces per hour for all active intermediate CAs</td>
-        <td>Volume of CRL: 3 pieces per hour for root CA</td>
-        <td></td>
-      </tr>
+        <td>3 pieces per hour</td>
+      </tr>  
     </tbody>
     </table>
 	
@@ -90,31 +136,71 @@
         <th>Usage</th>
         <th>Description</th>
       </tr>
-    </thead>
+    </thead>	
     <tbody>
+      <tr>   
+        <td>openssl sha256 filename.txt</td>
+        <td>Generate a SHA-256 hash of a file</td>
+      </tr>
+      <tr>	  
+        <td>openssl pkcs12 –in filename.p12 –info –nodes</td>
+        <td>Display the contents of a PKCS#12 file</td>
+      </tr> 	  
       <tr>
-        <td>openssl pkcs12 -in input.p12 -out output.pem -nodes</td>
-        <td>Create a PEM file from a PKCS#12 file</td>
+        <td>openssl pkcs12 -in filename.p12 -out filename.pem -nodes</td>
+        <td>Create a PEM file from a PKCS#12 file (without encrypting the private key)</td>
       </tr>
       <tr>
-        <td>openssl pkcs12 -export -in input.pem -out output.p12</td>
+        <td>openssl pkcs12 -export -in filename.pem -out filename.p12</td>
         <td>Create a PKCS#12 file from a PEM file</td>
+      </tr>	  
+      <tr>
+        <td>openssl x509 -in filename.pem -noout -text</td>
+        <td>Display the contents of the certificate</td>
+      </tr>	  
+      <tr>
+        <td>openssl x509 -in filename.pem -out filename.pem -pubkey -noout</td>
+        <td>Extract the public key from the PEM encoding of the certificate and write it to a file in PEM format</td>
       </tr>
       <tr>
-        <td>openssl x509 -in cert.pem -pubkey -noout > pubkey.pem</td>
-        <td>Extract the public key from a certificate in PEM format and write it to a file named pubkey.pem</td>
-      </tr>	
-      <tr>
-        <td>openssl genrsa 2048 > host.key<br>openssl req -new -x509 -nodes -sha256 -days 365 -key host.key -out host.crt</td>
-        <td>Generate a self-signed certificate and a private key</td>
+        <td>openssl genrsa -out filename.pem 2048</td>
+        <td>Generate a 2048 bit RSA private key in PEM format</td>
       </tr>
       <tr>
-        <td>openssl req -new -x509 -key pubkey.pem -out cert.crt</td>
-        <td>Create a self-signed certificate in PEM format</td>
+        <td>openssl genpkey -out filename.der -outform DER -algorithm RSA -pkeyopt rsa_keygen_bits:2048</td>
+        <td>Generate a 2048 bit RSA private key in DER format</td>
       </tr>
       <tr>
-        <td>openssl genrsa -out privkey.key 2048</td>
-        <td>Create a private key in PEM format</td>
+        <td>openssl rsa -in filename.pem -out filename.pem -pubout</td>
+        <td>Derive the public key of a private key</td>
+      </tr>	  
+      <tr>
+        <td>openssl asn1parse -inform DER -in filename.der -i</td>			
+        <td>Extract data from ASN.1 formatted data of a DER encoded file</td>
+      </tr>
+      <tr>
+        <td>openssl asn1parse -inform PEM -in filename.pem -i</td>
+        <td>Extract data from ASN.1 formatted data of a PEM encoded file; the default is PEM</td>
+      </tr>	  
+      <tr>
+        <td>openssl req -in filename.csr -text -noout -verify</td>
+        <td>Display the contents of a CSR file</td>
+      </tr>	  
+      <tr>
+        <td>openssl req -out filename.crt -new -key filename.pem -x509 -days 365 -sha256</td>
+        <td>Create a self signed certificate as root CA</td>
+      </tr>
+      <tr>
+        <td>openssl crl -text -in filename.crl</td>
+        <td>Display a CRL file in text form</td>
+      </tr>
+      <tr>
+        <td>openssl crl -in filename.pem -outform DER -out filename.der</td>
+        <td>Convert a CRL file from PEM to DER</td>
+      </tr>
+      <tr>
+        <td>CertUtil -decodehex filename.txt filename.bin</td>
+        <td>Convert hexadecimal-encoded file to binary file</td>
       </tr>	  
     </tbody>
     </table>	
@@ -138,6 +224,44 @@
       </tr>	  
     </tbody>
     </table>
+
+	<h2>Certificate creation</h2>
+	<b>DH</b><br>
+ToDo	
+	<div class="code"><code><pre>openssl dhparam -out dhparam.pem 4096
+openssl genpkey -out dh.pem -paramfile dhparam.pem -pkeyopt group:ffdhe4096
+openssl pkey -in dh.pem -pubout -out dhpubkey.pem
+openssl req -out dh.csr -new -key dh.pem 
+openssl x509 -in dh.csr -out dh.cer -days 365 -signkey dh.pem -req</pre></code></div>		
+	<br><b>DSA</b><br>
+Signature algorithm: 2.16.840.1.101.3.4.3.2<br>
+Public key: DSA (1024 Bits)<br>
+Public key parameters: 30 82 01 ...<br>	
+	<div class="code"><code><pre>openssl dsaparam -out dsaparam.pem 1024
+openssl gendsa -out dsa.pem dsaparam.pem
+openssl req -out dsa.csr -new -key dsa.pem -sha256
+openssl x509 -in dsa.csr -out dsa_v1.cer -days 365 -signkey dsa.pem -req -sha256
+openssl req -out dsa_v3.cer -new -key dsa.pem -x509 -days 365 -sha256</pre></code></div>		
+	<br><b>RSA</b><br>
+Signature algorithm: sha512RSA<br>
+Signature hash algorithm: sha512<br>
+Public key: RSA (4096 Bits)<br>
+Public key parameters: 05 00<br>
+	<div class="code"><code><pre>openssl genrsa -out rsa.pem 4096
+openssl req -out rsa.csr -new -key rsa.pem -sha512
+openssl x509 -in rsa.csr -out rsa_v1.cer -days 365 -signkey rsa.pem -req -sha512 
+openssl req -out rsa_v3.cer -new -key rsa.pem -x509 -days 365 -sha512</pre></code></div>
+	<br><b>EC</b><br>
+Signature algorithm: sha512ECDSA<br>
+Signature hash algorithm: sha512<br>
+Public key: ECC (384 Bits)<br>
+Public key parameters: ECDSA_P384<br>
+ASN1 OID: secp384r1<br>
+NIST CURVE: P-384<br>
+	<div class="code"><code><pre>openssl ecparam -out ec.pem -name secp384r1 -genkey
+openssl req -out ec.csr -new -key ec.pem -sha512
+openssl x509 -in ec.csr -out ec_v1.cer -days 365 -signkey ec.pem -req -sha512
+openssl req -out ec_v3.cer -new -key ec.pem -x509 -days 365 -sha512</pre></code></div>			
 	
 	<h2>Types of certificate</h2>
 	<ul>

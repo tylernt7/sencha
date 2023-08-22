@@ -7,8 +7,8 @@
   <body>
     <h1>Linux</h1>
 	
-	<h2>Commands</h2>
-	<table border="1" style="width: 100%;">
+    <h2>Commands</h2>
+    <table border="1" style="width: 100%;">
     <tr>
       <td style="width: 25%;"><b>Linux command</b></td>
 	  <td style="width: 25%;"><b>Windows command</b></td>
@@ -19,6 +19,11 @@
 	  <td>runas</td>
 	  <td>Run commands as the superuser or root</td>
     </tr>
+    <tr>
+      <td>sudo su</td>
+	  <td>runas</td>
+	  <td>Enter the superuser or root mode<br>To exit the superuser mode, type exit or press Ctrl+D in the terminal</td>
+    </tr>	
     <tr>
       <td>ls</td>
 	  <td>dir</td>
@@ -60,6 +65,11 @@
 	  <td>Install the ping package </td>
     </tr>
     <tr>
+      <td>grep -i 'hello world' menu.h main.c<br>ps -ef | grep -i linux</td>
+	  <td>findstr</td>
+	  <td>Search for pattern in each file or standard input</td>
+    </tr>
+    <tr>
       <td>top</td>
 	  <td>tasklist</td>
 	  <td>Monitor the system performance and the running processes (table of processes)</td>
@@ -76,8 +86,16 @@
     </tr>	
     </table>	
 
+    <h2>Install Chocolatey for Individual Use</h2>
+    Run Windows PowerShell as Administrator<br>
+    Run the following commands:<br>
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))<br>
+    choco install openssl<br>
+    Or for old version:<br>
+    choco install openssl --version=1.1.1.2100<br>
 
-
+    <h2>Install WSL</h2>
+    ToDo
 
   </body>
 </html>
