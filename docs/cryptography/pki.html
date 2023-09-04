@@ -33,7 +33,8 @@
 	<b>Digital Signature</b>: It is an electronic fingerprint that proves the authenticity and integrity of a digital document. The signature verifier can make sure that the signed content was signed by the alleged sender and was received in an unchanged form.<br>
 	<b>Digital Certificate</b>: It is an electronic document that proves the ownership of a public key and verifies the identity and authenticity of an individual user or device by checking the signature of the Certificate Authority (CA) that issued the certificate.<br>
 	<b>DER</b>: Distinguished Encoding Rules, a binary certificate format for encoding data structures defined by ASN.1. DER is used for encoding X.509 certificates, certificate revocation lists (CRLs), certificate trust lists (CTLs), online certificate status protocol (OCSP), public and private keys.<br>
-	<b>PEM</b>: Privacy Enhanced Mail, a file that stores one or more items in Base64 encoding, such as a certificate, a certificate chain, a public or private key.<br>	
+	<b>PEM</b>: Privacy Enhanced Mail, a file that stores one or more items in <i>Base64</i> encoding, such as a certificate, a certificate chain, a public or private key.<br>
+	<b>IEEE P1363</b>: It is a standard for public-key cryptography. The P1363 signature format is r || s (a concatenation of two values, r and s), where r and s are zero-padded and have the same size in bytes as the order of the curve. For example, for NIST P-256 curve, r and s are zero-padded to 32 bytes.<br>
 	<b>CRL</b>: Certificate Revocation List, a list of certificates that have been revoked by the issuing Certificate Authority (CA). The volume of CRL depends on the number and size of the revoked certificates, as well as the frequency and format of the CRL updates. A daily or weekly updated base CRL can contain hundreds or thousands of revoked certificates, each with a serial number and a revocation reason and revocation date. A CRL also has a signature from the CA and a validity period. When a client application (web browser or email client) uses a certificate for authentication or encryption, it does not only check the certificate signature and validity but also downloads the most recently issued CRL from the CA's website to check that the certificate has not been revoked. A new CRL is issued on a regular periodic basis (hourly, daily, or weekly). The nextUpdate field of the CRL is the expiration date of the CRL. <a href="https://www.ietf.org/rfc/rfc5280.txt">RFC5280</a><br>
 	<b>OCSP</b>: Online Certificate Status Protocol, an alternate certificate revocation technology instead of CRL. <a href="https://www.ietf.org/rfc/rfc6960.txt">RFC6960</a><br>	
 	<b>PKCS#7</b>: Public-Key Cryptography Standards #7, defines a standard syntax for storing signed and/or encrypted data, such as certificates, CRLs, or messages. PKCS#7 can use either DER (binary) or PEM (Base64 ASCII) encoding. The latest version, 1.5, is described in RFC 2315.<br>	
@@ -66,8 +67,15 @@
 	
 	<h2>Chain of Trust (Certificate Chain)</h2>		
 	<p>It is an ordered list of certificates that enable the receiver to verify the trustworthiness of a sender (e.g. SSL/TLS certificate). If the certificate is not issued directly by Root CA, a chain is formed. An intermediate certificate is considered reliable if the Root CA is responsible for it, i.e. the certificate of the intermediate CA was issued by the Root CA and has not been revoked in the meantime. Each certificate in the chain is signed by the entity that issued the next certificate in the chain. The chain terminates with a Root CA certificate, which is a self-signed certificate that is trusted by the receiver's browser or device.</p>
-	<center><img src="images\chain_of_trust.png" width="50%" height="50%"/></center><br>	
+	<center><img src="images\chain_of_trust.png" width="50%" height="50%"/></center><br>
+	End-Entity Certificate: Végfelhasználói Tanúsítvány<br>
+	Intermediate/Subordinate Certificate: Közbenső/Köztes/Alárendelt Tanúsítvány<br>
+	Root Certificate: Gyökér/Fő Tanúsítvány<br>
+	Certificate Revocation: Tanúsítvány visszavonás<br>
 	
+	<h2>Web browsers</h2>
+	<p>When you visit a website that has an SSL certificate, your browser will check if the certificate is valid, matches the domain name, and is issued by a trusted authority. To do this, your browser will follow the certificate chain from the end-entity certificate to the intermediate certificates and finally to the root certificate. Your browser will also check if the certificates are not expired, revoked, or tampered with. If any of these checks fail, your browser will display an error message, such as NET::ERR_CERT_AUTHORITY_INVALID, and warn you that the connection is not secure.</p>	
+
 	<h2>Signature algorithms</h2>
 	<ul>
 	<li><b>RSA</b>: MD1RSA, MD2RSA, MD4RSA, MD5RSA, MD6RSA (weak hash function)</li>	
@@ -85,49 +93,286 @@
     </ul>
 	ECDSA_P384 is for signing and verifying, while ECDH_P384 is for exchanging keys. 
 	
-	<h2>ToDo</h2>	
-	wiki:  ECDSA_P256 (sha256RSA)<br>
-	google: ECDH_P256 (sha384ECDSA)<br>
-<br>
-To give you some examples, I searched for some popular websites using SSL Labs and Qualys SSL Server Test, and found that some of them use certificates with Diffie-Hellman key. Here are some of them:<br>
-•  Google: Google uses a certificate issued by Google Trust Services LLC, valid from March 9, 2021 to June 1, 2021. The signature algorithm is SHA256 with RSA, and the key exchange algorithm is ECDH with secp256r1 curve.<br>
-•  Facebook: Facebook uses a certificate issued by DigiCert Inc., valid from March 10, 2021 to June 8, 2021. The signature algorithm is SHA256 with RSA, and the key exchange algorithm is ECDH with X25519 curve.<br>
-•  Wikipedia: Wikipedia uses a certificate issued by Let's Encrypt Authority X3, valid from March 22, 2021 to June 20, 2021. The signature algorithm is SHA256 with RSA, and the key exchange algorithm is ECDH with secp384r1 curve.<br>
-<br>
-crl<br>
-jegyzőkönyv<br>
-<br>
+	<h2>Popular websites</h2>	
     <table border="1">
     <thead>
       <tr>
-        <th></th>       
-        <th>End-entity Certificate<br>(Végfelhasználói Tanúsítvány)</th>
-        <th>Intermediate/Subordinate Certificate<br>(Közbenső/Köztes/Alárendelt Tanúsítvány)</th>
-        <th>Root Certificate<br>(Gyökér/Fő Tanúsítvány)</th>
-		<th>CRLs<br>(Visszavont Tanúsítványok)</th>
+        <th>URL</th>
+        <th><a href="https://www.wikipedia.org/">https://www.wikipedia.org/</a></th>
+        <th><a href="https://www.google.com/">https://www.google.com/</a></th>
+        <th><a href="https://www.facebook.com/">https://www.facebook.com/</a></th>
+        <th><a href="https://www.bme.hu/">https://www.bme.hu/</a></th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Algorithm</td>
-        <td colspan="4"><center>ECDSA P-384 (NIST standard, IEEE P1363 format), RSA or DSA</center></td>
+        <td><b>End-entity</b></td>
+        <td>*.wikipedia.org</td>
+        <td><a href="http://www.google.com/">www.google.com</a></td>
+        <td>*.facebook.com</td>
+        <td>bme.hu</td>
       </tr>
       <tr>
-        <td>Expiry</td>
-        <td>13 months or less (5-ször több mint a legkisebb egység)</td>
-        <td>5 years or less</td>
-        <td>10-20 years</td>
-        <td>hourly</td>
+        <td>Signature algorithm</td>
+        <td>sha384ECDSA</td>
+        <td>sha256RSA</td>
+        <td>sha256RSA</td>
+        <td>sha256RSA</td>
       </tr>
       <tr>
-        <td>Volume</td>
+        <td>Issuer</td>
+        <td>Intermediate CA</td>
+        <td>Intermediate CA</td>
+        <td>Intermediate CA</td>
+        <td>Intermediate CA</td>
+      </tr>
+      <tr>
+        <td>Valid</td>
+        <td>13 months</td>
+        <td>3 months</td>
+        <td>3 months</td>
+        <td>3 months</td>
+      </tr>
+      <tr>
+        <td>Subject</td>
+        <td>End-entity</td>
+        <td>End-entity</td>
+        <td>End-entity</td>
+        <td>End-entity</td>
+      </tr>
+      <tr>
+        <td>Public key</td>
+        <td>ECC (256 Bits)</td>
+        <td>ECC (256 Bits)</td>
+        <td>ECC (256 Bits)</td>
+        <td>RSA (2048 Bits)</td>
+      </tr>
+      <tr>
+        <td>Public key parameters</td>
+        <td>ECDSA_P256</td>
+        <td>ECDSA_P256</td>
+        <td>ECDSA_P256</td>
+        <td>05 00</td>
+      </tr>
+      <tr>
+        <td><b>CRL</b></td>
         <td></td>
         <td></td>
         <td></td>
-        <td>3 pieces per hour</td>
-      </tr>  
+        <td></td>
+      </tr>
+      <tr>
+        <td>Issuer</td>
+        <td>Intermediate CA</td>
+        <td>Intermediate CA</td>
+        <td>Intermediate CA</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Valid</td>
+        <td>7 days</td>
+        <td>10 days</td>
+        <td>7 days</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Signature algorithm </td>
+        <td>sha384ECDSA</td>
+        <td>sha256RSA</td>
+        <td>sha256RSA</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Number of revoked certificates</td>
+        <td>358</td>
+        <td>312</td>
+        <td>276</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><b>Intermediate CA</b></td>
+        <td>DigiCert TLS Hybrid ECC SHA384 2020 CA1 </td>
+        <td>GTS CA 1C3</td>
+        <td>DigiCert SHA2 High Assurance Server CA</td>
+        <td>R3 (Let's Encrypt)</td>
+      </tr>
+      <tr>
+        <td>Signature algorithm</td>
+        <td>sha384RSA</td>
+        <td>sha256RSA</td>
+        <td>sha256RSA</td>
+        <td>sha256RSA</td>
+      </tr>
+      <tr>
+        <td>Issuer</td>
+        <td>Root CA</td>
+        <td>Root CA</td>
+        <td>Root CA</td>
+        <td>Root CA</td>
+      </tr>
+      <tr>
+        <td>Valid</td>
+        <td>10 years</td>
+        <td>7 years</td>
+        <td>15 years</td>
+        <td>5 years</td>
+      </tr>
+      <tr>
+        <td>Subject</td>
+        <td>Intermediate CA</td>
+        <td>Intermediate CA</td>
+        <td>Intermediate CA</td>
+        <td>Intermediate CA</td>
+      </tr>
+      <tr>
+        <td>Public key</td>
+        <td>ECC (384 Bits)</td>
+        <td>RSA (2048 Bits)</td>
+        <td>RSA (2048 Bits)</td>
+        <td>RSA (2048 Bits)</td>
+      </tr>
+      <tr>
+        <td>Public key parameters</td>
+        <td>ECDSA_P384</td>
+        <td>05 00</td>
+        <td>05 00</td>
+        <td>05 00</td>
+      </tr>
+      <tr>
+        <td><b>CRL</b></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Issuer</td>
+        <td>Root CA</td>
+        <td>Root CA</td>
+        <td>Root CA</td>
+        <td>Root CA</td>
+      </tr>
+      <tr>
+        <td>Valid</td>
+        <td>21 days</td>
+        <td>4 months, 5 days</td>
+        <td>21 days</td>
+        <td>11 months</td>
+      </tr>
+      <tr>
+        <td>Signature algorithm </td>
+        <td>sha256RSA</td>
+        <td>sha256RSA</td>
+        <td>sha256RSA</td>
+        <td>sha256RSA</td>
+      </tr>
+      <tr>
+        <td>Number of revoked certificates</td>
+        <td>6</td>
+        <td>3</td>
+        <td>5</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td><b>Root CA</b></td>
+        <td>DigiCert Global Root CA</td>
+        <td>GTS Root R1</td>
+        <td>DigiCert High Assurance EV Root CA</td>
+        <td>ISRG Root X1</td>
+      </tr>
+      <tr>
+        <td>Signature algorithm</td>
+        <td>sha1RSA</td>
+        <td>sha256RSA</td>
+        <td>sha1RSA</td>
+        <td>sha256RSA</td>
+      </tr>
+      <tr>
+        <td>Issuer</td>
+        <td>Root CA</td>
+        <td>GlobalSign Root CA</td>
+        <td>Root CA</td>
+        <td>Root CA</td>
+      </tr>
+      <tr>
+        <td>Valid</td>
+        <td>25 years</td>
+        <td>7 years</td>
+        <td>25 years</td>
+        <td>20 years</td>
+      </tr>
+      <tr>
+        <td>Subject</td>
+        <td>Root CA</td>
+        <td>GTS Root R1 </td>
+        <td>Root CA</td>
+        <td>Root CA</td>
+      </tr>
+      <tr>
+        <td>Public key</td>
+        <td>RSA (2048 Bits)</td>
+        <td>RSA (4096 Bits)</td>
+        <td>RSA (2048 Bits)</td>
+        <td>RSA (4096 Bits)</td>
+      </tr>
+      <tr>
+        <td>Public key parameters</td>
+        <td>05 00</td>
+        <td>05 00</td>
+        <td>05 00</td>
+        <td>05 00</td>
+      </tr>
+      <tr>
+        <td><b>Root CA</b></td>
+        <td></td>
+        <td>GlobalSign Root CA </td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Signature algorithm</td>
+        <td></td>
+        <td>sha1RSA</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Issuer</td>
+        <td></td>
+        <td>GlobalSign Root CA </td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Valid</td>
+        <td></td>
+        <td>29 years, 4 months, 27 days</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Subject</td>
+        <td></td>
+        <td>GlobalSign Root CA </td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Public key</td>
+        <td></td>
+        <td>RSA (2048 Bits)</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Public key parameters</td>
+        <td></td>
+        <td>05 00</td>
+        <td></td>
+        <td></td>
+      </tr>
     </tbody>
-    </table>
+    </table>	
 	
 	<h2>OpenSSL commands</h2>
     <table border="1">
@@ -143,20 +388,24 @@ jegyzőkönyv<br>
         <td>Generate a SHA-256 hash of a file</td>
       </tr>
       <tr>	  
-        <td>openssl pkcs12 –in filename.p12 –info –nodes</td>
-        <td>Display the contents of a PKCS#12 file</td>
+        <td><i>openssl pkcs12 –in filename.p12 –info –nodes</i></td>
+        <td>Display the contents of a PKCS#12 (.PFX, .P12) file</td>
       </tr> 	  
       <tr>
         <td>openssl pkcs12 -in filename.p12 -out filename.pem -nodes</td>
-        <td>Create a PEM file from a PKCS#12 file (without encrypting the private key)</td>
+        <td>Create a PEM file from a PKCS#12 file (certificate and private key without a passphrase)</td>
+      </tr>
+      <tr>
+        <td>openssl pkcs12 -in filename.p12 -out filename.crt -nokeys</td>
+        <td>Create a CRT file from a PKCS#12 file (only the certificate)</td>
       </tr>
       <tr>
         <td>openssl pkcs12 -export -in filename.pem -out filename.p12</td>
         <td>Create a PKCS#12 file from a PEM file</td>
       </tr>	  
       <tr>
-        <td>openssl x509 -in filename.pem -noout -text</td>
-        <td>Display the contents of the certificate</td>
+        <td><i>openssl x509 -in filename.pem -noout -text</i></td>
+        <td>Display the contents of the certificate (CRT)</td>
       </tr>	  
       <tr>
         <td>openssl x509 -in filename.pem -out filename.pem -pubkey -noout</td>
@@ -215,12 +464,20 @@ jegyzőkönyv<br>
     </thead>
     <tbody>
       <tr>
-        <td>.crt</td>
-        <td>public key to decrypt and verify data sent by servers</td>
+        <td>.CRT</td>
+        <td>certificate including public key to decrypt and verify data sent by servers</td>
       </tr>
       <tr>
-        <td>.key</td>
+        <td>.KEY</td>
         <td>private key to encrypt and package data for clients to verify</td>
+      </tr>
+      <tr>
+        <td>.PEM</td>
+        <td>RSA public/private key, certificate, and/or certificate request</td>
+      </tr>
+      <tr>
+        <td>.P12 (.PFX)</td>
+        <td>certificate and private key using PKCS#12 encryption</td>
       </tr>	  
     </tbody>
     </table>
