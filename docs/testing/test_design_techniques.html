@@ -19,17 +19,20 @@
 	<ul><li><b>Use case</b>: A sequence of transactions in a dialogue between an actor and a component or system with a tangible result, where an actor can be a user or anything that can exchange information with the system.</li></ul></li></ul>
 
     <h2>White-box (structure-based) techniques</h2>	
-    <ul><li><b>Statement coverage</b>:</li>
-	<li><b>Decision coverage</b>:</li>
-	<li><b>Branch coverage</b>:</li>
-	<li><b>Linear Code Sequence And Jump (LCSAJ) coverage</b>:</li>
-	<li><b>Condition coverage</b>:</li>
-	<li><b>Multiple condition coverage</b> (condition combination coverage):</li>
-	<li><b>Condition determination coverage</b> (multiple condition decision coverage, modified condition decision coverage, MCDC):</li>
-	<li><b>Path coverage</b>:</li></ul>
-	
-
-	 
-	
+    <ul><li><b>Statement coverage</b>: The percentage of executable statements that have been exercised by a test suite.
+	<ul><li><b>Statement</b>: An entity in a programming language, which is typically the smallest indivisible unit of execution.</li></ul></li>	
+	<li><b>Decision coverage</b>: The percentage of decision outcomes that have been exercised by a test suite. 100% decision coverage implies both 100% branch coverage and 100% statement coverage.	
+    <ul><li><b>Decision</b>: A program point at which the control flow has two or more alternative routes. A node with two or more links to separate branches.</li></ul></li>
+	<li><b>Branch coverage</b>: The percentage of branches in a control flow graph that have been exercised by a test suite. 100% branch coverage implies both 100% decision coverage and 100% statement coverage.		
+	<ul><li><b>Branch</b>: A basic block that can be selected for execution based on a program construct in which one of two or more alternative program paths is available, e.g. case, jump, go to, if-then-else.</li></ul></li>
+	<li><b>Linear Code Sequence And Jump (LCSAJ) coverage</b>: The percentage of LCSAJs of a component that have been exercised by a test suite. 100% LCSAJ coverage implies 100% decision coverage.
+	<ul><li><b>LCSAJ</b>: A Linear Code Sequence And Jump, consists of the following three items (conventionally identified by line numbers in a source code listing): the start of the linear sequence of executable statements, the end of the linear sequence, and the target line to which control flow is transferred at the end of the linear sequence.</li></ul></li>	
+	<li><b>Condition coverage</b>: The percentage of condition outcomes that have been exercised by a test suite. 100% condition coverage requires each single condition in every decision statement to be tested as True and False.
+	<ul><li><b>Condition</b>: A logical expression that can be evaluated as True or False, e.g. A>B.</li></ul></li>				
+	<li><b>Multiple condition coverage</b> (condition combination coverage): The percentage of combinations of all single condition outcomes within one (decision) statement that have been exercised by a test suite. 100% multiple condition coverage implies 100% condition determination coverage.	
+	<ul><li><b>Multiple condition (compound condition)</b>: Two or more single conditions joined by means of a logical operator (AND, OR or XOR), e.g. 'A>B AND C>1000'.</li></ul></li>
+	<li><b>Condition determination coverage</b> (multiple condition decision coverage, modified multiple condition coverage, modified condition/decision coverage, MC/DC): The percentage of all single/atomic condition outcomes that independently affect the overall decision outcome that have been exercised by a test case suite. 100% condition determination coverage implies 100% decision condition coverage.</li>
+	<li><b>Path coverage</b>: The percentage of paths that have been exercised by a test suite. 100% path coverage implies 100% LCSAJ coverage.
+    <ul><li><b>Path</b>: A sequence of events, e.g. executable statements, of a component or system from an entry point to an exit point. A sequence of consecutive edges in a directed graph (control flow graph).</li></ul></li></ul>	
   </body>
 </html>
