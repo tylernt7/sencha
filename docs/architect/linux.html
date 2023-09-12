@@ -40,10 +40,45 @@
 	  <td>Change the permissions (mode) of files and directories recursively (full access)</td>
     </tr>
     <tr>
+      <td>chmod -R 755 FILE</td>
+	  <td>attrib</td>
+	  <td>Change the permission "read", "write", and "executable" to the owner while the group and other users will only have read and execute permissions.</td>
+    </tr>
+    <tr>
+      <td>cp -a /SOURCE /DEST</td>
+	  <td>cp, copy, xcopy</td> 
+	  <td>Copy the SOURCE directory to the DEST directory</td>
+    </tr>
+	<tr>
+      <td>export NAME=Value</td>
+	  <td>SET variable=string</td> 
+	  <td>Set an environment variable with the name NAME and the value Value</td>
+    </tr>
+	<tr>
+      <td>envsubst &lt; SOURCE_FILE &gt; DEST_FILE</td> 
+	  <td>Get-Content SOURCE_FILE | ForEach-Object {Expand-String $_} | Set-Content DEST_FILE (PowerShell)</td> 
+	  <td>Replace the environment variables in SOURCE_FILE and write the output to DEST_FILE</td>
+    </tr>
+	<tr>
+      <td>rm FILE</td>
+	  <td>del, erase, rmdir, rm</td> 
+	  <td>Delete a file named FILE</td>
+    </tr>	
+    <tr>
       <td>cat <i>(cat /etc/hosts)</i></td>
 	  <td>type</td> 
 	  <td>Concatenate or print file(s) to the standard output</td>
     </tr>
+    <tr>
+      <td>nano FILE</td>
+	  <td>Notepad++</td> 
+	  <td>Open a file with text editor</td>
+    </tr>
+    <tr>
+      <td>grep -i 'hello world' menu.h main.c<br>ps -ef | grep -i linux</td>
+	  <td>findstr</td>
+	  <td>Search for pattern in each file or standard input</td>
+    </tr>	
     <tr>
       <td>hostname</td>
 	  <td>hostname</td>
@@ -62,13 +97,18 @@
     <tr>
       <td>apt-get install iputils-ping <i>(Linux)</i><br>apt-get install inetutils-ping <i>(non-Linux)</i></td>
 	  <td>choco install</td>
-	  <td>Install the ping package </td>
+	  <td>Install the ping package</td>
     </tr>
     <tr>
-      <td>grep -i 'hello world' menu.h main.c<br>ps -ef | grep -i linux</td>
-	  <td>findstr</td>
-	  <td>Search for pattern in each file or standard input</td>
+      <td>apt-get install -y dotnet-sdk-6.0</td>
+	  <td>choco install</td>
+	  <td>Install the .NET SDK 6.0 on Linux</td>
     </tr>
+    <tr>
+      <td>sudo usermod -aG adm,cdrom,sudo,dip,plugdev,lxd test_user</td>
+	  <td>net user test_user password123 /add<br>net localgroup Administrators test_user /add</td>
+	  <td>Add a user named test_user to multiple groups, including sudo</td>
+    </tr> 
     <tr>
       <td>top</td>
 	  <td>tasklist</td>

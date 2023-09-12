@@ -24,11 +24,15 @@
     </tr>
     <tr>
       <td>docker compose build</td>
-	  <td>Build or rebuild services</td>
+	  <td>Build or rebuild services (containers)</td>
     </tr>			
 	<tr>
       <td>docker compose up</td>
 	  <td>Build the images (if they do not exist), create and start the services. Use the default files (docker-compose.yml and docker-compose.override.yml)</td>	  
+    </tr>
+    <tr>
+      <td>docker compose -p my_project up -d</td>
+	  <td>Create and start the services for a project named my_project in detached mode</td>
     </tr>
     <tr>
       <td>(!) docker compose -f docker-compose.yml -f docker-compose.override.yml up</td>
@@ -199,6 +203,47 @@ services:
 networks:
   mynet:</pre>  
 	  </td>
+    </tr>
+    </table>
+	
+    <table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>CMD</b></td>
+      <td style="width: 50%;"><b>Compose file</b></td>
+    </tr>
+    <tr>
+      <td>
+<pre><b>Windows (.\)</b>:
+docker run -it --name <b>youtrack-server-instance</b> 
+-v .\data\youtrack\data:/opt/youtrack/data 
+-v .\data\youtrack\conf:/opt/youtrack/conf 
+-v .\data\youtrack\logs:/opt/youtrack/logs 
+-v .\data\youtrack\backups:/opt/youtrack/backups 
+-p 8080:8080 jetbrains/youtrack:2023.1.17582
+
+<b>Linux (./)</b>:
+docker run -it --name <b>youtrack-server-instance</b>
+-v ./data/youtrack/data:/opt/youtrack/data 
+-v ./data/youtrack/conf:/opt/youtrack/conf 
+-v ./data/youtrack/logs:/opt/youtrack/logs 
+-v ./data/youtrack/backups:/opt/youtrack/backups 
+-p 8080:8080 jetbrains/youtrack:2023.1.17582
+</pre>
+      </td>
+      <td>
+<pre>version: '3'
+services:
+  youtrack:
+    image: jetbrains/youtrack:2023.1.17582
+    container_name: <b>youtrack-server-instance</b>
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/youtrack/data:/opt/youtrack/data
+      - ./data/youtrack/conf:/opt/youtrack/conf
+      - ./data/youtrack/logs:/opt/youtrack/logs
+      - ./data/opt/youtrack/backups:/opt/youtrack/backups</pre>
+      </td>	  
     </tr>
     </table>	
 

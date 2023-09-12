@@ -19,13 +19,41 @@
 	</li>
 	<li><b>Authorization</b>: It determines the access level granted a user. It happens after authentication. It is performed by assigning a user to pre-defined groups (classes). Each group lists available objects, along with an associated object-access type (read-only, write-only, or read-write privilege/permission).<br>
 	</li>
+		
+	<h2>Client authentication methods</h2>
+    <table border="1">
+    <thead>
+      <tr>
+        <th>Auth Type</th>
+        <th>Header</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bearer Token, JWT Bearer (https://jwt.io/), Oauth 2.0</td>
+        <td>Authorization: Bearer eyJh…</td>
+      </tr>
+      <tr>
+        <td>Client Credentials (Basic Auth)</td>
+        <td>Authorization: Basic Base64(&lt;client_id&gt;:&lt;client_secret&gt;)</td>
+      </tr>
+      <tr>
+        <td>User Credentials (Basic Auth)</td>
+        <td>Authorization: Basic Base64(&lt;username&gt;:&lt;password&gt;)</td>
+      </tr>
+      <tr>
+        <td>API Key</td>
+        <td>&lt;key&gt;: &lt;value&gt;</td>
+      </tr>
+    </tbody>
+    </table>	
 	
 	<h2>Keycloak</h2>
 	<p>Keycloak is an open source identity and access management (IAM) solution. It provides authentication, authorization, user federation (LDAP and Active Directory) and user management for applications and services.</p>
 	<b>Standard Protocols</b>
     <ul>
 	  <li><b>OAuth 2.0</b>: OAuth2 clients (front end applications) can obtain access tokens from the authorization server using the token endpoint and use these same tokens to access resources protected by a resource server (back end services).</li>
-	  <li><b>OpenID Connect 1.0</b>: OpenID Connect is an identity layer on top of OAuth 2.0 to verify the identity of a user by an ID token (using SSO).</li>	  	
+	  <li><b>OpenID Connect 1.0</b>: OpenID Connect is an identity layer on top of <b>OAuth 2.0</b> to verify the identity of a user by an ID token (using SSO).</li>	  	
 	  <li><b>SAML 2.0</b>: SAML (Security Assertion Markup Language) uses XML-based messages to exchange data between an identity provider and a service provider (using SSO).</li>	  
     </ul>
 	
@@ -388,7 +416,7 @@
         <td>Generate a SHA-256 hash of a file</td>
       </tr>
       <tr>	  
-        <td><i>openssl pkcs12 –in filename.p12 –info –nodes</i></td>
+        <td><b>openssl pkcs12 –in filename.p12 –info –nodes</b></td>
         <td>Display the contents of a PKCS#12 (.PFX, .P12) file</td>
       </tr> 	  
       <tr>
@@ -404,7 +432,7 @@
         <td>Create a PKCS#12 file from a PEM file</td>
       </tr>	  
       <tr>
-        <td><i>openssl x509 -in filename.pem -noout -text</i></td>
+        <td><b>openssl x509 -in filename.pem -noout -text</b></td>
         <td>Display the contents of the certificate (CRT)</td>
       </tr>	  
       <tr>
@@ -430,7 +458,11 @@
       <tr>
         <td>openssl asn1parse -inform PEM -in filename.pem -i</td>
         <td>Extract data from ASN.1 formatted data of a PEM encoded file; the default is PEM</td>
-      </tr>	  
+      </tr>
+      <tr>
+        <td>openssl req -out filename.csr -new -newkey rsa:2048 -nodes -keyout filename.key -config filename.cfg -sha512</td>
+        <td>Generate a new certificate signing request (CSR) and a new RSA private key using information specified in the configuration file</td>
+      </tr>
       <tr>
         <td>openssl req -in filename.csr -text -noout -verify</td>
         <td>Display the contents of a CSR file</td>
@@ -450,7 +482,7 @@
       <tr>
         <td>CertUtil -decodehex filename.txt filename.bin</td>
         <td>Convert hexadecimal-encoded file to binary file</td>
-      </tr>	  
+      </tr>  	  
     </tbody>
     </table>	
 	
