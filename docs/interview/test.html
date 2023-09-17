@@ -7,7 +7,12 @@
   <body>
     <h1>Programozói teszt (C#)</h1>
  
-    <p><b>Question</b>: True/False</p>
+    <p><b>Question</b>: Question: What is the difference between IEnumerable and IQueryable in C#?</p>
+    <b>Answer</b>: IEnumerable and IQueryable are both interfaces that define a collection of data that can be iterated over using a foreach loop. However, they have some important differences:<br>
+    The main difference between IEnumerable and IQueryable is that <b>IEnumerable</b> performs the query operations on the <b>client</b> side, while <b>IQueryable</b> performs them on the <b>server</b> side. This means that IEnumerable will fetch all the data from the data source and then apply the filters or transformations on the client side, which can be inefficient and consume more memory. On the other hand, IQueryable will translate the query operations into an expression tree and send it to the data source, which will execute the query and return only the required data to the client side, which can be more efficient and consume less memory.<br>
+    Therefore, it is recommended to use IEnumerable when working with in-memory collections or small data sets, and use IQueryable when working with remote data sources or large data sets.
+
+    <p><b>Question</b>: True/False statements</p>
 
 <b>Answer</b>:<br>
 You can define multiple custom networks in a single Docker Compose file<br>
@@ -21,14 +26,18 @@ Businesses may prefer to keep their applications on on-premise infrastructure fo
 <i>They have to comply with certain regulations or standards that require them to store or process their data in a specific location or manner</i><br>
 <i>They have concerns about the availability, reliability, or performance of cloud services, especially in case of network outages or disruptions</i><br>
 
-RabbitMQ enables synchronous processing of messages between microservices.<br>
-<i>False. RabbitMQ enables asynchronous processing of messages between microservices, meaning that it allows you to put a message in a queue without processing it immediately. This way, the message producer and consumer do not have to wait for each other or be available at the same time. Asynchronous processing can improve the scalability, reliability, and performance of microservices</i><br>
+RabbitMQ is mainly designed for synchronous processing of messages between microservices.<br>
+<i>False. RabbitMQ enables asynchronous processing of messages between microservices, meaning that it allows you to put a message in a queue without processing it immediately. This way, the message producer and consumer do not have to wait for each other or be available at the same time. Asynchronous processing can improve the scalability, reliability, and performance of microservices<br>
+However, RabbitMQ can also support synchronous messaging using some additional features, such as correlation IDs, reply-to queues, and acknowledgements. It is also possible to implement synchronous or request-response messaging using RabbitMQ by means of the Remote Procedure Call (RPC) pattern: a client (publisher or consumer) sends a request message and a server (message broker) replies with a response message.</i><br>
+
+Storing binary data (e.g. images) as string can cause corruption or distortion of the data.<br>
+<i>True</i><br>
 
 SOAP UI can only test SOAP based web services, for other services (e.g. REST) Postman can be used.<br>
 <i>False. SOAP UI is a tool for testing web services, both SOAP and REST based.</i><br>
-	
-Storing binary data (e.g. images) as string can cause corruption or distortion of the data.<br>
-<i>True</i><br>
+
+Git fetch does not update the local repository, but the remote repository.<br>
+<i>False. Git fetch updates the local repository with all of the latest changes from the remote repository and does not make any changes to the working copy.</i><br>
 
     <p><b>Question</b>: How can you make the following code more extensible and maintainable without modifying its existing logic?</p>
 	 <div class="code"><code><pre>
@@ -73,8 +82,76 @@ private void ProcessPayments(List&lt;Payment> payments) {
     }
 }</pre></code></div>	
 
+<b>Question</b>: What is base64 and what is it used for?<br>
+<b>Answer</b>: Base64 is a binary-to-text encoding scheme that represents binary data in an ASCII string format. It is used for transferring binary data over media that are designed to deal with textual data, such as email or URLs. This ensures that the data remains intact and uncorrupted during transport<br>
+<b>Question</b>: How does base64 encoding work?<br>
+<b>Answer</b>: Base64 encoding works by dividing the input binary data into 6-bit blocks and mapping each block to a 64-character alphabet. The alphabet consists of A-Z, a-z, 0-9, + and /, with = as a padding character. The output string is formed by concatenating the encoded blocks. The output length is always a multiple of 4.<br>
+<b>Question</b>: What are the advantages and disadvantages of base64 encoding?<br>
+<b>Answer</b>: Some advantages of base64 encoding are:<br>
+•  It can encode any binary data, regardless of its content or format.<br>
+•  It can be safely transmitted over text-based protocols or channels that may alter or discard some binary values.<br>
+•  It can be easily implemented and supported by many languages and libraries.<br>
+Some disadvantages of base64 encoding are:<br>
+•  It increases the size of the data by about 33%, which may affect the bandwidth and storage requirements.<br>
+•  It is not secure or encrypted, and anyone can decode the data easily.<br>
+•  It is not human-readable or meaningful, and it may be hard to debug or verify.<br>
+<b>Question</b>: What are some common use cases of base64 encoding?<br>
+<b>Answer</b>: Some common use cases of base64 encoding are:<br>
+•  Embedding images or other binary data in HTML or CSS files, such as data URIs.<br>
+•  Encoding email attachments or MIME parts, such as Base64 Content-Transfer-Encoding.<br>
+•  Encoding cryptographic keys or tokens, such as JSON Web Tokens (JWT).<br>
+•  Encoding binary data in URLs, such as Base64 URL Encoding.<br>
 
-    <p><b>Question</b>: Does this code compile? Will the code throw an exception during execution? What issues can you find?
+<b>Question</b>: How can you check if a string is base64 encoded or not?<br>
+<b>Answer</b>: There is no definitive way to check if a string is base64 encoded or not, but there are some heuristics that can help. Some possible steps are:<br>
+•  Check the length of the string. It should be a multiple of 4, or a multiple of 4 plus 1 or 2 if there is padding.<br>
+•  Check the characters of the string. They should be from the base64 alphabet, which consists of A-Z, a-z, 0-9, + and /, with = as a padding character. There are also URL-safe variants that use - and _ instead of + and /.<br>
+•  Check the padding of the string. There should be at most 2 padding characters at the end of the string, and they should be =.<br>
+•  Try to decode the string using a base64 decoder. If it succeeds without errors, it is likely that the string is base64 encoded.<br>
+
+<b>Question</b>: What kind of base64 variants do you know?<br>
+<b>Question</b>: What HTTP(S) URL parts do know for REST?<br>
+<b>Question</b>: What is the difference between HTTP and HTTPS?<br>
+<b>Question</b>: What is the difference between TLS and M-TLS?<br>
+
+    <p><b>Question</b>: Implement a method that returns the nth fibonacci number.<br>
+	<a href="https://leetcode.com/problems/fibonacci-number">https://leetcode.com/problems/fibonacci-number</a><br>
+    <b>Answer</b>: A Fibonacci number is a number that is an element of the Fibonacci sequence. The Fibonacci sequence is a sequence of numbers where each number is the sum of the previous two numbers, except for the first two numbers, which are 0 and 1.<br>Using recursive approach:
+	 <div class="code"><code><pre>public int Fibonacci(int n)
+{
+  if (n &lt;= 0)
+  {
+    return -1;
+  }
+  else if (n == 1 || n == 2)
+  {
+    return 1;
+  }
+  else
+  {
+    return Fibonacci(n - 1) + Fibonacci(n - 2);
+  }
+}</pre></code></div>
+
+    Or using iterative approach:
+	 <div class="code"><code><pre>public static int Fibonacci(int n)
+{
+  if (n &lt;= 0)
+  {
+    return -1;
+  }
+  int a = 0; <i>// 0th fibonacci number</i>
+  int b = 1; <i>// 1st fibonacci number</i>
+  for (int i = 1; i &lt; n; i++)
+  {
+    int c = a + b;
+    a = b;
+    b = c;
+  }
+  return b;
+}</pre></code></div>  
+
+    <p><b>Question</b>: Does this code compile? Will the code throw an exception during execution?
 	 <div class="code"><code><pre>public interface IEmailSender
 {
   Task SendEmailAsync(string email, string subject, string message);
@@ -158,70 +235,8 @@ public class HomeController : Controller
     _emailSender = emailSender;
   }
 }</pre></code></div>
-	
-<b>Question</b>: What is base64 and what is it used for?<br>
-<b>Answer</b>: Base64 is a binary-to-text encoding scheme that represents binary data in an ASCII string format. It is used for transferring binary data over media that are designed to deal with textual data, such as email or URLs. This ensures that the data remains intact and uncorrupted during transport<br>
-<b>Question</b>: How does base64 encoding work?<br>
-<b>Answer</b>: Base64 encoding works by dividing the input binary data into 6-bit blocks and mapping each block to a 64-character alphabet. The alphabet consists of A-Z, a-z, 0-9, + and /, with = as a padding character. The output string is formed by concatenating the encoded blocks. The output length is always a multiple of 4.<br>
-<b>Question</b>: What are the advantages and disadvantages of base64 encoding?<br>
-<b>Answer</b>: Some advantages of base64 encoding are:<br>
-•  It can encode any binary data, regardless of its content or format.<br>
-•  It can be safely transmitted over text-based protocols or channels that may alter or discard some binary values.<br>
-•  It can be easily implemented and supported by many languages and libraries.<br>
-Some disadvantages of base64 encoding are:<br>
-•  It increases the size of the data by about 33%, which may affect the bandwidth and storage requirements.<br>
-•  It is not secure or encrypted, and anyone can decode the data easily.<br>
-•  It is not human-readable or meaningful, and it may be hard to debug or verify.<br>
-<b>Question</b>: What are some common use cases of base64 encoding?<br>
-<b>Answer</b>: Some common use cases of base64 encoding are:<br>
-•  Embedding images or other binary data in HTML or CSS files, such as data URIs.<br>
-•  Encoding email attachments or MIME parts, such as Base64 Content-Transfer-Encoding.<br>
-•  Encoding cryptographic keys or tokens, such as JSON Web Tokens (JWT).<br>
-•  Encoding binary data in URLs, such as Base64 URL Encoding.<br>
 
-<b>Question</b>: How can you check if a string is base64 encoded or not?<br>
-<b>Answer</b>: There is no definitive way to check if a string is base64 encoded or not, but there are some heuristics that can help. Some possible steps are:<br>
-•  Check the length of the string. It should be a multiple of 4, or a multiple of 4 plus 1 or 2 if there is padding.<br>
-•  Check the characters of the string. They should be from the base64 alphabet, which consists of A-Z, a-z, 0-9, + and /, with = as a padding character. There are also URL-safe variants that use - and _ instead of + and /.<br>
-•  Check the padding of the string. There should be at most 2 padding characters at the end of the string, and they should be =.<br>
-•  Try to decode the string using a base64 decoder. If it succeeds without errors, it is likely that the string is base64 encoded.<br>
-	
-    <p><b>Question</b>: Implement a method that returns the nth fibonacci number.<br>
-	<a href="https://leetcode.com/problems/fibonacci-number">https://leetcode.com/problems/fibonacci-number</a><br>
-    <b>Answer</b>: A Fibonacci number is a number that is an element of the Fibonacci sequence. The Fibonacci sequence is a sequence of numbers where each number is the sum of the previous two numbers, except for the first two numbers, which are 0 and 1.<br>Using recursive approach:
-	 <div class="code"><code><pre>public int Fibonacci(int n)
-{
-  if (n &lt;= 0)
-  {
-    return -1;
-  }
-  else if (n == 1 || n == 2)
-  {
-    return 1;
-  }
-  else
-  {
-    return Fibonacci(n - 1) + Fibonacci(n - 2);
-  }
-}</pre></code></div>
-
-    Or using iterative approach:
-	 <div class="code"><code><pre>public static int Fibonacci(int n)
-{
-  if (n &lt;= 0)
-  {
-    return -1;
-  }
-  int a = 0; <i>// 0th fibonacci number</i>
-  int b = 1; <i>// 1st fibonacci number</i>
-  for (int i = 1; i &lt; n; i++)
-  {
-    int c = a + b;
-    a = b;
-    b = c;
-  }
-  return b;
-}</pre></code></div>    
+  
 
   </body>
 </html>

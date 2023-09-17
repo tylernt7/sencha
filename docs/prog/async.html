@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Asynchronous programming</title>
+    <link rel="stylesheet" href="../common.css">	
+  </head>
+  <body>
+    <h1>Asynchronous programming</h1>
+    <h2>Overview</h2>
+    <center><img src="images\breakfast.png"/></center>	
+    
+	<h2>C#</h2>
+	<div class="code"><code><pre>public async Task&lt;string&gt; GetHelloWorldAsync()
+{
+    var hello = "Hello World";
+    Console.WriteLine($"Started {hello}");
+    await Task.Delay(3000);
+    Console.WriteLine($"Finished {hello}");
+
+    return hello;
+}
+
+static async Task Main(string[] args)
+{
+    Task&lt;string&gt; getStringTask = new Program().GetHelloWorldAsync();
+    Console.WriteLine("DoIndependentWork"); 
+    
+    var hello = await getStringTask; // Suspends the Main method until the getStringTask operation completes
+    Console.WriteLine(hello);
+}</pre></code></div>
+Output:<br>
+Started Hello World<br>
+DoIndependentWork<br>
+Finished Hello World<br>
+Hello World<br>
+
+	<h2>Angular 4 (TypeScript 2.1)</h2>
+	<div class="code"><code><pre>async getHelloWorldAsync() {
+    const hello = "Hello World";
+    console.log(`Started ${hello}`);
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    console.log(`Finished ${hello}`);
+    
+    return hello;
+}
+
+async ngOnInit() {
+    const getStringTask = this.getHelloWorldAsync();
+    console.log("DoIndependentWork");
+    
+    const hello = await getStringTask;
+    console.log(hello);     
+}</pre></code></div>
+
+	<h2>Java 8</h2>
+	<div class="code"><code><pre>public CompletableFuture&lt;String&gt; getHelloWorldAsync() throws InterruptedException {
+    return CompletableFuture.supplyAsync(() -> {
+        String hello = "Hello World";
+        System.out.println("Started " + hello);
+        Thread.sleep(3000);
+        System.out.println("Finished " + hello);
+        return hello;
+    });
+}
+
+public static void main(String[] args) {		
+    CompletableFuture&lt;String&gt; getStringTask = new Main().getHelloWorldAsync();
+    System.out.println("DoIndependentWork");
+    getStringTask.thenAccept(hello -> {
+    System.out.println(hello);
+    });
+}</pre></code></div>
+	
+	<h2>Spring Boot</h2>
+	<div class="code"><code><pre>@Async
+public CompletableFuture&lt;String&gt; getHelloWorldAsync() throws InterruptedException {
+    String hello = "Hello World";
+    System.out.println("Started " + hello);
+    Thread.sleep(3000);
+    System.out.println("Finished " + hello);
+    return CompletableFuture.completedFuture(hello);
+}	
+
+public static void main(String[] args) {
+    CompletableFuture&lt;String&gt; getStringTask = new Main().getHelloWorldAsync();
+    System.out.println("DoIndependentWork");
+    String hello = getStringTask.get();
+    System.out.println(hello);
+}</pre></code></div>	
+	
+	
+	
+  </body>
+</html>
