@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Welcome</title>
-    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="../common.css">
   </head>
   <body>
     <h1>Interjú kérdések</h1>
@@ -62,20 +62,24 @@
     <p><b>Kérdés: Mi az OpenID Connect 1.0 és miben különbözik az OAuth 2.0-tól?</b><br>
     <b>Válasz</b>: Az OpenID Connect 1.0 egy egyszerű azonosítási réteg az OAuth 2.0 protokoll felett. Lehetővé teszi az ügyfelek számára, hogy ellenőrizzék a végfelhasználók identitását azon alapulva, hogy hogyan hitelesítette őket egy engedélyezési szerver, valamint hogy interoperábilis és REST-szerű módon szerezzék be a végfelhasználók profilinformációit. Az OAuth 2.0 nem foglalkozik a felhasználók hitelesítésével, csak az erőforrásokhoz való hozzáférés engedélyezésével. Az OpenID Connect tehát kiegészíti az OAuth 2.0-t egy hitelesítési réteggel, amely lehetővé teszi a felhasználók egyszeri bejelentkezését (SSO) az OAuth-kompatibilis alkalmazások között egy biztonsági token segítségével, amelyet identitás tokennek (JSON Web Token, JWT) neveznek.
 
-	<h2>.NET</h2>
+	<h2>.NET</h2> 
 	
     <p><b>Kérdés: Dapper: Mi a különbség a Dapper és az EF Core teljesítménye között? Melyik ORM javasolt egy nagy forgalmú real-time pénzügyi alkalmazásban?</b></p>
-    <b>Válasz</b>: A Dapper és az EF Core teljesítménye között általában a Dapper a gyorsabb, mert nyers SQL lekérdezéseket használ és kevesebb felesleges műveletet végez. Az EF Core lassabb, mint a Dapper, mert sokkal több funkcióval rendelkezik, ami több erőforrást igényel. Azonban az EF Core bizonyos esetekben gyorsabb lehet, mint a Dapper, mert rendelkezik gyorsítótárazással és más teljesítményoptimalizáló technikákkal<br>
+    <b>Válasz</b>: A Dapper és az EF Core teljesítménye között általában a Dapper (micro-ORM) a gyorsabb, mert nyers SQL lekérdezéseket használ és kevesebb felesleges műveletet végez. Az EF Core lassabb, mint a Dapper, mert sokkal több funkcióval rendelkezik, ami több erőforrást igényel. Azonban az EF Core bizonyos esetekben gyorsabb lehet, mint a Dapper, mert rendelkezik gyorsítótárazással és más teljesítményoptimalizáló technikákkal<br>
     - A pénzügyi alkalmazásoknak nagyon fontos a gyorsaság és a pontosság, ezért a Dapper előnye, hogy közvetlenül a SQL szerverrel kommunikál és minimálisra csökkenti az adatbázis és az objektumok közötti átalakítást.<br>
     - A pénzügyi alkalmazásoknak általában szükségük van komplex lekérdezésekre vagy tárolt eljárásokra, amelyeket az EF Core nem támogat vagy nehezen kezel. A Dapper lehetővé teszi, hogy teljes mértékben irányítsuk a SQL utasításokat és könnyen megoldjuk az EF Core által nem támogatott eseteket<br>
 
-    <p><b>Kérdés: FluentAssertions: Hogyan írná át az Assert.AreEqual(3, result.Count)-t FluentAssertions-al?</b></p>
-    <b>Válasz</b>: result.Count.Should().Be(3);
+    <p><b>Kérdés: FluentAssertions: Hogyan írható át az alábbi Assert FluentAssertions-al?<br>
+	xUnit: Assert.Equal(3, result.Length)<br>
+	NUnit/MSTest: Assert.AreEqual(3, result.Length)</b></p>
+    <b>Válasz</b>: result.Length.Should().Be(3);
 
     <p><b>Kérdés: EntityFrameworkCore.InMemory: Hogyan lehet szimulálni tranzakciókat, amelyeket az InMemory adatbázis nem támogat Unit tesztek során?</b></p>
     <b>Válasz</b>: Az InMemory adatbázis egy olyan adatbázis, amelyet a memóriában tárolnak, nem pedig a lemezen. Nem támogatja a tranzakciókat, azaz nem lehet visszavonni vagy visszaállítani az adatokat. Ez problémát jelenthet a unit tesztelés során, mert nem lehet ellenőrizni, hogy a kód hogyan viselkedik a tranzakciókkal. Erre több módszer is létezik:<br>
-    - Használjunk egy másik adatbázis-szolgáltatót, amely támogatja a tranzakciókat, például az SQLite-t<br>
-    - Használjunk egy mock vagy stub objektumot, amely utánozza az adatbázis-kezelő rendszer viselkedését
+	-  Használjunk a RelationalDatabaseTransactionManager osztályt, amely egy absztrakt osztály, amelyet az Entity Framework Core különböző relációs adatbázis-kezelői implementálnak.<br>
+    - Használjunk egy másik adatbázis-kezelőt, amely támogatja a tranzakciókat, például az SQLite-t (SqliteConnection osztály).<br>
+    - Használjunk egy mock vagy stub objektumot, amely utánozza az adatbázis-kezelő rendszer viselkedését (Moq könyvtár).<br>
+	- A reflection segítségével szimulálhatunk tranzakciókat Unit tesztek során az InMemory adatbázissal. A try blokkban elmentjük az InMemory adatbázis eredeti állapotát egy változóba. A try blokkban meghívjuk a Unit teszt metódust, és ellenőrizzük az elvárt eredményt. A catch blokkban visszaállítjuk az InMemory adatbázis eredeti állapotát.
 
     <p><b>Kérdés: Flutter:  Hogyan lehet terjeszthető buildet készíteni Flutterel Androidra és iOS-ra?</b></p>
     <b>Válasz</b>:<br>	
@@ -84,6 +88,7 @@
 
     <p><b>Kérdés: AutoMapper: Hogyan lehet AutoMapper-t kézzel helyettesíteni?</b></p>
     <b>Válasz</b>: Saját metódusokat írunk, amelyek átveszik az egyik objektumot paraméterként, létrehoznak és visszaadnak egy másik objektumot, amelynek a tulajdonságai megfelelnek az első objektum tulajdonságainak.
+    <div class="code"><code><pre>productDto.StringPrice = ProductMapper.FormatPrice(product.DecimalPrice);</pre></code></div>
 
     <p><b>Kérdés: Hangfire/Autofac: Hogyan lehet használni az Autofac-et a Hangfire háttérfeladatokhoz, úgy hogy a feladatok megkapják a szükséges függőségeket (függőségi befecskendezést)?</b></p>
     <b>Válasz</b>: Az Autofac-et úgy lehet használni a Hangfire háttérfeladatokhoz, hogy egy AutofacJobActivator osztályt hozunk létre, amely az Autofac konténert használja a feladatokhoz szükséges osztálypéldányok létrehozásához. Ezután be kell állítanunk a JobActivator.Current tulajdonságot erre az osztályra, hogy a Hangfire ezt használja feladat aktivátorként.
@@ -114,7 +119,7 @@
 	<b>Válasz</b>: assets/i18n alatt en.json és hu.json fájl. Html-ben csak a kulcsot adjuk meg ami itt van a json-on belül és a hozzá tartozó értéket kiszedjük a választott nyelvhez. Az i18n-ben a 18-as szám az internationalization első és utolsó betűje közötti betűk számát jelöli.
 
     <p><b>Kérdés: Mi a különbség az Angularban és a C#-ban használt promise között?</b></p>
-	<b>Válasz</b>:<br>- Az Angularban a promise a JavaScript beépített Promise objektumát használja (ES6, TypeScript 2.1, Angular 4). A C#-ban a promise a Task osztályt használja. A Promise egy aszinkron művelet eredményét reprezentálja, amely lehet sikeres vagy sikertelen. Az Angularban a promise egy beépített osztály, amelyet a Promise konstruktorral lehet létrehozni. A konstruktor egy függvényt vár, amelynek két paramétere van: resolve és reject. Ezek a függvények hívhatók meg a promise állapotának megváltoztatására. A C#-ban a promise egy Task&lt;T> típusú objektum, amelyet a Task.Run metódussal lehet létrehozni. A Task.Run egy függvényt vár, amely visszaadja a promise értékét. A Task&lt;T>objektum automatikusan teljesül, ha a függvény sikeresen végrehajtódik, vagy elutasítódik, ha kivétel keletkezik<br>
+	<b>Válasz</b>:<br>- Az Angularban a promise a JavaScript beépített <b>Promise</b> objektumát használja (ES6, TypeScript 2.1, Angular 4). A C#-ban a promise a <b>Task</b> osztályt használja. A Promise egy aszinkron művelet eredményét reprezentálja, amely lehet sikeres vagy sikertelen. Az Angularban a promise egy beépített osztály, amelyet a Promise konstruktorral lehet létrehozni. A konstruktor egy függvényt vár, amelynek két paramétere van: resolve és reject. Ezek a függvények hívhatók meg a promise állapotának megváltoztatására. A C#-ban a promise egy Task&lt;T> típusú objektum, amelyet a Task.Run metódussal lehet létrehozni. A Task.Run egy függvényt vár, amely visszaadja a promise értékét. A Task&lt;T>objektum automatikusan teljesül, ha a függvény sikeresen végrehajtódik, vagy elutasítódik, ha kivétel keletkezik<br>
 	- Az Angularban és a C#-ban a promise-t az async és await kulcsszavak segítségével lehet létrehozni és kezelni. Az async kulcsszóval jelezzük, hogy egy függvény aszinkron, vagyis egy promise-t ad vissza. Az await kulcsszóval pedig megvárjuk, hogy egy promise teljesüljön, és megkapjuk az eredmény értékét.<br>
 	- Az Angularban a promise értékéhez vagy hibájához a then és catch metódusokkal lehet hozzáférni. Ezek a metódusok függvényeket várnak, amelyeket meghívnak, ha a promise teljesül vagy elutasítódik. A then és catch metódusok új promise-okat adnak vissza, amelyek lehetővé teszik a promise-ok láncolását. A C#-ban a promise értékéhez vagy hibájához az await kulcsszóval vagy a ContinueWith és Wait metódusokkal lehet hozzáférni. Az await kulcsszó egy aszinkron függvényben várja meg a promise teljesülését, és visszaadja az értékét vagy dobja tovább a kivételt. A ContinueWith metódus egy függvényt vár, amelyet meghív, ha a promise befejeződik, akár sikeresen, akár nem. A Wait metódus blokkolja az aktuális szálat, amíg a promise befejeződik.<br>
 	- A promise csak egyszer változtathatja meg az állapotát, míg a task többször is. Például, ha egy promise-t már teljesítettek, akkor nem lehet újra elutasítani vagy függőben lévővé tenni. Ezzel szemben egy task-ot újra el lehet indítani vagy megszakíthatni.<br>
