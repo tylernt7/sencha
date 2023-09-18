@@ -45,7 +45,7 @@ Hello World<br>
 }
 
 async ngOnInit() {
-    const getStringTask = this.getHelloWorldAsync();
+    const getStringTask = this.getHelloWorldAsync(); // getStringTask's type is Promise
     console.log("DoIndependentWork");
     
     const hello = await getStringTask;
