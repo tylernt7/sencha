@@ -72,7 +72,7 @@
 	<b>ASN.1</b>: Abstract Syntax Notation One, a standard interface description language for defining data structures and data serialization formats in a platform-independent way (formal notation to describe data types). The ASN.1 encoding rules include BER (Basic Encoding Rules), DER (Distinguished Encoding Rules), PER (Packed Encoding Rules) and XER (XML Encoding Rules). The Bouncy Castle APIs support ASN.1 data structures and encodings, as well as various protocols and standards that use ASN.1, such as X.509, CMS, OCSP, etc.<br>	
 	<b>OID</b>: Object IDentifier, a sequence of numbers (such as 2.5.4.3) identifying objects in a unique way in X.509 certificates (a basic ASN.1 type). OIDs are used to identify various elements in certificates, such as algorithms, extensions, policies, etc.<br>
 	<b>AIA</b>: Authority Information Access, an extension in X.509 certificates that indicates how to access CA information and services about the issuer of the certificate as detailed in RFC 3280.<br>
-    <b>HSM</b>: Hardware Security Module, a device for the secure execution of cryptographic operations (encryption, decryption, authorization, authentication and digital signing). It generates and stores keys inside a hardened, tamper-resistant device. It prevents physical/unauthorised tampering with self-destruct mechanisms.<br>
+	<b>HSM</b>: Hardware Security Module, a device for the secure execution of cryptographic operations (encryption, decryption, authorization, authentication and digital signing). It generates and stores keys inside a hardened, tamper-resistant device. It prevents physical/unauthorised tampering with self-destruct mechanisms. E.g. <i>Entrust nShield XC Connect</i><br>
 	
 	<h2>Certificate Revocation</h2>
 	<p>To revoke a root certificate, the root CA can issue a CRL that contains its own serial number, and sign it with its own private key. The vendor (operating system, browser) or the user can also revoke the root certificate from the trusted root store.	
@@ -82,7 +82,7 @@
 	<ul>
 	<li><b>0 - Unspecified</b>: The CA did not specify a reason for revoking the certificate</li>
 	<li><b>1 - Key Compromise</b>: The private key associated with the certificate has been compromised</li>
-    <li><b>2 - CA Compromise</b>: The private key of the CA that issued the certificate has been compromised</li>
+	<li><b>2 - CA Compromise</b>: The private key of the CA that issued the certificate has been compromised</li>
 	<li><b>3 - Affiliation Changed</b>: The certificate holder has changed their name or other information in the certificate</li>
 	<li><b>4 - Superseded</b>: The certificate has been replaced by a newer one</li>
 	<li><b>5 - Cessation Of Operation</b>: The certificate is no longer needed</li>
@@ -577,6 +577,6 @@ openssl req -in ec.csr -out ec_v3.cer -key ec.pem -x509 -days 365 -sha512</pre><
 	<b>RA (Registration Authority)</b>: It authenticates the entity (people or organizations) making the request<br>
 	<b>CA (Certificate/Certification Authority)</b>: It stores, signs, issues and revokes certificates <i>(tárol, aláír, kiállít, visszavon tanúsítványokat)</i><br>
 	<b>VA (Validation Authority)</b>: It checks the validity of the certificates (signed X.509)<br>
-	<center><img src="images\pki.png" width="50%" height="50%"/></center>	 
+	<center><img src="images\pki.png" width="50%" height="50%"/></center>
   </body>
 </html>

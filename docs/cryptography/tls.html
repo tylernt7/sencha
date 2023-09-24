@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Transport Layer Security (TLS)</title>
+    <link rel="stylesheet" href="../common.css">	
+  </head>
+  <body>
+    <h1>Transport Layer Security (TLS)</h1>
+		
+    <h2>TLS 1.2 (Client-Server m-TLS Communication)</h2>
+	<center><img src="images\tls.png" width="50%" height="50%"/></center>
+	<p>In TLS 1.3, the server does not send its certificate in the Server Hello phase. Instead, the client and server exchange keys at the beginning of the handshake process. The client sends Client Hello, and the server sends its key_share Extension in Server Hello. Everything after ServerHello, including the server certificate, is encrypted.</p>
+	<p>TLS 1.3 does not support RSA, nor other cipher suites that are vulnerable to attack. It uses Diffie-Hellman key exchange. It also shortens the TLS handshake, making a TLS 1.3 handshake both faster and more secure.</p>
+	<p>In m-TLS, when a client tries to communicate with a server, they need to <b>validate/verify (authenticate) each other</b>. A Client Certificate Request is a message that the server sends to the client during the m-TLS handshake, asking the client to provide a digital certificate that proves its identity. The server can specify which types of certificates it accepts, and which certificate authorities it trusts. The client can choose to send a certificate that matches the server's criteria, or decline to send any certificate. The server can then decide whether to accept or reject the connection.</p>
+	
+    <h2>Testing the behavior of browsers and clients</h2>
+	<ul>
+	<li>tls-v1-2.badssl.com uses TLS 1.2 and has a valid certificate issued by DigiCert</li>
+	<li>tls13.badssl.com uses TLS 1.3 and has a valid certificate issued by Let's Encrypt</li>
+	<li>client.badssl.com uses m-TLS and requires the client to present a certificate to access the site
+	<ul><li><a href="https://client.badssl.com">https://client.badssl.com</a></li>
+	<li><a href="https://badssl.com/download">https://badssl.com/download</a></li>
+	<li><a href="https://badssl.com/certs/badssl.com-client.p12">https://badssl.com/certs/badssl.com-client.p12</a> (Pass phrase is badssl.com)</li></ul>
+	</li>
+	</ul>
+	
+    <h2>SSL and TLS protocols</h2>
+	<center><img src="images\protocols.png" width="50%" height="50%"/></center>
+	
+    <h2>OSI model</h2>
+	<p>TLS, m-TLS can operate at either the Transport layer or the Application layer</p>
+	<p>OAuth 2.0 operates at the Application layer</p>
+	
+	<h2>m-TLS</h2>	
+	<center><img src="images\mtls.png" width="50%" height="50%"/></center>
+    <div class="code"><code><pre>rem Client
+openssl genrsa -out client.key
+openssl req -out client.csr -new -key client.key -config client.cnf -reqexts v3_req
+rem openssl req -out client.csr -new -newkey -nodes rsa:4096 -keyout client.key 
+
+rem Server
+openssl x509 -in client.csr -out client.crt -days 365 -req -CA server_root_ca.crt -CAkey server_root_ca.key -CAcreateserial -sha256
+openssl pkcs12 -export -inkey client.key -name client -in client.crt -out client.p12</pre></code></div>
+	
+	
+    <h2>References</h2>	
+	<p><a href="https://www.youtube.com/watch?v=x7B5CwcxCDI">Tutorial: Two-Way SSL Mutual Authentication (YouTube)</a></p>
+  </body>
+</html>
