@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Distributed Transaction Management</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Distributed Transaction Management</h1>
+	
+	<h2>ACID</h2>
+	<p>Distributed transactions must have all four ACID (atomicity, consistency, isolation, durability) properties that guarantee the validity and reliability of database transactions, even in the case of failures.</p>
+	
+	<h2>How do you achieve data consistency between microservices?</h2>
+	<p>The main difference between REST and message broker in terms of consistency is that REST follows a strong consistency model, while message broker follows an eventual consistency model. Strong consistency means that the system always has the most recent data. Eventual consistency means that the system has outdated data until all components (nodes, services) are updated (propagated and synchronized).</p>		
+	<p>REST achieves <b>strong consistency</b> by using HTTP methods and status codes to ensure that each request is processed atomically and idempotently, and that any errors or failures are reported back to the client. REST also uses techniques such as caching, conditional requests, or optimistic locking to optimize performance and avoid conflicts or stale data. However, strong consistency comes at a cost of increased latency, reduced availability, and lower scalability.</p>
+	<p>Message broker achieves <b>eventual consistency</b> by using queues and exchanges to decouple the sender and the receiver, and to allow messages to be delivered in a reliable and durable manner. Message broker also uses features such as persistence, acknowledgements, transactions, or dead letter queues to ensure that messages are not lost or duplicated. However, eventual consistency introduces complexity and challenges in terms of ordering, synchronization, or error handling.</p>	
+	
+	<h2>Distributed Transaction Management</h2>
+	<p>2PC/3PC (Two-Phase Commit/Three-Phase Commit)<br>
+	Saga Pattern<br>
+	CQRS (Command Query Responsibility Segregation) Pattern<br>
+	API Composition<br>	
+	TCC (Try-Confirm-Cancel)<br> 
+	ESB (Enterprise Service Bus)<br> 
+	Contract Testing</p>	
+  </body>
+</html>
