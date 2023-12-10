@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dispose</title>
+	<link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Dispose</h1>
+	<b>Question:</b><br>
+	What is Dispose() method for and when and how to write your own?<br>
+	<b>Answer:</b><br>
+	See <a href="http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx">http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</a><br>
+	The pattern for disposing an object, referred to as the dispose pattern, imposes order on the lifetime of an object. The dispose pattern is used for objects that access <i>unmanaged</i> resources. This is because the garbage collector is very efficient at reclaiming unused <i>managed</i> objects, but it is unable to reclaim <i>unmanaged</i> objects. <b>BEGINNER</b><br>
+	There is no performance benefit in implementing the <a href="https://learn.microsoft.com/en-us/dotnet/api/system.idisposable.dispose">Dispose</a> method on types that use only managed resources (such as arrays) because they are automatically reclaimed by the garbage collector. Use the <a href="https://learn.microsoft.com/en-us/dotnet/api/system.idisposable.dispose">Dispose</a> method primarily on managed objects that use native resources and on COM objects that are exposed to the .NET Framework. Managed objects that use native resources (such as the FileStream class) implement the <a href="https://learn.microsoft.com/en-us/dotnet/api/system.idisposable">IDisposable</a> interface.<br>
+	<p>The following rules outline the usage guidelines for the <b>Dispose</b> method: MORE is better</p>
+	<ul type="disc">
+	<li>Implement the dispose design pattern on a type that encapsulates resources that explicitly need to be freed. Users can free external resources by calling the public <b>Dispose</b> method.</li>
+	<li>Implement the dispose design pattern on a base type that commonly has derived types that hold on to resources, even if the base type does not. If the base type has a <b>Close</b> method, often this indicates the need to implement <b>Dispose</b>. In such cases, do not implement a <b>Finalize</b> method on the base type. <b>Finalize</b> should be implemented in any derived types that introduce resources that require cleanup.</li>
+	<li>Free any disposable resources a type owns in its <b>Dispose</b> method.</li>
+	<li>After <b>Dispose</b> has been called on an instance, prevent the <b>Finalize</b> method from running by calling the <a href="http://msdn.microsoft.com/en-us/library/system.gc.suppressfinalize%28v=VS.71%29.aspx">GC.SuppressFinalize</a>  Method. The exception to this rule is the rare situation in which work must be done in <b>Finalize</b> that is not covered by <b>Dispose</b>.</li>
+	<li>Call the base class's <b>Dispose</b> method if it implements <b>IDisposable</b> .</li>
+	<li>Do not assume that <b>Dispose</b> will be called. Unmanaged resources owned by a type should also be released in a <b>Finalize</b> method in the event that <b>Dispose</b> is not called.</li>
+	<li>Throw an <b>ObjectDisposedException </b> from instance methods on this type (other than <b>Dispose</b>) when resources are already disposed. This rule does not apply to the <b>Dispose</b> method because it should be callable multiple times without throwing an exception.</li>
+	<li>Propagate the calls to <b>Dispose</b> through the hierarchy of base types. The <b>Dispose</b> method should free all resources held by this object and any object owned by this object. For example, you can create an object like a TextReader that holds onto a Stream and an Encoding, both of which are created by the TextReader without the user's knowledge. Furthermore, both the Stream and the Encoding can acquire external resources. When you call the <b>Dispose</b> method on the TextReader, it should in turn call <b>Dispose</b> on the Stream and the Encoding, causing them to release their external resources.</li>
+	<li>Consider not allowing an object to be usable after its <b>Dispose</b> method has been called. Recreating an object that has already been disposed is a difficult pattern to implement.</li>
+	<li>Allow a <b>Dispose</b> method to be called more than once without throwing an exception. The method should do nothing after the first call.</li></ul>
+
+  </body>
+</html>

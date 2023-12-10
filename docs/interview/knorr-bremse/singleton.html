@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Singleton</title>
+	<link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Singleton</h1>
+	<b>Question</b><br>
+	A. What does the following code do?<br>
+	B. Do you see any potential problem with the code?<br>
+	C. Could you do it differently? How? What would be the benefit of your solution? What could be the drawback of your solution?<br><br>
+	<div class="code"><code><pre>public sealed class Singleton
+{
+	static readonly Singleton instance=new Singleton(); 
+
+	static Singleton() 
+	{
+	}
+	
+	Singleton() 
+	{
+	}
+
+	public static Singleton Instance 
+	{
+		get
+		{
+			return instance; 
+		}
+	}
+}</pre></code></div>
+<br>
+  <b>Answer</b><br>
+  The question is based on <a href="http://csharpindepth.com/Articles/General/Singleton.aspx">http://csharpindepth.com/Articles/General/Singleton.aspx</a>.<br>
+  A. It implements the singleton pattern. It is thread safe. <b>BEGINNER</b><br>
+  B: It is lazy, but not quite:<br>
+  <i>It's not as lazy as the other implementations. In particular, if you have static members other than <b>Instance</b>, the first reference to those members will involve creating the instance.</i> <b>EXPERT</b><br>
+  <u>B: Potential</u> further problems:<br> 
+  • <i>There are complications if one static constructor invokes another which invokes the first again. Look in the .NET specifications (currently section 9.5.3 of partition II) for more details about the exact nature of type initializers - they're unlikely to bite you, but it's worth being aware of the consequences of static constructors which refer to each other in a cycle.</i> <b>EXPERT</b><br>
+  • <i>The laziness of type initializers is only guaranteed by .NET when the type isn't marked with a special flag called <b>beforefieldinit</b>. Unfortunately, the C# compiler (as provided in the .NET 1.1 runtime, at least) marks all types which don't have a static constructor (i.e. a block which looks like a constructor but is marked static) as <b>beforefieldinit</b>. I now have an <a href="https://csharpindepth.com/articles/BeforeFieldInit">article</a> with more details about this issue. Also note that it affects performance, as discussed near the bottom of the page.</i> <b>ADVANCED</b><br>
+  C: - Implement singleton pattern with simple locking — not the best efficiency.<br>
+  - use double locking — Older .NET releases and java prior 1.5 had problems with it. Can work but it is easy to make mistakes.<br>
+  - Nested class for full lazyness.<br>
+<br>
+Further reading: <a href="http://msdn.microsoft.com/en-us/library/ff650316.aspx">http://msdn.microsoft.com/en-us/library/ff650316.aspx</a><br>	
+  </body>
+</html>

@@ -10,10 +10,25 @@
     <h2>Spring Initializr</h2>
 	<p>URL: <a href="https://start.spring.io/">Spring Initializr</a></p>
 	<center><img src="images\start_spring.png" width="80%" height="80%"/></center>
+	<b>Packaging</b>
+	<ul>
+	<li><b>JAR</b> (Java ARchive): with an embedded server (Tomcat) for a standalone or microservices application</li>
+	<li><b>WAR</b> (Web ARchive): deploying to a traditional servlet container or integrating into an existing Java EE environment</li>
+	</ul>
+	
+	<b>Building JAR (Spring Boot 3.1.5, NetBeans)</b>	
 	<ul>
 	<li>Select File -> Import Project -> From ZIP</li>
-	<li>Select Run -> Build Project</li>
+	<li>Select Run -> (Clean and) Build Project</li>
+	<li>WebshopApplication.java -> Run File</li>
 	</ul>
+	<b>Building WAR (Spring Boot 2.7.17, NetBeans)</b>	
+	<ul>
+	<li>Servers -> Start GlassFish Server 5.0 (JDK 1.8)</li>
+	<li>Servers -> View Domain Admin Console (<a href="http://localhost:4848/">http://localhost:4848/</a>)</li>
+	<li>Chrome -> Deploy an Application: Location: target\webshop-0.0.1-SNAPSHOT.war, Context Root: /</li>
+	<li>Chrome -> <a href="http://localhost:8080/hello">http://localhost:8080/hello</a></li>
+	</ul>	
 		
     <h2>References</h2>
     <ul>

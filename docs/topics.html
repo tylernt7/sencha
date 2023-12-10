@@ -50,20 +50,24 @@
     </li>
 
 
-    <!--<li><span class="caret">Mining</span>
+    <li><span class="caret">Mining</span>
       <ul class="nested">  	
         <li><a href="mining/bitcoin.html">Bitcoin</a></li>
         <li><a href="mining/trading.html">Trading</a></li>
       </ul>
-    </li>-->
+    </li>
 	
     <li><span class="caret">Interview</span>
-      <ul class="nested">  	
-        <li><a href="interview/knorr-bremse.html">Knorr-Bremse</a></li>
+      <ul class="nested">
+        <li><span class="caret">Knorr-Bremse</span>
+        <ul class="nested">
+          <li><a href="interview/knorr-bremse/singleton.html">Singleton</a></li>
+		  <li><a href="interview/knorr-bremse/property.html">Property</a></li>
+		  <li><a href="interview/knorr-bremse/dispose.html">Dispose</a></li>
+		</ul></li>
         <li><a href="interview/morganstanley.html">Morgan Stanley</a></li>
-		<li><a href="interview/questions.html">Questions</a></li>
-		<li><a href="interview/test.html">Test</a></li>
-		<li><a href="interview/inmemory.html">InMemory database</a></li>
+		<li><a href="interview/innopay.html">Innopay Zrt</a></li>
+        <li><a href="interview/tech.html">Tech Stack</a></li>		
       </ul>
     </li>	
 	
@@ -99,7 +103,6 @@
         </li>
         <li><a href="architect/mvc.html">MVC, MVP, MVVM</a></li>		
         <li><a href="">Pipe and filter architecture</a></li>
-        <li><a href="architect/tech.html">Tech Stack</a></li>
       </ul>
     </li>
 
@@ -187,27 +190,29 @@
 
     <li><span class="caret">Imperative Programming</span>
       <ul class="nested">
-	    <li><a href="prog/async.html">Asynchronous programming</a></li>
-		<li><a href="prog/statuscodes.html">HTTP Status Codes</a></li>
-	    <li><a href="prog/lang.html">Languages</a></li>
+        <li><a href="prog/async.html">Asynchronous programming</a></li>
+        <li><a href="prog/date.html">Date-Time API</a></li>
+        <li><a href="prog/statuscodes.html">HTTP Status Codes</a></li>
+        <li><a href="prog/lang.html">Languages</a></li>
+        <li><a href="prog/arduino.html">Arduino</a></li>
         <li><span class="caret">Assembly</span>
         <ul class="nested">
-        <li><a href="software/assembly.html">Assembly</a></li>
-        <li><a href="software/intrinsics.html">Intrinsics</a></li>
+        <li><a href="prog/assembly.html">Assembly</a></li>
+        <li><a href="prog/intrinsics.html">Intrinsics</a></li>
         </ul></li>
-        <li><span class="caret">C and C++</span></li>
-		
+        <li><span class="caret">C and C++</span>
+        <ul class="nested">
+        <li><a href="prog/cpp.html">C and C++</a></li>
+        </ul></li>		
         <li><span class="caret">C#</span>
         <ul class="nested">
+		<li><a href="prog/csharp/dotnet.html">.NET Frameworks</a></li>
 		<li><a href="prog/csharp/parameters.html">Method Parameters</a></li>
 		<li><a href="prog/csharp/dispose.html">Dispose method</a></li>
-        </ul></li>		
-		
-		
+        </ul></li>				
 		<li><span class="caret">Java</span>
         <ul class="nested">
 		<li><a href="prog/java/collection.html">Collection API</a></li>
-		<li><a href="prog/java/date.html">Date-Time API</a></li>
 		<li><a href="prog/java/exceptions.html">Exceptions</a></li>			
 		<li><a href="prog/java/gc.html">Garbage Collection</a></li>
 		<li><a href="prog/java/io.html">IO, NIO</a></li>
@@ -235,10 +240,13 @@
         <li><span class="caret">JavaScript</span>
         <ul class="nested">		
 		<li><a href="">AJAX</a></li>
-		<li><a href="">Angular and Angular JS</a></li>
-		<li><a href="">Ext JS</a></li>
+		<li><a href="">Angular JS (old version)</a></li>
+		<li><a href="">Angular</a></li>
+		<li><a href="prog/js/extjs.html">Ext JS</a></li>
 		<li><a href="">jQuery</a></li>
-		<li><a href="">Node.js</a></li>
+		<li><a href="">React</a></li>
+		<li><a href="">Vue (Vue.js)</a></li>
+		<li><a href="">Node.js (backend)</a></li>
         </ul></li>
         <li><span class="caret">PHP</span></li>
         <li><span class="caret">Python</span></li> 
@@ -250,10 +258,7 @@
         <li><span class="caret">HTML and CSS</span></li>
         <li><span class="caret">JSON</span></li>
         <li><span class="caret">Regular expressions</span></li>
-        <li><span class="caret">SQL</span>
-		<ul class="nested">	
-		<li><a href="prog\sql\sql.html">SQL</a></li>
-		</ul></li>
+        <li><span class="caret">SQL</span></li>
         <li><span class="caret">UML and OCL</span>
         <ul class="nested">	
 		<li><a href="prog\uml\order.html">Purchase Order</a></li>		
@@ -263,6 +268,23 @@
         <li><span class="caret">XML</span></li>
         <li><span class="caret">XQuery</span></li>
         <li><span class="caret">XSLT</span></li>
+      </ul>
+    </li>
+
+    <li><span class="caret"><a href="">Database</a></span>
+      <ul class="nested">	  
+        <li><span class="caret">SQL</span>
+		<ul class="nested">	
+		<li><a href="db\sql.html">SQL</a></li>
+		<li><a href="db\rdbms.html">RDBMS</a></li>
+		<li><a href="db\inmemory.html">InMemory database</a></li>
+		</ul></li>
+        <li><span class="caret">NoSQL</span>
+		<ul class="nested">	
+		<li><a href="">Redis</a></li>
+		<li><a href="">MongoDB</a></li>
+		</ul></li>
+        <li><a href="">NewSQL</a></li>
       </ul>
     </li>
 

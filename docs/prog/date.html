@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Date-time API</title>
+	<link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Date-time API</h1>
+    
+    <h2>Example</h2>
+    <b>Local Hungarian time</b>: 2023. 11. 06. 10:31 AM<br>
+	<br>
+    <b>ISO 8601</b>
+    <table>
+      <tr>
+        <td>- Z   indicates that the time is in UTC:</td>
+        <td>2023-11-06T09:31:00Z ("Zulu time")</td>
+      </tr>
+      <tr>
+        <td>- +/- indicates the offset from UTC:</td>
+        <td>2023-11-06T10:31:00+01:00 ("Time offsets from UTC")</td>
+      </tr>
+      <tr>
+        <td>- L   indicates that the time is in local time:</td>
+        <td>2023-11-06T10:31:00L ("Local time")</td>
+      </tr>	  
+    </table>
+    <br>
+    <b>PostgreSQL</b><br>
+    <i>- timestamptz</i>:<br>
+    	- 2023-11-06 10:31:00.000 +0100 (DBeaver)<br>
+    	- 2023-11-06 09:31:00.000+00 (pgAdmin)<br>
+    <i>- timestamp</i>:<br>
+    	- 2023-11-06 10:31:00.000<br>
+    <br>
+    <b>C#</b>
+    <table>
+      <tr>
+        <td>DateTime.Now:</td>
+        <td>2023. 11. 06. 10:31:00</td>
+      </tr>
+      <tr>
+        <td>DateTimeOffset.Now:</td>
+        <td>2023. 11. 06. 10:31:00 +01:00</td>
+      </tr>
+    </table>	
+  </body>
+</html>

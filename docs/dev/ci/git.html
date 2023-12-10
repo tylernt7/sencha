@@ -7,25 +7,83 @@
   <body>
     <h1>Git</h1>
 	<h2>SVN vs Git</h2>
-	<p><b>SVN</b> (Apache Subversion): centralized version control system<br>
-	<b>Git</b>: distributed version control system</p>
+	<p><b>SVN</b>: Centralized version control system (Apache Subversion)<br>
+	<b>Git</b>: &nbsp;&nbsp; Distributed version control system</p>
 	<center><img src="images/git.png" width="50%" height="50%"/></center>
-    Git downloads new data from a remote repository
+	
+	<h2>Git commands</h2>
     <ul>
-      <li><b>git fetch</b>: Git does not integrate new data into your working copy (Git updates .git directory)</li>
-	  <li><b>git pull</b> (git fetch + git merge): Git integrates new data into your working copy</li>		
+      <li><b>git fetch</b>: Download new data from the remote repository into your local repository (Git updates .git directory)</li>
+	  <li><b>git pull</b>: &nbsp; Download new data from the remote repository into your working copy (git fetch + git merge)</li>		
+      <li><b>git stash + git pull + git stash pop</b>: Temporarily save your work, update your local branch, restore your work</li>
+	  <li><b>git pull -X ours</b>: Use your local file and ignore the remote version</li>		
     </ul>
-	To update your local repository without losing your local changes, you can use the following commands to resolve merge conflict:
+		
+	<h2>Merge</h2>	
+	<b>SVN</b> ToDo<br>
+<br>
+<b>Push an existing Git repository</b>
+	<div class="code"><code><pre>cd feature
+git clone --branch feature https://github.com/tylernt7/sencha.git .
+git remote rename origin TylerRepo
+git remote add origin https://github.com/attila/core.git
+git push --set-upstream origin --all
+git push --set-upstream origin --tags
+</pre></code></div>
+
+<br>
+<b>Push an existing Git repository (alternative)</b>
+	<div class="code"><code><pre>cd main
+git clone https://github.com/attila/core.git .
+git remote add TylerRepo https://github.com/tylernt7/sencha.git
+rem git fetch TylerRepo feature
+rem git merge TylerRepo/feature
+git pull TylerRepo feature
+git push
+</pre></code></div>
+
+<br>
+<b>Merge branch 'feature' into branch 'main'</b>
+	<div class="code"><code><pre>git checkout main
+rem git fetch origin feature
+rem git merge origin/feature
+git pull origin feature
+rem git push origin main
+git push
+</pre></code></div>
+
+<br>
+<b>Regular merge</b>
+	<div class="code"><code><pre>git checkout feature <i># switch to the feature branch</i>
+git <i>merge</i> main <i># merge the main branch into the feature branch</i>
+git checkout main <i># switch back to the main branch</i>
+git merge feature <i># merge the feature branch into the main branch with a merge commit</i>
+</pre></code></div>	
+<br>
+<b>Rebase merge</b><br>
+A rebase merge is when you rebase one branch onto another and then merge them with a fast-forward merge. It creates a merge commit.<br>
+	<div class="code"><code><pre>git checkout feature <i># switch to the feature branch</i>
+git <i>rebase</i> main <i># rebase the feature branch onto the main branch</i>
+git checkout main <i># switch back to the main branch</i>
+git merge feature <i># fast-forward merge the feature branch into the main branch</i>
+</pre></code></div>			
+		
+	<h2>Default branches</h2>
     <ul>
-      <li><b>git stash + git pull + git stash pop</b>: temporarily save your work, update your local branch, restore your work</li>
-	  <li><b>git pull -X ours</b>: Git uses your local file and ignore the remote version</li>		
+      <li><b>SVN</b>: trunk</li>
+	  <li><b>Git</b>: master (git init)</li>
+      <li><b>GitHub</b>: main</li>
+	  <li><b>GitLab &lt;14.0</b>: master</li>
+	  <li><b>GitLab >=14.0</b>: main</li>	  
+	  <li><b>Azure DevOps</b>: master</li>		
     </ul>
-	SVN <b>trunk</b> is the same as Git <b>master/main</b> branch<br>
-	GUI clients:
+	
+	<h2>GUI clients</h2>
     <ul>
       <li><b>SVN</b>: TortoiseSVN</li>
 	  <li><b>Git</b>: TortoiseGit, GitHub Desktop, Git GUI</li>		
     </ul>
-<br><b>TODO</b>: Merge (SVN vs Git)
+	
+
   </body>
 </html>

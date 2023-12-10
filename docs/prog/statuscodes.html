@@ -7,8 +7,6 @@
   <body>
     <h1>HTTP Status Codes</h1>
 
-
-
     <h2>Successful 2xx</h2>
     <table border="1">
     <thead>
@@ -46,6 +44,8 @@
       </tr>	  
     </tbody>
     </table>
+	
+	<h2>Redirection 3xx</h2>
 
     <h2>Client Error 4xx</h2>
     <table border="1">
@@ -54,6 +54,7 @@
         <th>Code</th>
         <th>Message</th>
         <th>Description</th>
+        <th>Cause</th>			
       </tr>
     </thead>
     <tbody>
@@ -61,22 +62,46 @@
         <td>400</td>
         <td>Bad Request</td>
         <td></td>
+        <td>Invalid request or URL error</td>		
       </tr>
       <tr>
         <td>401</td>
         <td>Unauthorized</td>
         <td></td>
+        <td></td>		
       </tr>
       <tr>
         <td>403</td>
         <td>Forbidden</td>
         <td></td>
+        <td></td>		
       </tr>	 
       <tr>
         <td>404</td>
         <td>Not Found</td>
         <td></td>
+        <td></td>		
       </tr>		  
+    </tbody>
+    </table>	
+	
+    <h2>Server Error 5xx</h2>
+    <table border="1">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Message</th>
+        <th>Description</th>
+        <th>Cause</th>		
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>500</td>
+        <td>Internal Server Error</td>
+        <td>The server encountered an unexpected condition that prevented it from fulfilling the request</td>
+        <td>Faulty code or incorrect configuration</td>
+      </tr>	  
     </tbody>
     </table>	
 	

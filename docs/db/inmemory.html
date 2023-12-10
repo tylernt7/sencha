@@ -6,10 +6,9 @@
   </head>
   <body>
     <h1>InMemory database</h1>
-    <h3>Hogyan lehet szimulálni tranzakciókat, amelyeket az InMemory adatbázis nem támogat Unit tesztek során?</h3>
 
-<b>Dapper vs EntityFrameworkCore</b><br>
-<br>
+<b>Dapper vs Entity Framework Core</b><br>
+<br>Dapper<br>
 <div class="code"><code><pre>
 var dic = new Dictionary&lt;string, string>();
 var builder = new ConfigurationBuilder();
@@ -18,7 +17,7 @@ var config = builder.Build();
 var context = new DapperContext(config);
 var products = await context.QueryAsync&lt;Product>("SELECT * FROM Products");
 </pre></code></div>
-<br>
+<br>EF Core<br>
 <div class="code"><code><pre>
 public class MyDbContext : DbContext
 {
@@ -37,10 +36,11 @@ using (var context = new MyDbContext())
 </pre></code></div>
 
 <br>
-<b>Overview</b>
+<b>Adatbázis-tranzakciók</b>
 <p>A tranzakciók olyan adatbázis-műveletek, amelyek egységként hajtódnak végre, vagyis vagy mind sikeresek, vagy mind sikertelenek. A tranzakciók biztosítják az adatbázis konzisztenciáját és integritását, például azzal, hogy megakadályozzák a párhuzamos módosításokat, a részleges frissítéseket vagy a hibás adatok bekerülését.</p>
 <p>Az InMemory adatbázis egy olyan adatbázis-kezelő, amely az Entity Framework Core része, és a memóriában tárolja az adatokat. Az InMemory adatbázis gyors és egyszerű módja az adatbázis-műveletek tesztelésének, de nem támogatja a tranzakciókat. Ez azt jelenti, hogy nem lehet szimulálni olyan teszteseteket, amelyek tranzakciókat igényelnek.</p>
-<p>Azonban vannak más lehetőségek az adatbázis-tranzakciók tesztelésére Unit tesztek során. Itt van néhány lehetséges módszer:</p>
+
+    <h3>Hogyan lehet szimulálni adatbázis-tranzakciókat, amelyeket az InMemory adatbázis nem támogat Unit tesztek során?</h3>
 
 <b>RelationalDatabaseTransactionManager</b>
 <p>Használja a RelationalDatabaseTransactionManager osztályt, amely egy absztrakt osztály, amelyet az Entity Framework Core különböző relációs adatbázis-kezelői implementálnak. Ez az osztály lehetővé teszi, hogy egy Unit tesztben létrehozzon egy tranzakciót, és azt elkötelezze vagy visszagondolja. Például:</p>
