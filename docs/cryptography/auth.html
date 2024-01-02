@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Authentication</title>
+    <link rel="stylesheet" href="../common.css">	
+  </head>
+  <body>
+    <h1>Authentication</h1>
+			
+	<li><b>Authentication</b>: It confirms the identity of a user. It is performed by password verification.<br>
+      <ul>
+	    <li><b>Basic (Access) Authentication</b>: It requires users to provide a user name and password credentials.</li>
+	    <li><b>Single Sign-On (SSO)</b>: It lets users authenticate themselves just once to access information on any of several systems.</li>			
+      </ul>		
+	</li>
+	<li><b>Authorization</b>: It determines the access level granted a user. It happens after authentication. It is performed by assigning a user to pre-defined groups (classes). Each group lists available objects, along with an associated object-access type (read-only, write-only, or read-write privilege/permission).<br>
+	</li>
+		
+	<h2>Client authentication methods</h2>
+    <table border="1">
+    <thead>
+      <tr>
+        <th>Auth Type</th>
+        <th>Header</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bearer Token, JWT Bearer (https://jwt.io/), Oauth 2.0</td>
+        <td>Authorization: Bearer eyJh…</td>
+      </tr>
+      <tr>
+        <td>Client Credentials (Basic Auth)</td>
+        <td>Authorization: Basic Base64(&lt;client_id&gt;:&lt;client_secret&gt;)</td>
+      </tr>
+      <tr>
+        <td>User Credentials (Basic Auth)</td>
+        <td>Authorization: Basic Base64(&lt;username&gt;:&lt;password&gt;)</td>
+      </tr>
+      <tr>
+        <td>API Key</td>
+        <td>&lt;key&gt;: &lt;value&gt;</td>
+      </tr>
+    </tbody>
+    </table>	
+	
+	<h2>Keycloak</h2>
+	<p>Keycloak is an open source identity and access management (IAM) solution. It provides authentication, authorization, user federation (LDAP and Active Directory) and user management for applications and services.</p>
+	<b>Standard Protocols</b>
+    <ul>
+	  <li><b>OAuth 2.0</b>: OAuth2 clients (front end applications) can obtain access tokens from the authorization server using the token endpoint and use these same tokens to access resources protected by a resource server (back end services).</li>
+	  <li><b>OpenID Connect 1.0</b>: OpenID Connect is an identity layer on top of <b>OAuth 2.0</b> to verify the identity of a user by an ID token (using SSO).</li>	  	
+	  <li><b>SAML 2.0</b>: SAML (Security Assertion Markup Language) uses XML-based messages to exchange data between an identity provider and a service provider (using SSO).</li>	  
+    </ul>	
+  </body>
+</html>

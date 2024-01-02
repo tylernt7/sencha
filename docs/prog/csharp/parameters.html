@@ -9,10 +9,10 @@
     <table>
     <tr valign="top">
       <td>
-	    C# types can be either reference types (<i>class, delegates, interface</i>) or value types (<i>struct, enum</i>)
+	    C# types can be either value types (<i>primitive types, struct, enum</i>) or reference types (<i>string, array, class, delegates, interface</i>)
  	    <ul>
-	      <li><i>Pass by value</i> means <b>passing a copy of the variable</b> to the method</li>
-	      <li><i>Pass by reference</i> means <b>passing access to the variable</b> to the method</li>
+	      <li><i>Pass by value</i> means <b>passing a <i>copy</i> of the variable</b> to the method</li>
+	      <li><i>Pass by reference</i> means <b>passing a <i>reference/pointer</i> to the variable</b> to the method</li>
 	      <li>A variable of a <i>reference type</i> contains a reference to its data</li>
 	      <li>A variable of a <i>value type</i> contains its data directly</li>	 
 	      <li>A reference, like a pointer, stores the memory address of an object
@@ -26,7 +26,53 @@
       <td><center><img src="images\coffee.gif" width="100%" height="100%"/></center></td>	  
     </tr>
     </table>
-	<img src="images\inc.png" width="100%" height="100%"/>
+
+    <table>
+    <tr valign="top">
+      <td>
+	   	  <div class="code"><code>	
+<pre>
+
+
+
+void Main()
+{
+	int x = 5;
+	Inc(ref x);
+}
+void Inc(ref int y)
+{
+	y++;
+}
+
+
+
+
+
+
+
+
+void InitializeObject(ref MyObject obj)
+{
+	if (obj == null)
+	{
+		obj = new MyObject();
+	}
+
+	obj.Value = 20;
+}
+
+
+
+
+
+
+</pre></code></div>
+	  </td>
+      <td><center><img src="images\inc.png" width="100%" height="100%"/></center></td>	  
+    </tr>
+    </table>
+
 	<img src="images\threads.png" width="100%" height="100%"/>
 	
 	<div class="code"><code>	

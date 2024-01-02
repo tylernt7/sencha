@@ -103,11 +103,16 @@
       <td>apt-get install -y dotnet-sdk-6.0</td>
 	  <td>choco install</td>
 	  <td>Install the .NET SDK 6.0 on Linux</td>
-    </tr>
+    </tr>	
     <tr>
-      <td>sudo usermod -aG adm,cdrom,sudo,dip,plugdev,lxd test_user</td>
-	  <td>net user test_user password123 /add<br>net localgroup Administrators test_user /add</td>
-	  <td>Add a user named test_user to multiple groups, including sudo</td>
+      <td>sudo useradd &lt;username&gt;<br>echo &lt;password&gt; | sudo passwd --stdin &lt;username&gt;</td>
+	  <td>net user &lt;username&gt; &lt;password&gt; /add</td>
+	  <td>Create a user with a default password</td>
+    </tr> 	
+    <tr>
+      <td>sudo usermod -aG adm,cdrom,sudo,dip,plugdev,lxd &lt;username&gt;</td>
+	  <td>net localgroup Administrators &lt;username&gt; /add</td>
+	  <td>Add a user to multiple groups, including sudo</td>
     </tr> 
     <tr>
       <td>top</td>
