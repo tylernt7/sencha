@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Algorithm</title>
+	<link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Algorithm</h1>
+	<p>(Attila Madaras)</p>
+	<p>- You have a list of integers. Figure out an algorithm that returns whether or not 3 elements in the list add up to 0.<br>
+	- Adott integerek listája. Találd meg, hogy van-e benne olyan 7 hosszú részsorozat, amelyben 0-tól 6-ig minden szám szerepel!<br>
+	- You have 8 balls. One of them is defective and weighs less than others. You have a balance to measure balls against each other. In 2 weightings how do you find the defective one?</p>
+	<p>3 steps: binary<br><br>
+	I assume that the balls are numbered.<br><br>
+	step 1) choose ball 1 and 2 and put them aside<br>
+	weight balls 3 4 5 against 6 7 8<br>
+	if equal, then check 1 against 2, and we are done.<br><br>
+	step 2) let's say that 3 4 5 are found lighter.<br>
+	we now know that 6 7 and 8 are normal.<br><br>
+	put 3 aside<br>
+	put 4 with 6<br>
+	put 5 with 7<br>
+	weight 4 6 against 5 7.<br>
+	If equal then it is ball 3,<br>
+	if 4 6 is lighter then it is ball 4<br>
+	if 5 7 is lighter then it is ball 5.</p>
+<p>- Írj egy metódust, ami megmondja egy számról, hogy elölről hátra olvasva ugyan az-e az értéke, mint hátulról előre olvasva!</p>
+
+
+  </body>
+</html>

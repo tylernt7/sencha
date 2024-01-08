@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Redis</title>
+    <link rel="stylesheet" href="../../common.css">	
+  </head>
+  <body>
+    <h1>Redis</h1>
+    <h2>Introduction</h2>
+	<p>Redis is an open-source in-memory data structure store, used as a (key–value) database, cache and message broker.</p>	
+
+    <h2>Redis KEYS</h2>
+	<p>Use KEYS command to fetch keys matching a <b>pattern</b>, e.g. h*llo matches hllo and heeeello</p>
+	<p><b>Warning</b>: consider <b><a href="https://redis.io/commands/keys/">KEYS</a></b> as a command that should only be used in production environments with extreme care. It may ruin performance when it is executed against large databases. This command is intended for debugging and special operations, such as changing your keyspace layout. Don't use <b>KEYS</b> in your regular application code. If you're looking for a way to find keys in a subset of your keyspace, consider using <b>SCAN</b> or sets.</p>
+  </body>
+</html>
+
+
+
+
+
+
+
+

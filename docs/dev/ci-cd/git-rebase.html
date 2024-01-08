@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Git Rebase</title>
+    <link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Git Rebase</h1>
+
+    <h2>GitLab Merge Requests</h2>
+	<b>Merge method</b><br>
+	Determine what happens to the commit history when you merge a merge request.<br>
+	<b>- Merge commit</b><br>
+	Every merge creates a merge commit.<br>
+	<b>- Merge commit with semi-linear history</b><br>
+	Every merge creates a merge commit.<br>
+	Merging is only allowed when the source branch is up-to-date with its target.<br>
+	When semi-linear merge is not possible, the user is given the option to rebase.<br>
+	<b><u>- Fast-forward merge</u></b><br>
+	No merge commits are created.<br>
+	Fast-forward merges only.<br>
+	When there is a merge conflict, the user is given the option to rebase.<br>
+	If merge trains are enabled, merging is only possible if the branch can be rebased without conflicts.
+	
+	<h2>Learn Git Branching</h2>
+	<center><img src="images/git_cherry_pick.png" width="75%" height="75%"/></center>
+	
+	<h2>Rebase (at Innopay)</h2>
+	<p>- dev-re rebase előtt squash-olni kell a saját (feature) ág commit-jait (így nem fog feljönni ugyanaz a fájl többször conflict-ként),<br>
+- a git lokális konfigban egy normális editor-t kell beállítani (pl. notepad++), hogy a squash-olásnál azt használja, ne az a borzasztó VIM jöjjön fel,<br>
+- saját (feature) branch squash után (ami technikailag maga is egy rebase) force pusholni kell, nem sima pusholni (közös ágakon a force push tilos, mert átírja a történelmet, és ha azt más is használta, abból baj lesz, de saját ágon nincs vele semmi baj),<br>
+- MR feladása előtt: saját ágon squash commits, utána rebase dev-re, utána mehet az MR.<br>
+<br>
+Részletek:<br>
+<br>
+1. Notepad++ beállítása git editornak<br>
+https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/How-to-set-Notepad-as-the-default-Git-editor-for-commits-instead-of-Vim<br>
+<br>
+2. Commit-ok egyesítése saját (feature) ágon:<br>
+<br>
+> git log --graph --oneline --all<br>
+Ez kilistázza a git commit-okat, időben visszafelé haladva (fent a legutolsó).<br>
+Számold meg, hogy hány commitod volt a feature ágadon, amiket egyesíteni akarsz.<br>
+Az alábbi példában ez 5.<br>
+<br>
+> git rebase -i HEAD~5<br>
+Erre feljön egy text editor (ha megcsináltad az első lépést, akkor a Notepad++).<br>
+A fájlban felsorol annyi commit-ot, amennyit megadtál (példánkban 5), méghozzá most időben növekvő sorrendben (legfelül a legrégebbi).<br>
+Minden sor előtt a "pick" szó szerep, ami azt jelenti, hogy azt hagyja meg.<br>
+A #-kal kezdődő sorok commentek, csak magyarázó szövegek, azokat a git figyelmen kívül fogja hagyni.<br>
+Az első soron hagyd a "pick"-et, de az összes többi soron írd át "s"-re, ami a rövidítése a "squash"-nak.<br>
+Mentsd el a fájlt és csukd be az editort.<br>
+<br>
+Ezután újra feljön egy text editor, ezúttal a commit message-et kell megadnod.<br>
+Alapból felsorolja az összes egyesített commit eredeti message-ét.<br>
+#-kal kezdődő sorok magyarázzák, hogy melyik commit üzenet honnan származik.<br>
+Hagyd meg azokat a commit message sorokat, amit szeretnéd, hogy szerepeljen az új, egyesített commitodnál, és töröld azokat, amik nem kellenek.<br>
+Mentsd el a fájlt és csukd be az editort.<br>
+<br>
+>git status<br>
+Erre kiírja, hogy a saját branch-ed eltér az origin-től (diverged), mivel nálad lokálisan az előző parancs átírta a commit history-t, és nálad az egyesített commit szerepel, míg az origin-on még azok vannak, amiket egyesítettél.<br>
+Emiatt az eltérés miatt a sima git push nem működik, hibát ad.<br>
+Ilyenkor NE próbálj pullozni, mert akkor az origin-es régi commit history alapján próbálna csinálni egy merge-öt a saját lokális ágaddal, aminek nincs értelme.<br>
+<br>
+>git push -f<br>
+Ezzel kényszeríted, hogy márpedig pusholja fel az ágadat, és írja át az origin-en is a megváltozott commit history-t.<br>
+<br>
+3. Ezután ha rebase-eled a saját ágadat a dev-re, akkor minden conflict-os fájl-t csak egyszer kell resolve-olnod, mivel csak 1 commitod van.<br>
+<br>
+Még egy fontos dolog: ha feature ágon dolgozva szeretnéd magadra húzni a dev-et (ami továbbra is best practice, hogy ezt gyakran tedd, hogy ne távolodj nagyon el a főágtól), akkor dev pull után a megszokott merge helyett rebaze-elni kell a dev-re, különben a dev-ről bejövő commitok megszakítják a feature ágadon levő saját commit-jaid folytonosságát, márpedig squash-olni csak a saját, folytonos commit-jaidon tudsz.</p>
+	
+	
+    <h2>References</h2>	
+    <ul>
+      <li><a href="https://cbea.ms/git-commit/">How to Write a Git Commit Message</a></li>
+      <li><a href="https://learngitbranching.js.org/">Learn Git Branching</a></li>
+    </ul>
+  </body>
+</html>

@@ -45,6 +45,11 @@
 	  <td>Change the permission "read", "write", and "executable" to the owner while the group and other users will only have read and execute permissions.</td>
     </tr>
     <tr>
+      <td>chmod +x FILE</td>
+	  <td>attrib</td>
+	  <td>Add execute permissions to the file</td>
+    </tr>	
+    <tr>
       <td>cp -a /SOURCE /DEST</td>
 	  <td>cp, copy, xcopy</td> 
 	  <td>Copy the SOURCE directory to the DEST directory</td>
@@ -105,9 +110,9 @@
 	  <td>Install the .NET SDK 6.0 on Linux</td>
     </tr>	
     <tr>
-      <td>sudo useradd &lt;username&gt;<br>echo &lt;password&gt; | sudo passwd --stdin &lt;username&gt;</td>
+      <td>sudo useradd &lt;username&gt;<br>sudo passwd &lt;username&gt;</td>
 	  <td>net user &lt;username&gt; &lt;password&gt; /add</td>
-	  <td>Create a user with a default password</td>
+	  <td>Create a user with a password</td>
     </tr> 	
     <tr>
       <td>sudo usermod -aG adm,cdrom,sudo,dip,plugdev,lxd &lt;username&gt;</td>

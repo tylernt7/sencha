@@ -26,7 +26,7 @@
     </thead>
     <tbody>
       <tr>
-        <td>Bearer Token, JWT Bearer (https://jwt.io/), Oauth 2.0</td>
+        <td>Bearer Token, JWT Bearer (<a href="https://jwt.io/">https://jwt.io/</a>), Oauth 2.0</td>
         <td>Authorization: Bearer eyJh…</td>
       </tr>
       <tr>
@@ -51,6 +51,19 @@
 	  <li><b>OAuth 2.0</b>: OAuth2 clients (front end applications) can obtain access tokens from the authorization server using the token endpoint and use these same tokens to access resources protected by a resource server (back end services).</li>
 	  <li><b>OpenID Connect 1.0</b>: OpenID Connect is an identity layer on top of <b>OAuth 2.0</b> to verify the identity of a user by an ID token (using SSO).</li>	  	
 	  <li><b>SAML 2.0</b>: SAML (Security Assertion Markup Language) uses XML-based messages to exchange data between an identity provider and a service provider (using SSO).</li>	  
-    </ul>	
+    </ul>
+	
+	<h2>JSON Web Token (JWT)</h2>
+	<p>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting claims between parties as a JSON object. JWTs consist of three parts separated by dots (.), which are: Header, Payload and Signature. The header consists the type of the token and the signing algorithm. The payload contains the claims. Claims are statements about the user and additional data. Some of claims are: iss (issuer), sub (subject), aud (audience), exp (expiration time) and iat (issued at). The three parts of the JWT are Base64Url encoded.</p>
+	<p>The information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA. JWTs are commonly signed using one of two algorithms: HS256 (HMAC using SHA256) and RS256 (RSA using SHA256).</p>
+	
+	<h2>Refresh Token</h2>
+	<p>A refresh token is a type of token that is used to obtain a new access token when the current one expires. Refresh tokens are issued by an authorization server, and are used by client applications to access protected resources on a server on behalf of a user. Refresh tokens have a longer lifetime than access tokens, but they can also be revoked or invalidated by the server for various reasons.<br>Here is a typical flow involving refresh tokens:</p>
+	<ul>
+	  <li>The user logs in and the authorization server returns both an access token and a refresh token.</li>
+	  <li>The client (a web or mobile application) uses the access token to access protected resources.</li>	  
+	  <li>When an access token expires, <i>without asking the user to log in again</i>, the client uses the refresh token to request a new access token from the server (<i>transparently</i>).</li>
+	  <li>If the refresh token is valid, the server issues a new access token.</li>
+	</ul>	
   </body>
 </html>

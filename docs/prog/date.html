@@ -8,7 +8,7 @@
     <h1>Date-time API</h1>
     
     <h2>Example</h2>
-    <b>Local Hungarian time</b>: 2023. 11. 06. 10:31 AM<br>
+    <b>Local Hungarian time: <u>2023. 11. 06. 10:31 AM</u></b><br>
 	<br>
     <b>ISO 8601</b>
     <table>
@@ -27,11 +27,12 @@
     </table>
     <br>
     <b>PostgreSQL</b><br>
-    <i>- timestamptz</i>:<br>
-    	- 2023-11-06 10:31:00.000 +0100 (DBeaver)<br>
-    	- 2023-11-06 09:31:00.000+00 (pgAdmin)<br>
-    <i>- timestamp</i>:<br>
-    	- 2023-11-06 10:31:00.000<br>
+    <i>- TIMESTAMP WITH TIME ZONE</i>:<br>
+    	- 2023-11-06 10:31:00.000 +0100 (DBeaver: timestamptz)<br>
+    	- 2023-11-06 09:31:00.000000+00 (pgAdmin: timestamp with time zone)<br>
+    <i>- TIMESTAMP WITHOUT TIME ZONE</i>:<br>
+    	- 2023-11-06 10:31:00.000 (DBeaver: timestamp)<br>
+		- 2023-11-06 10:31:00.000000 (pgAdmin: timestamp without time zone)<br>
     <br>
     <b>C#</b>
     <table>
@@ -43,6 +44,36 @@
         <td>DateTimeOffset.Now:</td>
         <td>2023. 11. 06. 10:31:00 +01:00</td>
       </tr>
-    </table>	
+    </table>
+    <br>
+    <b>DB naming convention</b><br>
+	<i>PostgreSQL</i>: timestamp with time zone<br>
+	<i>C#</i>: DateTime with a UTC value 
+	<ul>
+	<li>DateTime utcNow = DateTime.UtcNow;</li>
+	<li>DateTime localDateTime = DateTime.Now;<br>DateTime utcNow = localDateTime.ToUniversalTime();</li>
+	<li>DateTime utcNow = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);</li>
+	</ul>
+	Use the postfix 'At' for timestamps (e.g. CreatedAt = 2023.11.06 10:31:00) and use the postfix 'Date' for dates (e.g. CreatedDate = 2023.11.06).<br>
+	
+	<br>
+    <b>Npgsql.EnableLegacyTimestampBehavior</b><br>
+	Npgsql is a .NET data provider for PostgreSQL. In Npgsql versions prior to 6.0 (released before 2022), or when Npgsql.EnableLegacyTimestampBehavior is enabled (true), DateTime is always written as timestamp without time zone. Starting with Npgsql 6.0, Npgsql maps UTC DateTime to timestamp with time zone, and Local/Unspecified DateTime to timestamp without time zone. Npgsql also supports reading and writing DateTimeOffset to timestamp with time zone, but only with Offset=0.<br>
+	
+	<br>
+	<b>C# Notes</b><br>
+	<ul>
+	<li>The DateTime structure does not store any information about time zones</li>
+	<li>The DateTime.Kind property indicates whether a DateTime object represents a local time, a UTC time, or an unspecified time</li>
+	<li>If you need to work with date and time values that include a time zone offset, consider using the DateTimeOffset structure</li>
+	<li>By default, the PostgreSQL date/time types are mapped to the built-in .NET types (DateTime, TimeSpan). Unfortunately, these built-in types are flawed in many ways. The recommended way of working with date/time types is the <a href="https://www.npgsql.org/doc/types/nodatime.html#what-is-nodatime">NodaTime</a> plugin: the NodaTime types are much better-designed, avoid the flaws in the built-in BCL types, and are fully supported by Npgsql.</li>
+	</ul>	
+	<br>
+	
+
+
+
+
+
   </body>
 </html>

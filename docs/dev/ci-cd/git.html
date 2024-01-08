@@ -19,9 +19,8 @@
 	  <li><b>git pull -X ours</b>: Use your local file and ignore the remote version</li>		
     </ul>
 		
-	<h2>Merge</h2>	
-	<b>SVN</b> ToDo<br>
-<br>
+	<h2>Push</h2>
+
 <b>Push an existing Git repository</b>
 	<div class="code"><code><pre>cd feature
 git clone --branch feature https://github.com/tylernt7/sencha.git .
@@ -42,31 +41,46 @@ git pull TylerRepo feature
 git push
 </pre></code></div>
 
-<br>
+	<h2>Merge</h2>
+	
 <b>Merge branch 'feature' into branch 'main'</b>
-	<div class="code"><code><pre>git checkout main
+	<div class="code"><code><pre>git switch main
+rem git checkout main
+
+git pull
+rem git pull origin main
+	
+git pull origin feature
 rem git fetch origin feature
 rem git merge origin/feature
-git pull origin feature
-rem git push origin main
+
 git push
+rem git push origin main
 </pre></code></div>
 
 <br>
 <b>Regular merge</b>
-	<div class="code"><code><pre>git checkout feature <i># switch to the feature branch</i>
+	<div class="code"><code><pre>git switch feature <i># switch to the feature branch</i>
 git <i>merge</i> main <i># merge the main branch into the feature branch</i>
-git checkout main <i># switch back to the main branch</i>
-git merge feature <i># merge the feature branch into the main branch with a merge commit</i>
-</pre></code></div>	
+git switch main <i># switch back to the main branch</i>
+git merge --no-ff feature -m "Your merge message" <i># merge the feature branch into the main branch with a merge commit</i>
+</pre></code></div>
+<b><i>Notes:</i></b><br>
+If the local branches are already up-to-date with the remote repository, you can switch between them and merge them without needing to fetch the remote branches.<br>
+<i>git merge --no-ff feature -m "Your merge message"</i>: ensures a new merge commit is always created<br>
+<i>git merge feature</i>: does not create a new commit if the feature branch is ahead of the merged-into branch<br>
 <br>
 <b>Rebase merge</b><br>
-A rebase merge is when you rebase one branch onto another and then merge them with a fast-forward merge. It creates a merge commit.<br>
-	<div class="code"><code><pre>git checkout feature <i># switch to the feature branch</i>
+A rebase merge is when you rebase one branch onto another and then merge them with a fast-forward merge.<br>
+	<div class="code"><code><pre>git switch feature <i># switch to the feature branch</i>
 git <i>rebase</i> main <i># rebase the feature branch onto the main branch</i>
-git checkout main <i># switch back to the main branch</i>
+git switch main <i># switch back to the main branch</i>
 git merge feature <i># fast-forward merge the feature branch into the main branch</i>
 </pre></code></div>			
+<br>
+<b>Merging vs. Rebasing</b><br>
+<b>Rebase</b> reapplies commits on <i>top</i> of another base branch, whereas <b>merge</b> joins two or more development histories together. While merge preserves history as it happened, rebase rewrites the commit history. If you are cherry-picking multiple commits, consider using <i>git rebase</i> for a cleaner history, especially when working with feature branches.
+<center><img src="images/git_rebase.png" width="75%" height="75%"/></center>
 		
 	<h2>Default branches</h2>
     <ul>

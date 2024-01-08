@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>CI/CD pipeline</title>
+    <link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>CI/CD pipeline</h1>
+	<p>It automates the analyzing, building, deploying, and testing of software applications</p>
+	
+	<h2>Continuous Integration (CI): folyamatos integráció</h2>
+	<b>Trivy</b>: Vulnerability scanner<br> 
+	<b>SonarQube</b>: Static code analysis<br>
+	<b>Docker Build</b>: Docker images (Kaniko)<br>	
+	<b>JUnit/Dotnet Test</b>: Unit tests<br>
+	<b>Newman</b>: Automated tests<br>
+	
+	<h2>Continuous Delivery/Deployment (CD): folyamatos szállítás/telepítés</h2>
+	<b>Helm Deploy</b>: Package manager for Kubernetes<br>
+
+	<h2>Typical workflow of deployment</h2>
+	1. Clone repository: <i>git clone</i><br>
+	2. Update tag: <i>yq</i> (update the image tag field in a values.yaml file with the short SHA of the current commit)<br>
+	3. Login to the registry: <i>helm registry login</i><br>	
+	4. Upgrade Helm: <i>helm upgrade</i> (install the Helm charts to the Harbor registry)<br>	
+  </body>
+</html>

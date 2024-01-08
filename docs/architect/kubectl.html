@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Kubernetes command-line tool (kubectl)</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Kubernetes command-line tool (kubectl)</h1>
+
+	<h2>Commands</h2>
+	<table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>Usage</b></td>
+      <td style="width: 50%;"><b>Description</b></td>
+    </tr>	
+    <tr>
+      <td>kubectl get pods</td>
+	  <td>List all the pods in the current namespace in a Kubernetes cluster</td>
+    </tr>
+    <tr>
+      <td>kubectl --kubeconfig ~/.kube/config get pods</td>
+	  <td>List all the pods in the current namespace in a Kubernetes cluster using the specified kubeconfig file</td>
+    </tr>
+    <tr>
+      <td>kubectl get pods -n &lt;namespace></td>
+	  <td>List all the pods in the specified namespace (e.g. dev, demo, main branches) in a Kubernetes cluster</td>
+    </tr>
+    <tr>
+      <td>kubectl logs -f &lt;pod> > container.log</td>
+	  <td>Stream the logs of the pod to a file</td>
+    </tr>
+    <tr>
+      <td>kubectl scale deployment &lt;deployment> --replicas=&lt;n></td>
+	  <td>Scale a deployment (API) to have n (e.g. 3) replicas</td>
+    </tr>
+    <tr>
+      <td>kubectl -n &lt;namespace> -it exec &lt;container> -- /bin/sh</td>
+	  <td>Execute a shell inside a running container in the specified namespace</td>
+    </tr>	
+    <tr>
+      <td><b>TODO review below</b></td>
+	  <td></td>
+    </tr>
+    <tr>
+      <td>kubectl run my-pod --image=my-docker-username/my-app-image:1.0</td>
+	  <td>Pod létrehozása. POD elindítása a Clusteren</td>
+    </tr>	
+    <tr>
+      <td>kubectl get pods<br>kubectl describe pod &lt;pod-name></td>
+	  <td>Futó pod/node és környezetének/állapotának lekérdezése/ellenőrzése. POD futásának ellenőrzése</td>
+    </tr>
+    <tr>
+      <td>kubectl exec my-pod -- /bin/sh -c "kill 1" </td>
+	  <td>Az alkalmazás hibájának szimulálása</td>
+    </tr>
+    <tr>
+      <td>kubectl logs my-pod</td>
+	  <td>Pod logjainak ellenőrzése</td>
+    </tr>
+    <tr>
+      <td>kubectl delete pod my-pod</td>
+	  <td>A tesztelési céllal létrehozott pod törlése a clusterből</td>
+    </tr>
+    <tr>
+      <td>kubectl exec my-pod -- /bin/sh -c "curl localhost:8080"</td>
+	  <td>Alkalmazás működésének/állapotának ellenőrzése</td>
+    </tr>
+    <tr>
+      <td>kubectl get nodes</td>
+	  <td>Cluster állapotának ellenőrzése. Node-ok állapotának lekérdezése</td>
+    </tr>
+    <tr>
+      <td>kubectl exec my-pod -- /bin/sh -c "while true; do curl localhost:8080; sleep 1; done"</td>
+	  <td>Alkalmazás működésének ellenőrzése</td>
+    </tr>
+    <tr>
+      <td>kubectl drain &lt;node-ip> --ignore-daemonsets</td>
+	  <td>Valamely node eltávolítása a clusterből</td>
+    </tr>
+    <tr>
+      <td>kubectl get pods -o wide</td>
+	  <td>POD állapotának ellenőrzése</td>
+    </tr>
+    <tr>
+      <td>kubectl uncordon &lt;node-ip></td>
+	  <td>Node visszaállítása a clusterbe</td>
+    </tr>
+    <tr>
+      <td>kubectl exec -it postgres-0 -- psql -U postgres<br>postgres=# \l</td>
+	  <td>Az adatbázis(ok) állapotának ellenőrzése a clusterben</td>
+    </tr>
+    <tr>
+      <td>kubectl exec -it postgres-0 -- /bin/bash<br>pg_ctl promote -D /var/lib/postgresql/data<br>exit</td>
+	  <td>Node visszaállítása a clusterbe</td>
+    </tr>
+    </table>
+
+    <h2>Install Kubernetes</h2>
+    <p><i>choco install kubernetes-cli</i></p>
+    <p><i>choco install kubelogin</i></p>	
+	<p><i>c:\Users\UserName\.kube\config</i> (see <a href="https://github.com/int128/kubelogin">https://github.com/int128/kubelogin</a>)</p>
+	<p><i>rename c:\ProgramData\chocolatey\bin\kubelogin.exe kubectl-oidc_login.exe</i> (needed to follow the kubectl plugin naming convention)</p>
+
+  </body>
+</html>
+
+

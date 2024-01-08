@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SQL</title>
+	<link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>SQL</h1>
+	<b>Általános kérdések:</b><br>
+	<p>Milyen adatbázis-kezelőkkel vannak tapasztalatai?<br>
+	Mi a különbség az INNER JOIN és az OUTER JOIN között?<br> 
+	Mi a különbség a WHERE és a HAVING között?<br> 
+	Mik azok az adatbázis triggerek? Mondjon egy példát az alkalmazásukra!<br> 
+	Írt-e már triggert, mílyen eszközzel?</p>
+	<b>SQL tesztfeladat:</b><br>
+	<p>A cég a tervezett feladatait kategóriákba sorolja és költségkeretet rendel minden egyes feladathoz. A végrehajtás során a kifizetések a feladatokhoz rendelődnek.</p>
+	<p><u>Tervezze meg a szükséges adatbázis táblákat, és a köztük levő kapcsolatokat, és írja meg a hozzá tartozó SQL parancsokat!</u></p>
+	<p>Egy lehetséges megoldás (Microsoft SQL Server):</p>
+	<img src="images\tables.png" width="35%" height="35%"/><br><br>
+
+	<div class="code"><code><pre>CREATE TABLE [dbo].[T_Task] ( 
+	[id_task] [int] IDENTITY (1, 1) NOT NULL, 
+	[category] [int] NOT NULL, 
+	[planned_cost] [float] NOT NULL
+)
+GO 
+CREATE TABLE [dbo].[T_Account] (
+	[id_account] [int] IDENTITY (1, 1) NOT NULL, 
+	[id_task] [int] NULL, -- Fix: Make it NOT NULL
+	[amount] [float] NOT NULL
+)
+GO 
+ALTER TABLE [dbo].[T_Task] WITH NOCHECK ADD 
+	CONSTRAINT [PK_T_Task] PRIMARY KEY CLUSTERED 
+	( 
+		[id_task]
+	)	
+GO 
+ALTER TABLE [dbo].[T_Account] WITH NOCHECK ADD 
+	CONSTRAINT [PK_T_Account] PRIMARY KEY CLUSTERED
+	(
+		[id_account] 
+	)
+GO 
+ALTER TABLE [dbo].[T_Account] ADD 
+	CONSTRAINT [FK_T_Account_T_Task] FOREIGN KEY
+	(
+		[id_task]
+	) REFERENCES [dbo].[T_Task] (
+		[id_task] 
+	)
+GO</pre></code></div>
+
+  <p>Értelmezze a scriptet!<br>
+  Mit jelentenek a következő elemek: IDENTITY, WITH NOCHECK, CLUSTERED?</p>
+  <p>Szeretnénk egy kimutatást készíteni arról, hogy az egyes kategóriákhoz tartozó költségkeretet mennyiben sikerült tartani. Azaz: összesítsük kategóriánként a költségkeretet és a tényleges költségeket.</p>
+  <p>Tehát, ha adataink a következők:</p>
+  <img src="images\table_data.png" width="35%" height="35%"/>
+  
+  <p><u>Állítsa össze a kívánt lekérdezést!</u><br>
+  Az alábbi megoldás jó-e? Miért?</p>
+  <div class="code"><code><pre>SELECT T_Task.category, SUM(T_Task.planned_cost) AS planned,
+	SUM(T_Account.amount) AS actual 
+FROM T_Task LEFT OUTER JOIN 
+	T_Account ON T_Task.id_task = T_Account.id_task 
+GROUP BY T_Task.category</pre></code></div><br> 
+  <img src="images\query.png" width="35%" height="35%"/>
+  <p>A jó megoldás:</p>
+  <div class="code"><code><pre>SELECT T1.*, ISNULL(T2.actual, 0) AS actual 
+FROM (SELECT category, SUM(planned_cost) AS planned 
+		FROM T_Task 
+		GROUP BY category) T1 
+	INNER JOIN 
+		(SELECT T_Task.category, SUM(dbo.T_Account.amount) AS actual 
+		FROM T_Task LEFT OUTER JOIN 
+			T_Account ON T_Task.id_task = T_Account.id_task 
+		GROUP BY dbo.T_Task.category) T2 
+	ON T1.category = T2.category</pre></code></div> 
+  </body>
+</html>
