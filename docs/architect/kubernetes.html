@@ -15,11 +15,32 @@
         <td><img src="images\kubernetes.png" width="100%" height="100%"/></td>
         <td><img src="images\deploy_container.png" width="100%" height="100%"/></td>
       </tr>
-    </table>	
+    </table>
 	
-	<h2>Options for Highly Available (HA) Topology</h2>
-	<center><img src="images\kubernetes_topology.png" width="100%" height="100%"/></center>
-	
+	<h2>Resource Management for Pods and Containers</h2>
+	<i>Requests</i>: These are the <i>minimum</i> guaranteed amount of a resource that is reserved for a container.<br>
+	<i>Limits</i>: These are the <i>maximum</i> amount of a resource that a container can use.<br><br>
+	<b>Pod configuration file</b>
+	<div class="code"><code><pre>image: images.my-company.example/app:v4
+resources:
+  requests:
+    memory: "512Mi" # at least 512 Mebibytes of RAM memory
+    cpu: "500m"     # at least 50% of a single CPU core (500 millicores)
+  limits:
+    memory: "1Gi"   # up to 1 Gibibyte of RAM memory
+    cpu: "1"        # up to 100% of a single CPU core (1 CPU unit)
+env: 
+- name: DB_CONNECTION_STRING <i># Use environment variables to create variables</i>
+  value: "my-database-connection-string"
+- name: DB_SECRET_CONNECTION_STRING  <i># Use Secrets to create variables</i>
+  valueFrom:
+    secretKeyRef:
+      name: db-secret 
+      key: db_connection_string  
+envFrom: <i># Use ConfigMaps to create variables</i>
+- configMapRef:
+    name: my-configmap</pre></code></div>
+		
 	<h2>Replication and Clustering</h2>
 	<p><i>Replication</i> is the process of copying data from one database server to another (if a database goes down, it is replaced by another), while <i>clustering</i> is the process of grouping multiple database servers together to work as a single entity. Clustering is used for high availability and load balancing while replication is used for backup and disaster recovery purposes.</p>			
 	<p>Database <i>synchronization</i> is the process of maintaining consistency between two or more databases using different types of replication, such as snapshot, transactional, and merge replication.</p>
@@ -28,5 +49,12 @@
 	<p>Cloud software is hosted on the vendor's server and accessed via the internet regardless of location, while on-premise software is installed locally on the company's server (in private infrastructure) and managed by the company. On-premise software requires high initial costs, license fees, and maintenance costs, but gives the organization full control over data and security.</p>
 	<p>An on-premise server can be located in a data center, but it can also be located in the company's own office or building. A data center can host both on-premise and cloud servers, depending on the ownership and access arrangements.</p>
 	
+	<h2>Options for Highly Available (HA) Topology</h2>
+	<center><img src="images\kubernetes_topology.png" width="100%" height="100%"/></center>	
+	
+	<h2>References</h2>
+ 	<ul>
+	  <li><a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Resource Management for Pods and Containers</a></li>
+ 	</ul>	
   </body>
 </html>
