@@ -15,28 +15,60 @@
     </tr>	
     <tr>
       <td>kubectl get pods</td>
-	  <td>List all the pods in the current namespace in a Kubernetes cluster</td>
+	  <td>List all the pods in the current namespace in the Kubernetes cluster</td>
     </tr>
     <tr>
       <td>kubectl --kubeconfig ~/.kube/config get pods</td>
-	  <td>List all the pods in the current namespace in a Kubernetes cluster using the specified kubeconfig file</td>
+	  <td>List all the pods in the current namespace in the Kubernetes cluster using the specified kubeconfig file</td>
     </tr>
     <tr>
       <td>kubectl get pods -n &lt;namespace></td>
-	  <td>List all the pods in the specified namespace (e.g. dev, demo, main branches) in a Kubernetes cluster</td>
+	  <td>List all the pods in the specified namespace (e.g. dev, demo, main branches) in the Kubernetes cluster</td>
     </tr>
     <tr>
       <td>kubectl logs -f &lt;pod> > container.log</td>
 	  <td>Stream the logs of the pod to a file</td>
-    </tr>
+    </tr>	
     <tr>
-      <td>kubectl scale deployment &lt;deployment> --replicas=&lt;n></td>
-	  <td>Scale a deployment (API) to have n (e.g. 3) replicas</td>
+      <td>kubectl get deployments -n &lt;namespace></td>
+      <td>List all the deployments in the specified namespace</td>
+    </tr>		
+    <tr>
+      <td>kubectl scale deployment &lt;deployment> -n &lt;namespace> --replicas=&lt;n></td>
+      <td>Scale a deployment (API) to have n (e.g. 3) replicas</td>
     </tr>
     <tr>
       <td>kubectl -n &lt;namespace> -it exec &lt;container> -- /bin/sh</td>
-	  <td>Execute a shell inside a running container in the specified namespace</td>
+      <td>Execute a shell inside a running container in the specified namespace</td>
+    </tr>
+    <tr>
+      <td>kubectl get configmaps</td>
+      <td>List the ConfigMaps in the Kubernetes cluster</td>
+    </tr>
+    <tr>
+      <td>kubectl get configmaps -n &lt;namespace></td>
+      <td>List the ConfigMaps in the specified namespace of the Kubernetes cluster</td>
+    </tr>
+    <tr>
+      <td>kubectl get configmap &lt;configmap-name> -n &lt;namespace> -o yaml</td>
+      <td>Get the specified ConfigMap in the specified namespace in the Kubernetes cluster in YAML format</td>
     </tr>	
+    <tr>
+      <td>kubectl edit configmap &lt;configmap-name> -n &lt;namespace> -o yaml</td>
+      <td>Edit the specified ConfigMap in the specified namespace in the Kubernetes cluster in YAML format</td>
+    </tr>
+    <tr>
+      <td>kubectl get pvc</td>
+      <td>List all the Persistent Volume Claims (PVCs) in the Kubernetes cluster</td>
+    </tr>
+    <tr>
+      <td>kubectl get pvc -n &lt;namespace></td>
+      <td>List all the PVCs in the specified namespace in the Kubernetes cluster</td>
+    </tr>	
+    <tr>
+      <td>kubectl apply -f &lt;filename|url></td>
+      <td>Create or update resources in the Kubernetes cluster</td>
+    </tr>
     <tr>
       <td><b>TODO review below</b></td>
 	  <td></td>
