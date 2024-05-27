@@ -18,12 +18,16 @@
 	  <td>List all the pods in the current namespace in the Kubernetes cluster</td>
     </tr>
     <tr>
-      <td>kubectl --kubeconfig ~/.kube/config get pods</td>
-	  <td>List all the pods in the current namespace in the Kubernetes cluster using the specified kubeconfig file</td>
+      <td>kubectl get pods -n default</td>
+	  <td>List all the pods in the default namespace in the Kubernetes cluster</td>
     </tr>
     <tr>
       <td>kubectl get pods -n &lt;namespace></td>
-	  <td>List all the pods in the specified namespace (e.g. dev, demo, main branches) in the Kubernetes cluster</td>
+	  <td>List all the pods in the specified namespace in the Kubernetes cluster</td>
+    </tr>	
+    <tr>
+      <td>kubectl get pods --kubeconfig ~/.kube/config</td>
+	  <td>List all the pods in the current namespace in the Kubernetes cluster using the specified kubeconfig file</td>
     </tr>
     <tr>
       <td>kubectl logs -f &lt;pod> > container.log</td>
@@ -35,27 +39,72 @@
     </tr>		
     <tr>
       <td>kubectl scale deployment &lt;deployment> -n &lt;namespace> --replicas=&lt;n></td>
-      <td>Scale a deployment (API) to have n (e.g. 3) replicas</td>
+      <td>Scale a deployment to have n (e.g. 3) replicas</td>
     </tr>
     <tr>
       <td>kubectl -n &lt;namespace> -it exec &lt;container> -- /bin/sh</td>
       <td>Execute a shell inside a running container in the specified namespace</td>
     </tr>
     <tr>
-      <td>kubectl get configmaps</td>
-      <td>List the ConfigMaps in the Kubernetes cluster</td>
+      <td>kubectl apply -f &lt;filename|url> -n &lt;namespace></td>
+      <td>Create or update resources (ConfigMap, Ingress) in the specified namespace in the Kubernetes cluster</td>
+    </tr>
+	</table>
+	<br>	
+	<table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>Usage</b></td>
+      <td style="width: 50%;"><b>Description</b></td>
     </tr>
     <tr>
-      <td>kubectl get configmaps -n &lt;namespace></td>
-      <td>List the ConfigMaps in the specified namespace of the Kubernetes cluster</td>
+      <td>kubectl get configmap(s)</td>
+      <td>List the ConfigMaps in the current namespace in the Kubernetes cluster</td>
     </tr>
     <tr>
-      <td>kubectl get configmap &lt;configmap-name> -n &lt;namespace> -o yaml</td>
+      <td>kubectl get configmap(s) -n &lt;namespace></td>
+      <td>List the ConfigMaps in the specified namespace in the Kubernetes cluster</td>
+    </tr>
+    <tr>
+      <td>kubectl get configmap(s) &lt;configmap-name> -n &lt;namespace> -o yaml<br>
+	      kubectl get configmap(s)/&lt;configmap-name> -n &lt;namespace> -o yaml</td>
       <td>Get the specified ConfigMap in the specified namespace in the Kubernetes cluster in YAML format</td>
     </tr>	
     <tr>
-      <td>kubectl edit configmap &lt;configmap-name> -n &lt;namespace> -o yaml</td>
-      <td>Edit the specified ConfigMap in the specified namespace in the Kubernetes cluster in YAML format</td>
+      <td>kubectl edit configmap(s) &lt;configmap-name> -n &lt;namespace><br>
+	      kubectl edit configmap(s)/&lt;configmap-name> -n &lt;namespace></td>
+      <td>Edit the specified ConfigMap in the specified namespace in the Kubernetes cluster</td>
+    </tr>
+	</table>
+	<br>
+	<table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>Usage</b></td>
+      <td style="width: 50%;"><b>Description</b></td>
+    </tr>
+    <tr>
+      <td>kubectl get ingress(es)</td>
+      <td>List the ConfigMaps in the current namespace in the Kubernetes cluster</td>
+    </tr>
+    <tr>
+      <td>kubectl get ingress(es) -n &lt;namespace></td>
+      <td>List the ConfigMaps in the specified namespace in the Kubernetes cluster</td>
+    </tr>
+    <tr>
+      <td>kubectl get ingress(es) &lt;ingress-name> -n &lt;namespace> -o yaml<br>
+	      kubectl get ingress(es)/&lt;ingress-name> -n &lt;namespace> -o yaml</td>
+      <td>Get the specified Ingress in the specified namespace in the Kubernetes cluster in YAML format</td>
+    </tr>	
+    <tr>
+      <td>kubectl edit ingress(es) &lt;ingress-name> -n &lt;namespace><br>
+	      kubectl edit ingress(es)/&lt;ingress-name> -n &lt;namespace></td>
+      <td>Edit the specified Ingress in the specified namespace in the Kubernetes cluster</td>
+    </tr>
+	</table>
+	<br>
+	<table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>Usage</b></td>
+      <td style="width: 50%;"><b>Description</b></td>
     </tr>
     <tr>
       <td>kubectl get pvc</td>
@@ -65,14 +114,13 @@
       <td>kubectl get pvc -n &lt;namespace></td>
       <td>List all the PVCs in the specified namespace in the Kubernetes cluster</td>
     </tr>	
+	</table>
+	<br>
+	<table border="1" style="width: 100%;">
     <tr>
-      <td>kubectl apply -f &lt;filename|url></td>
-      <td>Create or update resources in the Kubernetes cluster</td>
-    </tr>
-    <tr>
-      <td><b>TODO review below</b></td>
-	  <td></td>
-    </tr>
+      <td style="width: 50%;"><b>Usage - TODO review below</b></td>
+      <td style="width: 50%;"><b>Description</b></td>
+    </tr>	
     <tr>
       <td>kubectl run my-pod --image=my-docker-username/my-app-image:1.0</td>
 	  <td>Pod létrehozása. POD elindítása a Clusteren</td>
@@ -126,12 +174,23 @@
 	  <td>Node visszaállítása a clusterbe</td>
     </tr>
     </table>
+	
+	<h2>Examples</h2>
+	Upscaling:<br>
+	<code>kubectl scale deployment invoice-api -n iqr-core-dev --replicas=1</code><br>
+	Downscaling:<br>
+	<code>kubectl scale deployment invoice-api -n iqr-core-dev --replicas=0</code><br>
+	(The deployments are APIs, the namespaces are dev, demo, main branches)<br>
+	<br>
+	<code>kubectl apply -f invoice-api.yml -n iqr-core-dev</code><br>
+	<code>kubectl edit ingress invoice-api -n iqr-core-dev</code><br>
+	<code>kubectl get ingress -n iqr-core-dev</code>
 
     <h2>Install Kubernetes</h2>
-    <p><i>choco install kubernetes-cli</i></p>
-    <p><i>choco install kubelogin</i></p>	
-	<p><i>c:\Users\UserName\.kube\config</i> (see <a href="https://github.com/int128/kubelogin">https://github.com/int128/kubelogin</a>)</p>
-	<p><i>rename c:\ProgramData\chocolatey\bin\kubelogin.exe kubectl-oidc_login.exe</i> (needed to follow the kubectl plugin naming convention)</p>
+    <code>choco install kubernetes-cli</code><br>
+    <code>choco install kubelogin</code><br>	
+	c:\Users\UserName\.kube\config (see <a href="https://github.com/int128/kubelogin">https://github.com/int128/kubelogin</a>)<br>
+	<code>rename c:\ProgramData\chocolatey\bin\kubelogin.exe kubectl-oidc_login.exe</code> (needed to follow the kubectl plugin naming convention)</p>
 
   </body>
 </html>

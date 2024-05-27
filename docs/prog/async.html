@@ -9,86 +9,143 @@
     <h2>Overview</h2>
     <center><img src="images\breakfast.png"/></center>	
     
-	<h2>C#</h2>
-	<div class="code"><code><pre>public async Task&lt;string&gt; GetHelloWorldAsync()
+	<h2>C# (Task)</h2>
+	<div class="code"><code><pre>public async Task&lt;string&gt; ProcessOrderAsync()
 {
-    var hello = "Hello World";
-    Console.WriteLine($"Started {hello}");
+    Console.WriteLine("Order processing started");
     await Task.Delay(3000);
-    Console.WriteLine($"Finished {hello}");
+    Console.WriteLine("Order processing completed");
 
-    return hello;
+    return "Order confirmed";
 }
 
 static async Task Main(string[] args)
 {
-    Task&lt;string&gt; getStringTask = new Program().GetHelloWorldAsync();
-    Console.WriteLine("DoIndependentWork"); 
+    Task&lt;string&gt; orderProcessingTask = new Program().ProcessOrderAsync();
+    Console.WriteLine("Handling other customer queries"); 
     
-    var hello = await getStringTask; // Suspends the Main method until the getStringTask operation completes
-    Console.WriteLine(hello);
+    var status = await orderProcessingTask; // Suspends the Main method until the orderProcessingTask operation completes
+    Console.WriteLine(status);
 }</pre></code></div>
-Output:<br>
-Started Hello World<br>
-DoIndependentWork<br>
-Finished Hello World<br>
-Hello World<br>
 
-	<h2>Angular 4 (TypeScript 2.1)</h2>
-	<div class="code"><code><pre>async getHelloWorldAsync() {
-    const hello = "Hello World";
-    console.log(`Started ${hello}`);
+	<h2>JavaScript / ES6 (Promise)</h2>
+	<div class="code"><code><pre><i>// async processOrderAsync(): Promise&lt;string&gt; { // specify the return type in a TypeScript class</i>
+async function processOrderAsync() { 
+    console.log('Order processing started');
     await new Promise(resolve => setTimeout(resolve, 3000));
-    console.log(`Finished ${hello}`);
+    console.log('Order processing completed');
     
-    return hello;
+    return 'Order confirmed';
 }
 
-async ngOnInit() {
-    const getStringTask = this.getHelloWorldAsync(); // getStringTask's type is Promise
-    console.log("DoIndependentWork");
+async function main() {
+    const orderProcessingPromise = processOrderAsync(); 
+    console.log('Handling other customer queries');
     
-    const hello = await getStringTask;
-    console.log(hello);     
+    const status = await orderProcessingPromise;
+    console.log(status);     
 }</pre></code></div>
 
-	<h2>Java 8</h2>
-	<div class="code"><code><pre>public CompletableFuture&lt;String&gt; getHelloWorldAsync() throws InterruptedException {
+<h2>RxJS v5 (Observable)</h2>	
+	<div class="code"><code><pre>import { Observable } from 'rxjs';
+
+function processOrder() {
+    return new Observable(subscriber => {
+        console.log('Order processing started');
+        setTimeout(() => {
+            console.log('Order processing completed');
+            subscriber.next('Order confirmed');
+            subscriber.complete();
+        }, 3000);
+    });
+}
+
+function main() {
+    const orderProcessingObservable = processOrder();
+    console.log('Handling other customer queries');
+    
+    orderProcessingObservable.subscribe(status => {
+        console.log(status);
+    });
+}</pre></code></div>
+
+	<h2>Java 8 (CompletableFuture or Future) - TODO: review code</h2>
+	<div class="code"><code><pre>public CompletableFuture&lt;String&gt; processOrderAsync() throws InterruptedException {
     return CompletableFuture.supplyAsync(() -> {
-        String hello = "Hello World";
-        System.out.println("Started " + hello);
+        System.out.println("Order processing started");
         Thread.sleep(3000);
-        System.out.println("Finished " + hello);
-        return hello;
+        System.out.println("Order processing completed");
+        return "Order confirmed";
     });
 }
 
 public static void main(String[] args) {		
-    CompletableFuture&lt;String&gt; getStringTask = new Main().getHelloWorldAsync();
-    System.out.println("DoIndependentWork");
-    getStringTask.thenAccept(hello -> {
-    System.out.println(hello);
+    CompletableFuture&lt;String&gt; orderProcessingFuture = new Main().processOrderAsync();
+    System.out.println("Handling other customer queries");
+    orderProcessingFuture.thenAccept(status -> {
+    System.out.println(status);
     });
 }</pre></code></div>
 	
-	<h2>Spring Boot</h2>
+	<h2>Spring Boot (CompletableFuture or Future) - TODO: review code</h2>
 	<div class="code"><code><pre>@Async
-public CompletableFuture&lt;String&gt; getHelloWorldAsync() throws InterruptedException {
-    String hello = "Hello World";
-    System.out.println("Started " + hello);
+public CompletableFuture&lt;String&gt; processOrderAsync() throws InterruptedException {
+    System.out.println("Order processing started");
     Thread.sleep(3000);
-    System.out.println("Finished " + hello);
-    return CompletableFuture.completedFuture(hello);
+    System.out.println("Order processing completed");
+    return CompletableFuture.completedFuture("Order confirmed");
 }	
 
 public static void main(String[] args) {
-    CompletableFuture&lt;String&gt; getStringTask = new Main().getHelloWorldAsync();
-    System.out.println("DoIndependentWork");
-    String hello = getStringTask.get();
-    System.out.println(hello);
+    CompletableFuture&lt;String&gt; orderProcessingFuture = new Main().processOrderAsync();
+    System.out.println("Handling other customer queries");
+    String status = orderProcessingFuture.get();
+    System.out.println(status);
 }</pre></code></div>	
-	
-	
-	
+<br>
+<b>Output:</b><br>
+Order processing started<br>
+Handling other customer queries<br>
+Order processing completed<br>
+Order confirmed<br>
+<br>
+<b>Note</b>: 
+<ul>
+<li>HttpClient.GetAsync(string) and DbContext.SaveChangesAsync() are another asynchronous operations in .NET.</li>
+<li>Asynchronous methods return control to the caller immediately and then continue executing in the background. This can improve the responsiveness of your application by allowing the caller to continue doing other work while the asynchronous operation is in progress. To wait for an asynchronous method to complete, you can use the await keyword.</li>
+</ul>
+<br>
+<b>Why use async/await pattern instead of synchronous methods?</b><br> 
+In C#, you can use async/await to make asynchronous operations "synchronous"<br>
+- Responsiveness: In UI applications, it avoids freezing of the UI during long-running operations<br>
+- Scalability/Performance: In server-side applications, it enables handling more network requests with fewer threads<br>
+- Code Readability: Asynchronous code using callbacks or promises can become difficult to read and understand. The async/await pattern makes your asynchronous code look and behave more like synchronous code (e.g. try/catch blocks).<br>
+<b>Note</b>: The async/await methods use the threads of the .NET ThreadPool for background operations, which is a pre-created set of threads. These threads are reusable, so it is not necessary to create a new thread for each operation.<br>
+<br>
+<b>What is the difference between Promise and Observable?</b><br> 	
+Both Promises and Observables handle asynchronous operations. A Promise represents a one-time asynchronous operation, while an Observable handles a (continuous) stream of data/events/values. A Promise is a one-time (single) value delivery system, while  an Observable can emit multiple (stream of) values over time, which is why subscribing is necessary to react to each emitted value.<br> 
+Use promises for single results or one-time operations.<br> 
+Use observables for<br>
+<ul>
+<li>HTTP Requests (and responses)</li>
+<li>Form Controls</li>
+<li>Route Parameters (navigation)</li>
+<li>State Management (state changes)</li>
+
+<li>Event Handling (e.g. click event)
+  <ul>
+  <li>Java: button.addActionListener(new ActionListener() { ... }</li>
+  <li>C#: button.Click += new EventHandler(button_Click);</li>
+  <li>JavaScript: button.addEventListener('click', function() { ... }</li>
+  </ul>
+</li>
+
+<li>Data Streams</li>
+<li>Real-Time Data Updates</li>
+</ul>
+
+<b>TODO</b>: https://www.tektutorialshub.com/angular/angular-observable-tutorial-using-rxjs/<br>
+<img src="https://i.sstatic.net/FzgeD.jpg" height=500 width=500><br>
+Innopay - példák kódra (js, rx-js)
   </body>
 </html>

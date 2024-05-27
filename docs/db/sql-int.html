@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>PostgreSQL internals</title>
+    <link rel="stylesheet" href="../../common.css">	
+  </head>
+  <body>
+    <h1>PostgreSQL internals</h1>
+    <h2>Introduction (TODO)</h2>
+	<p>PostgreSQL provides several index types: B-tree, Hash, GiST, SP-GiST, GIN, BRIN, and the extension bloom<br> 
+- UPDATE is a DELETE and INSERT operation<br>
+- Use TEXT/VARCHAR(n) instead of CHAR(n)<br>
+- Never put an index on a TEXT or VARCHAR field<br>
+- By specifying a lower fill factor, we can speed up updates (A lower fill factor leaves more free space on each page. This extra space can reduce the need for page splits when rows are updated)<br>
+<code>entity.HasStorageParameter("fillfactor", 60);</code><br>
+- Tuples are the basic logical data storage units (tuple ~ row)<br>
+- The autovacuum process periodically scans database tables, identifying dead tuples and reclaiming space on data pages (a page is 8K). When a table's fill factor is set to less than the default 100, you can control how much free space is initially left on these pages, improving the efficiency of updates and database performance. Autovacuum could skip those pages that already have sufficient free space due to a lower fill factor, thus reducing the frequency of vacuum operations needed on those pages. See <a href="https://www.cybertec-postgresql.com/en/hot-updates-in-postgresql-for-better-performance/">Problems with PostgreSQL’s implementation of UPDATE</a></p>
+    <h2>Data page</h2>
+	<img src="images/datapage.png" width="30%" height="30%"/>
+	<p>More info <a href="https://www.postgresql.org/docs/current/storage-page-layout.html">here</a></p>
+  </body>
+</html>
+
+
+
+
+
+
+
+

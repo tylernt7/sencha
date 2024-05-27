@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Angular</title>
+	<link rel="stylesheet" href="../../common.css">		
+  </head>
+  <body>
+    <h1>Angular</h1>
+	<h2>Overview </h2>
+	Angular is a free, open-source TypeScript-based single-page application (SPA) framework run on Node.js.
+	<h2>Add two numbers</h2>
+	<p><b>Prerequisite</b>: Node.js</p>
+	<p>Run the following commands in the terminal:</p>
+    <div class="code"><code><pre>npm install -g @angular/cli</pre></code></div>
+	This installs the Angular Command Line Interface globally.
+    <div class="code"><code><pre>ng new add-app</pre></code></div>
+	This creates a new Angular project.	
+
+	<p>Write the following HTML code (template) in src/app/app.component.html:</p>
+    <div class="code"><code><pre>&lt;h1>Adding two numbers&lt;/h1>
+&lt;p>Number1: &lt;input type="number" [(ngModel)]="number1">&lt;/p>
+&lt;p>Number2: &lt;input type="number" [(ngModel)]="number2">&lt;/p>
+&lt;p>&lt;b>Sum&lt;/b>: {{ number1 + number2 }}&lt;/p></pre></code></div>
+	
+	<p>Write the following TypeScript code in src/app/app.component.ts:</p>
+    <div class="code"><code><pre>import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  standalone: true, <i>// Introduced in Angular 14 (does not require @NgModule)</i>
+  imports: [FormsModule], <i>// Import FormsModule for ngModel</i>
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  number1: number = 0;
+  number2: number = 0;
+}</pre></code></div>
+
+	<p>Run the following command in the terminal:</p>
+    <div class="code"><code><pre>ng serve</pre></code></div>
+	or
+	<div class="code"><code><pre>npm start</pre></code></div>
+	It builds and runs the Angular project and starts the embedded development server. Open your browser on http://localhost:4200/
+  </body>
+</html>

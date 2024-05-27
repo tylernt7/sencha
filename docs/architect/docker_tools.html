@@ -44,10 +44,30 @@
     <tr>
       <td>Loki (for Grafana)</td>
 	  <td>Log aggregation system that collects logs from various services into a central location</td>
-    </tr>	
-    </table>
+    </tr>
+    <tr>
+      <td>Promtail (for Grafana)</td>
+	  <td>Agent that ships local logs to a private Grafana Loki instance or Grafana Cloud</td>
+    </tr>
+    <tr>
+      <td>Fluentd</td>
+	  <td>Data collector that allows you to unify data collection and consumption</td>
+    </tr>
+    <tr>
+      <td>Wazuh</td>
+	  <td>Log aggregation / analysis platform with event detection and alerting capabilities</td>
+    </tr>
+	</table>
 	
+	<h2>PG Stack</h2>
+	P = Prometheus<br>
+	G = Grafana<br>
 	<p><center><img src="images\prometheus.png" width="75%" height="75%"/></center></p>
+	<p><center><img src="images\promtail.png" width="50%" height="50%"/></center></p>
+	<p>The containers (services) log to syslog (or standard output) and this is collected by Promtail and sent to the Loki log server, which Grafana can use as a data source.</p>
+	<p><center><img src="images\fluentd.png" width="50%" height="50%"/></center></p>
+	<p>The containers (services) log to syslog (or standard output) and this is collected by Fluentd and sent to the Wazuh server, which Grafana can use as a data source.</p>
+	
 	
 	<h2>ELK Stack</h2>
 	E = ElasticSearch<br>

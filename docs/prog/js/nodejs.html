@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Node.js</title>
+	<link rel="stylesheet" href="../../common.css">		
+  </head>
+  <body>
+    <h1>Node.js</h1>
+	<h2>Overview</h2>
+	Node.js is a free, open-source, cross-platform JavaScript runtime environment that lets developers create servers, web apps, command line tools and scripts.
+	<h2>Add two numbers</h2>
+	<p>Run the following command in the terminal:</p>
+    <div class="code"><code><pre>npm init -y</pre></code></div>
+	This creates a package.json file with default values.
+	
+	<p>Write the following code in add.js:</p>
+    <div class="code"><code><pre><i>// Define the add function</i>
+function add(a, b) {
+  return a + b;
+}
+
+<i>// Export the add function so it can be imported in other files</i>
+module.exports = add;</pre></code></div>
+	
+	<p>Write the following code in index.js:</p>
+    <div class="code"><code><pre><i>// Import the add function</i>
+const add = require('./add');
+
+<i>// Call the add function with two numbers</i>
+const result = add(5, 3);
+
+<i>// Output the result to the console</i>
+console.log('The sum is:', result);</pre></code></div>
+
+	<p>Run the following command in the terminal:</p>
+    <div class="code"><code><pre>node index.js</pre></code></div>
+	The sum is: 8.
+  </body>
+</html>

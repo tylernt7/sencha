@@ -24,7 +24,7 @@
 <b>Push an existing Git repository</b>
 	<div class="code"><code><pre>cd feature
 git clone --branch feature https://github.com/tylernt7/sencha.git .
-git remote rename origin TylerRepo
+git remote rename origin MyRepo
 git remote add origin https://github.com/attila/core.git
 git push --set-upstream origin --all
 git push --set-upstream origin --tags
@@ -34,53 +34,97 @@ git push --set-upstream origin --tags
 <b>Push an existing Git repository (alternative)</b>
 	<div class="code"><code><pre>cd main
 git clone https://github.com/attila/core.git .
-git remote add TylerRepo https://github.com/tylernt7/sencha.git
-rem git fetch TylerRepo feature
-rem git merge TylerRepo/feature
-git pull TylerRepo feature
+git remote add MyRepo https://github.com/tylernt7/sencha.git
+rem git fetch MyRepo feature
+rem git merge MyRepo/feature
+git pull MyRepo feature
 git push
 </pre></code></div>
 
 	<h2>Merge</h2>
-	
-<b>Merge branch 'feature' into branch 'main'</b>
-	<div class="code"><code><pre>git switch main
-rem git checkout main
-
-git pull
-rem git pull origin main
-	
-git pull origin feature
-rem git fetch origin feature
-rem git merge origin/feature
-
-git push
-rem git push origin main
-</pre></code></div>
-
+    <table border="1">
+      <tr>
+        <td><b>Command</b></td>
+        <td><b>Alternative</b></td>
+        <td><b>Comment</b></td>
+      </tr>
+      <tr>
+        <td>git switch feature</td>
+        <td>git checkout feature</td>
+        <td>Switch to the feature branch<br>git switch is a newer command than git checkout</td>
+      </tr>
+      <tr>
+        <td>git pull main</td>
+        <td>git pull origin main<br>OR:<br>git fetch origin main<br>git merge origin/main</td>
+        <td><b>Merge the 'main' branch into the 'feature' branch</b></td>
+      </tr>	  	  
+      <tr>
+        <td>git switch main</td>
+        <td>git checkout main</td>
+        <td>Switch back to the main branch</td>
+      </tr>
+      <tr>
+        <td>git pull</td>
+        <td>git pull main<br>OR:<br>git pull origin main<br>OR:<br>git fetch origin main<br>git merge origin/main</td>
+        <td>Fetch the changes from the 'main' branch and merge them into the current local branch</td>
+      </tr>
+      <tr>
+        <td>git pull feature</td>
+        <td>git pull origin feature<br>OR:<br>git fetch origin feature<br>git merge origin/feature --no-ff -m "Added new feature"</td>
+        <td>Fetch the changes from the 'feature' branch and<br><b>Merge the 'feature' branch into the 'main' branch</b><br>with a merge commit</td>
+      </tr>
+      <tr>
+        <td>git push</td>
+        <td>git push origin main</td>
+        <td>Push the local changes to the 'main' branch</td>
+      </tr>
+    </table>
 <br>
-<b>Regular merge</b>
-	<div class="code"><code><pre>git switch feature <i># switch to the feature branch</i>
-git <i>merge</i> main <i># merge the main branch into the feature branch</i>
-git switch main <i># switch back to the main branch</i>
-git merge --no-ff feature -m "Your merge message" <i># merge the feature branch into the main branch with a merge commit</i>
-</pre></code></div>
 <b><i>Notes:</i></b><br>
-If the local branches are already up-to-date with the remote repository, you can switch between them and merge them without needing to fetch the remote branches.<br>
-<i>git merge --no-ff feature -m "Your merge message"</i>: ensures a new merge commit is always created<br>
-<i>git merge feature</i>: does not create a new commit if the feature branch is ahead of the merged-into branch<br>
+<ul>
+<li>If the local branches are already up-to-date with the remote repository, you can switch between them and merge them without needing to fetch the remote branches</li>
+<li><i>git merge --no-ff feature -m "Added new feature"</i>: ensures a new merge commit is always created</li>
+<li><i>git merge feature</i>: does not create a new commit if the feature branch is ahead of the merged-into branch</li>
+<li>The term "origin" refers to the remote repository from which the project was initially cloned</li>
+</ul>
+
 <br>
-<b>Rebase merge</b><br>
+Merging 'main' into the 'feature' branch first ensures that<br>
+- the 'feature' branch is up-to-date with the latest changes from 'main'<br>
+- you can resolve any conflicts locally in the 'feature' branch without affecting the 'main' branch<br>
+This approach is useful when working on long-lived 'feature' branches or when 'main' is very active.
+
+	<h2>Rebase</h2>
 A rebase merge is when you rebase one branch onto another and then merge them with a fast-forward merge.<br>
-	<div class="code"><code><pre>git switch feature <i># switch to the feature branch</i>
-git <i>rebase</i> main <i># rebase the feature branch onto the main branch</i>
-git switch main <i># switch back to the main branch</i>
-git merge feature <i># fast-forward merge the feature branch into the main branch</i>
-</pre></code></div>			
+    <table border="1">
+      <tr>
+        <td><b>Command</b></td>
+        <td><b>Comment</b></td>
+      </tr>
+      <tr>
+        <td>git switch feature</td>
+        <td>Switch to the feature branch</td>
+      </tr>
+      <tr>
+        <td>git <i>rebase</i> main</td>
+        <td>Rebase the feature branch onto the main branch</td>
+      </tr>
+      <tr>
+        <td>git switch main</td>
+        <td>Switch back to the main branch</td>
+      </tr>
+      <tr>
+        <td>git <i>merge</i> feature</td>
+        <td>Fast-forward merge the feature branch into the main branch</td>
+      </tr>	  
+    </table>
 <br>
 <b>Merging vs. Rebasing</b><br>
 <b>Rebase</b> reapplies commits on <i>top</i> of another base branch, whereas <b>merge</b> joins two or more development histories together. While merge preserves history as it happened, rebase rewrites the commit history. If you are cherry-picking multiple commits, consider using <i>git rebase</i> for a cleaner history, especially when working with feature branches.
 <center><img src="images/git_rebase.png" width="75%" height="75%"/></center>
+		
+	<h2>Cherry-pick</h2>
+TBD	
 		
 	<h2>Default branches</h2>
     <ul>
