@@ -67,7 +67,30 @@ function main() {
     orderProcessingObservable.subscribe(status => {
         console.log(status);
     });
-}</pre></code></div>
+}
+
+function main2() {
+    const orderProcessingObservable = processOrder();
+    console.log('Handling other customer queries');
+    
+    orderProcessingObservable.subscribe(status => {
+        console.log(status);
+    });
+
+    orderProcessingObservable.subscribe({
+        next(status) { <i>// next callback</i>
+            console.log(status);
+        },
+        error(err) { <i>// error callback</i>
+            console.error('Error occurred: ' + err);
+        },
+        complete() { <i>// complete callback</i>
+            console.log('Completed');
+        },
+    });
+}
+
+</pre></code></div>
 
 	<h2>Java 8 (CompletableFuture or Future) - TODO: review code</h2>
 	<div class="code"><code><pre>public CompletableFuture&lt;String&gt; processOrderAsync() throws InterruptedException {
@@ -121,6 +144,17 @@ In C#, you can use async/await to make asynchronous operations "synchronous"<br>
 - Scalability/Performance: In server-side applications, it enables handling more network requests with fewer threads<br>
 - Code Readability: Asynchronous code using callbacks or promises can become difficult to read and understand. The async/await pattern makes your asynchronous code look and behave more like synchronous code (e.g. try/catch blocks).<br>
 <b>Note</b>: The async/await methods use the threads of the .NET ThreadPool for background operations, which is a pre-created set of threads. These threads are reusable, so it is not necessary to create a new thread for each operation.<br>
+
+<br>
+<b>What is an Observable?</b><br> 	
+An <b>Observable</b> is lazy Push collection of multiple values.<br>
+An <b>Observer</b> is a consumer of values delivered by an Observable. Observers are simply a set of callbacks, one for each type of notification delivered by the Observable: next, error, and complete.<br>
+A <b>Subscription</b> is an object that represents a disposable resource, usually the execution of an Observable. A Subscription has one important method, unsubscribe, that takes no argument and just disposes the resource held by the subscription. In previous versions of RxJS, Subscription was called "Disposable".<br>
+A <b>Subject</b> is a special type of Observable that allows values to be multicasted to many Observers. While plain Observables are unicast (each subscribed Observer owns an independent execution of the Observable), Subjects are multicast.<br>
+A <b>BehaviorSubject</b> is a variant of Subject that stores the latest value emitted to its consumers, and whenever a new Observer subscribes, it will immediately receive the "current value" from the BehaviorSubject.<br>
+A <b>ReplaySubject</b> is similar to a BehaviorSubject in that it can send old values to new subscribers, but it can also record a part of the Observable execution.<br>
+An <b>AsyncSubject</b> is a variant where only the last value of the Observable execution is sent to its observers, and only when the execution completes.<br>
+
 <br>
 <b>What is the difference between Promise and Observable?</b><br> 	
 Both Promises and Observables handle asynchronous operations. A Promise represents a one-time asynchronous operation, while an Observable handles a (continuous) stream of data/events/values. A Promise is a one-time (single) value delivery system, while  an Observable can emit multiple (stream of) values over time, which is why subscribing is necessary to react to each emitted value.<br> 
