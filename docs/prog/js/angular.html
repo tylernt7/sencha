@@ -12,7 +12,7 @@
 	<p><b>Prerequisite</b>: Node.js</p>
 	<p>Run the following commands in the terminal:</p>
     <div class="code"><code><pre>npm install -g @angular/cli</pre></code></div>
-	This installs the Angular Command Line Interface globally.
+	This installs the Angular Command Line Interface globally (e.g. ng new or ng serve).
     <div class="code"><code><pre>ng new add-app</pre></code></div>
 	This creates a new Angular project.	
 
@@ -39,9 +39,15 @@ export class AppComponent {
 }</pre></code></div>
 
 	<p>Run the following command in the terminal:</p>
-    <div class="code"><code><pre>ng serve</pre></code></div>
-	or
+	<div class="code"><code><pre>npm install</pre></code></div>
+	It installs the dependencies listed in the package.json file into the local node_modules folder (for initial Setup)<br>	
+	<br>
 	<div class="code"><code><pre>npm start</pre></code></div>
-	It builds and runs the Angular project and starts the embedded development server. Open your browser on http://localhost:4200/
+	or
+	<div class="code"><code><pre>ng serve</pre></code></div>
+	It builds and runs the Angular project and starts the embedded development server. Open your browser on http://localhost:4200/<br>
+	<br>
+	Change the default port number:
+	<div class="code"><code><pre>npm start -- --port 8081</pre></code></div>		
   </body>
 </html>
