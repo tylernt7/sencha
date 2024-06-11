@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <title>HttpClient</title>
+    <link rel="stylesheet" href="../../../common.css">		
+  </head>
+  <body>
+
+    <h1>HttpClient</h1>
+    
+	<h2>Basic Example</h2>
+    <div class="code"><code><pre>import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export class AppComponent {
+  constructor(private http: HttpClient) {
+    this.getData().subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getData(): Observable&lt;any> {
+    return this.http.get('https://api.example.com/data');
+  }
+}</pre></code></div>	
+
+	<h2>Error Handling</h2>
+	<div class="code"><code><pre>import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError } from 'rxjs';
+
+export class AppComponent {
+  constructor(private http: HttpClient) {
+    this.getData('value1').subscribe(
+      (data: DataResponse) => {
+        console.log(data);
+      },
+      error => {
+        console.error('Error occurred: ', error);
+      }
+    );
+  }
+
+  getData(param: string): Observable&lt;DataResponse> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer your-token'
+    });
+
+    return this.http.get&lt;DataResponse>(`https://api.example.com/data/${param}`, { headers: headers })
+      .pipe(
+        tap(data => console.log('Data received: ', data)),	  
+        catchError(err => {
+          console.error('Error occurred: ', err);
+          return throwError(() => err);
+        })
+      );
+  }
+}</pre></code></div>
+	
+		
+  </body>
+</html>

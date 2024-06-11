@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Data Binding</title>
+    <link rel="stylesheet" href="../../../common.css">		
+  </head>
+  <body>
+
+    <h1>Data Binding</h1>
+    <h2>Overview</h2>
+    <b>Model</b>: Property (Data)<br>
+    <b>View</b>: Template (HTML)<br>
+    <b>Controller/Viewmodel</b>: Component (element | component | directive)<br>
+    
+	<h2>One-way binding (Model to View)</h2>
+    <b>HTML</b>
+    <div class="code"><code><pre><i>&lt;!-- component.html --></i>
+&lt;h1>{{ title }}&lt;/h1> <i>&lt;!-- Interpolation --></i>
+&lt;h1 [innerText]="title">&lt;/h1> <i>&lt;!-- Property Binding --></i></pre></code></div>	
+    <b>TypeScript</b>
+    <div class="code"><code><pre><i>// component.ts</i>
+export class AppComponent {
+  title = 'Hello World';
+}</pre></code></div>
+	
+	<h2>One-way binding (View to Model)</h2>
+    <b>HTML</b>
+    <div class="code"><code><pre><i>&lt;!-- component.html --></i>
+&lt;button (click)="onSave()">Save&lt;/button> <i>&lt;!-- Event Binding --></i></pre></code></div>	
+    <b>TypeScript</b>
+    <div class="code"><code><pre><i>// component.ts</i>
+export class AppComponent {
+  onSave() {
+    alert('Saved!');
+  }
+}</pre></code></div>
+
+	<h2>Two-way binding (View to Model to View)</h2>
+    <b>HTML</b>
+    <div class="code"><code><pre><i>&lt;!-- component.html --></i> 
+&lt;input [(ngModel)]="name" placeholder="Enter name"> <i>&lt;!-- Two-way Binding --></i>
+&lt;p>Hello {{ name }}&lt;/p></i></pre></code></div>
+    <b>TypeScript</b>
+    <div class="code"><code><pre><i>// component.ts</i>
+export class AppComponent {
+  name: string = '';
+}</pre></code></div>
+
+		
+  </body>
+</html>
