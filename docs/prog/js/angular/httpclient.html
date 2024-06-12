@@ -31,7 +31,7 @@ import { Observable, catchError } from 'rxjs';
 export class AppComponent {
   constructor(private http: HttpClient) {
     this.getData('value1').subscribe(
-      (data: DataResponse) => {
+      data => { <i>// (data: DataResponse) => {</i>
         console.log(data);
       },
       error => {
