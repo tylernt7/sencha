@@ -27,7 +27,8 @@
 	<b>OID</b>: Object IDentifier, a sequence of numbers (such as 2.5.4.3) identifying objects in a unique way in X.509 certificates (a basic ASN.1 type). OIDs are used to identify various elements in certificates, such as algorithms, extensions, policies, etc.<br>
 	<b>AIA</b>: Authority Information Access, an extension in X.509 certificates that indicates how to access CA information and services about the issuer of the certificate as detailed in RFC 3280.<br>
 	<b>HSM</b>: Hardware Security Module, a device for the secure execution of cryptographic operations (encryption, decryption, authorization, authentication and digital signing). It generates and stores keys inside a hardened, tamper-resistant device. It prevents physical/unauthorised tampering with self-destruct mechanisms. E.g. <i>Entrust nShield XC Connect</i><br>
-	
+	<b>AlphaSSL certificate</b>: A type of SSL certificate provided by GlobalSign. When you order an AlphaSSL certificate, you receive the SSL certificate (as end-entity certificate) and the intermediate certificate, which links to its root certificate (e.g. GlobalSign Root CA - R1 or GlobalSign Root CA - R6). You need to install the SSL certificate and the intermediate certificate on your (web) server. You do not need to install the root certificate, as it is already trusted by browsers and operating systems.<br>	
+
 	<h2>Certificate Revocation</h2>
 	<p>To revoke a root certificate, the root CA can issue a CRL that contains its own serial number, and sign it with its own private key. The vendor (operating system, browser) or the user can also revoke the root certificate from the trusted root store.	
 	<p>To revoke an intermediate certificate, you need to be the root CA that issued it, or have access to the root CA's private key. By revoking an intermediate certificate, you also invalidate all the end-entity certificates that were issued by that intermediate CA, since they are part of the same certificate chain.</p>
@@ -446,24 +447,29 @@
       <tr>
         <th>File extension</th>
         <th>Description</th>
+		<th>Format</th>
       </tr>
     </thead>
     <tbody>
       <tr>
+        <td>.CSR</td>
+        <td>certificate signing request</td>
+		<td>PKCS#10</td>
+      </tr>	
+      <tr>
         <td>.CRT</td>
         <td>certificate including public key to decrypt and verify data sent by servers</td>
+		<td>PEM/DER</td>
       </tr>
       <tr>
         <td>.KEY</td>
         <td>private key to encrypt and package data for clients to verify</td>
-      </tr>
-      <tr>
-        <td>.PEM</td>
-        <td>RSA public/private key, certificate, and/or certificate request</td>
+		<td>PKCS#8</td>
       </tr>
       <tr>
         <td>.P12 (.PFX)</td>
-        <td>certificate and private key using PKCS#12 encryption</td>
+        <td>certificate and private key</td>
+		<td>PKCS#12</td>
       </tr>	  
     </tbody>
     </table>

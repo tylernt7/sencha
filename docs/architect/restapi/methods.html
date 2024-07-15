@@ -1,52 +1,125 @@
 <!doctype html>
 <html>
   <head>
-    <title>HTTP Methods</title>
-    <link rel="stylesheet" href="../common.css">
+    <title>HTTP Methods (HTTP Verbs)</title>
+    <link rel="stylesheet" href="../../common.css">
   </head>
   <body>
-    <h1>HTTP Methods</h1>
-	
+    <h1>HTTP Methods (HTTP Verbs)</h1>
+
 	<h2>Overview</h2>
-	<p>A request method can be safe, idempotent, or cacheable.<br>
-	<i>Idempotent</i> means that the result (the state of the server) remains unchanged if the same request (operation) is executed several times.</p>
+	<p>According to <a href="https://datatracker.ietf.org/doc/html/rfc9110">RFC 9110</a>, HTTP defines request methods to interact with a given resource. A request method can be safe, idempotent, or cacheable.<br>
+	<i>Safe</i> means that it does not change any data on the server (the state of the server). Read-only operation.<br>
+	<i>Idempotent</i> means that the result (the state of the server) remains unchanged if the same request (operation) is executed several times.<br>
+    <i>Cacheable</i> means that the response can be stored and reused</p>
 	
-	<h2>HTTP request methods (HTTP verbs)</h2>
+	<h2>Request Methods</h2>
     <table border="1">
     <thead>
       <tr>
-        <th>Request</th>
-        <th>Description </th>
-        <th>Note</th>
+        <th>Request Method</th>
+        <th>Path</th>
+        <th>Description</th>
+		<th>Query Parameters<br>(Payload)</th>
+        <th>Request Body<br>(Payload)</th>
+        <th>Response Body<br>(Payload)</th>
+        <th>Safe</th>
+        <th>Idempotent</th>
+        <th>Cacheable</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>GET /products</td>
-        <td>Retrieve a list of products</td>
-        <td></td>
+        <td>GET</td>
+        <td>/products</td>
+        <td>Retrieve a list of all products</td>
+		<td>Optional/Yes</td>
+        <td>Optional</td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
       </tr>
       <tr>
-        <td>GET /products/{id}</td>
-        <td>Retrieve a specific product by its ID</td> 
-        <td></td>
+        <td>GET</td>
+        <td>/products/{id}</td>
+        <td>Retrieve a specific product by its ID</td>
+		<td>Optional/Yes</td>
+        <td>Optional</td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
       </tr>
       <tr>
-        <td>POST /products</td>
+        <td>POST</td>
+        <td>/products</td>
         <td>Create a new product</td>
-        <td>Create a new entity</td>
+		<td>Optional</td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
+        <td>No</td>
+        <td>No</td>
+        <td><b>Yes</b></td>
       </tr>
       <tr>
-        <td>PUT /products/{id}</td>
+        <td>PUT</td>
+        <td>/products/{id}</td>
         <td>Update an existing product by its ID</td>
-        <td>Create a new entity if not exist, modify/replace the entity if exists (idempotent)</td>		
+		<td>Optional</td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
+        <td>No</td>
+        <td><b>Yes</b></td>
+        <td>No</td>
       </tr>
       <tr>
-        <td>DELETE /products/{id}</td>
-        <td>Delete an existing product by its ID</td>
-        <td></td>
+        <td>PATCH</td>
+        <td>/products/{id}</td>
+        <td>Partially update an existing product by its ID</td>
+		<td>Optional</td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
+        <td>No</td>
+        <td>No</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>DELETE</td>
+        <td>/products/{id}</td>
+        <td>Delete a specific product by its ID</td>
+		<td>Optional</td>
+        <td>Optional</td>
+        <td><b>Yes</b></td>
+        <td>No</td>
+        <td><b>Yes</b></td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>OPTIONS </td>
+        <td>/products</td>
+        <td>List the allowed request headers and methods</td>
+		<td>Optional</td>
+        <td>Optional</td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
+        <td><b>Yes</b></td>
+        <td>No</td>
       </tr>
     </tbody>
     </table>	
+	
+	<h2>Example</h2>
+    <div class="code"><code><pre>PATCH /products/12345 HTTP/1.1
+Host: api.ecommerce.com
+Content-Type: application/json
+Authorization: Bearer &lt;access_token>
+{"price":"5000"}</pre></code></div>
+<br>
+<b>Idempotent PATCH example:</b><br>
+We have a product for which we want to update the price.<br>
+<b>Non-idempotent PATCH example:</b><br>
+We have a shopping cart to which we want to add products.<br>
+
   </body>
 </html>

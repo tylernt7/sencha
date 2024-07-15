@@ -111,7 +111,19 @@
 	<p>Compose v1 (written in Python): docker-compose</p>
 	<p>Compose v2 (written in Go): docker compose</p>	
 
-	<h2>Examples</h2>	
+<h2>PostgreSQL</h2>
+- Do NOT install PostgreSQL server ("c:\Program Files\PostgreSQL") when you use postgresql docker container because of port conflicts<br>
+- Add "c:\Program Files\pgAdmin 4\runtime" to the path to use psql.exe
+
+	<h2>Examples</h2>
+<table>
+<tr><td><pre>image: &lt;IMAGE>:&lt;TAG>
+ports:
+  - "&lt;HOST_PORT>:&lt;CONTAINER_PORT>"
+volumes:
+  - &lt;HOST_PATH>:&lt;CONTAINER_PATH>        </pre></td>
+<td><img src="images\port_mapping.png" width="65%" height="65%"/></td></tr>
+</table> 
     <table border="1" style="width: 100%;">
     <tr>
       <td style="width: 50%;"><b>JDK</b></td>
