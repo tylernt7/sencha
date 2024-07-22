@@ -122,6 +122,28 @@ cache or done
     </tr>	
     </table>		
 	
+	<h2>Manual image build (TODO)</h2>
+	<table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>Usage</b></td>
+      <td style="width: 50%;"><b>Description</b></td>
+    </tr>	
+    <tr>
+      <td>Build one image:<br>
+	  Substitute service name with docker compose service name (api, reporting.api ...)</td>
+	  <td>docker compose -f docker-compose.yml -f docker-compose.SIT.yml -f docker-compose.local.yml --env-file .env.SIT build &lt;service-name> --no-cache</td>
+    </tr>
+    <tr>
+      <td>Find the local image you built and tag the image:<br>
+	  Substitute version to actual version</td>
+	  <td>docker tag api:latest mgmthbat1.innopay.hu/innopay/api:&lt;version></td>
+    </tr>
+    <tr>
+      <td>Push to P2 Harbour repository</td>
+	  <td>docker push mgmthbat1.innopay.hu/innopay/scheduling-manager:v0.0.24</td>
+    </tr>		
+    </table>	
+	
     <h2>Examples</h2>
     <table border="1" style="width: 100%;">
     <tr>

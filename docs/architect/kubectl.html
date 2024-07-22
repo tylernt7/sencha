@@ -34,12 +34,28 @@
 	  <td>List all the pods in the current namespace in the Kubernetes cluster using the specified kubeconfig file</td>
     </tr>
     <tr>
-      <td>kubectl logs -f &lt;pod> > container.log</td>
-	  <td>Stream the logs of the pod to a file</td>
+      <td>kubectl get pods -o wide</td>
+	  <td>Describe the status of the pods (e.g. the IP address of the pod, the node the pod is running on, the container images being used)</td>
     </tr>	
     <tr>
-      <td>kubectl get deployments -n &lt;namespace></td>
-      <td>List all the deployments in the specified namespace</td>
+      <td>kubectl get pods -A</td>
+	  <td>List all the pods across all namespaces in the Kubernetes cluster</td>
+    </tr>
+    <tr>
+      <td>kubectl describe pod &lt;pod-name></td>
+	  <td>Describe the status of the specified pod</td>
+    </tr>	
+    <tr>
+      <td>kubectl logs -f &lt;pod> > container.log</td>
+	  <td>Stream (follow) the logs of the pod to a file</td>
+    </tr>
+    <tr>
+      <td>kubectl get nodes</td>
+	  <td>List all the nodes in the current namespace in the Kubernetes cluster (incl. the status of the node)</td>
+    </tr>	
+    <tr>
+      <td>kubectl get all</td>
+      <td>List all the resources (e.g. pods, services, deployments) in the current namespace in the Kubernetes cluster</td>
     </tr>		
     <tr>
       <td>kubectl scale deployment &lt;deployment> -n &lt;namespace> --replicas=&lt;n></td>
@@ -53,6 +69,13 @@
       <td>kubectl apply -f &lt;filename|url> -n &lt;namespace></td>
       <td>Create or update resources (ConfigMap, Ingress) in the specified namespace in the Kubernetes cluster</td>
     </tr>
+    <tr>
+      <td>kubectl cp &lt;file-spec-dest> &lt;namespace>/&lt;pod>:&lt;file-spec-src><br>	  
+	  kubectl cp &lt;namespace>/&lt;pod>:&lt;file-spec-src> &lt;file-spec-dest></td>
+      <td>Copy files and directories to and from pods</td>
+    </tr>	
+	
+	
 	</table>
 	<br>	
 	<table border="1" style="width: 100%;">
@@ -87,11 +110,11 @@
     </tr>
     <tr>
       <td>kubectl get ingress(es)</td>
-      <td>List the ConfigMaps in the current namespace in the Kubernetes cluster</td>
+      <td>List the ingresses in the current namespace in the Kubernetes cluster</td>
     </tr>
     <tr>
       <td>kubectl get ingress(es) -n &lt;namespace></td>
-      <td>List the ConfigMaps in the specified namespace in the Kubernetes cluster</td>
+      <td>List the ingresses in the specified namespace in the Kubernetes cluster</td>
     </tr>
     <tr>
       <td>kubectl get ingress(es) &lt;ingress-name> -n &lt;namespace> -o yaml<br>
@@ -105,6 +128,35 @@
     </tr>
 	</table>
 	<br>
+	
+	<table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>Usage</b></td>
+      <td style="width: 50%;"><b>Description</b></td>
+    </tr>
+    <tr>
+      <td>kubectl get service(s)</td>
+      <td>List the services in the current namespace in the Kubernetes cluster</td>
+    </tr>
+	</table>	
+	<br>	
+	
+	<table border="1" style="width: 100%;">
+    <tr>
+      <td style="width: 50%;"><b>Usage</b></td>
+      <td style="width: 50%;"><b>Description</b></td>
+    </tr>
+    <tr>
+      <td>kubectl get deployment(s)</td>
+      <td>List all the deployments in the current namespace in the Kubernetes cluster</td>
+    </tr>	
+    <tr>
+      <td>kubectl get deployment(s) -n &lt;namespace></td>
+      <td>List all the deployments in the specified namespace</td>
+    </tr>
+	</table>	
+	<br>	
+	
 	<table border="1" style="width: 100%;">
     <tr>
       <td style="width: 50%;"><b>Usage</b></td>
@@ -130,40 +182,24 @@
 	  <td>Pod létrehozása. POD elindítása a Clusteren</td>
     </tr>	
     <tr>
-      <td>kubectl get pods<br>kubectl describe pod &lt;pod-name></td>
-	  <td>Futó pod/node és környezetének/állapotának lekérdezése/ellenőrzése. POD futásának ellenőrzése</td>
-    </tr>
-    <tr>
       <td>kubectl exec my-pod -- /bin/sh -c "kill 1" </td>
 	  <td>Az alkalmazás hibájának szimulálása</td>
     </tr>
     <tr>
-      <td>kubectl logs my-pod</td>
-	  <td>Pod logjainak ellenőrzése</td>
-    </tr>
+      <td>kubectl exec my-pod -- /bin/sh -c "curl localhost:8080"</td>
+	  <td>Alkalmazás működésének/állapotának ellenőrzése</td>
+    </tr>	
+    <tr>
+      <td>kubectl exec my-pod -- /bin/sh -c "while true; do curl localhost:8080; sleep 1; done"</td>
+	  <td>Alkalmazás működésének ellenőrzése</td>
+    </tr>	
     <tr>
       <td>kubectl delete pod my-pod</td>
 	  <td>A tesztelési céllal létrehozott pod törlése a clusterből</td>
     </tr>
     <tr>
-      <td>kubectl exec my-pod -- /bin/sh -c "curl localhost:8080"</td>
-	  <td>Alkalmazás működésének/állapotának ellenőrzése</td>
-    </tr>
-    <tr>
-      <td>kubectl get nodes</td>
-	  <td>Cluster állapotának ellenőrzése. Node-ok állapotának lekérdezése</td>
-    </tr>
-    <tr>
-      <td>kubectl exec my-pod -- /bin/sh -c "while true; do curl localhost:8080; sleep 1; done"</td>
-	  <td>Alkalmazás működésének ellenőrzése</td>
-    </tr>
-    <tr>
       <td>kubectl drain &lt;node-ip> --ignore-daemonsets</td>
 	  <td>Valamely node eltávolítása a clusterből</td>
-    </tr>
-    <tr>
-      <td>kubectl get pods -o wide</td>
-	  <td>POD állapotának ellenőrzése</td>
     </tr>
     <tr>
       <td>kubectl uncordon &lt;node-ip></td>
@@ -188,7 +224,14 @@
 	<br>
 	<code>kubectl apply -f invoice-api.yml -n iqr-core-dev</code><br>
 	<code>kubectl edit ingress invoice-api -n iqr-core-dev</code><br>
-	<code>kubectl get ingress -n iqr-core-dev</code>
+	<code>kubectl get ingress -n iqr-core-dev</code><br>
+	<br>
+	<b>ConfigMap</b><br>
+	<code><pre>todo</pre></code><br>
+	<b>Ingress</b><br>
+	<code><pre>todo</pre></code><br>
+	<b>Service</b><br>
+	<code><pre>todo</pre></code>
 
     <h2>Install Kubernetes</h2>
     <code>choco install kubernetes-cli</code><br>
