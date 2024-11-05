@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <title>WideWorldImporters</title>
+    <link rel="stylesheet" href="../../common.css">	
+  </head>
+  <body>
+    <h1>WideWorldImporters - 2017</h1>
+	
+	<h2>OLTP (Online Transaction Processing) Schema</h2>	
+	<ul>
+	<li>Application: Cities, Countries, DeliveryMethods, Logs, PaymentMethods, People, StateProvinces, SystemParameters, TransactionTypes</li>
+	<li>DataLoadSimulation: AreaCode, ColdRoomTemperatures_temp, FicticiousNamePool, SeasonVariation</li>
+	<li>Purchasing: PurchaseOrderLines, PurchaseOrders, SupplierCategories, Suppliers, SupplierTransactions</li>	
+	<li>Sales: BuyingGroups, CustomerCategories, Customers, CustomerTransactions,  InvoiceLines, Invoices, OrderLines, Orders, SpecialDeals</li>
+	<li>Warehouse: ColdRoomTemperatures, Colors, PackageTypes, StockGroups, StockItemHoldings, StockItems, StockItemStockGroups, StockItemTransactions, VehicleTemperatures</li>		
+	</ul>
+	<img src="images\wwi\wwi-oltp.png" width="90%" height="90%"/>	
+
+	<h2>WideWorldImportersDW OLAP (Online Analytical Processing) Schema</h2>
+	<ul>
+	<li>Dimension: City, Customer, Date, Employee, Payment Method, Stock Item, Supplier, Transaction Type</li>
+	<li>Fact: Movement, Order, Purchase, Sale, Stock Holding, Transaction</li>
+	<li>Integration: City_Staging, Customer_Staging, Employee_Staging, ETL Cutoff, Lineage, Movement_Staging, Order_Staging, PaymentMethod_Staging, Purchase_Staging, Sale_Staging, StockHolding_Staging, StockItem_Staging, Supplier_Staging, TransactionType_Staging, Transaction_Staging</li>
+	</ul>
+		
+    <h2>References</h2>	
+    <ul>
+      <li><a href="https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/wide-world-importers">WideWorldImporters Sample Database for SQL Server and Azure SQL Database</a></li>
+
+    </ul>		
+  </body>
+</html>
+
+
+
+
+
+
+
+

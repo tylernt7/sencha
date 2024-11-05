@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Favor composition over inheritance</title>
+    <link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Favor composition over inheritance</h1>
+	
+    <h2>Composition</h2>
+    <div class="code"><code><pre>public class Logger {
+	public void log(String msg) {}
+}
+
+public class DatabaseConnection {
+	public void connect() {}
+	public void disconnect() {}
+}
+
+public class DbService {
+	private Logger logger;
+	private DatabaseConnection dbConnection;
+
+	public DbService() {
+		this.logger = new Logger();
+		this.dbConnection = new DatabaseConnection();
+	}
+	
+	public void performTask() {
+		logger.log("Task started");
+		dbConnection.connect();
+		// Perform some task
+		dbConnection.disconnect();
+		logger.log("Task completed");
+	}
+}
+</pre></code></div>	
+
+    <h2>Inheritance</h2>
+
+    <div class="code"><code><pre>public interface Logger {
+	default void log(String msg) {}
+}
+
+
+public interface DatabaseConnection {
+	default void connect() {}
+	default void disconnect() {}
+}
+
+public class DbService implements Logger, DatabaseConnection {
+	public void performTask() {
+		log("Task started");
+		connect();
+		// Perform some task
+		disconnect();
+		log("Task completed");
+	}
+}
+</pre></code></div>	
+
+  </body>
+</html>
+

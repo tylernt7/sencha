@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Javalin (Jetty)</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Javalin (Jetty)</h1>
+	
+    <h2>Create a RESTful Web Service Using NetBeans IDE 17</h2>	
+    <b>Setting up Javalin with Maven</b>
+    <ul>
+	<li>Select File -> New Project</li>
+	<li>Select Java with Maven. Select Java Application
+	<ul>
+	<li>Project Name: JavalinMaven</li>	
+	<li>Group Id: io.javalin</li>
+	<li>Version: 1.0.0</li>
+	<li>Package: io.javalin.javalinmaven</li>
+	</ul>	
+	</li>
+	<li>Paste the Javalin dependency into the generated pom.xml</li>
+	
+    <div class="code"><code><pre>&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;io.javalin&lt;/groupId&gt;
+        &lt;artifactId&gt;javalin&lt;/artifactId&gt;
+        &lt;version&gt;5.4.2&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;slf4j-simple&lt;/artifactId&gt;
+    &lt;version&gt;2.0.6&lt;/version&gt;
+&lt;/dependency&gt;</pre></code></div>
+    <li>Select Run -> Build Project. It will download JAR files from central including jetty-server and slf4j-simple</li>
+	<li>Paste the Javalin snippet into the main method</li>
+	<div class="code"><code><pre>var app = Javalin.create(/*config*/)
+    .get("/", ctx -> ctx.result("Hello World"))
+    .start(7070);</pre></code></div>
+	<li>Select Run -> Run Project</li>
+	<li>In a browser, open the following URL: <a href="http://localhost:7070/">http://localhost:7070/</a></li>
+	</ul>	
+  </body>
+</html>

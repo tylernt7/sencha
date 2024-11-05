@@ -5,17 +5,17 @@
     <link rel="stylesheet" href="../common.css">	
   </head>
   <body>
-    <h1>Authentication</h1>
-			
-	<li><b>Authentication</b>: It confirms the identity of a user. It is performed by password verification.<br>
-      <ul>
-	    <li><b>Basic (Access) Authentication</b>: It requires users to provide a user name and password credentials.</li>
-	    <li><b>Single Sign-On (SSO)</b>: It lets users authenticate themselves just once to access information on any of several systems.</li>			
-      </ul>		
-	</li>
-	<li><b>Authorization</b>: It determines the access level granted a user. It happens after authentication. It is performed by assigning a user to pre-defined groups (classes). Each group lists available objects, along with an associated object-access type (read-only, write-only, or read-write privilege/permission).<br>
-	</li>
+    <h1>Authentication and Authorization</h1>
 		
+	<b>Authentication</b>: It verifies (confirms) the <i>identity</i> of a user.<br>
+	<b>Authorization</b>: It determines the user's <i>access rights</i>. It occurs after authentication. Users are assigned to pre-defined groups. Each group specifies the available resources and permissions (read-only, write-only, or read-write privileges).<br>
+	<center><img src="images\auth.png" width="50%" height="50%"/></center>
+	<b>Single Sign-On (SSO)</b>: It allows users to log in once to access information on multiple applications<br>
+	<ul>
+	<li>When a user logs into their Google account, they can access YouTube, Gmail, Google Drive, and other Google services without needing to log in again.</li>
+	<li>When an employee logs into the company's intranet, they can access email, HR systems, project management tools, and other internal applications without needing to log in again.</li>
+	</ul>
+
 	<h2>Client authentication methods</h2>
     <table border="1">
     <thead>
@@ -26,7 +26,7 @@
     </thead>
     <tbody>
       <tr>
-        <td>Bearer Token, JWT Bearer (<a href="https://jwt.io/">https://jwt.io/</a>), Oauth 2.0</td>
+        <td>Bearer Token, JWT Bearer (<a href="https://jwt.io/">https://jwt.io/</a>), OAuth 2.0</td>
         <td>Authorization: Bearer eyJh…</td>
       </tr>
       <tr>
@@ -48,11 +48,66 @@
 	<p>Keycloak is an open source identity and access management (IAM) solution. It provides authentication, authorization, user federation (LDAP and Active Directory) and user management for applications and services.</p>
 	<b>Standard Protocols</b>
     <ul>
-	  <li><b>OAuth 2.0</b>: OAuth2 clients (front end applications) can obtain access tokens from the authorization server using the token endpoint and use these same tokens to access resources protected by a resource server (back end services).</li>
-	  <li><b>OpenID Connect 1.0</b>: OpenID Connect is an identity layer on top of <b>OAuth 2.0</b> to verify the identity of a user by an ID token (using SSO).</li>	  	
-	  <li><b>SAML 2.0</b>: SAML (Security Assertion Markup Language) uses XML-based messages to exchange data between an identity provider and a service provider (using SSO).</li>	  
+	  <li><b>OAuth</b>: OAuth2 clients (front end applications) can obtain access tokens from the authorization server using the token endpoint and use these same tokens to access resources protected by a resource server (back end services).</li>
+	  <li><b>OpenID Connect</b>: OpenID Connect is an identity layer on top of <b>OAuth 2.0</b> to verify the identity of a user by an ID token.</li>	  	
+	  <li><b>SAML</b>: SAML (Security Assertion Markup Language) uses XML-based messages to exchange data between an identity provider and a service provider.</li>	  
     </ul>
-	
+	<br>
+    <table border="1">
+	<thead>
+      <tr>
+        <th>Protocol</th>
+        <th>OAuth</th>
+        <th>OpenID Connect</th>
+        <th>SAML</th>
+      </tr>
+	</thead>
+    <tbody>
+      <tr>
+        <td>Authentication</td>
+        <td>No</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>	
+      <tr>
+        <td>Authorization</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>		  
+      <tr>
+        <td>First Release</td>
+        <td>1.0 (2006)</td>
+        <td>1.0 (2014)</td>
+        <td>1.0 (2002)</td>
+      </tr>
+      <tr>
+        <td>Current Release</td>
+        <td>2.0 (2012)</td>
+        <td>1.0 (2014)</td>
+        <td>2.0 (2005)</td>
+      </tr>
+     <tr>
+        <td>SSO</td>
+        <td>No</td>
+        <td>Yes</td>
+        <td>Yes</td>
+     </tr>	
+     <tr>
+        <td>Format</td>
+        <td>JSON</td>
+        <td>JSON</td>
+        <td>XML</td>
+     </tr>
+     <tr>
+        <td>Token Type</td>
+        <td>JWT (Access token)</td>
+        <td>JWT (Access token, ID token)</td> 
+        <td>SAML assertions</td>
+     </tr>		 
+    </tbody>
+    </table>	
+
 	<h2>JSON Web Token (JWT)</h2>
 	<p>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting claims between parties as a JSON object. JWTs consist of three parts separated by dots (.), which are: Header, Payload and Signature. The header consists the type of the token and the signing algorithm. The payload contains the claims. Claims are statements about the user and additional data. Some of claims are: iss (issuer), sub (subject), aud (audience), exp (expiration time) and iat (issued at). The three parts of the JWT are Base64Url encoded.</p>
 	<p>The information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA. JWTs are commonly signed using one of two algorithms: HS256 (HMAC using SHA256) and RS256 (RSA using SHA256).</p>

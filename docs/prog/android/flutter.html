@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Flutter</title>
+  </head>
+  <body>
+    <h1>Flutter</h1>
+    <h2>UI design tools</h2>
+	<b>Figma</b><br>
+	<a href="https://www.figma.com/design/">Figma Design</a><br>
+	<br>
+	<b>FlutterFlow</b><br>
+	<a href="https://codewithandrea.com/articles/flutterflow/">Code With Andrea</a>: While FlutterFlow has some happy customers, I don't feel it's the right tool for developers who want to build long-lasting, maintainable apps, and I hope that my overview of its limitations will help you make a more informed decision.
+	
+    <h2>State management libraries (reactive)</h2>
+	<b>Bloc (Business Logic Component)</b><br>
+	<ul>
+	<li>BlocBuilder</li>
+	<li>BlocSelector</li>
+	<li><a href="https://bloclibrary.dev/flutter-bloc-concepts/#blocprovider">BlocProvider</a> is a Flutter widget which provides a bloc to its children. It is used as a dependency injection (DI) widget so that a single instance of a bloc can be provided to multiple widgets within a subtree.</li>
+	<li>MultiBlocProvider</li>
+	<li>BlocListener</li>
+	<li>MultiBlocListener</li>
+	<li>BlocConsumer</li>
+	<li>RepositoryProvider</li>
+	<li>MultiRepositoryProvider</li>	
+	</ul>	
+	<br>
+	<b>Riverpod</b><br>
+	<ul>
+	<li><a href="https://riverpod.dev/docs/providers/provider">Provider</a> creates a value...</li>
+	<li><a href="https://riverpod.dev/docs/providers/notifier_provider">NotifierProvider</a> is a provider that is used to listen to and expose a Notifier.</li>
+	<li><a href="https://riverpod.dev/docs/providers/future_provider">FutureProvider</a> is the equivalent of Provider but for asynchronous code.</li>
+	<li><a href="https://riverpod.dev/docs/providers/stream_provider">StreamProvider</a> similar to FutureProvider but for Streams instead of Futures.
+	</ul>
+	<b>GetX (Antipattern)</b><br>
+	<ul>	
+	<li>Global State</li>
+	<li>Global Controllers</li>
+	</ul>
+	While GetX simplifies the logic, it can lead to chaotic code, as any part of the application can interact with other parts at any time, violating the <i>Separation of Concerns</i> principle.	
+  </body>
+</html>

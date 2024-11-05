@@ -28,8 +28,12 @@
         <li><a href="health/eyesight.html">Eyesight</a></li>
         <li><a href="health/hair_growth.html">Hair growth</a></li>
         <li><a href="health/water.html">Pure Water</a></li>
-        <li><a href="health/breathing.html">Breathing Exercises</a></li>
-        <li><a href="health/reflexology.html">Reflexology</a></li>
+        <li><a href="health/breathing.html">Breathing Exercises</a></li>		
+		<li><span class="caret">Reflexology</span>
+        <ul class="nested">
+          <li><a href="health/reflexology/hand_reflexology.html">Hand Reflexology</a></li>
+		  <li><a href="health/reflexology/foot_reflexology.html">Foot Reflexology</a></li>
+        </ul></li>		
         <li><a href="health/fasting.html">Intermittent Fasting</a></li>
         <li><a href="health/hiit.html">High-intensity interval training (HIIT)</a></li>
         <li><a href="health/met.html">Metabolic equivalent of task (MET)</a></li>
@@ -49,13 +53,31 @@
       </ul>
     </li>
 
-
-    <li><span class="caret">Mining</span>
+    <li><span class="caret">Cryptocurrency</span>
       <ul class="nested">  	
-        <li><a href="mining/bitcoin.html">Bitcoin</a></li>
-        <li><a href="mining/trading.html">Trading</a></li>
+        <li><span class="caret">Mining</span>
+        <ul class="nested">
+          <li><a href="crypto/mining/blockchain.html">BlockChain</a></li>
+		</ul></li>        
+        <li><span class="caret">Trading</span>
+        <ul class="nested">
+		  <li><a href="cryptocurrency/trading/strategies.html">Strategies</a></li>
+		  <li><a href="cryptocurrency/trading/technical_analysis.html">Technical Analysis</a></li>
+		  <li><a href="cryptocurrency/trading/sentiment_analysis.html">Sentiment Analysis</a></li>
+		  <li><a href="cryptocurrency/trading/g7fx.html">G7FX (Order flow)</a></li>
+		</ul></li>		
       </ul>
     </li>
+	
+	<li><span class="caret">Cryptography</span>
+      <ul class="nested">
+	    <li><a href="cryptography/terminology.html">Terminology</a></li>
+		<li><a href="cryptography/auth.html">Authentication</a></li>
+		<li><a href="cryptography/pki.html">PKI</a></li>
+		<li><a href="cryptography/tls.html">TLS/SSL</a></li>
+		<li><a href="cryptography/cybersecurity.html">Cyber Security</a></li>
+      </ul>		
+	</li>	
 	
     <li><span class="caret">Interview</span>
       <ul class="nested">
@@ -102,8 +124,14 @@
 		<li><a href="architect/restapi/statuscodes.html">HTTP Status Codes</a></li>
 		<li><a href="architect/restapi/httpclientcsharp.html">HTTP Client (C#)</a></li>
         <li><a href="architect/restapi/httpclientjava.html">HTTP Client (Java)</a></li>
-        <li><a href="architect/restapi/netbeans.html">NetBeans IDE</a></li>
-        <li><a href="architect/restapi/spring_boot.html">Spring Boot</a></li>
+        </ul></li>
+		<li><span class="caret">Frameworks</span>
+        <ul class="nested">
+        <li><a href="architect/frameworks/spring_boot.html">Spring Boot (Tomcat)</a></li>
+        <li><a href="architect/frameworks/quarkus.html">Quarkus (Undertow)</a></li>
+        <li><a href="architect/frameworks/micronaut.html">Micronaut (Netty)</a></li>
+        <li><a href="architect/frameworks/jersey.html">Jersey</a></li>		
+        <li><a href="architect/frameworks/javalin.html">Javalin (Jetty)</a></li>
         </ul></li>
         <li><a href="">Web services (SOAP, WSDL)</a></li>
         <li><a href="">gRPC (Protocol Buffers)</a></li>	  
@@ -142,6 +170,7 @@
 			  <li><a href="dev/methodologies/oop.html">Concepts</a></li>
 			  <li><a href="dev/methodologies/classes.html">Classes</a></li>
 			  <li><a href="dev/methodologies/clean.html">Clean Code</a></li>
+			  <li><a href="dev/methodologies/composition.html">Favor composition over inheritance</a></li> 
 			  <li><a href="dev/methodologies/dependency.html">Dependency Injection</a></li>
 			  <li><a href="dev/methodologies/solid.html">SOLID</a></li>
 			  </ul>
@@ -192,23 +221,17 @@
 
     <li><span class="caret">Requirements Engineering</span>
     </li>
-	
-	<li><span class="caret">Cryptography</span>
-      <ul class="nested">
-	    <li><a href="cryptography/terminology.html">Terminology</a></li>
-		<li><a href="cryptography/auth.html">Authentication</a></li>
-		<li><a href="cryptography/pki.html">PKI</a></li>
-		<li><a href="cryptography/tls.html">TLS/SSL</a></li>
-		<li><a href="cryptography/cybersecurity.html">Cyber Security</a></li>
-      </ul>		
-	</li>
 
     <li><span class="caret">Imperative Programming</span>
       <ul class="nested">
         <li><a href="prog/async.html">Asynchronous programming</a></li>
         <li><a href="prog/date.html">Date-Time API</a></li>        
-        <li><a href="prog/lang.html">Languages</a></li>
-		<li><a href="prog/android.html">Android</a></li>
+        <li><a href="prog/lang.html">Languages</a></li>		
+        <li><span class="caret">Android</span>
+        <ul class="nested">
+        <li><a href="prog/android/emulators.html">Emulators</a></li>
+        <li><a href="prog/android/flutter.html">Flutter</a></li>
+        </ul></li>				
         <li><a href="prog/arduino.html">Arduino</a></li>
         <li><span class="caret">Assembly</span>
         <ul class="nested">
@@ -286,8 +309,7 @@
         <li><span class="caret">Regular expressions</span></li>
         <li><span class="caret">SQL</span></li>
         <li><span class="caret">UML and OCL</span>
-        <ul class="nested">	
-		<li><a href="prog\uml\order.html">Purchase Order</a></li>		
+        <ul class="nested">		
 		<li><a href="prog\uml\uml.html">UML</a></li>
 		<li><a href="prog\uml\tools.html">UML tools</a></li>
         </ul></li>
@@ -306,11 +328,35 @@
 		<li><a href="db\rdbms.html">RDBMS</a></li>
 		<li><a href="db\inmemory.html">InMemory database</a></li>
 		</ul></li>
-        <li><span class="caret">NoSQL</span>
+        
+		<li><span class="caret">NoSQL</span>
 		<ul class="nested">	
 		<li><a href="db\redis.html">Redis</a></li>
 		<li><a href="">MongoDB</a></li>
 		</ul></li>
+		
+		<li><span class="caret">Sample databases</span>
+		<ul class="nested">	
+		<li><a href="db\samples\order.html">Purchase Order</a></li>	
+		<li><a href="db\samples\wide-world-importers.html">WideWorldImporters</a></li>
+		<li><a href="db\samples\contoso-data-warehouse.html">Contoso Retail Data Warehouse</a></li>
+		<li><a href="db\samples\adventure-works.html">AdventureWorks</a></li>
+		<li><a href="db\samples\northwind.html">Northwind</a></li>
+		<li><a href="db\samples\pubs.html">Pubs</a></li>
+		<li><a href="db\samples\emf.html">EMF</a></li> 
+		<li><a href="db\samples\ibm.html">IBM Rational</a></li> 
+		<li><span class="caret">Access</span>
+			<ul class="nested">	
+			<li><a href="db\samples\access2003.html">Access 2003</a></li>
+			<li><a href="db\samples\access2007.html">Access 2007</a></li>
+			<li><a href="db\samples\access2019.html">Access 2019</a></li>
+			</ul
+		</li>
+		<li><a href="db\samples\w3schools.html">W3Schools</a></li> 		
+		</ul></li>		
+		 
+		
+		
         <li><a href="">NewSQL</a></li>
       </ul>
     </li>
