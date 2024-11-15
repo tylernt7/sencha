@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budapesti ingatlanok</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>Budapesti ingatlanok</h1>
+<nav>
+<ul>
+<li><a href="index.html">Főoldal</a></li>
+<li><a href="budapest.html">Budapesti ingatlanok</a></li>
+<li><a href="videk.html">Vidéki ingatlanok</a></li>
+</ul>
+</nav>
+</header>
+<main>
+<h2>Budapesti ingatlanok listája</h2>
+<div>
+<label for="varos">Város:</label>
+<select id="varos">
+<option value="osszes">Összes</option>
+<option value="Budapest, XIII. kerület">Budapest, XIII. kerület</option>
+<option value="Budapest, IV. kerület">Budapest, IV. kerület</option>
+</select>
+<label for="allapot">Állapot:</label>
+<select id="allapot">
+<option value="osszes">Összes</option>
+<option value="Felújitott">Felújított</option>
+<option value="Átlagos">Átlagos</option>
+</select>
+<label for="erkely">Erkély:</label>
+<select id="erkely">
+<option value="osszes">Összes</option>
+<option value="van">Van</option>
+<option value="nincs">Nincs</option>
+</select>
+<label for="butorozva">Bútorozva:</label>
+<select id="butorozva">
+<option value="osszes">Összes</option>
+<option value="igen">Igen</option>
+<option value="nem">Nem</option>
+</select>
+</div>
+<div id="ingatlanok"></div>
+</main>
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

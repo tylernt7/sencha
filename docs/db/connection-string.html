@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Connection String</title>
+    <link rel="stylesheet" href="../../common.css">	
+  </head>
+  <body>
+    <h1>Connection String</h1>	
+    <h2>Npgsql (.NET data provider for PostgreSQL)</h2>
+    <table border="1"><thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr></thead>
+      <tbody>
+      <tr>
+        <td>Host</td>
+        <td>Specifies the host name.</td>
+        <td>Required</td>
+      </tr>
+      <tr>
+        <td>Port</td>
+        <td>The TCP port of the PostgreSQL server.</td>
+        <td>5432</td>
+      </tr>
+      <tr>
+        <td>Database</td>
+        <td>The PostgreSQL database to connect to.</td>
+        <td>Same as Username</td>
+      </tr>
+      <tr>
+        <td>Username (User ID)</td>
+        <td>The username to connect with.</td>
+        <td>PGUSER</td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td>The password to connect with.</td>
+        <td>PGPASSWORD</td>
+      </tr>
+      <tr>
+        <td>Trust Server Certificate</td>
+        <td>Whether to trust the server certificate without validating it</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>Persist Security Info</td>
+        <td>Gets or sets a Boolean value that indicates if security-sensitive information, such as the password, is not returned as part of the connection if the connection is open or has ever been in an open state.</td>
+        <td>false</td>
+      </tr>	  
+      <tr>
+        <td>Include Error Detail</td>
+        <td>When enabled, PostgreSQL error and notice details are included on PostgresException.Detail and PostgresNotice.Detail.</td>
+        <td>false</td>
+      </tr>
+      <tr>
+        <td>Maximum Pool Size</td>
+        <td>The maximum connection pool size (the default in the <b>PostgreSQL server</b> is 100).</td>
+        <td>100 since 3.1, 20 previously</td>
+      </tr>	  
+      <tr>
+        <td>Connection Idle Lifetime</td>
+        <td>The time (in seconds) to wait before closing idle connections in the pool if the count of all connections exceeds Minimum Pool Size.</td>
+        <td>300</td>
+      </tr>
+      <tr>
+        <td>Connection Lifetime</td>
+        <td>The total maximum lifetime of connections (in seconds)</td>
+        <td>3600 (1 hour), in Npgsql 8.0 and before - 0 (disabled)</td>
+      </tr>
+      <tr>
+        <td>Timeout</td>
+        <td>The time to wait (in seconds) while trying to establish a connection before terminating the attempt and generating an error.</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>Command Timeout</td>
+        <td>The time to wait (in seconds) while trying to execute a command before terminating the attempt and generating an error. Set to zero for infinity (the default in the <b>PostgreSQL server</b> is 0).</td>
+        <td>30</td>
+      </tr>
+      <tr>
+        <td>Keepalive</td>
+        <td>The number of seconds of connection inactivity before Npgsql sends a keepalive query.</td>
+        <td>0 (disabled)</td>
+      </tr>		  
+      </tbody>
+    </table>
+	
+	<p><b>Example</b>: Host=myserver.com;Port=5432;Database=mydatabase;User ID=myusername;Password=mypassword;Maximum Pool Size=20;Connection Idle Lifetime=120;Connection Lifetime=180;Keepalive=15;</p>
+  </body>
+</html>
+
+
+
+
+
+
+
+

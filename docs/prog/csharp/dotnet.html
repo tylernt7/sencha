@@ -1,11 +1,53 @@
 <!doctype html>
 <html>
   <head>
-    <title>Languages</title>
+    <title>.NET</title>
   </head>
   <body>
-  
-    <h1>.NET Frameworks</h1>
+    <h1>.NET</h1>
+	
+	<p>.NET is a platform/framework, while C# is a (statically typed and object-oriented) programming language that runs on .NET.</p>
+	
+    <h2>.NET (SDK) Components</h2>
+    <ul>
+    <li>Runtime: Common Language Runtime (CLR)</li>
+    <li>Libraries: Base Class Library (BCL)<span style="color: red;">*</span></li>
+    <li>Tools: dotnet.exe Command Line Interface (CLI)</li>
+    </ul>
+	<span style="color: red;">*</span> Console.WriteLine is a method in the Console class, which belongs to the <b>System namespace</b> and is available to all .NET applications.
+    
+    <h2>Common .NET SDK CLI Commands</h2>
+	<ul>
+    <li><b>build</b>: Build a .NET project.</li>
+    <li><b>new</b>: Create a new .NET project or file.</li>
+    <li><b>publish</b>: Publish a .NET project for deployment.</li>
+    <li><b>run</b>: Build and run a .NET project output.</li>
+    <li><b>test</b>: Run unit tests using the test runner specified in a .NET project.</li>
+    <li><b>tool</b>: Install or manage tools that extend the .NET experience.</li>
+    <li><b>vstest</b>: Run Microsoft Test Engine (VSTest) commands.</li>
+	</ul>
+    
+	<h2>.NET Tools</h2>
+    Using <i>dotnet tool install &lt;packageId> --global</i> the following tools can be installed in the user folder:
+    <ul>
+    <li>dotnet-counters</li>
+    <li>dotnet-trace</li>
+    <li>dotnet-dump</li>
+    <li>dotnet-ef</li>
+    </ul>
+    
+    <h2>.NET Languages</h2>
+    <ul>
+    <li>C#</li>
+    <li>F#</li>
+    <li>VB.NET (Visual Basic)</li>
+    </ul>
+	
+	<h2>.NET Versions</h2>
+	<p><b>.NET Framework versions:</b> .NET Framework 1.0 (2002), ..., .NET Framework 4.8.1 (2022)</p>	
+	<p><b>.NET versions:</b> .NET Core 1.0 (2016), ..., .NET Core 3.1 (2019), .NET 5.0 (2020), ..., .NET 8.0 (2023)</p>	
+
+    <h2>ASP.NET</h2>
     <table border="1">
     <thead>
       <tr>
@@ -25,14 +67,14 @@
       <tr>
         <td><b>Open-source</b></td>
         <td>No</td>
-        <td>Yes</td>
+        <td>No</td>
         <td>Yes</td>
       </tr>
       <tr>
         <td><b>Architecture</b></td>
         <td>Based on .NET Framework</td>
         <td>Based on .NET Framework</td>
-        <td>Based on .NET Core</td>
+        <td>Based on .NET (Core)</td>
       </tr>
       <tr>
         <td><b>Performance</b></td>
@@ -95,11 +137,12 @@
         <td>Yes</td>
       </tr>
     </tbody>
-    </table>  
-	<p><b>.NET versions:</b> .NET Core 1.0, ..., .NET Core 3.1, .NET 5.0, ..., .NET 8.0</p>
-	<p><b>.NET Framework versions:</b> .NET Framework 2.0, ..., .NET Framework 4.8.1</p>
+    </table>
+
+    <h2>ASP.NET Core MVC</h2>
 	<center><img src="images\mvc.png" width="50%" height="50%"/></center>	
 	
+	<h2>TPS (TBD)</h2>
 	<p>Requests per second (RPS) is a measure of how many requests a system can handle in one second, while transactions per second (TPS) is a measure of how many transactions a system can complete in one second. A transaction is a logical unit of work that may consist of one or more requests. For example, a transaction may involve sending a request to a database, receiving a response, and updating the user interface.</p> 
    </body>
 </html>
