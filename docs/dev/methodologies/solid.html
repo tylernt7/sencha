@@ -9,6 +9,7 @@
 	
 	<h2>SOLID Principles</h2>
 	<p>The SOLID design principles are a subset of many principles/patterns promoted by Robert C. Martin. See <a href="http://staff.cs.utu.fi/~jounsmed/doos_06/material/DesignPrinciplesAndPatterns.pdf">Link</a>.</p>
+	<center><p><img src="images\solid.jpg" width="50%" height="50%"/></center>
 	<ul>
 	  <li><b><u>S</u>ingle Responsibility Principle</b> <i>(Egyetlen felelősség elv)</i>: There should never be more than one reason for a class to change</li>
 	  <ul><li>Every class (or module) should have only one responsibility</li></ul>
@@ -273,25 +274,30 @@ private void draw() { ... }
 	  <li><b><u>L</u>iskov Substitution Principle</b> <i>(Liskov helyettesítési elv)</i>: Subclasses should be substitutable for their base classes</li>
 	  <ul><li>Every class should be replaceable by its derived class without changing the correct operation of the program</li></ul>
 	  <ul><li>Functions that use pointers or references to base classes must be able to use objects of derived classes without knowing it</li></ul>
-	  <ul><li>If the <i>Derived</i> class is a descendant of the <i>Base</i> class, the <i>Derived</i> can be freely substituted in any place (parameter, variable, etc.) where we expect a <i>Base</i> type</li></ul>
+	  <ul><li>If the <i>Derived</i> class is a descendant of the <i>Base</i> class, the <i>Derived</i> can be freely substituted in any place (parameter, variable, etc.) where we expect a <i>Base</i> type</li></ul>	  	 
+	  <ul><li><i>Example</i>: Wherever we expect a Shape object, we can safely use a Circle, Rectangle, or Square object, and the program will work correctly.</li></ul>	  	  
 	  <ul><li><i>Note</i>: Liskov is an American woman</li></ul>
 	  <center><p><img src="images\liskov.png"/></p></center>
 	  <b>Violating Liskov Substitution Principle</b><br>
-	  Setting string is possible in the Base class, while the Derived no longer supports this.
+	  Setting a string is possible in the Base class, while the Derived no longer supports this. The Derived class violates LSP by throwing an exception instead of setting a string.
 	  <div class="code"><code>	   
 <pre>public class Base {
-    private String string;
-    public void setString(String string) { 
-        this.string = string; 
+    private String str;
+    public void setString(String str) { 
+        this.str = str; 
     }
 }
 public class Derived extends Base {
     @Override
-    public void setString(String string) {
+    public void setString(String str) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }</pre>
 	  </code></div>	
+	  Solution 1: Derived should support setString but log a warning instead<br>	  
+	  Solution 2: Use composition instead of inheritance<br>
+	  Solution 3: Use abstract class or use interface with optional behavior<br>
+	  Solution 4: Separate settable (with inheritance) and non-settable (no inheritance) classes
 
 	  <li><b><u>I</u>nterface Segregation Principle</b> <i>(Interfész szétválasztási elv)</i>: Many client specific interfaces are better than one general purpose interface</li>
 	  <ul>

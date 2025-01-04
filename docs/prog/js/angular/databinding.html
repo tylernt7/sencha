@@ -7,45 +7,73 @@
   <body>
 
     <h1>Data Binding</h1>
-    <h2>Overview</h2>
-    <b>Model</b>: Property (Data)<br>
-    <b>View</b>: Template (HTML)<br>
-    <b>Controller/Viewmodel</b>: Component (element | component | directive)<br>
-    
-	<h2>One-way binding (Model to View)</h2>
-    <b>HTML</b>
+    <h2>MVC Overview</h2>
+	
+    <table border=1><thead>
+      <tr>
+        <th>Model</th>
+        <th>View</th>
+        <th>Controller/ViewModel</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>Property (Data)</td>
+        <td>Template (HTML)</td>
+        <td>Component (element | component | directive)</td>
+      </tr>
+      <tr>
+        <td>user.service.ts</td>
+        <td>user.component.html, user.component.css</td>
+        <td>user.component.ts</td>
+      </tr>
+    </tbody>
+    </table>
+	
+	<h2>Types of data binding</h2>	
+	<p>Angular provides three categories of data binding according to the direction of data flow:</p>
+	<ul>
+	<li>Use [] to bind from source to view</li>
+	<li>Use () to bind from view to source</li>
+	<li>Use [()] to bind in a two-way sequence of view to source to view</li>
+	</ul>
+
+	<h2>One-way binding (Controller to View)</h2>
+    <b>View</b>
     <div class="code"><code><pre><i>&lt;!-- component.html --></i>
 &lt;h1>{{ title }}&lt;/h1> <i>&lt;!-- Interpolation --></i>
 &lt;h1 [innerText]="title">&lt;/h1> <i>&lt;!-- Property Binding --></i></pre></code></div>	
-    <b>TypeScript</b>
+    <b>Controller</b>
     <div class="code"><code><pre><i>// component.ts</i>
 export class AppComponent {
   title = 'Hello World';
 }</pre></code></div>
 	
-	<h2>One-way binding (View to Model)</h2>
-    <b>HTML</b>
-    <div class="code"><code><pre><i>&lt;!-- component.html --></i>
+	<h2>One-way binding (View to Controller)</h2>
+    <b>View</b>
+    <div class="code"><code><pre><i>&lt;!-- component.html --></i>		
+&lt;h1>{{ title }}&lt;/h1>	
 &lt;button (click)="onSave()">Save&lt;/button> <i>&lt;!-- Event Binding --></i></pre></code></div>	
-    <b>TypeScript</b>
+    <b>Controller</b>
     <div class="code"><code><pre><i>// component.ts</i>
 export class AppComponent {
+  title = 'Hello World';
+
   onSave() {
-    alert('Saved!');
+    this.title = 'Saved!';
   }
 }</pre></code></div>
 
-	<h2>Two-way binding (View to Model to View)</h2>
-    <b>HTML</b>
+	<h2>Two-way binding (View to Controller to View)</h2>
+    <b>View</b>
     <div class="code"><code><pre><i>&lt;!-- component.html --></i> 
-&lt;input [(ngModel)]="name" placeholder="Enter name"> <i>&lt;!-- Two-way Binding --></i>
-&lt;p>Hello {{ name }}&lt;/p></i></pre></code></div>
-    <b>TypeScript</b>
+&lt;h1>{{ title }}&lt;/h1>	
+&lt;input [(ngModel)]="title" placeholder="Enter the new title"> <i>&lt;!-- Two-way binding with input field --></i>
+</pre></code></div>
+    <b>Controller</b>
     <div class="code"><code><pre><i>// component.ts</i>
 export class AppComponent {
-  name: string = '';
+  title = 'Hello World';
 }</pre></code></div>
-
 		
   </body>
 </html>

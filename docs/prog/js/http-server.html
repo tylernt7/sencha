@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>HTTP Server</title>
+    <link rel="stylesheet" href="../../common.css">		
+  </head>
+  <body>
+    <h1>HTTP Server</h1>
+
+	<h2>Running HTTP Server</h2>
+	<p>Prerequisite</p>
+    <div class="code"><code><pre>npm install -g http-server</pre></code></div>
+	<p>Navigate to the project directory and build the project</p>
+	<div class="code"><code><pre>ng build</pre></code></div>
+	<p>Navigate to the dist/project-name/browser directory and start the server</p>
+    <div class="code"><code><pre>http-server</pre></code></div>
+    <p>Your application should now be accessible at <a href="http://localhost:8080">http://localhost:8080</a></p>
+
+	<h2>HTTP Server is different from NGINX</h2>
+    <p>For local development and quickly serving static files, http-server is a convenient choice. For more complex and production-ready setups, nginx is a better option.</p>
+
+	<h2>Source Maps</h2>
+    <p>In web applications, source files are minified and combined into a single main.js file. The code is obfuscated to protect against reverse engineering and to optimize performance. Additionally, source maps are generated during the build process, enabling developers to debug the original TypeScript code while the browser executes the optimized JavaScript.</p>		
+	<img src="images\source_map.png" width="75%" height="75%"/><br>
+	See: <a href="https://sokra.github.io/source-map-visualization/">https://sokra.github.io/source-map-visualization/</a>
+  </body>
+</html>

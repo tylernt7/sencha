@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Hello World</title>
+	<link rel="stylesheet" href="../../../common.css">		
+  </head>
+  <body>
+    <h1>Hello World</h1>
+	Angular is a free, open-source TypeScript-based single-page application (SPA) framework run on <b>Node.js</b>.
+	<p>Run the following commands in the terminal:</p>
+	
+    <div class="code"><code><pre>npm install -g @angular/cli</pre></code></div>
+	It installs the latest stable version of the Angular Command Line Interface globally (e.g. for ng new or ng serve).<br><br>
+	
+	<div class="code"><code><pre>setx PATH "%PATH%;c:\Users\user\AppData\Roaming\npm"</pre></code></div>
+	It adds the npm global directory to PATH for the ng command.<br><br>
+	
+    <div class="code"><code><pre>ng new hello-world</pre></code></div>
+	It creates a new Angular project.<br><br>	
+	
+	<div class="code"><code><pre>ng generate component hello</pre></code></div>
+	It creates a new component within the Angular project.<br>	
+
+	<p>Write the following HTML code (template) in src/app/hello/hello.component.html:</p>
+    <div class="code"><code><pre>&lt;h1>{{ title }}&lt;/h1>
+</pre></code></div>
+	
+	<p>Write the following TypeScript code in src/app/hello/hello.component.ts:</p>
+    <div class="code"><code><pre>import { Component } from '@angular/core';
+	
+@Component({
+  selector: 'app-hello',
+  templateUrl: './hello.component.html',
+  styleUrl: './hello.component.css'
+})
+export class HelloComponent {
+  title = 'Hello World';
+}</pre></code></div>
+
+	<p>To integrate the HelloComponent into the main application, you need to add the component import and declaration in the <i>app.component.ts</i> file (or <i>app.module.ts</i> in case of NgModule) and use the <b>&lt;app-hello></b> selector in the <i>app.component.html</i> template.</p>
+	<div class="code"><code><pre>&lt;app-hello>&lt;/app-hello>
+</pre></code></div>
+
+	<p>Run the following commands from the project directory:</p>
+	<div class="code"><code><pre>npm install</pre></code></div>
+	It installs the dependencies listed in the package.json file into the local node_modules directory (for initial setup)<br>	
+	<br>
+	<div class="code"><code><pre>npm start</pre></code></div>
+	or
+	<div class="code"><code><pre>ng serve</pre></code></div>
+	It builds and runs the Angular project and starts the embedded development server. Open your browser on <a href="http://localhost:4200/">http://localhost:4200/</a><br>
+	<br>
+	If necessary, change the default port number:
+	<div class="code"><code><pre>npm start -- --port 8081</pre></code></div>
+	<br>
+	<b>Notes:</b>
+	<ul>
+	<li>A service class can be created to handle the business logic.</li>
+	<li>Polyfills, ESLint, and end-to-end (E2E) testing can optionally be used to enhance browser compatibility, code quality, and comprehensive application testing.</li>
+	<li>In Angular v14 and above, standalone components make it easier to create components without NgModule. In Angular v19, <b>standalone: true</b> is the default setting for components, directives, and pipes.</li>
+	<li>In Angular v13 (NgModule-based), you import the <i>FormsModule</i> in the @NgModule of mycomponent.module.ts (for larger apps) or app.module.ts (for smaller apps). In Angular v19, you import the FormsModule directly in the standalone component that requires form functionalities.</li>
+
+	<li>AngularJS to Angular: See <a href="https://v2.angular.io/docs/ts/latest/cookbook/ajs-quick-reference.html">here</a></li>
+	
+	</ul>
+	
+  </body>
+</html>

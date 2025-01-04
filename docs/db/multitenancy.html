@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Multitenancy</title>
+    <link rel="stylesheet" href="../../common.css">	
+  </head>
+  <body>
+    <h1>Multitenancy (Data Isolation, Database Segmentation)</h1>
+    <h2>Problem Description</h2>
+    <p>Two or more companies need to use the same admin interface, but each company should only see data related to their own entities/operations.</p>
+
+    <h2>Architectures in Software as a Service (SaaS)</h2>
+	<ul>
+	<li>Single-tenancy: The application serves only a single tenant (customer or client)</li>
+	<li>Multi-tenancy: The application serves multiple tenants</li>
+	<li>Hybrid tenancy: It combines elements of single-tenancy and multi-tenancy</li>
+	</ul>
+
+    <h2>Database multi-tenancy</h2>
+	<ul>
+	<li>Catalog/Database-based multi-tenancy</li>
+	<img src="images/multitenancy_db.png" width="50%" height="50%"/>	
+	<li>Schema-based multi-tenancy</li>
+	<img src="images/multitenancy_schema.png" width="50%" height="50%"/>
+	<li>Table-based multi-tenancy (tenant identifier column)
+		<ul>
+		<li>Presentation Layer (UI filtering): UI Route (guard)</li>
+		<li>Controller Layer (API filtering): @PreAuthorize("hasRole('ROLE_ADMIN')")</li>
+		<li>Middleware Layer (Authorization filtering): request.getHeader("Tenant-ID")</li>
+		<li>Persistence Layer (Data filtering): itemRepository.findByTenantId(tenantId)</li>
+		</ul>		
+	</li>
+	<img src="images/multitenancy_table.png" width="50%" height="50%"/>
+	</ul>	
+  </body>
+</html>
+
+
+
+
+
+
+
+
