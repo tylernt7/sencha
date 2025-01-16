@@ -134,17 +134,25 @@ cache or done
 	  <td>docker compose -f docker-compose.yml -f docker-compose.SIT.yml -f docker-compose.local.yml --env-file .env.SIT build &lt;service-name> --no-cache</td>
     </tr>
     <tr>
+      <td>Authenticate to Harbor</td>
+	  <td>docker login harbor.mycompany.hu</td>
+    </tr>	
+    <tr>
       <td>Find the local image you built and tag the image:<br>
 	  Substitute version to actual version</td>
-	  <td>docker tag api:latest mgmthbat1.innopay.hu/innopay/api:&lt;version></td>
+	  <td>docker tag &lt;service-name>:latest harbor.mycompany.hu/mycompany/&lt;service-name>:&lt;version></td>
+    </tr>	
+    <tr>
+      <td>Push to Harbor repository</td>
+	  <td>docker push harbor.mycompany.hu/mycompany/&lt;service-name>:&lt;version></td>
     </tr>
     <tr>
-      <td>Push to P2 Harbour repository</td>
-	  <td>docker push mgmthbat1.innopay.hu/innopay/scheduling-manager:v0.0.24</td>
+      <td>Update the version number in the Kubernetes deployment</td>
+	  <td>spec/containers/image</td>
     </tr>		
     </table>
 	<br>
-    Or: docker build --build-arg X=x --build-arg Y=y -t apigiromock:0.0.1 --no-cache -f API.GiroMock/Dockerfile .
+    Or: docker build --build-arg X=x --build-arg Y=y -t &lt;service-name>:&lt;version> --no-cache -f &lt;service-name>/Dockerfile .
 	
     <h2>Examples</h2>
     <table border="1" style="width: 100%;">
