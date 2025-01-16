@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
   <head>
-    <title>Docker tools</title>
+    <title>Monitoring and Alerting</title>
     <link rel="stylesheet" href="../common.css">
   </head>
   <body>
-    <h1>Docker tools</h1>
+    <h1>Monitoring and Alerting</h1>
 
 	<h2>Docker Container Monitoring</h2>
 	<table border="1" style="width: 100%;">
@@ -54,8 +54,14 @@
 	  <td>Data collector that allows you to unify data collection and consumption</td>
     </tr>
     <tr>
-      <td>Wazuh</td>
-	  <td>Log aggregation / analysis platform with event detection and alerting capabilities</td>
+      <td>Wazuh</td> 
+	  <td>Collect, aggregate, index, analyze, monitor, detect, and alert security data<br>
+	  - <b>Discover</b>: Index patterns: filebeat<br>
+	  JSON / structured logging: <a href="https://www.elastic.co/guide/en/beats/filebeat/current/decode-json-fields.html">Decode JSON fields</a>: <i>fields: ["message"]</i><br>
+	  Table: Toggle column in table<br>
+	  - <b>Dashboards</b>: Filtering data using OpenSearch Query DSL<br>
+	  <a href="https://documentation.wazuh.com/current/user-manual/wazuh-dashboard/creating-custom-dashboards.html">Creating custom dashboards</a>: StatusCode is 201
+	  </td>
     </tr>
 	</table>
 	
@@ -63,17 +69,19 @@
 	P = Prometheus<br>
 	G = Grafana<br>
 	<p><center><img src="images\prometheus.png" width="75%" height="75%"/></center></p>
-	<p><center><img src="images\promtail.png" width="50%" height="50%"/></center></p>
-	<p>The containers (services) log to syslog (or standard output) and this is collected by Promtail and sent to the Loki log server, which Grafana can use as a data source.</p>
-	<p><center><img src="images\fluentd.png" width="50%" height="50%"/></center></p>
-	<p>The containers (services) log to syslog (or standard output) and this is collected by Fluentd and sent to the Wazuh server, which Grafana can use as a data source.</p>
 	
+	<h2>Promtail - Loki</h2>
+	<p><center><img src="images\promtail.png" width="75%" height="75%"/></center></p>
+	<p>The containers (services) log to syslog (or standard output) and this is collected by Promtail/Filebeat and sent to the Loki/Wazuh log server, which Grafana can use as a data source.</p>
 	
 	<h2>ELK Stack</h2>
 	E = ElasticSearch<br>
 	L = Logstash<br>
 	K = Kibana<br>
 	<center><img src="images\elk.png" width="75%" height="75%"/></center>
+	
+	<h2>ELK - PG</h2>
+	<center><img src="images\elk_pg.png" width="75%" height="75%"/></center>
 	
   </body>
 </html>

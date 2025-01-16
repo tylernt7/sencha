@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Spring Evolution</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Spring Evolution</h1>
+	
+    <h2>Evolution of enterprise technologies</h2>
+	
+    <table border="1" style="width: 100%;">
+	<thead>
+      <tr>
+        <th>Technology</th>
+        <th>Year</th>
+        <th>Organization</th>
+        <th>Description</th>
+      </tr>
+	</thead>
+    <tbody>
+      <tr>
+        <td><b>CORBA</b></td>	  
+        <td>1991</td>
+        <td>OMG (Object Management Group)</td>
+        <td>CORBA (Common Object Request Broker Architecture)<br>Allowing communication between objects in different systems across a network</td>
+      </tr>
+      <tr>
+        <td><b>Java</b></td>	  
+        <td>1995</td>
+        <td>James Gosling</td>
+        <td>Platform-independent, object-oriented programming language</td>
+      </tr>
+      <tr>
+        <td><b>Servlets</b></td>	  
+        <td>1997</td>
+        <td>Sun Microsystems</td>
+        <td>Handling requests and responses in web applications</td>
+      </tr>
+      <tr>
+        <td><b>EJB</b></td>	  
+        <td>1999</td>
+        <td>Sun Microsystems</td>
+        <td>- EJB (Enterprise JavaBeans)<br>- Jakarta Enterprise Beans<br>Building server-side components</td>
+      </tr>
+      <tr>
+        <td><b>JSP</b></td>	  
+        <td>1999</td>
+        <td>Sun Microsystems</td>
+        <td>JSP (JavaServer Pages)<br>Building dynamically generated web pages based on HTML, XML, or other document types</td>
+      </tr>
+      <tr>
+        <td><b>Jakarta EE</b></td>	 
+        <td>1999</td>
+        <td>Sun Microsystems (now Eclipse)</td>
+        <td>- J2EE (Java 2 Platform, Enterprise Edition)<br>- Java EE (Java Platform, Enterprise Edition)<br>- Jakarta EE<br>Building cloud-native enterprise applications with specifications</td>
+      </tr>
+      <tr>
+        <td><b>Struts</b></td>	  
+        <td>2000</td>
+        <td>Apache Software Foundation</td>
+        <td>Building web applications using MVC (Model-View-Controller)</td>
+      </tr>
+      <tr>
+        <td><b>Spring Framework</b></td>	  
+        <td>2002</td>
+        <td>Rod Johnson</td>
+        <td>Emphasizing simplicity (DI) and flexibility (AOP)</td>
+      </tr>
+      <tr>
+        <td><b>Spring Boot</b></td>	  
+        <td>2014</td>
+        <td>Pivotal Software (now VMware)</td>
+        <td>Simplifying Spring application setup with embedded servers and auto-configuration</td>
+      </tr>
+    </tbody>
+    </table>	
+	
+    <h2>Overview of the the Spring Framework</h2>	
+	<h3>https://docs.spring.io/spring-framework/docs/1.1.x/reference/introduction.html</h3>
+	<img src="https://docs.spring.io/spring-framework/docs/1.1.x/reference/images/spring-overview.gif"/>
+	<h3>https://docs.spring.io/spring-framework/docs/2.0.x/reference/introduction.html</h3>
+	<img src="https://docs.spring.io/spring-framework/docs/2.0.x/reference/images/spring-overview.png"/>
+	<h3>https://docs.spring.io/spring-framework/docs/3.0.x/spring-framework-reference/html/overview.html</h3>
+	<img src="https://docs.spring.io/spring-framework/docs/3.0.x/spring-framework-reference/html/images/spring-overview.png"/>
+	<h3>https://docs.spring.io/spring-framework/docs/4.0.x/spring-framework-reference/html/overview.html</h3>
+	<img src="https://docs.spring.io/spring-framework/docs/4.0.x/spring-framework-reference/html/images/spring-overview.png"/>	
+	
+	<h2>Maven Compile Dependencies (TODO)</h2>
+	
+<pre>
+org.springframework.boot » spring-boot » 3.4.1
+- org.springframework » spring-core
+- org.springframework » spring-context
+  - io.micrometer » micrometer-observation
+  - org.springframework » spring-aop
+  - org.springframework » spring-beans
+  - org.springframework » spring-core
+  - org.springframework » spring-expression
+  
+org.springframework.boot » spring-boot-starter-web » 3.4.1
+- org.springframework » spring-web
+  - io.micrometer » micrometer-observation
+  - org.springframework » spring-beans
+  - org.springframework » spring-core
+- org.springframework » spring-webmvc
+  - org.springframework » spring-aop
+  - org.springframework » spring-beans
+  - org.springframework » spring-context
+  - org.springframework » spring-core
+  - org.springframework » spring-expression
+  - org.springframework » spring-web
+- org.springframework.boot » spring-boot-starter
+  - jakarta.annotation » jakarta.annotation-api
+  - org.springframework » spring-core
+  - org.springframework.boot » spring-boot
+  - org.springframework.boot » spring-boot-autoconfigure
+  - org.springframework.boot » spring-boot-starter-logging
+  - org.yaml » snakeyaml
+- org.springframework.boot » spring-boot-starter-json
+  - com.fasterxml.jackson.core » jackson-databind
+  - com.fasterxml.jackson.datatype » jackson-datatype-jdk8
+  - com.fasterxml.jackson.datatype » jackson-datatype-jsr310
+  - com.fasterxml.jackson.module » jackson-module-parameter-names
+  - org.springframework » spring-web
+  - org.springframework.boot » spring-boot-starter
+- org.springframework.boot » spring-boot-starter-tomcat
+  - jakarta.annotation » jakarta.annotation-api
+  - org.apache.tomcat.embed » tomcat-embed-core
+  - org.apache.tomcat.embed » tomcat-embed-el
+  - org.apache.tomcat.embed » tomcat-embed-websocket
+
+org.springframework.boot » spring-boot-starter-data-jpa » 3.4.1
+
+                           +-----------------------+
+                           |        Java SE        |
+                           +-----------------------+
+                                     |
+                          +-----------------------+
+                          |    Spring Framework   |
+                          | spring-core.jar       |
+                          | spring-context.jar    |
+                          | spring-web.jar        |
+                          +-----------------------+
+                                     |
+                      +---------------------------------+
+                      |         Spring Boot             |
+                      |   spring-boot.jar               |
+                      | spring-boot-starter-web.jar     |
+                      | spring-boot-starter-data-jpa.jar|
+                      +---------------------------------+
+
+</pre>
+
+  </body>
+</html>
