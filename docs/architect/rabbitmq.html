@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+  <head>
+    <title>RabbitMQ</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>RabbitMQ</h1>
+
+    <h2>Message Broker</h2>
+	<center><img src="images\mq_broker.png" width="25%" height="25%"/></center>	
+	<h2>Exchanges and Exchange Types</h2>
+	<p><b>Exchanges</b> are AMQP 0-9-1 entities where messages are sent to. Exchanges take a message and route it into zero or more queues. The routing algorithm used depends on the <b>exchange type</b> and rules called <b>bindings</b>.</p>
+	<h2>Exchange Types</h2>
+	<p>AMQP 0-9-1 brokers provide four exchange types:</p>
+	<b>Direct Exchange</b> (default exchange): Every queue that is created is automatically bound to the default exchange with a routing key which is the same as the queue name. A message goes to the queues whose binding key exactly matches the routing key of the message. It can be used for <b>unicast (one-to-one)</b> and multicast (one-to-many) routing as well.<br>
+	<center><img src="images\mq_direct.png" width="50%" height="50%"/></center>
+	<b>Fanout Exchange</b>: A fanout exchange routes messages to all of the queues that are bound to it and the routing key is ignored. If N queues are bound to a fanout exchange, when a new message is published to that exchange a copy of the message is delivered to all N queues. It can be used for <b>broadcast (one to all)</b> routing.<br>
+	<center><img src="images\mq_fanout.png" width="50%" height="50%"/></center>	
+	<b>Topic Exchange</b>: Topic exchanges route messages to one or many queues based on matching between a message routing key and the pattern that was used to bind a queue to an exchange. It can be used for <b>multicast (one-to-many)</b> routing.<br>
+	The routing key must be a list of words, delimited by dots. The binding key must also be in the same form. However there are two special cases for binding keys:<br>
+	* (star) can substitute for exactly one word.<br>
+	# (hash) can substitute for zero or more words.<br>
+	When a queue is bound with "#" (hash) binding key - it will receive all the messages, regardless of the routing key - like in fanout exchange. When special characters "*" (star) and "#" (hash) aren't used in bindings, the topic exchange will behave just like a direct one.<br>	
+	<center><img src="images\mq_topic.png" width="50%" height="50%"/></center>
+	<b>Headers Exchange</b> (match exchange): Headers exchange routes messages to the queue based on the headers ('headers' property) of the message that matches the arguments with which the queue was bound. The routing key is not used. It can be used for <b>unicast, multicast and broadcast</b> routing. The 'headers' property contains a table (hash or dictionary) of names and values. The 'x-match' binding argument can take one of two values, dictating how the rest of the name value pairs in the table are treated during matching:<br>
+	<ul>
+	<li>'all' implies that all the other pairs must match the 'headers' property of a message for that message to be routed (i.e. an AND match)</li>
+	<li>'any' implies that the message should be routed if any of the fields in the 'headers' property match one of the fields in the arguments table (i.e. an OR match)</li>
+	</ul>
+	Any field starting with 'x-' other than 'x-match' is reserved for future use and will be ignored<br>		
+	<i>Binding the queues to the exchange</i><br>
+	A message has a payload (body) and one or more message properties (e.g. headers).<br>
+	<div class="code"><code><pre>Map&lt;String, Object> headers = new HashMap&lt;String, Object>(); // bindingArgs
+headers.put("x-match", "any"); // any or all
+headers.put("headerName#1", "headerValue#1");
+headers.put("headerName#2", "headerValue#2");</pre></code></div><br>
+    <center><img src="images\mq_headers.png" width="50%" height="50%"/></center>	
+
+	<h2>Topic Exchange (Java)</h2>
+	
+    <div class="code"><code><pre>private static final String EXCHANGE_NAME = "topic-exchange";
+<i>// Create a connection factory and a connection</i>
+ConnectionFactory factory = new ConnectionFactory();
+factory.setHost("localhost");
+try (Connection connection = factory.newConnection();
+<i>// Create a channel</i>
+Channel channel = connection.createChannel()) {
+    <i>// Declare a topic exchange</i>
+    channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.TOPIC);
+    
+    <i>// Declare a queue</i>
+    String queueName = channel.queueDeclare("weather_queue", false, false, false, null).getQueue();
+    
+    <i>// Bind the queue to the exchange with a binding key</i>
+    <i>// For example, "weather." means any message with a routing key that starts with "weather."</i>
+    String bindingKey = "weather.";
+    channel.queueBind(queueName, EXCHANGE_NAME, bindingKey);
+    
+    <i>// Create a consumer</i>
+    DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+        String message = new String(delivery.getBody(), "UTF-8");
+        String routingKey = delivery.getEnvelope().getRoutingKey();
+        System.out.println(" [x] Received '" + routingKey + "':'" + message + "'");
+    };
+    <i>// Consume messages from the queue</i>
+    channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
+    
+    <i>// Publish messages to the exchange with different routing keys</i>
+    <i>// For example, "weather.rainy" means a rainy weather message</i>
+    String routingKey = "weather.rainy";
+    String message = "A rainy weather error";
+    byte[] body = message.getBytes("UTF-8");
+    channel.basicPublish(EXCHANGE_NAME, routingKey, null, body);
+    System.out.println(" [x] Sent '" + routingKey + "':'" + message + "'");
+}</pre></code></div>
+
+	<h3>Topic Exchange (C#)</h3>
+    <div class="code"><code><pre>private const string EXCHANGE_NAME = "topic-exchange";
+<i>// Create a connection factory and a connection</i>
+var factory = new ConnectionFactory() { HostName = "localhost" };
+using(var connection = factory.CreateConnection())
+<i>// Create a channel</i>
+using(var channel = connection.CreateModel())
+{
+    <i>// Declare a topic exchange</i>
+    channel.ExchangeDeclare(exchange: EXCHANGE_NAME, type: ExchangeType.Topic);
+    
+    <i>// Declare a queue</i>
+    var queueName = channel.QueueDeclare(queue: "weather_queue", durable: false, exclusive: false, autoDelete: false, arguments: null).QueueName;
+    
+    <i>// Bind the queue to the exchange with a binding key</i>
+    <i>// For example, "weather." means any message with a routing key that starts with "weather."</i>
+    var bindingKey = "weather.";
+    channel.QueueBind(queue: queueName, exchange: EXCHANGE_NAME, routingKey: bindingKey);
+    
+    <i>// Create a consumer</i>
+    var consumer = new EventingBasicConsumer(channel);
+    consumer.Received += (model, ea) =>
+    {
+        var body = ea.Body;
+        var message = Encoding.UTF8.GetString(body);
+        var routingKey = ea.RoutingKey;
+        Console.WriteLine(" [x] Received '{0}':'{1}'", routingKey, message);
+    };
+    <i>// Consume messages from the queue</i>
+    channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+    
+    <i>// Publish messages to the exchange with different routing keys</i>
+    <i>// For example, "weather.rainy" means a rainy weather message</i>
+    var routingKey = "weather.rainy";
+    var message = "A rainy weather error";
+    var body = Encoding.UTF8.GetBytes(message);
+    channel.BasicPublish(exchange: EXCHANGE_NAME, routingKey: routingKey, basicProperties: null, body: body);
+    Console.WriteLine(" [x] Sent '{0}':'{1}'", routingKey, message);
+}</pre></code></div>
+	
+	<h2>Consumer Acknowledgements and Publisher Confirms</h2>
+	Systems that use a messaging broker are distributed.<br>
+	Delivery processing acknowledgements from consumers to RabbitMQ are known as <b>consumer acknowledgements</b>: when RabbitMQ delivers a message to a consumer, RabbitMQ needs to know when to consider the message to be successfully sent. RabbitMQ delivers messages to the consumer with a <b>delivery tag</b>, which uniquely identifies the delivery on a channel. The default consumer acknowledgement mode is automatic acknowledgement ("fire-and-forget"), which is unsafe because it can cause data loss (cannot detect failures) but it is faster and simpler than manual acknowledgement mode (channel.basicAck). A "prefetch count" value (using the basic.qos method) defines the max number of unacknowledged deliveries that are permitted on a channel. When the number reaches the configured count, RabbitMQ will stop delivering more messages until at least one of the outstanding deliveries is acknowledged.<br>Broker acknowledgements to publishers are called <b>publisher confirms</b>. The broker confirms messages (in confirm mode) by sending a basicAck to the publisher on the same channel. The basicAck method contains the delivery tag, which is a unique identifier (sequence number) for each message. When the broker is unable to handle messages successfully, the broker will send a basicNack.<br> 
+	Consumer Acknowledgements and Publisher Confirms are based on TCP (socket).
+	<center><img src="images\mq_ack.png" width="75%" height="75%"/></center>
+		
+    <h2>ToDo</h2>
+	MassTransit (free): Event bus implementation that supports RabbitMQ (transport) and Prometheus (metrics)<br>
+	NServiceBus (commercial): third-party library that can export metrics to Prometheus<br>
+	Kafka
+
+	<h2>References</h2>
+ 	<ul>
+	  <li><a href="https://www.oracle.com/technical-resources/articles/java/intro-java-message-service.html">Getting Started with Java Message Service (JMS)</a></li>
+	  <li><a href="https://de.wikipedia.org/wiki/Message_Queuing">Message Queuing</a></li>
+	  <li><a href="https://www.eqengineered.com/insights/microservices-communication-frameworks-part-1">Microservices Communication Frameworks</a></li>
+	  <li><a href="https://medium.com/startlovingyourself/need-of-messaging-queues-in-microservices-architecture-91de0db89120">Need of messaging queue in Microservices Architecture</a></li>
+    </ul>
+  </body>
+</html>

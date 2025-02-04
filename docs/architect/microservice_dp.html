@@ -8,40 +8,79 @@
     <h1>Design patterns for microservices</h1>
 
 	<h2>API gateway</h2>
-	<b>Example:</b> Leveraging API gateway pattern for an e-commerce platform to enhance its performance, security, and processing power: A hypothetical scenario
+	Centralizes external access to your microservices, simplifying communication and providing a <i>single entry point</i> for client requests.<br>	
+	<img src="images\api_gateway.png" width="50%" height="50%"/><br>
+	<b>Example:</b> An e-commerce platform (like Amazon) to enhance its performance, security, and processing power.
 	
-	<h2>Domain-Driven Design (DDD)</h2>
-	<b>Example:</b> Complex apps with complicated business logic
+	<h2>Domain-Driven Design (DDD)</h2>	
+	A collection of patterns that support software development. Domain models encapsulate <i>complex business logic</i>, closing the gap between business reality and code.<br>
+	- <i>Entity</i>: Represents a domain object with a unique identity that persists over time.<br>
+	- <i>Value Object</i>: Defines immutable objects that describe properties without a unique identity (e.g. Money class).<br>	
+	- <i>Aggregate</i>: Groups related entities and value objects into a single unit.<br>
+	- <i>Bounded Context</i>: Defines clear boundaries within which a particular model is defined and applicable.<br>
+	- <i>Ubiquitous Language</i>: Establishes a shared language between developers and domain experts to ensure clear communication and a mutual understanding of the domain.<br>	
+	<img src="images\ddd.png" width="100%" height="100%"/><br>
+	<b>Example:</b> Complex apps with complicated business logic.<br>
 	
 	<h2>Command Query Responsibility Segregation (CQRS) / Mediator</h2>
-	<b>Example:</b> Instagram optimized query execution performance with CQRS
-	
+	<i>Separates the read and write operations</i> in a microservice, improving performance, scalability, and maintainability.<br>
+	<img src="images\cqrs.png" width="50%" height="50%"/><br>
+	<b>Example:</b> Instagram optimized query execution performance.<br>
+	<b>Example:</b> Event Sourcing: Linedata for their flagship trading application.
+		
 	<h2>Saga</h2>
-	<b>Example:</b> Managing multiple eCommerce transactions with a Saga pattern.
+	Manages <i>distributed transactions</i> across multiple microservices, ensuring data consistency while maintaining the autonomy of your services.<br>
+	<h3>Saga Choreography (Event-Driven Approach)</h3>
+	<img src="images\saga_choreography.png" width="50%" height="50%"/>
+	<h3>Saga Orchestration (Central Coordinator)</h3>
+	<img src="images\saga_orchestration.png" width="50%" height="50%"/><br>	
+	In both cases, the <i>transactional outbox pattern</i> is crucial for maintaining data consistency and reliability across distributed systems.<br>
+	<b>Example:</b> Managing multiple e-commerce transactions.
 	
 	<h2>Circuit breaker</h2>
-	<b>Example:</b> Spotify improved its fault tolerance and resiliency by adopting a circuit breaker pattern.
+	Implements a <i>fault-tolerant</i> mechanism for microservices, preventing cascading failures by automatically detecting and isolating faulty services.<br>
+	It temporarily stops service requests to a failing service to prevent overloading the system and allow recovery.<br>
+	<img src="images\circuit_breaker.png" width="50%" height="50%"/><br>
+	<b>Example:</b> Spotify improved its fault tolerance and resiliency.
 	
 	<h2>Sidecar</h2>
-	<b>Example:</b> Moderna uses the sidecar pattern to facilitate cloud-based manufacturing	
+	Attaches <i>additional components</i> to your microservices, providing modular functionality without altering the core service itself.<br>
+	Injecting Vault Secrets Into Kubernetes Pods via a Sidecar<br>
+    <img src="images\sidecar.png" width="40%" height="40%"/><br>		
+	<b>Example:</b> Moderna facilitated cloud-based manufacturing.	
 	
 	<h2>Database per (micro)service</h2>
-	<b>Example:</b> Empowering a Credit-based financial institution with a database-per-microservice: A Hypothetical scenario
+	Using one extensive database for your microservice architecture can act as an anti-pattern due to the tight coupling of <i>services with the database</i>.<br>	
+	<img src="images\database_per_service.png" width="30%" height="30%"/><br>	
+	<b>Example:</b> Empowering a Credit-based financial institution.
 	
 	<h2>Strangler (Fig)</h2>
-	<b>Example:</b> Shopify refactored the shop class with a strangler pattern.
+	Facilitates the gradual replacement of a <i>monolithic system with microservices</i>, ensuring a smooth and risk-free transition.<br>
+	It has a facade that acts as a proxy, determining whether requests go to the old or new system.<br>
+	Handling data synchronization<br>
+	<img src="images\strangler.png" width="60%" height="60%"/><br>
+	<b>Example:</b> Shopify refactored the shop class.
 	
 	<h2>Backends for Frontends (BFF)</h2>
-	<b>Example:</b> SoundCloud increased autonomy, resilience, and pace of development by adopting the BFF pattern
-	
-  	<h2>Event Sourcing</h2>
-	<b>Example:</b> Linedata used event sourcing for their flagship trading application  
-	
-	<h2>Aggregator</h2>
-	<b>Example:</b> Grade calculations for an e-learning platform with the aggregator pattern
-	
+	Creates <i>dedicated backend services</i> for each frontend, optimizing performance and user experience tailored to each platform.<br>
+	General web clients and mobile applications have different requirements.<br>
+	<img src="images\bff.png" width="30%" height="30%"/><br>	
+	<b>Example:</b> SoundCloud increased autonomy, resilience, and pace of development.
+
 	<h2>Transactional outbox pattern</h2>
-	<b>Example:</b> https://microservices.io/patterns/data/transactional-outbox.html
+	<b>Problem</b>: How to <i>atomically</i> update the database and send messages to a message broker?<br>
+	The OUTBOX table acts a temporary message queue.<br>	
+	<img src="images\outbox.png" width="50%" height="50%"/><br>	
+	<b>Example:</b> A user creates an account, so we save the account in the database and send a welcome e-mail.
+	<code><pre>databaseTransaction {
+    persist(account) // 'insert into account ...'
+    persist(accountCreatedEvent) // 'insert into outbox_message ...'
+}
+sendWelcomeEmailFor(account)</pre></code>
+	</p>
+	
+	<h2>Microservices Design Patterns</h2>
+	<center><img src="images\microservices_design_patterns.gif" width="60%" height="60%"/></center>
   
 	<h2>References</h2>
  	<ul>	

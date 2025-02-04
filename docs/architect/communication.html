@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Communication Patterns</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Communication Patterns</h1>
+
+	<h2>REST vs Message Broker</h2>
+	<p>REST is based on a synchronous communication pattern, which means that the sender and the receiver have to be online at the same time and wait for each other. REST follows <b>stateless communication</b> (e.g. HTTP), which means that each request contains all the information necessary to process it, and no state is maintained on the server side. Transaction speed is fast.</p>
+	<p>Message broker is based on an asynchronous communication pattern, which means that the sender and the receiver can be online at different times and do not have to wait for each other. Message broker follows <b>stateful communication</b> (e.g. FTP), which means that packets depend on previous communications. Stateful applications use sessions to preserve their states. Since the server knows the connection state, not every request needs authentication.</p>
+	<p>In some cases, it may be beneficial to use both methods for different purposes or scenarios. For example:</p>
+ 	<ul>
+	  <li>Use REST for simple CRUD operations or queries that require immediate responses or consistency guarantees.</li>
+	  <li>Use Message Broker for complex business events or commands that can tolerate delays or eventual consistency.</li>
+	  <li>Use REST for service discovery or health checks that need to be fast and lightweight.</li>
+	  <li>Use Message Broker for notifications or alerts that need to be reliable and durable.</li>
+	  <li>Use REST for strong consistency, such as banking transactions or e-commerce orders. </li>
+	  <li>Use Message Broker for eventual consistency, such as social media updates or analytics reports.</li>
+	</ul>		
+	
+	<h2>Popular API Architecture Styles</h2>
+	<center><img src="images\arch_styles.gif" width="75%" height="75%"/></center>	
+
+  </body>
+</html>

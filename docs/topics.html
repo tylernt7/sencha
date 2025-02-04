@@ -55,17 +55,15 @@
 
     <li><span class="caret">Cryptocurrency</span>
       <ul class="nested">  	
-        <li><span class="caret">Mining</span>
-        <ul class="nested">
-          <li><a href="crypto/mining/blockchain.html">BlockChain</a></li>
-		</ul></li>        
+	    <li><a href="cryptocurrency/blockchain.html">Blockchain Solutions</a></li>
+		<li><a href="cryptocurrency/mining.html">Mining</a></li>      
         <li><span class="caret">Trading</span>
         <ul class="nested">
 		  <li><a href="cryptocurrency/trading/strategies.html">Strategies</a></li>
 		  <li><a href="cryptocurrency/trading/technical_analysis.html">Technical Analysis</a></li>
 		  <li><a href="cryptocurrency/trading/sentiment_analysis.html">Sentiment Analysis</a></li>
 		  <li><a href="cryptocurrency/trading/g7fx.html">G7FX (Order flow)</a></li>
-		</ul></li>		
+		</ul></li>
       </ul>
     </li>
 	
@@ -116,15 +114,7 @@
         </li>
         <li><a href="architect/monitoring.html">Monitoring and Alerting</a></li>		
         <li><a href="architect/distributed.html">Distributed Techniques</a></li>
-        <li><a href="architect/mq.html">Message Queue (RabbitMQ)</a></li>		
-        <li><span class="caret">REST API</span>
-        <ul class="nested">
-        <li><a href="architect/restapi/restapi.html">Terminology</a></li>
-		<li><a href="architect/restapi/methods.html">HTTP Methods</a></li>
-		<li><a href="architect/restapi/statuscodes.html">HTTP Status Codes</a></li>
-		<li><a href="architect/restapi/httpclientcsharp.html">HTTP Client (C#)</a></li>
-        <li><a href="architect/restapi/httpclientjava.html">HTTP Client (Java)</a></li>
-        </ul></li>
+
 		<li><span class="caret">Frameworks</span>
         <ul class="nested">
         <li><a href="architect/frameworks/spring_boot.html">Spring Boot (Tomcat)</a></li>
@@ -133,11 +123,38 @@
         <li><a href="architect/frameworks/micronaut.html">Micronaut (Netty)</a></li>
         <li><a href="architect/frameworks/jersey.html">Jersey</a></li>		
         <li><a href="architect/frameworks/javalin.html">Javalin (Jetty)</a></li>
-        </ul></li>
-        <li><a href="">Web services (SOAP, WSDL)</a></li>
-        <li><a href="">gRPC (Protocol Buffers)</a></li>	  
+        </ul></li>        	 
       </ul>
     </li>
+
+    <li><span class="caret">Interprocess Communication</span>
+    <ul class="nested">
+      <li><a href="architect/communication.html">Communication Patterns</a></li>
+      
+	  <li><span class="caret">Synchronous Communication</span>
+	  <ul class="nested">	  
+	    <li><span class="caret">REST API</span>
+        <ul class="nested">
+        <li><a href="architect/restapi/restapi.html">Terminology</a></li>
+        <li><a href="architect/restapi/methods.html">HTTP Methods</a></li>
+        <li><a href="architect/restapi/statuscodes.html">HTTP Status Codes</a></li>
+        <li><a href="architect/restapi/httpclientcsharp.html">HTTP Client (C#)</a></li>
+        <li><a href="architect/restapi/httpclientjava.html">HTTP Client (Java)</a></li>
+        </ul></li>
+	    <li><a href="">Web services (SOAP, WSDL)</a></li>   
+        <li><a href="">gRPC (Protocol Buffers)</a></li>				  
+	  </ul></li>
+	  <li><span class="caret">Asynchronous Communication</span>
+	  <ul class="nested">
+	    <li><span class="caret">Message Brokers</span>
+        <ul class="nested">
+		<li><a href="architect/mq.html">Message Brokers</a></li>
+        <li><a href="architect/rabbitmq.html">RabbitMQ</a></li>
+		<li><a href="architect/activemq.html">ActiveMQ</a></li>
+        <li><a href="architect/kafka.html">Kafka</a></li>
+        </ul></li> 	  
+	  </ul></li>
+    </ul></li>
 
     <li><span class="caret">CI/CD</span>
         <ul class="nested">
@@ -228,7 +245,12 @@
 	    <li><a href="prog/books.html">Books</a></li>
         <li><a href="prog/async.html">Asynchronous programming</a></li>
         <li><a href="prog/date.html">Date-Time API</a></li>        
-        <li><a href="prog/lang.html">Languages</a></li>		
+        <li><a href="prog/lang.html">Languages</a></li>	
+        <li><span class="caret">GPU</span>
+        <ul class="nested">
+        <li><a href="prog/cuda.html">CUDA</a></li>
+        <li><a href="">OpenCL</a></li>
+        </ul></li>			
         <li><span class="caret">Android</span>
         <ul class="nested">
         <li><a href="prog/android/emulators.html">Emulators</a></li>
