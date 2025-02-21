@@ -33,7 +33,7 @@
         <td>8960 / 8704</td>
       </tr>
       <tr>
-        <td>CUDA Capability</td>
+        <td>Compute capability (SM version)</td>
         <td>7.5</td>
         <td>8.6</td>
         <td>8.6</td>
@@ -75,12 +75,6 @@
         <td>320 W</td>
       </tr>
       <tr>
-        <td>CUDA Version</td>
-        <td>CUDA 7.5 (Turing)</td>
-        <td>CUDA 8.6 (Ampere)</td>
-        <td>CUDA 8.6 (Ampere)</td>
-      </tr>
-      <tr>
         <td>LHR (Low Hash Rate)</td>
         <td>No</td>
         <td>Yes (limited mining)</td>
@@ -95,11 +89,101 @@
     </table>	
 
 <br>
-SM 8.6 NVIDIA GeForce RTX 3080 @ 1800 MHz (MEM 9501)<br>
-SM 7.5 NVIDIA GeForce GTX 1650 @ 1515 MHz (MEM 6001)<br>
+CUDA Runtime API Version (formatted): 11.6<br>
+compute_52,sm_52<br>
 <br>
-CUDA Runtime API Version (formatted): 11.6
-compute_52,sm_52    
+Install:<br>
+- NVIDIA CUDA Development 11.6<br>
+- NVIDIA CUDA Runtime 11.6<br>
+- NVIDIA CUDA Visual Studio Integration 11.6<br>
+cuda_11.6.0_windows_network.exe<br>
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\bin\nvcc.exe
+
+11.6: 3.5 - 8.6
+ 
+    <h2>CUDA Runtime API Version</h2>
+    <table border="1">
+        <tr>
+            <th>CUDA Version</th>
+            <th>Minimum Compute Capability</th>
+            <th>Maximum Compute Capability</th>
+        </tr>
+        <tr>
+            <td>12.x</td>
+            <td>3.0, 5.0, 6.0</td>
+            <td>9.0</td>
+        </tr>
+        <tr>
+            <td>11.7-11.8-...</td>
+            <td>3.0, 5.0, 6.0</td>
+            <td>8.9, 9.0</td>
+        </tr>
+        <tr>
+            <td>11.6</td>
+            <td>2.0, 3.0</td>
+            <td>8.6</td>
+        </tr>		
+        <tr>
+            <td>11.5</td>
+            <td>5.0</td>
+            <td>8.7</td>
+        </tr>		
+        <tr>
+            <td>11.1 - 11.4</td>
+            <td>5.0</td>
+            <td>8.6</td>
+        </tr>
+      <tr>
+            <td>11.2-11.7</td>
+            <td>3.0</td>
+            <td>8.6</td>
+        </tr>		
+        <tr>
+            <td>11.0, 11.1</td>
+            <td>3.0, 3.5, 5.0</td>
+            <td>7.5, 8.0</td>
+        </tr>		
+        <tr>
+            <td>10.x</td>
+            <td>3.0</td>
+            <td>7.5</td>
+        </tr>
+        <tr>
+            <td>9.x</td>
+            <td>3.0</td>
+            <td>7.2</td>
+        </tr>
+        <tr>
+            <td>8.x</td>
+            <td>2.0</td>
+            <td>6.2</td>
+        </tr>
+        <tr>
+            <td>7.x</td>
+            <td>2.0</td>
+            <td>5.3</td>
+        </tr>
+        <tr>
+            <td>6.5</td>
+            <td>1.0, 1.1</td>
+            <td>5.3</td>
+        </tr>
+        <tr>
+            <td>5.x, 6.0</td>
+            <td>1.0</td>
+            <td>3.5, 5.2</td>
+        </tr>
+        <tr>
+            <td>3.2, 4.x</td>
+            <td>1.0</td>
+            <td>2.1</td>
+        </tr>
+        <tr>
+            <td>3.0, 3.1</td>
+            <td>1.0</td>
+            <td>2.0</td>
+        </tr>		
+    </table>	
 	
   </body>
 </html>

@@ -42,7 +42,10 @@ Do not try to 'git pull', as it tries to merge the local branch using the old co
 This command forcefully pushes the local branch changes to the remote repository, overwriting the commit history on 'origin'.<br>
 Force pushing is discouraged on shared branches because it modifies the commit history, which can cause issues if others are collaborating on the same branch. However, force pushing is acceptable on a feature branch.<br>
 <br>
-This part is <i>optional</i>, it is only needed if there are many commits in the feature branch. Rebasing the feature branch onto the main branch when it contains a single commit, you will need to resolve <b>conflicts only once</b> (the same file will not come up as a conflict more than once).
+This part is <i>optional</i>, it is only needed if there are many commits in the feature branch. Rebasing the feature branch onto the main branch when it contains a single commit, you will need to resolve <b>conflicts only once</b> (the same file will not come up as a conflict more than once).<br>
+<br>
+Using <i>git push -f</i> can be useful after rebasing, squashing, and resetting. Always use this command with caution, as it can overwrite the remote repository's history, potentially leading to data loss.<br>
+
 
 	<h2>Rebase onto the main branch</h2>
 <div class="code"><code><pre>git switch feature       # Switch to the feature branch
