@@ -19,29 +19,6 @@ git switch feature
 Update the main branch with the latest changes, and then switch back to the feature branch.
 
 	<h2>Squash Commits on a Feature Branch (optional)</h2>
-<div class="code"><code><pre>git log --graph --oneline --all</pre></code></div>
-This command displays the commit history (in a graph format) in reverse chronological order (most recent at the top) for all branches.<br>
-Determine the number of commits you want to squash on the feature branch, for example, 5.<br>
-<br>
-<div class="code"><code><pre>git rebase -i HEAD~5</pre></code></div>
-This command starts an interactive rebase session:
-<ul>
-<li>It opens a text editor (Notepad++) with a list of the last 5 commits, in chronological order (oldest at the top)</li>
-<li>The word "pick" indicates that the commit will be included in the rebase</li>
-<li>Lines starting with "#" are comments</li>
-<li>Changing "pick" to "s" or "squash" combines the commit with the previous commits.</li>
-</ul>
-Keep "pick" for the <i>first commit</i> and change the subsequent lines from "pick" to "s". After saving and closing the file, Git will reopen the text editor to let you edit the commit message for the squashed commit. Include only the necessary commit messages and remove the rest. Once you save and close this file, the rebase will be completed.<br>
-<br>
-<div class="code"><code><pre>git status</pre></code></div>
-This command shows that the local branch has diverged from the remote 'origin' because the commit history has been rewritten by the rebase command. The local branch contains the squashed commit, while 'origin' contains the initial commits.<br>
-Because of this divergence, a standard 'git push' does not work and causes an error.<br>
-Do not try to 'git pull', as it tries to merge the local branch using the old commit history.<br>
-<br>
-<div class="code"><code><pre>git push -f</pre></code></div>
-This command forcefully pushes the local branch changes to the remote repository, overwriting the commit history on 'origin'.<br>
-Force pushing is discouraged on shared branches because it modifies the commit history, which can cause issues if others are collaborating on the same branch. However, force pushing is acceptable on a feature branch.<br>
-<br>
 This part is <i>optional</i>, it is only needed if there are many commits in the feature branch. Rebasing the feature branch onto the main branch when it contains a single commit, you will need to resolve <b>conflicts only once</b> (the same file will not come up as a conflict more than once).<br>
 <br>
 Using <i>git push -f</i> can be useful after rebasing, squashing, and resetting. Always use this command with caution, as it can overwrite the remote repository's history, potentially leading to data loss.<br>
