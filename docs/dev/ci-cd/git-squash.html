@@ -9,27 +9,28 @@
 	
 	<h2>Squash Commits on a Feature Branch</h2>
 <div class="code"><code><pre>git log --graph --oneline --all</pre></code></div>
-This command displays the commit history (in a graph format) in reverse chronological order (most recent at the top) for all branches.<br>
-Determine the number of commits you want to squash on the feature branch, for example, 5.<br>
+This command displays the commit history in a graph format in reverse chronological order (the <i>newest</i> at the top), for all branches.<br> 
+Determine how many commits you want to squash on the branch (for example, 5).<br>
 <br>
 <div class="code"><code><pre>git rebase -i HEAD~5</pre></code></div>
 This command starts an interactive rebase session:
 <ul>
-<li>It opens a <b>text editor</b> (Notepad++) with a list of the last 5 commits, in chronological order (oldest at the top)</li>
-<li>The word "pick" indicates that the commit will be included in the rebase</li>
-<li>Lines starting with "#" are comments</li>
-<li>Changing "pick" to "s" or "squash" combines the commit with the previous commits.</li>
+<li>It opens a <b>text editor</b> (Notepad++) displaying a list of the last 5 commits in chronological order (the <i>oldest</i> at the top).</li>
+<li>The word 'pick' indicates that the commit will be included in the rebase.</li>
+<li>Lines starting with '#' are comments.</li>
+<li>Changing 'pick' to 'squash' or 's' combines the commit with the previous ones.</li>
+<li>Keep 'pick' for the <i>first commit</i> and change the subsequent lines from 'pick' to 's'.</li>
+<li>After saving and closing the file, Git will reopen the <b>text editor</b> to allow you to edit the commit message for the squashed commit. Include only the necessary commit messages and remove the rest.</li>
+<li>Once you save and close this file, the rebase will be completed.</li>
 </ul>
-Keep "pick" for the <i>first commit</i> and change the subsequent lines from "pick" to "s".<br>
-After saving and closing the file, Git will reopen the <b>text editor</b> to let you edit the commit message for the squashed commit. Include only the necessary commit messages and remove the rest. Once you save and close this file, the rebase will be completed.<br>
 <br>
 <div class="code"><code><pre>git status</pre></code></div>
-This command shows that the local branch has diverged from the remote 'origin' because the commit history has been rewritten by the rebase command. The local branch contains the squashed commit, while 'origin' contains the initial commits.<br>
-Because of this divergence, a standard 'git push' does not work and causes an error.<br>
-Do not try to 'git pull', as it tries to merge the local branch using the old commit history.<br>
+This command shows that the local branch has diverged from the remote 'origin' because the commit history has been rewritten by the rebase command. The local branch contains the squashed commit now, whereas 'origin' still contains the initial commits.<br>
+Because of this divergence, a standard 'git push' will not work and will result in an error.<br>
+Do not try to run 'git pull', as it will try to merge the local branch using the outdated commit history.<br>
 <br>
 <div class="code"><code><pre>git push -f</pre></code></div>
 This command forcefully pushes the local branch changes to the remote repository, overwriting the commit history on 'origin'.<br>
-Force pushing is discouraged on shared branches because it modifies the commit history, which can cause issues if others are collaborating on the same branch. However, force pushing is acceptable on a feature branch.
+Force pushing is discouraged on shared branches, because it modifies the commit history and can cause issues if others are collaborating on the same branch. However, it is acceptable on a feature branch.
   </body>
 </html>
