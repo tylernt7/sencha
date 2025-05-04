@@ -80,7 +80,56 @@
 	</table>	
 
 	<h2>Relative Strength Index (RSI)</h2>
-	TBD
+	<img src="images/rsi.png" width="50%" height="50%"><br>
+	<b>Adjust Levels:</b> Use 80/40 for strong uptrends and 60/20 for downtrends to reduce false signals.
+
+	<h2>RSI Divergence</h2>
+    <table border="1"><thead>
+      <tr>
+        <th>Type</th>
+        <th>Price Action</th>
+        <th>Indicator Movement</th>
+        <th>Signal Type</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>Regular Bullish</td>
+        <td>Lower Low (LL), 50 → 40</td>
+        <td>Higher Low (HL), 40 → 50</td>
+        <td>Start of an uptrend (reversal)</td>
+      </tr>
+      <tr>
+        <td>Regular Bearish</td>
+        <td>Higher High (HH), 80 → 90</td>
+        <td>Lower High (LH), 100 → 90</td>
+        <td>Start of a downtrend (reversal)</td>
+      </tr>
+      <tr>
+        <td>Hidden Bullish</td>
+        <td>Higher Low (HL), 40 → 50</td>
+        <td>Lower Low (LL), 50 → 40</td>
+        <td>Continuation of the uptrend</td>
+      </tr>
+      <tr>
+        <td>Hidden Bearish</td>
+        <td>Lower High (LH), 100 → 90</td>
+        <td>Higher High (HH), 80 → 90</td>
+        <td>Continuation of the downtrend</td>
+      </tr>
+      <tr>
+        <td>Exaggerated Bullish</td>
+        <td>Equal Lows (flat LL), 40 → 40</td>
+        <td>Higher Low (HL), 40 → 50</td>
+        <td>Potential start of an uptrend (reversal)</td>
+      </tr>
+      <tr>
+        <td>Exaggerated Bearish</td>
+        <td>Equal Highs (flat HH), 90 → 90</td>
+        <td>Lower High (LH), 100 → 90</td>
+        <td>Potential start of a downtrend (reversal)</td>
+      </tr>
+    </tbody></table>	
+	<img src="images/rsi_divergence.png" width="80%" height="80%">
 	
 	<h2>Bollinger Bands</h2>
 	TBD
@@ -103,5 +152,10 @@
 	<h2>Trade around the clock</h2>
 	Did you know that 82% of Nvidia's gains between March 2024 and February 2025 happened outside of regular Nasdaq hours?
 	
+	<h2>Weaknesses of Indicators</h2>
+	<b>EMA:</b> It may generate false signals during sideways or choppy markets, periods of high volatility, or sudden price movements, as it reacts more strongly to recent price changes.<br>
+	<b>RSI:</b> It does not perform well on lower timeframes (e.g., very short-term charts) as they become overly sensitive to price noise.<br>
+	<b>MACD:</b> It gives unreliable signals in low-volume conditions due to reduced market participation.
+
   </body>
 </html>

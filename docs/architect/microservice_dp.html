@@ -19,9 +19,83 @@
 	- <i>Aggregate</i>: Groups related entities and value objects into a single unit.<br>
 	- <i>Bounded Context</i>: Defines clear boundaries within which a particular model is defined and applicable.<br>
 	- <i>Ubiquitous Language</i>: Establishes a shared language between developers and domain experts to ensure clear communication and a mutual understanding of the domain.<br>	
-	<img src="images\ddd.png" width="100%" height="100%"/><br>
-	<img src="images\ddd_eShopOnContainers.png" width="100%" height="100%"/><br>
-	https://github.com/dotnet-architecture/eShopOnContainers/releases/tag/2.0 (Oct 27, 2017)<br>
+	<img src="images\ddd.png" width="100%" height="100%"/><br>		
+	<table>
+	<tr>
+	  <td width="50%"><img src="images\ddd_eShopOnContainers.png" width="95%" height="95%"></td>
+	  <td valign="top">
+
+        <table border="1">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th><a href="https://github.com/dotnet-architecture/eShopOnContainers/releases/tag/2.0">eShopOnContainers 2.0</a></th>
+            <th><a href="https://github.com/dotnet-architecture/eShopOnContainers/tree/dev">eShopOnContainers dev</a></th>
+            <th><a href="https://github.com/dotnet/eShop">eShop main</a></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Date</b></td>
+            <td>Oct 27, 2017</td>
+            <td>Nov 15, 2023</td>
+            <td>Apr 10, 2025</td>
+          </tr>
+          <tr>
+            <td><b>Top-level statements</b></td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>		  
+          <tr>
+            <td><b>REST API</b></td>
+            <td>Controller-based</td>
+            <td>Controller-based</td>
+            <td>Minimal APIs</td>
+          </tr>
+          <tr>
+            <td><b>Migrations</b></td>
+            <td>Ordering.API\Infrastructure</td>
+            <td>Ordering.API\Infrastructure</td>
+            <td>Ordering.Infrastructure</td>
+          </tr>	
+          <tr>
+            <td><b>gRPC, Proto</b></td>
+            <td>REST only</td>
+            <td>Mobile/Web App ←→ Basket/Catalog/Ordering Service</td>
+            <td>Mobile/Web App ←→ Basket Service</td>
+          </tr>
+          <tr>
+            <td><b>CQRS (Ordering)</b></td>
+            <td>With MediatR</td>
+            <td>With MediatR (more commands)</td>
+            <td>With MediatR (more commands)</td>
+          </tr>
+          <tr>
+            <td><b>Database</b></td>
+            <td>SqlServer, Redis</td>
+            <td>SqlServer, Redis</td>
+            <td>PostgreSQL, Redis</td>
+          </tr>
+          <tr>
+            <td><b>Event Bus</b></td>
+            <td>AzureServiceBus, Rabbitmq</td>
+            <td>AzureServiceBus, Rabbitmq</td>
+            <td>Rabbitmq</td>
+          </tr>
+          <tr>
+            <td><b>WebApp</b></td>
+            <td>Angular</td>
+            <td>Angular</td>
+            <td>Blazor</td>
+          </tr>	  
+        </tbody>
+        </table>
+		<a href="https://aka.ms/microservicesebook">NET-Microservices-Architecture-for-Containerized-NET-Applications.pdf</a><br>
+		<a href="https://medium.com/@iamprovidence/everything-wrong-with-eshoponcontainers-ce9319a7a601">Everything wrong with eShopOnContainers</a>
+	  </td>
+	</tr>
+	</table>
 	<b>Example:</b> Complex apps with complicated business logic.<br>
 	
 	<h2>Command Query Responsibility Segregation (CQRS) / Mediator</h2>

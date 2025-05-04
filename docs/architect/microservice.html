@@ -22,7 +22,18 @@
 	
 	<p><a href="https://learn.microsoft.com/en-us/azure/architecture/microservices/">Microservices[3]</a> are a popular architectural style for building applications that are resilient, highly scalable, independently deployable, and able to evolve quickly.</p>
 	
-    <h2>Microservice Architecture</h2>	
+	<h2>Cross-Cutting Concerns</h2>
+	<p>"Cross-cutting concerns" refer to features that affect multiple services, such as:</p>
+	<ul>
+	  <li><b>Security:</b> Authentication and authorization.</li>
+	  <li><b>Logging:</b> Consistent event tracking across services.</li>
+	  <li><b>Monitoring:</b> System performance and health checks.</li>
+	  <li><b>Error handling:</b> Consistent error processing frameworks.</li>
+	  <li><b>Configuration management:</b> Centralized configuration settings.</li>
+	</ul>
+	<p>These cross-cutting functions are often organized in a separate component, such as a <b>shared library</b> or infrastructure service, so that they do not have to be implemented separately for each microservice. This makes the architecture cleaner and more reusable.</p>
+	
+    <h2>Microservice Architecture</h2>
     <img src="images\microservice_architecture.png" width="100%" height="100%"/>
     <img src="images\microservice_lb.png" width="40%" height="40%"/>
 	

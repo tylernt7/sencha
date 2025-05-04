@@ -280,7 +280,7 @@ private void draw() { ... }
 	  <center><p><img src="images\liskov.png"/></p></center>
 	  <b>Violating Liskov Substitution Principle</b><br>
 	  Setting a string is possible in the Base class, while the Derived no longer supports this. The Derived class violates LSP by throwing an exception instead of setting a string.
-	  <div class="code"><code>	   
+	  <div class="code"><code>
 <pre>public class Base {
     private String str;
     public void setString(String str) { 
@@ -308,10 +308,63 @@ public class Derived extends Base {
 
 	  <li><b><u>D</u>ependency Inversion Principle</b> <i>(Függőség megfordítási elv)</i>: Depend upon Abstractions. Do not depend upon concretions</li> 
 	  <ul><li>Depending upon interfaces or abstract functions and classes, rather than upon concrete functions and classes</li></ul>
-	  <ul><li>High-level modules should not depend on low-level modules. Both depend on abstractions</li></ul>
+	  <ul><li><i>High-level modules should not depend on low-level modules. Both depend on abstractions.</i></li></ul>
 	  <ul><li>Abstractions should not depend on details</li></ul>
 	  <center><p><img src="images\dependency.png" /></p></center>
-	</ul>		
+	  
+	  <div class="code"><code>
+<pre><i>// Abstraction</i>
+interface MessageSender {
+    void sendMessage(String message);
+}
+
+<i>// Low-level module (implementation)</i>
+@Component
+class EmailSender implements MessageSender {
+    @Override
+    public void sendMessage(String message) {
+        System.out.println("Sending Email: " + message);
+    }
+}
+
+<i>// High-level module (depends on abstraction)</i>
+@Service
+class NotificationService {
+    private final MessageSender messageSender;
+
+    <i>// Constructor-based <b>Dependency Injection</b></i>
+    public NotificationService(MessageSender messageSender) {
+        this.messageSender = messageSender;
+    }
+
+    public void notifyUser(String message) {
+        messageSender.sendMessage(message);
+    }
+}
+
+@SpringBootApplication
+public class NotificationApplication implements CommandLineRunner {
+    private final NotificationService notificationService;
+
+    <i>// Dependency injected automatically by Spring:
+    // notificationService = new NotificationService(new EmailSender());</i>
+    @Autowired
+    public NotificationApplication(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(NotificationApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) {
+        notificationService.notifyUser("This is your welcome message!");
+    }
+}</pre>
+	  </code></div>
+	</ul>
+
 	<p>These principles make object-oriented software application flexible, robust, reusable, and developable (understandable and maintainable).</p>
 	  
   </body>
