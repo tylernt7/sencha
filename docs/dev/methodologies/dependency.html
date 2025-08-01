@@ -96,6 +96,37 @@ public class Client implements ServiceSetter {
     }
 }</pre></code></div><br>
 
+    <h2>Types of dependency injection (Spring Framework 4.3)</h2>
+    <table border="1"><thead>
+      <tr>
+        <th>Injection Type</th>
+        <th>@Autowired Required?</th>
+        <th>Best Practice?</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>Constructor (1 only)</td>
+        <td>Not needed</td>
+        <td>Recommended</td>
+      </tr>
+      <tr>
+        <td>Constructor (multiple)</td>
+        <td>Needed on one</td>
+        <td>Use clearly</td>
+      </tr>
+      <tr>
+        <td>Field Injection</td>
+        <td>Always needed</td>
+        <td>Avoid if possible</td>
+      </tr>
+      <tr>
+        <td>Setter Injection</td>
+        <td>Always needed</td>
+        <td>Less common today</td>
+      </tr>
+    </tbody>
+    </table>
+
 	<h2>@Transactional with CDI</h2>
 	<p>The <i>@Transactional</i> annotation can roll back the transaction if an unchecked exception (RuntimeException) occurs. See <a href="https://www.informatik-aktuell.de/entwicklung/programmiersprachen/java-ee-transactional-deklarative-transaktionssteuerung-mit-cdi-auch-ohne-ejb.html">here</a></p>
 

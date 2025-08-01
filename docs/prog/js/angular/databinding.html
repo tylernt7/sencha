@@ -31,49 +31,82 @@
 	
 	<h2>Types of data binding</h2>	
 	<p>Angular provides three categories of data binding according to the direction of data flow:</p>
-	<ul>
-	<li>Use [] to bind from source to view</li>
+	<ul>	
 	<li>Use () to bind from view to source</li>
+	<li>Use [] to bind from source to view</li>
 	<li>Use [()] to bind in a two-way sequence of view to source to view</li>
 	</ul>
+
+	<h2>One-way binding (View to Controller)</h2>
+    <b>View</b>
+    <div class="code"><code><pre><i>&lt;!-- component.html --></i>		
+&lt;form [formGroup]="form" (ngSubmit)="submit()"> <i>&lt;!-- Event Binding (pressing Enter) --></i>
+  &lt;input formControlName="name" />
+&lt;/form></pre></code></div>	
+    <b>Controller</b>
+    <div class="code"><code><pre><i>// component.ts</i>
+export class AppComponent {
+  form = new FormGroup({
+    name: new FormControl(null)
+  });
+  submit() {
+      console.log(this.form.value.name);
+    };
+  }
+}</pre></code></div>
 
 	<h2>One-way binding (Controller to View)</h2>
     <b>View</b>
     <div class="code"><code><pre><i>&lt;!-- component.html --></i>
-&lt;h1>{{ title }}&lt;/h1> <i>&lt;!-- Interpolation --></i>
-&lt;h1 [innerText]="title">&lt;/h1> <i>&lt;!-- Property Binding --></i></pre></code></div>	
+&lt;h1>{{ name }}&lt;/h1> <i>&lt;!-- Interpolation --></i>
+&lt;h1 [innerText]="name">&lt;/h1> <i>&lt;!-- Property Binding --></i></pre></code></div>	
     <b>Controller</b>
     <div class="code"><code><pre><i>// component.ts</i>
 export class AppComponent {
-  title = 'Hello World';
-}</pre></code></div>
-	
-	<h2>One-way binding (View to Controller)</h2>
-    <b>View</b>
-    <div class="code"><code><pre><i>&lt;!-- component.html --></i>		
-&lt;h1>{{ title }}&lt;/h1>	
-&lt;button (click)="onSave()">Save&lt;/button> <i>&lt;!-- Event Binding --></i></pre></code></div>	
-    <b>Controller</b>
-    <div class="code"><code><pre><i>// component.ts</i>
-export class AppComponent {
-  title = 'Hello World';
-
-  onSave() {
-    this.title = 'Saved!';
-  }
+  name = 'Hello World';
 }</pre></code></div>
 
 	<h2>Two-way binding (View to Controller to View)</h2>
     <b>View</b>
     <div class="code"><code><pre><i>&lt;!-- component.html --></i> 
-&lt;h1>{{ title }}&lt;/h1>	
-&lt;input [(ngModel)]="title" placeholder="Enter the new title"> <i>&lt;!-- Two-way binding with input field --></i>
+&lt;h1>{{ name }}&lt;/h1>	
+&lt;input [(ngModel)]="name" placeholder="Enter the new name"> <i>&lt;!-- Two-way binding with input field --></i>
 </pre></code></div>
     <b>Controller</b>
     <div class="code"><code><pre><i>// component.ts</i>
 export class AppComponent {
-  title = 'Hello World';
+  name = 'Hello World';
 }</pre></code></div>
+
+	<h2>Binding Overview</h2>
+  <table border=1><thead>
+    <tr>
+      <th>Action</th>
+      <th>Direction</th>
+      <th>Binding Type</th>
+      <th>Angular Usage</th>
+    </tr></thead>
+  <tbody>
+    <tr>
+      <td>User types "John" in &lt;input&gt; → FormControl updates</td>
+      <td>View → Controller</td>
+      <td>One-way binding</td>
+      <td>ReactiveFormsModule</td>
+    </tr>
+    <tr>
+      <td>formControl.setValue('Anna')</td>
+      <td>Controller → View</td>
+      <td>One-way binding</td>
+      <td>ReactiveFormsModule</td>
+    </tr>
+    <tr>
+      <td>[(ngModel)]="name" (user types / update in code)</td>
+      <td>View ↔ Controller ↔ View</td>
+      <td>Two-way binding</td>
+      <td>FormsModule </td>
+    </tr>
+  </tbody>
+  </table>
 		
   </body>
 </html>

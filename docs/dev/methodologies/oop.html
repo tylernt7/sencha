@@ -52,10 +52,16 @@ public void myMethod() {
 	
 	<h2>Basic Principles of OOP</h2>
 	<ul>
-	  <li><b>Data Abstraction / Information Hiding</b> <i>(Adatabsztrakció / Információ elrejtése)</i>: Hiding the characteristics and behavior from other objects using visibility levels (private, protected), so as to prevent misuse. </li>
-	  
-	  <li><b>Encapsulation</b> <i>(Egységbezárás)</i>: Enclosing attributes and operations (fields and methods) into a single unit/entity (object). Encapsulation in Java is implemented by making instance variables private and providing indirect access using methods (sometimes simply getters and setters) to read and manipulate them. Encapsulation describes the ability of an object to hide its data and methods from the rest of the world. A major goal of encapsulation is to allow objects to protect themselves against arbitrary manipulation of their state. Invalid state can be month -3 or day of month 42.</li>	  	
-	  <li><b>Inheritance</b> <i>(Öröklés)</i>: A more specific class (<i>subclass</i>, derived class, child class) can be created from a general class (<i>superclass</i>, base class, parent class). A subclass inherits fields, methods, and nested classes from its superclass. Constructors are not inherited by subclasses, but the constructor of the superclass can be invoked from the subclass. 
+	  <li><b>Abstraction</b> <i>(Absztrakció)</i>: It hides complex implementation details and exposes only the essential features of an object. We implement it using abstract classes, interfaces, and inheritance.
+	  <ul><li><b>Implementation Hiding</b> <i>(Megvalósítás elrejtése)</i>: It hides the internal implementation, ensuring that underlying changes do not impact external usage.</li></ul>
+	  </li>	
+	
+	  <li><b>Encapsulation</b> <i>(Egységbezárás)</i>: It hides the internal details of an object and exposes only the necessary information to the outside world. We implement it using classes, interfaces, and access modifiers such as public, private, protected, etc. It encloses variables and methods into a single unit (object). A major goal of encapsulation is to allow objects to protect themselves against arbitrary manipulation of their state. Invalid state can be month -3 or day of month 42.
+	  <ul><li><b>Information Hiding</b> <i>(Információ elrejtése)</i>: It hides the characteristics and behavior from other objects using visibility levels (private, protected), so as to prevent misuse.</li></ul>
+	  <ul><li><b>Access Control</b> <i>(Hozzáférés-vezérlés)</i>: It regulates who can use what.</li></ul> 	  
+	  </li>	
+
+	  <li><b>Inheritance</b> <i>(Öröklés)</i>: A more specific class (<i>subclass</i>, derived class, child class) can be created from a general class (<i>superclass</i>, base class, parent class). A subclass inherits variables, methods, and nested classes from its superclass. Constructors are not inherited by subclasses, but the constructor of the superclass can be invoked from the subclass. 
 	  <ul><li>Every class is implicitly a subclass of Object</li></ul>
 	  <ul><li>C# and Java support single inheritance only: every class has only one direct superclass</li></ul>
 	  <ul><li>Do not develop a hierarchy of three or more classes: <i>favor composition over inheritance</i></li></ul></li>	 

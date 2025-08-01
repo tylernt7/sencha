@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Web services (SOAP, WSDL)</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Web services (SOAP, WSDL)</h1>
+	
+    <h2>Terminology</h2>
+    <p><b>SOAP</b> (<b>S</b>imple <b>O</b>bject <b>A</b>ccess <b>P</b>rotocol): XML-based messaging protocol for structured data exchange.</p>
+	<p><b>WSDL</b> (<b>W</b>eb <b>S</b>ervices <b>D</b>escription <b>L</b>anguage): XML-based language describing the operations and messages of a web service.</p>
+	<p><b>XML</b> (e<b>X</b>tensible <b>M</b>arkup <b>L</b>anguage): A markup language used to store and transport data.</p>
+	<p><b>XSD</b> (<b>X</b>ML <b>S</b>chema <b>D</b>efinition): A schema that defines the structure and elements of XML documents.</p>
+
+    <h2>SOAP messages</h2>
+    <img src="images\soap.png" width="75%" height="75%"/>
+
+    <h2>WSDL Structure</h2>
+	<img src="images\wsdl.png" width="75%" height="75%"/>
+
+    <h2>SOAP Envelope</h2>
+	<img src="images\soap-env.png" width="70%" height="70%"/>
+	
+	<h2>SOAP Configuration</h2>
+	<b>Server Side</b><br>
+    <table border="1"><thead>
+      <tr>
+        <th>Feature</th>
+        <th>Spring Boot (Java)</th>
+        <th>ASP.NET (C#)</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>Declare Endpoint</td>
+        <td>@Endpoint</td>
+        <td>[WebService]</td>
+      </tr>
+      <tr>
+        <td>Map SOAP Request</td>
+        <td>@PayloadRoot</td>
+        <td>[WebMethod]</td>
+      </tr>
+      <tr>
+        <td>Handle XML Input/Output</td>
+        <td>@RequestPayload, @ResponsePayload</td>
+        <td>[SoapDocumentMethod], [XmlElement]</td>
+      </tr>
+      <tr>
+        <td>Serialization</td>
+        <td>JAXB (Java Architecture for XML Binding)</td>
+        <td>.NET XML Serialization</td>
+      </tr>
+    </tbody>
+    </table>	
+	
+	<br>
+	<b>Client Side</b><br>
+    <table border="1"><thead>
+      <tr>
+        <th>Feature</th>
+        <th>Spring Boot (Java)</th>
+        <th>ASP.NET (C#)</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>SOAP Message Handling</td>
+        <td>WebServiceTemplate</td>
+        <td>Auto-generated proxy via <i>svcutil</i> or <i>Add Service Reference</i></td>
+      </tr>
+      <tr>
+        <td>Transport Layer</td>
+        <td>HTTP using <i>Spring Web Services</i> config</td>
+        <td>HTTP using <i>HttpClient</i> or <i>WCF stack</i></td>
+      </tr>
+      <tr>
+        <td>XML Marshalling</td>
+        <td>JAXB</td>
+        <td>.NET built-in serializers</td>
+      </tr>
+      <tr>
+        <td>Serialization</td>
+        <td>JAXB</td>
+        <td>.NET XML Serialization</td>
+      </tr>
+    </tbody>
+    </table>	
+  </body>
+</html>
+
+
+	

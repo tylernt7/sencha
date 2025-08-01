@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Richardson Maturity Model</title>
+    <link rel="stylesheet" href="../../common.css">
+  </head>
+  <body>
+    <h1>Richardson Maturity Model</h1>	
+	The Richardson Maturity Model is a way to evaluate RESTful APIs based on their adherence to REST principles. Each level adds more RESTful features.
+	
+    <h2>Level 0: The Swamp of POX (One URI, one HTTP method) - Deprecated</h2>
+	Uses HTTP as a transport for remote interactions, with a single endpoint, like XML-RPC or SOAP services.<br><br>
+	<b>Example:</b><br>
+<div class="code"><code><pre>POST /api
+Body: { "action": "createUser", "name": "Alice" }</pre></code></div>
+	
+    <h2>Level 1: Resources (Many URIs, one HTTP method) - Deprecated</h2>
+	Resources get their own URIs (/users, /orders, etc.).<br><br>
+	<b>Example:</b><br>
+<div class="code"><code><pre>POST /users  
+Body: { "name": "Alice" }</pre></code></div>
+
+    <h2>Level 2: HTTP Verbs (Many URIs, multiple HTTP methods)</h2>
+	Uses HTTP methods as verbs (GET, POST, PUT, DELETE) and status codes (200 OK, 404 Not Found, etc.).<br><br>
+	<b>Example:</b><br>
+<div class="code"><code><pre>GET /users/123        # Retrieve user with ID 123  
+POST /users           # Create new user
+PUT /users/123        # Update user  
+DELETE /users/123     # Delete user</pre></code></div>
+	
+    <h2>Level 3: Hypermedia Controls (HATEOAS) - Rare but Powerful</h2>
+	Responses include links to available actions. Clients can discover functionality dynamically (what they can do next).<br><br>
+	<b>Example:</b><br>
+	Response for GET /users/123:<br>
+<div class="code"><code><pre>{
+  "id": 123,
+  "name": "Alice",
+  "links": [
+    { "rel": "self", "href": "/users/123" },
+    { "rel": "update", "href": "/users/123", "method": "PUT" },
+    { "rel": "delete", "href": "/users/123", "method": "DELETE" },
+    { "rel": "orders", "href": "/users/123/orders", "method": "GET" }	
+  ]
+}</pre></code></div>
+
+	<h2>References</h2>
+ 	<ul>
+	  <li><a href="https://www.crummy.com/writing/speaking/2008-QCon/act3.html">Act Three: The Maturity Heuristic (QCon talk)</a></li>
+	  <li><a href="https://martinfowler.com/articles/richardsonMaturityModel.html">Richardson Maturity Model (Martin Fowler)</a></li>
+	  <li><a href="https://en.wikipedia.org/wiki/Richardson_Maturity_Model">Richardson Maturity Model (Wikipedia)</a></li>
+	</ul> 
+  </body>
+</html>

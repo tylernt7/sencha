@@ -9,8 +9,52 @@
 	<h2>Mi a különbség a részvény és a kötvény között?</h2>
 	TBD
 	
-	<h2>Leverage (tőkeáttétel)</h2>
-	TBD
+    <h2>Basic Rules</h2>
+	<b>1. How much can I afford to lose?</b><br>Don't invest more than you can afford to lose.<br>
+	<b>2. Minimum 1:2 risk/reward ratio.</b><br>
+		<i>Forex (Major Pairs)</i> 1:2 minimum, ideally 1:2.5<br>
+		<i>Cryptocurrencies (Crypto)</i> 1:3 or higher<br>
+		<i>Equities (Stocks)</i> 1:3 or higher<br>
+		<i>Commodities (e.g., Gold, Oil)</i> 1:3 or higher<br>				
+	<b>3. Maximum 2% of capital may be invested into a position (position size).</b><br>For instance, if you have a $1,000 account and you limit your risk to 2%, you are only risking $20 on any particular trade.<br>
+
+    <h2>EUR/USD Long Trade Example</h2>
+    <table border="1"><thead>
+      <tr>
+        <th>Risk/Reward = 1:2</th>
+        <th>Price</th>
+        <th>In Pips</th>
+        <th>In Points</th>
+		<th>Value (USD)</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>Entry Price</td>
+        <td>1.0800</td>
+        <td></td>
+        <td></td>
+		<td></td>
+      </tr>
+      <tr>
+        <td>Stop Loss (SL)</td>
+        <td>1.0780</td>
+        <td>-20</td>
+        <td>-200</td>
+		<td>-200 (lot size: 1.00)<br>-20 (lot size: 0.10)<br>-2 (lot size: 0.01)</td>
+      </tr>
+      <tr>
+        <td>Take Profit (TP)</td>
+        <td>1.0840</td>
+        <td>40</td>
+        <td>400</td>
+		<td>400 (lot size: 1.00)<br>40 (lot size: 0.10)<br>4 (lot size: 0.01)</td>
+      </tr>
+    </tbody>
+    </table>
+	1 pip = 10 points = $10 (for standard lot size: 1.00)<br>
+
+    <h2>Risk/Reward</h2> 
+	On a $1,000 account, even with only 4 wins out of 10 trades (a 40% success rate), winning $40 on successful trades (TP) and losing $20 on unsuccessful ones (SL) still results in a $40 profit (4%), since 4 * $40 = $160 > 6 * $20 = $120.<br>
 	
 	<h2>Trend</h2>
 	TBD	
@@ -41,14 +85,43 @@
 	A derivative contract to buy or sell an asset at a predetermined price on a future date.	
 	
 	<h2>Margin</h2>
-	Borrowing money from a broker to trade assets, secured by a deposit known as margin.	
+	Borrowing money from a broker to trade assets, secured by a deposit known as margin.<br>
+	<br>
+	Example: Suppose you have $1,000 in your account, and the current price of Bitcoin is 50,000 USD/BTC. Let's say you purchase 0.02 BTC.<br>
+	<br>
+	Position Size: The position size represents the total value of the trade. In this case, it is calculated as:<br>
+	<b>Position Size = 0.02 BTC * 50,000 USD/BTC = $1,000.</b><br>
+	<br>
+	Margin (deposit): When using leverage, you do not need to commit the full $1,000 of your own capital. Suppose you choose a 10:1 leverage. Margin is the small amount that is locked from your account to secure your leveraged position. In this case, the margin is calculated as:<br>
+	<b>Margin = Position Size / Leverage = $1,000 / 10 = $100.</b><br>
+	<br>
+	This indicates that to open the trade, your broker will reserve $100 from your account as deposit. With this margin, you are able to control a $1,000 position even though you are only using $100 of your own funds. Consequently, the maximum potential loss will be limited to that $100 margin (not your full $1,000 balance).<br>
+	<br>
+	In general, to avoid a margin call (liquidation of your position), it is advisable to maintain an account balance where the maximum risk (defined by the stop loss) amounts to only a small percentage of your account (for example, 1–2%). Trading with a small account balance (e.g., $1) using leverage is extremely risky, because even a slight price movement can immediately empty the margin.<br>
+	<br>
+	
+	<b>Capital</b>: $1,000<br>
+	<b>Risk (%)</b>: 2%<br>
+	<b>Entry Price</b>: $50,000 (Price of 1 BTC)<br>
+	<b>Quantity purchased</b>: $1,000 / $50,000 = 0.02 BTC<br>
+	<b>Risk Amount</b>: 2% * $1,000 = $20<br>
+	<b>Stop Loss</b>: Entry Price − (Risk Amount / BTC quantity) = $50,000 − ($20 / 0.02) = $49,000<br>
+	If the price of BTC drops to $49,000, then the value of 0.02 BTC will be $980, which results in a $20 loss deducted from the original capital.<br>
+	Note: The stop loss is based on the market price, not the total capital.<br>
+	See: <a href="https://tradeonthemarket.com/hu/poziciomeret-kalkulator/">Position Size Calculator (tradeonthemarket)</a><br>
+				
+	<h2>Leverage (tőkeáttétel)</h2>
+	Leverage is the ratio of borrowed money to your own capital. For example, if you use 1:10 leverage, you use 10 units of borrowed money for every 1 unit of your own capital.
 	
 	<h2>Arbitrage</h2>
 	An asset is bought in one market (or exchange) and sold in another for a higher price.
-
-
 	
+	<h2>PIP / LOT</h2>
+	In the forex market, trading is measured in LOTs rather than by units used for stocks or cryptocurrencies. If you use 1:5 leverage in the crypto market, you might consider using around 1:20 in the forex market.
+	See: <a href="https://tradeonthemarket.com/hu/pip-kalkulator/">Forex PIP Spreadsheet (tradeonthemarket)</a><br>
 	
+	<h2>Algorithmic trading</h2>
+	See: <a href="https://academy.binance.com/en/articles/what-is-algo-trading-and-how-does-it-work">What Is Algo Trading and How Does It Work? (binance)</a><br>
   </body>
 </html>
 

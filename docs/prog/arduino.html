@@ -5,37 +5,252 @@
   </head>
   <body>
     <h1>Arduino</h1>
-    <h2>ToDo</h2>
-<pre>Arduino: electronic development platform
-
-Arduino IDE: integrated development environment 
-
-Arduino Uno board
-	ATmega328: AVR microcontroller chip
+    <h2>Development Board</h2>
+	Arduino: electronic development platform<br>
+	Arduino IDE: integrated development environment<br>
+<br>
+TODO: price, 90mA/5V
+<table border="1"><thead>
+  <tr>
+    <th>Board</th>
+    <th>MCU/Chip</th>
+    <th>Clock Speed</th>
+    <th>Flash</th>
+    <th>Size (mm)</th>
+    <th>Display type</th>
+    <th>WiFi</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td><b>Arduino Nano</b></td>
+    <td>ATmega328P (8-bit AVR)</td>
+    <td>16 MHz</td>
+    <td>32 KB</td>
+    <td>45x18</td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>Arduino Uno</td>
+    <td>ATmega328P (8-bit AVR)</td>
+    <td>16 MHz</td>
+    <td>32 KB</td>
+    <td>68x53</td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td><b><a href="https://randomnerdtutorials.com/cheap-yellow-display-esp32-2432s028r/">ESP32-2432S028R</a></b></td>
+    <td>ESP32-D0WD-V3: chip<br>ESP-WROOM-32: module</td>
+    <td>240 MHz</td>
+    <td>4 MB</td>
+    <td>86x50<br>320x240px</td>
+    <td>2.8" TFT LCD, touchscreen<br>(ILI9341 driver)</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>ESP32-CAM</td>
+    <td>ESP32-D0WD-V3: chip<br>ESP-WROOM-32: module</td>
+    <td>240 MHz</td>
+    <td>4 MB</td>
+    <td>40x27</td>
+    <td>No (camera module)</td>
+    <td>Yes</td>
+  </tr>  
+  <tr>
+    <td>ESP32-C3</td>
+    <td>ESP32-C3</td>
+    <td>160 MHz</td>
+    <td>4 MB</td>
+    <td>24x20</td>
+    <td>0.42" OLED</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>ESP32-C3 Devkit</td>
+    <td>ESP32-C3</td>
+    <td>160 MHz</td>
+    <td>4 MB</td>
+    <td>44x25</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>ESP32-C3 Super Mini</td>
+    <td>ESP32-C3</td>
+    <td>160 MHz</td>
+    <td>4 MB</td>
+    <td>22x18</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>ESP32-S3</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>4 MB</td>
+    <td>23x18</td>
+    <td>0.42" OLED</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>ESP32-S3-DevKitM-1</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>8 MB</td>
+    <td>62x25</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>ESP32-WROOM-32</td>
+    <td>ESP32-D0WDQ6: chip</td>
+    <td>240 MHz</td>
+    <td>4 MB</td>
+    <td>18x25</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td><b>ESP-8266 (ESP-01)</b></td>
+    <td>ESP-8266: Wi-Fi microchip<br>ESP-01: Wi-Fi module</td>
+    <td>80/160 MHz</td>
+    <td>512 KB</td>
+    <td>25x15</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td><b>ESP-8266 NodeMCU</b></td>
+    <td>ESP-8266: Wi-Fi microchip<br>ESP-12(E): Wi-Fi module</td>
+    <td>80/160 MHz</td>
+    <td>4 MB</td>
+    <td>49x26</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>LILYGO T-Display</td>
+    <td>ESP32</td>
+    <td>240 MHz</td>
+    <td>4/16 MB</td>
+    <td>53x25</td>
+    <td>1.14" TFT LCD</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>LILYGO T-Display-S3</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>16 MB</td>
+    <td>62x26</td>
+    <td>1.9" TFT LCD</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>LILYGO T-Display-S3 AMOLED</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>16 MB</td>
+    <td>60x25</td>
+    <td>1.91" AMOLED<br>Touch and no-touch versions</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>LILYGO T-Dongle-S3</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>16 MB</td>
+    <td>58x17</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>LILYGO T-HMI</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>16 MB</td>
+    <td>80x50</td>
+    <td>2.8" LCD, T-HMI, touchscreen</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>LILYGO T-QT Pro</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>8 MB</td>
+    <td>33x18</td>
+    <td>0.85" TFT LCD</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>M5-StampS3</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>8 MB</td>
+    <td>26x18</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td><b>Wemos D1 mini</b></td>
+    <td>ESP-8266: Wi-Fi microchip<br>ESP-12(E): Wi-Fi module</td>
+    <td>80/160 MHz</td>
+    <td>4 MB</td>
+    <td>34x26</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>  
+  <tr>
+    <td>Wemos Lolin S2 Mini</td>
+    <td>ESP32-S2</td>
+    <td>240 MHz</td>
+    <td>4 MB</td>
+    <td>34x25</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>Wemos Lolin S3 Mini</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>4 MB</td>
+    <td>34x25</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>Waveshare ESP32-S3-GEEK</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>16 MB</td>
+    <td>61x27</td>
+    <td>1.14" IPS LCD</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>Weact ESP32-D0WD-V3</td>
+    <td>ESP32-D0WD-V3</td>
+    <td>240 MHz</td>
+    <td>4 MB</td>
+    <td>52x28</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>Weact S3 Mini</td>
+    <td>ESP32-S3</td>
+    <td>240 MHz</td>
+    <td>4 MB</td>
+    <td>36x20</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+</tbody></table>	
 	
-WEMOS D1 mini: Wi-Fi development board with 4MB flash
-	ESP12 (ESP-12E): Wi-Fi module 
-		ESP-8266EX: Wi-Fi microchip
-
-https://www.wemos.cc/en/latest/d1/d1_mini.html  1949-2260 HUF
-Clock Speed	80/160 MHz
-Flash	    4 MB
-Size	    34.2 * 25.6 mm
-Weight	    3 g
->>	DUCO miner 7 ESP8266 https://www.facebook.com/marketplace/item/621569709590790
-
-https://www.doitsmart.hu/index.php/termek/esp8266-v3-fejleszto-panel/ 2050 Ft
-Clock Speed	80/160 MHz
-Flash	    4 MB
-Size	    54 x 31 mm
->> ESP8266 NodeMCU v3 wifi ap router mikrokontroller CH340  https://www.facebook.com/marketplace/item/603103511522657
-
-https://www.elektrobot.hu/termek.php?filename=4200.html 4190 Ft
-Clock Speed 16 MHz
-Flash       32 KB 
-Size        45 * 18 mm
-Weigth      5 g
->>	Arduino Nano V3.0 https://www.facebook.com/marketplace/item/871063677595295
-	
+    <h2>Mining</h2>
+Duinocoin (DUCO) mining on<br>
+- Arduino UNO<br>
+- ESP8266 (ESP-01 & ESP-01s)<br>
   </body>
 </html>

@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+  <head>
+    <title>C# Tips</title>
+	<link rel="stylesheet" href="../../common.css">		
+  </head>
+  <body>
+    <h1>C# Tips</h1>
+
+    <h2>Innopay</h2>
+	<b>Scaffolding</b><br>
+	dotnet ef dbcontext scaffold "Host=my_host;Database=my_db;Username=my_user;Password=my_pw" Npgsql.EntityFrameworkCore.PostgreSQL<br>
+	Ide beíród a connection stringet hogy melyik Db-t akarod generálni és elvileg megy<br>
+	Annyi Persistence könyvtáron belül lehet kiadni, mert ott van meg hozzá Nuget<br>
+	<b>Graceful Shutdown</b><br>
+	<b>Blue-Green or Canary Deployments - eldobja az imaget</b><br>
+	<b>Structured Logging</b><br>
+	<b>HATEOAS principles</b><br>
+	<b>lock</b><br>
+	<b>unit of work</b><br>
+	<b>streaming asnyenumberable</b><br>
+	<b>uuid liiq</b><br>
+	<b>Minimal APIs vs</b><br>
+	<b>sql let</b><br>
+	<b>ef core include</b><br>
+	<b>unit of work-öt lehessen retry-olni rollback után</b><br>
+	<b>versioning: redis</b><br>
+	<b>pipe</b><br>
+	<b>timeprovider</b><br>
+
+    <h2>Microsoft Recommendations</h2>
+	<a href="https://learn.microsoft.com/en-us/aspnet/core/performance/overview">ASP.NET Core performance</a><br>
+	- Return IEnumerable or IAsyncEnumerable<br>
+	- Pool HTTP connections with HttpClientFactory<br>
+	- Minimize exceptions<br>
+	- Avoid synchronous read or write on HttpRequest/HttpResponse body<br>
+	<a href="https://learn.microsoft.com/en-us/dotnet/core/diagnostics/event-counter-perf">Measure performance using EventCounters in .NET Core</a><br>
+	- Implement an EventSource<br>
+	- Monitor event counter<br>
+	<a href="https://learn.microsoft.com/en-us/ef/core/performance/performance-diagnosis">Performance Diagnosis</a><br>
+	- Inspecting query execution plans<br>
+	- Benchmarking with EF Core<br>
+	<a href="https://learn.microsoft.com/en-us/ef/core/performance/efficient-querying">Efficient Querying</a><br>
+	- Use indexes properly<br>
+	- Project only properties you need<br>
+	- Buffering and streaming (AsyncEnumerable)<br>
+	- Tracking, no-tracking and identity resolution<br>
+	- Asynchronous programming<br>
+	<a href="https://learn.microsoft.com/en-us/ef/core/performance/efficient-updating">Efficient Updating</a><br>
+	- Batching<br>
+	- Use ExecuteUpdate and ExecuteDelete when relevant<br>
+	<a href="https://learn.microsoft.com/en-us/ef/core/performance/advanced-performance-topics">Advanced Performance Topics</a><br>
+	- Benchmarks<br>
+	- Connection Pooling Considerations<br>
+	- Compiled queries<br>
+	<a href="https://learn.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency">Connection Resiliency</a><br>
+	- Execution strategy: unit of work-öt lehessen retry-olni rollback után<br>
+	<a href="https://learn.microsoft.com/en-us/ef/core/miscellaneous/multitenancy">Multi-tenancy</a><br>
+	- Single database<br>
+	- Multiple schemas<br>
+	- Multiple databases<br>
+	<a href="https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design">Best practices for RESTful web API design</a><br>
+	- Resource URI naming conventions<br>
+	- HTTP request methods<br>
+	- Implement HATEOAS<br>
+	<a href="https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/architectural-principles">Architectural principles</a><br>
+	- Separation of concerns<br>
+	- Encapsulation<br>
+	- Dependency inversion<br>
+	- Explicit dependencies<br>
+	- Single responsibility<br>
+	- Don't repeat yourself (DRY)<br>
+	- Persistence ignorance<br>
+	- Bounded contexts<br>
+	<a href="https://learn.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/integration-event-based-microservice-communications">Implementing event-based communication between microservices (integration events)</a><br>
+	- Using message brokers and service buses for production systems<br>
+	<a href="https://learn.microsoft.com/en-us/azure/architecture/microservices/design/patterns">Design patterns for microservices</a><br>
+	- Strangler Fig<br>
+	- ...<br>
+	<a href="https://learn.microsoft.com/en-us/azure/app-modernization-guidance/expand/rebuild-monolithic-applications-using-microservices">Rebuild monolithic applications using microservices</a><br>
+	- Use domain-driven design<br>
+	<b>IDEALS (vs SOLID)</b><br>
+	- Interface Segregation<br>
+	- Deployability<br>
+	- Event-driven<br>
+	- Availability over Consistency<br>
+	- Loose Coupling<br>
+	- Single Responsibility<br>
+	<a href="https://learn.microsoft.com/en-us/azure/architecture/guide/design-principles/design-for-evolution">Design for evolution</a><br>
+	- Enforce high cohesion and loose coupling<br>
+	- Encapsulate domain knowledge<br>
+	- Use asynchronous messaging<br>
+	- Don't build domain knowledge into a gateway<br>
+	- Expose open interfaces<br>
+	- Design and test against service contracts<br>
+	- Use fitness functions<br>
+	- Abstract infrastructure away from domain logic<br>
+	- Offload cross-cutting concerns to a separate service<br>
+	- Deploy services independently<br>
+	<b>Közös logikát külön csomagba</b><br>
+	- Ami több szolgáltatásban is hasznos: helper függvények, hibakezelés, naplózás, validáció, azt tedd Common vagy Shared csomagba.<br>
+	- Ne tartalmazzon üzleti logikát – csak technikai segédleteket.<br>
+	<b>Csak interfészen keresztül kommunikálj</b><br>
+	- Mikroszolgáltatások ne referálják egymás belső projektjeit.<br>
+	- Kommunikáció: REST API, gRPC, vagy eseménybusz (Azure Service Bus, RabbitMQ).<br>	
+	<b>Dependency Injection mindenhol</b><br>
+	- Ne példányosítsd közvetlenül a Common szolgáltatásokat vagy helper modulokat.<br>
+	- Használj DI konténert (Microsoft.Extensions.DependencyInjection) a laza csatoláshoz.<br>
+	
+	<h2>LinkedIn</h2>
+	<pre>	
+performance
+https://www.linkedin.com/feed/update/urn:li:activity:7284527915638153217
+https://www.linkedin.com/feed/update/urn:li:activity:7235374766562365441
+https://www.linkedin.com/posts/tauseeffayyaz_systemdesign-architecture-interviewtips-activity-7287344426501238784-UtKx
+
+dotnet 
+https://www.linkedin.com/feed/update/urn:li:activity:7274359720746889216
+https://www.linkedin.com/feed/update/urn:li:activity:7243928799703126017
+
+ef core
+https://www.linkedin.com/posts/nikola-knez_%F0%9D%97%9C%F0%9D%97%BB%F0%9D%98%81%F0%9D%97%B2%F0%9D%97%BF%F0%9D%97%B0%F0%9D%97%B2%F0%9D%97%BD%F0%9D%98%81-%F0%9D%98%86%F0%9D%97%BC%F0%9D%98%82%F0%9D%97%BF-%F0%9D%97%BC%F0%9D%97%BD%F0%9D%97%B2%F0%9D%97%BF%F0%9D%97%AE%F0%9D%98%81%F0%9D%97%B6%F0%9D%97%BC%F0%9D%97%BB%F0%9D%98%80-activity-7227199370658476032-QGiO
+https://www.linkedin.com/posts/jalal-alzebda_csharp-dotnet-programming-activity-7225790917251674112-kLUu
+
+json
+https://www.linkedin.com/posts/sudhir-maurya-9a0308203_csharp-dotnet-programming-activity-7226252492664168448-BOgv
+
+rest api
+https://www.linkedin.com/feed/update/urn:li:activity:7273626490343215104
+https://www.linkedin.com/feed/update/urn:li:activity:7257285108116656129
+
+microservice
+https://www.linkedin.com/feed/update/urn:li:activity:7274098336415076352
+https://www.linkedin.com/feed/update/urn:li:activity:7274003367729770496
+https://www.linkedin.com/feed/update/urn:li:activity:7238909189543075841
+https://www.linkedin.com/feed/update/urn:li:activity:7240651026612027393
+https://www.linkedin.com/feed/update/urn:li:activity:7137752917133983744
+https://www.linkedin.com/feed/update/urn:li:activity:7135715713805135872
+
+sql 
+https://www.linkedin.com/feed/update/urn:li:activity:7283831329270489088
+https://www.linkedin.com/feed/update/urn:li:activity:7274506216188395520
+https://www.linkedin.com/feed/update/urn:li:activity:7274359572050440192
+https://www.linkedin.com/feed/update/urn:li:activity:7259657032775958531
+
+data seeding
+https://www.linkedin.com/feed/update/urn:li:activity:7282095654011568129
+
+yield
+https://www.linkedin.com/feed/update/urn:li:activity:7268269831085334528
+https://www.linkedin.com/posts/keller-william_programming-softwareengineering-algorithms-activity-7151905740515860481-PHMt
+https://www.linkedin.com/feed/update/urn:li:activity:7206977991296315396
+
+enum
+https://www.linkedin.com/feed/update/urn:li:activity:7256037923937026048
+
+exception
+https://www.linkedin.com/feed/update/urn:li:activity:7275481804126515200
+https://www.linkedin.com/feed/update/urn:li:activity:7272535734589235202
+https://www.linkedin.com/feed/update/urn:li:activity:7237031765498847232
+https://www.linkedin.com/feed/update/urn:li:activity:7205156247363342336
+
+unit of work
+https://www.linkedin.com/feed/update/urn:li:activity:7281617932663574528
+
+middleware
+https://www.linkedin.com/feed/update/urn:li:activity:7276173297959026688
+https://www.linkedin.com/feed/update/urn:li:activity:7209179277399912449
+
+auth
+https://www.linkedin.com/feed/update/urn:li:activity:7251167880698859520
+https://www.linkedin.com/feed/update/urn:li:activity:7285898653343346689
+
+automapper
+https://www.linkedin.com/feed/update/urn:li:activity:7256988662792421378
+
+hangfire
+https://www.linkedin.com/feed/update/urn:li:activity:7274862175637192705
+
+notify
+https://www.linkedin.com/feed/update/urn:li:activity:7258899793123414017
+
+poly
+https://www.linkedin.com/feed/update/urn:li:activity:7270705471190171648
+
+http status
+https://www.linkedin.com/feed/update/urn:li:activity:7265821008341708800
+
+solid
+https://www.linkedin.com/feed/update/urn:li:activity:7265656469209952256
+
+system design
+https://www.linkedin.com/feed/update/urn:li:activity:7272534611560124416
+
+clean code
+https://www.linkedin.com/feed/update/urn:li:activity:7270020892263399425
+https://www.linkedin.com/feed/update/urn:li:activity:7200049816083550208
+
+github copilot
+https://www.linkedin.com/feed/update/urn:li:activity:7281040804997926912
+
+google interview, algo, dsa
+https://www.linkedin.com/feed/update/urn:li:activity:7280199826523279360
+https://www.linkedin.com/feed/update/urn:li:activity:7259072614701158400
+https://www.linkedin.com/feed/update/urn:li:activity:7243321745137434624
+https://www.interviewkickstart.com/blogs/interview-questions/data-structure-algorithm-interview-questions-at-google
+https://youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz
+https://www.linkedin.com/feed/update/urn:li:activity:7078278697505480706
+https://www.linkedin.com/feed/update/urn:li:activity:7078920887382458368
+https://www.linkedin.com/feed/update/urn:li:activity:7106856386650607616
+
+react
+https://www.linkedin.com/feed/update/urn:li:activity:7282891683912925184
+https://www.linkedin.com/feed/update/urn:li:activity:7077599538957467649
+
+spring boot annotations
+https://www.linkedin.com/feed/update/urn:li:activity:7286027624160616448
+
+revolut arch
+https://www.linkedin.com/feed/update/urn:li:activity:7274888788651200512
+
+uber arch
+https://medium.com/@tejaswaroop2310/uber-trip-match-making-algorithm-ef59db65eb7b
+https://miro.medium.com/v2/resize:fit:1400/0*AbOWwt1xL-hxdMRp
+
+netflix arch
+https://www.linkedin.com/feed/update/urn:li:activity:7247576377212747778
+
+It is used to make restapi calls with python it's new framework 
+https://fastapi.tiangolo.com/
+
+other
+https://www.linkedin.com/posts/saurabh-dashora_layer-4-vs-layer-7-load-balancers-simplified-activity-7286633400524853248-FLRR	
+	</pre>
+  </body>
+</html>
+

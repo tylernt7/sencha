@@ -21,6 +21,67 @@
 	</ul>
 	<center><img src="images\sync_vs_async.png" width="75%" height="75%"/></center>
 	
+	<h2>Communication Protocols</h2>
+    <table border="1"><thead>
+      <tr>
+        <th>Protocol</th>
+        <th>Format</th>
+        <th>Connection Lifecycle</th>
+        <th>Transport Protocol</th>
+        <th>Streaming Support</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>REST</td>
+        <td>JSON/XML</td>
+        <td>1 connection per request-response </td>
+        <td>HTTP/HTTPS over TCP</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>SOAP</td>
+        <td>XML (Envelope-based)</td>
+        <td>1 connection per request</td>
+        <td>HTTP/HTTPS over TCP</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>GraphQL</td>
+        <td>JSON</td>
+        <td>1 connection per request-response;<br>persistent connection for subscriptions</td>
+        <td>HTTP/HTTPS over TCP</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>Webhook</td>
+        <td>JSON/XML</td>
+        <td>1 HTTP request per event </td>
+        <td>HTTP/HTTPS over TCP</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>gRPC</td>
+        <td>Protocol Buffers</td>
+        <td>Persistent</td>
+        <td>HTTP/2 over TCP</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>WebSocket</td>
+        <td>Text/Binary frames</td>
+        <td>Persistent</td>
+        <td>TCP-socket</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>MQTT/AMQP</td>
+        <td>Binary messages</td>
+        <td>Persistent</td>
+        <td>TCP-socket</td>
+        <td>Yes</td>
+      </tr>
+    </tbody></table>
+	
 	<h2>Popular API Architecture Styles</h2>
 	<center><img src="images\arch_styles.gif" width="75%" height="75%"/></center>
 

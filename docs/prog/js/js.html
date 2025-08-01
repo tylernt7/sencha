@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
   <head>
-    <title>JS</title>
+    <title>JavaScript (JS)</title>
+    <link rel="stylesheet" href="../../common.css">			
   </head>
   <body>
-    <h1>JS</h1>
+    <h1>JavaScript (JS)</h1>
     <h2>Arrow Function (ES6)</h2>
 	<div class="code"><code><pre>
 <table border="1" width="100%">
@@ -16,19 +17,30 @@ function add(a, b) {
 
 <i>// Arrow function</i>
 const add = (a, b) => a + b;</td>
-    <td><i>// Traditional anonymous function</i>
-function (a) {
-  return a + 100;
-};
+    <td><i>// Traditional anonymous function</i>	
+function (a, b) {
+  return a + b;
+}	
 
 <i>// Arrow function</i>
-a => a + 100;</td>
-  </tr>
-</table>	
-	
-	
+(a, b) => a + b;</td>
+</tr>
+</table></pre></code></div>
 
-</pre></code></div>
+    <h2>Spread Operator (...)</h2>
+	<b>Array spread [...arr], ES6 (2015)</b>
+<div class="code"><code><pre>const colors = ['red', 'green'];
+const moreColors = [...colors, 'blue'];
+
+console.log(moreColors);
+<i>// ['red', 'green', 'blue']</i></pre></code></div>
+    <br>
+	<b>Object spread { ...obj }, ES9 (2018)</b>
+<div class="code"><code><pre>const person = { name: 'Tyler', age: 40 };
+const updatedPerson = { ...person, age: 41 };
+
+console.log(updatedPerson);
+<i>// { name: 'Tyler', age: 41 }</i></pre></code></div>
 
   </body>
 </html>

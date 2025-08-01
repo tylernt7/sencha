@@ -1,29 +1,174 @@
 <!doctype html>
 <html>
   <head>
-    <title>Distributed Techniques</title>
+    <title>Distributed Transaction Management</title>
     <link rel="stylesheet" href="../common.css">
   </head>
   <body>
-    <h1>Distributed Techniques</h1>
+    <h1>Distributed Transaction Management</h1>
 	
 	<h2>ACID</h2>
 	<p>Distributed transactions must have all four ACID (atomicity, consistency, isolation, durability) properties that guarantee the validity and reliability of database transactions, even in the case of failures.</p>
 	<img src="images\acid.gif" width="40%" height="40%"/>
 	
 	<h2>How do you achieve data consistency between microservices?</h2>
-	<p>The main difference between REST and message broker in terms of consistency is that REST follows a strong consistency model, while message broker follows an eventual consistency model. Strong consistency means that the system always has the most recent data. Eventual consistency means that the system has outdated data until all components (nodes, services) are updated (propagated and synchronized).</p>		
-	<p>REST achieves <b>strong consistency</b> by using HTTP methods and status codes to ensure that each request is processed atomically and idempotently, and that any errors or failures are reported back to the client. REST also uses techniques such as caching, conditional requests, or optimistic locking to optimize performance and avoid conflicts or stale data. However, strong consistency comes at a cost of increased latency, reduced availability, and lower scalability.</p>
-	<p>Message broker achieves <b>eventual consistency</b> by using queues and exchanges to decouple the sender and the receiver, and to allow messages to be delivered in a reliable and durable manner. Message broker also uses features such as persistence, acknowledgements, transactions, or dead letter queues to ensure that messages are not lost or duplicated. However, eventual consistency introduces complexity and challenges in terms of ordering, synchronization, or error handling.</p>	
+	<p>The main difference between REST and message broker in terms of consistency is that REST follows a strong consistency model, while message broker follows an eventual consistency model. <b>Strong consistency</b> means that the system always has the most recent data. It can come at the cost of increased latency and slower response times, as all replicas must coordinate and confirm updates before read and write operations are completed. <b>Eventual consistency</b> means that the system has outdated data until all components (nodes, services) are updated (propagated and synchronized). Data might not be in sync immediately but will become consistent eventually (over time).</p>		
+	<p>REST achieves <i>strong consistency</i> by using HTTP methods and status codes to ensure that each request is processed atomically and idempotently, and that any errors or failures are reported back to the client. However, strong consistency comes at a cost of increased latency, reduced availability, and lower scalability.</p>
+	<p>Message broker achieves <i>eventual consistency</i> by using queues and exchanges to decouple the sender and the receiver, and to allow messages to be delivered in a reliable and durable manner. Message broker also uses features such as persistence, acknowledgements, transactions, or dead letter queues to ensure that messages are not lost or duplicated. However, eventual consistency introduces complexity and challenges in terms of ordering, synchronization, or error handling.</p>	
 	
-	<h2>Distributed Transaction Management</h2>
-	<p>2PC/3PC (Two-Phase Commit/Three-Phase Commit)<br>
-	Saga Pattern<br>
-	CQRS (Command Query Responsibility Segregation) Pattern<br>
-	API Composition<br>	
-	TCC (Try-Confirm-Cancel)<br> 
-	ESB (Enterprise Service Bus)<br> 
-	Contract Testing</p>
+	<h2>Techniques for ensuring data consistency with REST APIs</h2>
+	<p><b>ETags and Conditional Requests:</b> REST APIs can use <a href="https://docs.oracle.com/en/cloud/paas/app-builder-cloud/consume-rest/data-consistency-tasks.html">ETags</a> (entity tags) in response headers to represent the state of a resource. Clients include these ETags in subsequent requests using headers like <i>If-Match</i> or <i>If-None-Match</i> to ensure they are updating or retrieving the current version of the resource.<br>If the ETag does not match (e.g., the resource has changed), the server returns a <i>412 Precondition Failed</i> response, preventing stale data updates. This is a form of optimistic concurrency control (optimistic locking).</p>	
+	<p><b>Versioning and Timestamps:</b> Including version numbers or timestamps in  resources enables clients to detect changes and prevent conflicting updates.</p>	
+	<p><b>Schema Validation:</b> Validating request payloads using JSON Schema or XSD ensures that incoming data adheres to expected formats and business rules. This protects the system from malformed or invalid data.</p>	
+	<p><b>Data Reconciliation and Profiling:</b> Services exposing REST APIs can implement background reconciliation jobs that compare data across services or databases to detect and resolve inconsistencies. Data profiling tools can help identify anomalies before they cause issues.</p>	
+	<p><b>Error Handling and Logging:</b> Robust error handling and structured logging help detect and correct inconsistencies quickly. REST APIs should return meaningful error messages (e.g., 409 Conflict, 422 Unprocessable Entity) and maintain logs for debugging and compliance.</p>	
+	<p><b>Monitoring and Alerts:</b> Continuous monitoring of API usage and data integrity, combined with alerting systems, allows teams to respond to issues before they escalate.</p>	
+	
+	<h2>Distributed Transaction Management</h2>	
+	<b>2PC/3PC (Two-Phase Commit/Three-Phase Commit)</b><br>
+	2PC is a blocking and 3PC is a non-blocking protocol, coordinated commit protocol across services/databases, relies on transactional locks.<br>
+	<img src="images\2pc.png" width="25%" height="25%"/><br>
+	<br>
+	<b>Saga</b><br>
+	Manages <i>distributed transactions</i> across multiple microservices, ensuring data consistency while maintaining the autonomy of your services.<br>
+	This is a sequence of local transactions where each service performs an operation (e.g., updates the data) and publishes an event or message. If a transaction fails, compensating transactions are triggered to undo the preceding updates.<br>
+	<i>Example:</i> Managing multiple e-commerce transactions.<br>	
+	When a customer places an order, the order service updates the orders table and then publishes an event. The inventory service listens for this event and reserves the items, updating the inventory table. If any step fails, you can roll back with compensating transactions to maintain consistency. For example, if an order placement fails due to insufficient inventory, you would initiate a compensating transaction to cancel the order and release any reserved items.<br>
+	<i>Saga Choreography (Event-Driven Approach)</i><br>
+	<img src="images\saga_choreography.png" width="50%" height="50%"/><br>
+	<i>Saga Orchestration (Central Coordinator)</i><br>
+	<img src="images\saga_orchestration.png" width="50%" height="50%"/><br>	
+	In both cases, the <i>transactional outbox pattern</i> is crucial for maintaining data consistency and reliability across distributed systems.<br>
+	<br>		
+	<b>CQRS (Command Query Responsibility Segregation) / Mediator</b><br>	
+	<i>Separates the read and write operations</i> in a microservice, improving performance, scalability, and maintainability. It often uses event sourcing.<br><br>
+	<img src="images\cqrs.png" width="50%" height="50%"/><br>
+	<i>Example:</i> Instagram optimized query execution performance.<br>
+	<i>Example:</i> Event Sourcing: Linedata for their flagship trading application.<br>	
+	<br>
+	<b>Transactional Outbox</b><br>
+	Decouples DB and messaging safely, events are written to an "outbox" table in the same database transaction as the business data, publishes events reliably after DB commit (with database transactions, without 2PC); avoids dual-write issues.<br>
+	<i>Problem</i>: How to <i>atomically</i> update the database and send messages to a message broker?<br>
+	The OUTBOX table acts a temporary message queue.<br>	
+	<img src="images\outbox.png" width="50%" height="50%"/><br>	
+	<i>Example:</i> A user creates an account, so we save the account in the database and send a welcome e-mail.
+	<code><pre>databaseTransaction {
+    persist(account) // 'insert into account ...'
+    persist(accountCreatedEvent) // 'insert into outbox_message ...'
+}
+sendWelcomeEmailFor(account)</pre></code>	
+	<br>	
+	<b>API Composition</b><br>
+	Aggregates data from multiple services in real-time (at query time), no shared state.<br>
+	<br>
+	<b>TCC (Try-Confirm-Cancel)</b><br>
+	Breaks transactions into 3 explicit phases per participant to reserve resources before commit, requires idempotency.<br>
+	<br>
+	<b>ESB (Enterprise Service Bus)</b><br>
+	Centralized orchestration across systems, depends on configuration/policy.<br>
+	<br>
+	<b>CDC (Change Data Capture)</b><br>
+	Reads DB transaction logs for changes (insert/update/delete), e.g. Debezium, Kafka Connect, publishes DB changes as events to subscribing services.<br>
+	<br>
+	<b>Idempotent Consumer (Reliable Messaging with Idempotency)</b><br>
+	Ensures safe handling of duplicate events from Outbox or CDC, safe retries using deduplication/idempotency keys (e.g., transaction ID).<br>
+	<br>
+	<b>Event Sourcing</b><br>
+	Stores all state changes as events, relies on event log/history.<br>
+	<br>
+	<b>Outbox Polling (Polling Publisher / Relay)</b><br>
+	Publishes events, polls DB table for messages to send, avoids dual-write issues.<br>
+    <br>	
+    <table border="1">
+	<thead>
+      <tr>
+        <th>Technique</th>
+        <th>Consistency</th>
+        <th>Transport Mechanism</th>
+        <th>Transactional Outbox</th>
+        <th>Error Handling</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>2PC/3PC</td>
+        <td>Strong</td>
+        <td>REST (Limited), gRPC, DB (2PC via XA)</td>
+        <td>-</td>
+        <td>Rollbacks entire transaction if any participant fails, 3PC: abort transaction if the coordinator fails</td>
+      </tr>
+      <tr>
+        <td>Saga</td>
+        <td>Eventual</td>
+        <td>REST, gRPC, Message Broker</td>
+        <td>Ensures reliable event publishing between saga steps</td>
+        <td>Uses compensating transactions to undo previous failed steps</td>
+      </tr>
+      <tr>
+        <td>CQRS</td>
+        <td>Eventual</td>
+        <td>REST (Query), gRPC (Query), Message Broker (Events)</td>
+        <td>Helps publish command events reliably</td>
+        <td>Retries failed commands/events, uses event replay or reconciliation</td>
+      </tr>
+      <tr>
+        <td>Transactional Outbox</td>
+        <td>Eventual</td>
+        <td>REST, Message Broker</td>
+        <td>Native</td>
+        <td>Retries publishing from outbox</td>
+      </tr>	  
+      <tr>
+        <td>API Composition</td>
+        <td>Eventual</td>
+        <td>REST, gRPC</td>
+        <td>-</td>
+        <td>Returns partial results, retry or fallback to cached data</td>
+      </tr>
+      <tr>
+        <td>TCC</td>
+        <td>Strong</td>
+        <td>REST, gRPC, Message Broker (Async flows)</td>
+        <td>Possible in Confirm phase, helps publish confirm/cancel events reliably</td>
+        <td>Cancels participants for any failure or timeout </td>
+      </tr>
+      <tr>
+        <td>ESB</td>
+        <td>Strong or Eventual (varies)</td>
+        <td>REST, Message Broker</td>
+        <td>-</td>
+        <td>XA: rollback, otherwise: compensation or retries, uses dead-letter queues for failures</td>
+      </tr>
+      <tr>
+        <td>CDC</td>
+        <td>Eventual</td>
+        <td>Message Broker, DB</td>
+        <td>Reads the outbox table and automatically publishes events</td>
+        <td>Retries event publishing, ensures ordering per key/row, uses checkpointing for recovery, reprocesses from log offset</td>
+      </tr>
+      <tr>
+        <td>Idempotent Consumer (Reliable Messaging with Idempotency)</td>
+        <td>Eventual</td>
+        <td>REST, gRPC, Message Broker (with Redis)</td>
+        <td>Events sent from the outbox can be duplicated, so idempotence is important</td>
+        <td>Consumers ignore duplicates</td>
+      </tr>
+      <tr>
+        <td>Event Sourcing</td>
+        <td>Eventual</td>
+        <td>Message Broker</td>
+        <td>Saving events to the outbox helps preserve the order of events, ensures reliable event delivery</td>
+        <td>Replays events to rebuild state, correct event versions or append compensating events</td>
+      </tr>
+      <tr>
+        <td>Outbox Polling (Polling Publisher / Relay)</td>
+        <td>Eventual</td>
+        <td>REST, Message Broker</td>
+        <td>Reads Outbox table and publishes events, using REST or Kafka</td>
+        <td>Retries failed sends; mark processed events; use batching and backoff</td>
+      </tr>
+    </tbody>
+	</table>	
+
 
 	<h2>Distributed Locks</h2>
 	<p>RedLock algorithm<br>

@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Spring Evolution</title>
-    <link rel="stylesheet" href="../common.css">
+    <link rel="stylesheet" href="../../common.css">
   </head>
   <body>
     <h1>Spring Evolution</h1>
@@ -71,7 +71,7 @@
         <td><b>Spring Boot</b></td>	  
         <td>2014</td>
         <td>Pivotal Software (now VMware)</td>
-        <td>Simplifying Spring application setup with embedded servers and auto-configuration</td>
+        <td>Simplifying Spring application setup with auto-configuration, starter dependencies and embedded servers</td>
       </tr>
     </tbody>
     </table>	
@@ -198,7 +198,7 @@
         <td></td>
       </tr>
       <tr>
-        <td>Spring WebFlux</td>
+        <td>Spring WebFlux (Spring Reactive Web)</td>
         <td></td>
         <td></td>
         <td></td>
@@ -208,7 +208,67 @@
       </tr>
     </tbody></table>	
 	
-    <h2>Overview of the the Spring Framework</h2>	
+	
+	<h2>Threading Models</h2>
+    <table border="1"><thead>
+      <tr>
+        <th>Aspect</th>
+        <th>Spring Boot (MVC)</th>
+        <th>Spring WebFlux (Reactive)</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>Thread Model</td>
+        <td>Multi-threaded</td>
+        <td>Event-loop</td>
+      </tr>
+      <tr>
+        <td>Default Server</td>
+        <td>Tomcat</td>
+        <td>Netty</td>
+      </tr>
+      <tr>
+        <td>Blocking Behavior</td>
+        <td>Blocking I/O (e.g., JDBC, RestTemplate)</td>
+        <td>Non-blocking I/O (e.g., R2DBC, WebClient)</td>
+      </tr>
+      <tr>
+        <td>Execution Model </td>
+        <td>Synchronous request/response processing </td>
+        <td>Asynchronous data streams</td>
+      </tr>
+      <tr>
+        <td>Thread Usage</td>
+        <td>One thread per request</td>
+        <td>One thread – many requests</td>
+      </tr>
+      <tr>
+        <td>Scalability</td>
+        <td>Limited by thread pool size</td>
+        <td>Higher due to non-blocking I/O</td>
+      </tr>
+    </tbody>
+    </table>
+	
+	<h2>Spring Boot (Synch) + Virtual Threads (Asynch) = Spring WebFlux (Asynch)</h2>
+	<ul>
+	<li>Virtual Threads (JDK 21) are lightweight threads managed by the JVM, not the OS.</li>
+	<li>Massive concurrency with minimal overhead.</li>
+	<li>Ideal for I/O-bound tasks (DB connectivity, HTTP client).</li>
+	<li>You can enable virtual threads in application.yml (application.properties).</li>
+	</ul>
+	
+<div class="code"><code><pre>Thread.startVirtualThread(() -> {
+    System.out.println("Running in a virtual thread");
+});
+
+// Or using an executor:
+
+try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    executor.submit(() -> System.out.println("Hello from virtual thread"));
+}</pre></code></div>
+	
+    <h2>Overview of the the Spring Framework</h2>
 	<h3>https://docs.spring.io/spring-framework/docs/1.1.x/reference/introduction.html</h3>
 	<img src="https://docs.spring.io/spring-framework/docs/1.1.x/reference/images/spring-overview.gif"/>
 	<h3>https://docs.spring.io/spring-framework/docs/2.0.x/reference/introduction.html</h3>

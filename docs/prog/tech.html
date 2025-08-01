@@ -15,10 +15,15 @@
       </tr></thead>
     <tbody>
       <tr>
-        <td>AI/ML</td>
-        <td>- Deeplearning4j<br>- Deep Java Library (DJL)<br>- JavaCPP + TensorFlow/PyTorch <br>- Python in Java (JEP) <br>- Spring ML (limited)<br>- Java ML</td>
-        <td>- ML.NET<br>- TensorFlow.NET<br>- TorchSharp<br>- Azure AI Services<br>- IronPython or Cpython<br>- ONNX Runtime</td>
+        <td>API Gateway (routing, authentication, rate limiting, service discovery, load balancing)</td>
+        <td>Spring Cloud Gateway, Zuul (Netflix OSS, legacy), Kong</td>
+        <td>Ocelot (lightweight), Envoy, YARP, Azure API Management (APIM)</td>
       </tr>
+      <tr>
+        <td>Service Discovery</td>
+        <td>Eureka (Netflix OSS), Consul (HashiCorp), Zookeeper (Apache), Kubernetes DNS</td>
+        <td>Consul (HashiCorp), ServiceDiscovery (Microsoft), Steeltoe, Kubernetes DNS</td>
+      </tr>	  
       <tr>		  
         <td>Synchronous Communication (APIs)</td>
         <td>- REST:&nbsp;&nbsp;Spring Web, Spring MVC, Jersey (JAX-RS)<br>- SOAP: Spring WS<br>- gRPC: Spring Boot gRPC, gRPC-Java</td>
@@ -45,9 +50,9 @@
         <td>- Iconfiguration<br>- ASP.NET Core Configuration Providers/API (JSON, environment variables, Azure App Configuration)&nbsp;&nbsp;<br>- .NET Vault Provider, Azure Key Vault, HashiCorp Vault via libraries</td>
       </tr>
       <tr>
-        <td>Resilience & Observability (Reliability &amp; Fault Tolerance, Idempotency)</td>
-        <td>- Resilience4j (circuit breakers, retries, bulkheads)<br>- Spring Cloud Circuit Breaker<br>- Spring Retry<br>- Distributed Tracing: Spring Cloud Sleuth, Zipkin<br>- OpenTracing<br>- Hystrix<br>- Micrometer for observability<br></td>
-        <td>- ILogger, Serilog for logs<br>- Polly (circuit breakers, retries, fallback)<br>- Dapr<br>- Application Insights<br>- OpenTelemetry<br>- Distributed Tracing</td>
+        <td>Resilience, Observability, Security, Reliability (Fault Tolerance, Idempotency)</td>
+        <td>- Resilience4j (retries, circuit breakers, bulkheads)<br>- Spring Cloud Circuit Breaker<br>- Spring Retry<br>- Distributed Tracing: OpenTelemetry, Zipkin, Jaeger, Spring Cloud Sleuth<br>- Micrometer for observability<br></td>
+        <td>- ILogger, Serilog for logs<br>- Polly (retries, circuit breakers, fallback)<br>- Dapr (retries, circuit breakers, back-offs, timeouts)<br>- Distributed Tracing: OpenTelemetry, Application Insights</td>
       </tr>
       <tr>	  
         <td>Reactive Programming (Real-Time, High-Throughput, Low-Latency)</td>
@@ -60,10 +65,15 @@
         <td>- Object Storage: Azure Blob Storage, AWS SDK for .NET (S3), Google Cloud Storage, MinIO.NET <br>- Block Storage: AWS EBS, Azure Disk, Longhorn (for Kubernetes)<br>- Cloud Storage: Azure Storage, AWS S3, Google Cloud Storage<br>- File Storage: System.IO, Azure Files, NFS, Windows File Share, SMB/CIFS </td>
       </tr>
       <tr>
+        <td>AI/ML</td>
+        <td>- Deeplearning4j<br>- Deep Java Library (DJL)<br>- JavaCPP + TensorFlow/PyTorch <br>- Python in Java (JEP) <br>- Spring ML (limited)<br>- Java ML</td>
+        <td>- ML.NET<br>- TensorFlow.NET<br>- TorchSharp<br>- Azure AI Services<br>- IronPython or Cpython<br>- ONNX Runtime</td>
+      </tr>
+      <tr>
         <td>CI/CD Tools</td>
         <td>GitHub Actions, GitLab CI/CD pipelines, Azure DevOps, Jenkins</td>
         <td>Same as in Java</td>
-      </tr>
+      </tr>	  
     </tbody></table>
 
     <h2>Tech Stack in Budapest</h2>

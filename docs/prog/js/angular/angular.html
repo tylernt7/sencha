@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Angular</title>
+    <link rel="stylesheet" href="../../../common.css">		
+  </head>
+  <body>
+
+    <h1>Angular</h1>
+    
+	<h2>Pipes</h2>
+	<p>Pipes are a special operator in Angular template expressions that allows you to transform data declaratively in your template.</p>
+    <div class="code"><code><pre>import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'usd'
+})
+export class UsdPipe implements PipeTransform {
+  transform(value: number): string {
+    return `${value} USD`;
+  }
+}</pre></code></div>	
+    <br>Usage in HTML:<br>
+    <div class="code"><code><pre>&lt;p>{{ 100 | usd }}&lt;/p></pre></code></div>
+		
+	<h2>BehaviorSubject (RxJS)</h2>	
+	<p>A variant of Observable that requires an initial value and emits its current value whenever it is subscribed to.</p>
+	
+    <div class="code"><code><pre><i>// number.service.ts</i>
+import { BehaviorSubject } from 'rxjs';
+
+export class NumberService {
+  private numberSubject = new BehaviorSubject&lt;number>(0);
+
+  number$ = this.numberSubject.asObservable();
+
+  setNumber(value: number) {
+    this.numberSubject.next(value);
+  }
+}</pre></code></div>
+
+    <br>Use in component:<br>
+
+    <div class="code"><code><pre><i>// app.component.ts</i>
+export class AppComponent implements OnInit {
+  number = 0;
+
+  constructor(private numberService: NumberService) {}
+
+  ngOnInit() {
+    this.numberService.setNumber(100);
+  
+    this.numberService.number$.subscribe(value => {
+      this.number = value;
+    });
+  }
+}</pre></code></div>
+	<p>Consider using the async pipe in your template to avoid manual subscriptions.</p>
+  </body>
+</html>

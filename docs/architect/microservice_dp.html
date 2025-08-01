@@ -98,20 +98,11 @@
 	</table>
 	<b>Example:</b> Complex apps with complicated business logic.<br>
 	
-	<h2>Command Query Responsibility Segregation (CQRS) / Mediator</h2>
-	<i>Separates the read and write operations</i> in a microservice, improving performance, scalability, and maintainability.<br>
-	<img src="images\cqrs.png" width="50%" height="50%"/><br>
-	<b>Example:</b> Instagram optimized query execution performance.<br>
-	<b>Example:</b> Event Sourcing: Linedata for their flagship trading application.
+	<h2>Command Query Responsibility Segregation (CQRS)</h2>
+	See: <a href="distributed.html">here</a>
 		
 	<h2>Saga</h2>
-	Manages <i>distributed transactions</i> across multiple microservices, ensuring data consistency while maintaining the autonomy of your services.<br>
-	<h3>Saga Choreography (Event-Driven Approach)</h3>
-	<img src="images\saga_choreography.png" width="50%" height="50%"/>
-	<h3>Saga Orchestration (Central Coordinator)</h3>
-	<img src="images\saga_orchestration.png" width="50%" height="50%"/><br>	
-	In both cases, the <i>transactional outbox pattern</i> is crucial for maintaining data consistency and reliability across distributed systems.<br>
-	<b>Example:</b> Managing multiple e-commerce transactions.
+	See: <a href="distributed.html">here</a>
 	
 	<h2>Circuit breaker</h2>
 	Implements a <i>fault-tolerant</i> mechanism for microservices, preventing cascading failures by automatically detecting and isolating faulty services.<br>
@@ -144,16 +135,7 @@
 	<b>Example:</b> SoundCloud increased autonomy, resilience, and pace of development.
 
 	<h2>Transactional outbox pattern</h2>
-	<b>Problem</b>: How to <i>atomically</i> update the database and send messages to a message broker?<br>
-	The OUTBOX table acts a temporary message queue.<br>	
-	<img src="images\outbox.png" width="50%" height="50%"/><br>	
-	<b>Example:</b> A user creates an account, so we save the account in the database and send a welcome e-mail.
-	<code><pre>databaseTransaction {
-    persist(account) // 'insert into account ...'
-    persist(accountCreatedEvent) // 'insert into outbox_message ...'
-}
-sendWelcomeEmailFor(account)</pre></code>
-	</p>
+	See: <a href="distributed.html">here</a>
 	
 	<h2>Microservices Design Patterns</h2>
 	<center><img src="images\microservices_design_patterns.gif" width="60%" height="60%"/></center>

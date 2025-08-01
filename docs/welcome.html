@@ -8,12 +8,13 @@
 
   <u><b>OOP</b></u> (<b>O</b>bject-<b>O</b>riented <b>P</b>rogramming)<br> 
   <b>Interface</b>: Declares methods (signatures/prototypes of methods), <i>"what"</i> to do but <i>"not how"</i>to do (JPA), contract/agreement<br>
+  <b>Abstract class</b>: cannot be instantiated, contains abstract methods to implement<br>
   <b>Principles</b>
   <ul>
-      <li>Data Abstraction: Visibility (private, protected)</li>
-      <li>Encapsulation: Getters and Setters </li>
-      <li>Inheritance: Subclass - Superclass</li>
-      <li>Polymorphism: Many forms (overriding, overloading)</li>
+      <li>Data Abstraction (Datenabstraktion): Visibility (private, protected)</li>
+      <li>Encapsulation (Kapselung): Getters and Setters </li>
+      <li>Inheritance (Vererbung): Subclass - Superclass</li>
+      <li>Polymorphism (Polymorphismus): Many forms (overriding, overloading)</li>
   </ul>
   <b>IoC</b> (Inversion of Control): Dependency Injection: Framework does object creation (Guice, Dagger)<br>
   <b>Law of Demeter</b>: don't talk to strangers (A &rarr; B &rarr; C)<br>
@@ -285,7 +286,283 @@ CREATE TABLE products (
       <li>Other implementations: RESTeasy, Apache CXF, Restlet</li>
   </ul>
   
-  Arial 9 pt, Courier New 8 pt
+  <u><b>TODO below !!!</b></u><br>
+  <br>
+  <u><b>GoF Design Patterns Usage in Spring Boot Microservices</b></u><br>
+  <table border="1"><thead>
+    <tr>
+      <th>Design Pattern</th>
+      <th>Intent</th>
+      <th>Usage</th>
+      <th>Usage</th>
+      <th>Lombok Annotation</th>
+    </tr></thead>
+  <tbody>
+    <tr>
+      <td>Singleton</td>
+      <td>Ensures a single instance of a class </td>
+      <td>Service beans, configuration classes, and resource management</td>
+      <td>Spring beans are singletons by default, ensuring one shared instance per application</td>
+      <td>@UtilityClass </td>
+    </tr>
+    <tr>
+      <td>Factory Method</td>
+      <td>Creates objects without specifying the concrete class</td>
+      <td>Configuration, bean instantiation, or when object creation is complex</td>
+      <td>BeanFactory and FactoryBean abstractions decouple object creation from application logic</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Strategy</td>
+      <td>Enables selecting algorithms at runtime</td>
+      <td>Flexible services where logic needs to be pluggable or configurable</td>
+      <td>Conditional beans and pluggable services let you swap algorithms without changing clients</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Template Method</td>
+      <td>Defines a method skeleton, letting subclasses fill in details</td>
+      <td>Abstract base services and workflow definitions</td>
+      <td>RestTemplate, JdbcTemplate, and others define skeleton workflows while allowing customization</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Proxy</td>
+      <td>Adds extra behavior to objects</td>
+      <td>AOP, security, remote service calls, caching, service abstraction</td>
+      <td>AOP and transaction management rely on proxies to wrap and enhance method execution</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Observer</td>
+      <td>Allows objects to subscribe to events</td>
+      <td>Event-driven architecture, message queues, and domain event handling</td>
+      <td>ApplicationEventPublisher and @EventListener support loosely coupled event-driven communication</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Builder</td>
+      <td>Simplifies object creation</td>
+      <td>Building DTOs, HTTP request bodies, or configurations fluently</td>
+      <td>WebClient, RequestEntity, and ResponseEntity use builders to construct complex requests safely</td>
+      <td>@Builder, @Singular, @SuperBuilder</td>
+    </tr>
+    <tr>
+      <td>Adapter</td>
+      <td>Converts one interface into another, bridges incompatible interfaces</td>
+      <td>Integrating legacy systems or external APIs</td>
+      <td>Feign client interfaces and messaging converters adapt external APIs to your domain model</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Decorator</td>
+      <td>Adds responsibilities dynamically</td>
+      <td>Request/response filters and enhancing behavior without inheritance</td>
+      <td>Servlet filters and HttpMessageConverters wrap requests/responses to add cross-cutting behavior</td>
+      <td>@Delegate </td>
+    </tr>
+    <tr>
+      <td>Command</td>
+      <td>Encapsulates a request as an object</td>
+      <td>Task execution, messaging systems, or scheduling commands, async/job handling</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Chain of Responsibility</td>
+      <td>Passes a request along handlers</td>
+      <td>Middleware, filters, and validation pipelines</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Composite</td>
+      <td>Composes objects into tree structures</td>
+      <td>Resource trees or nested component hierarchies</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Mediator</td>
+      <td>Centralizes complex communication between objects. Reduces coupling between components.</td>
+      <td>Rare in Spring due to ApplicationContext; used when many components interact</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Flyweight</td>
+      <td>Shares object state efficiently</td>
+      <td>Caching or large-volume data structures</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Memento</td>
+      <td>Captures and restores object state</td>
+      <td>Rarely used; applicable in undo mechanisms or versioning</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Interpreter</td>
+      <td>Defines grammar and interprets expressions</td>
+      <td>Custom DSLs or expression evaluators</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Visitor</td>
+      <td>Adds operations to objects without changing them</td>
+      <td>Rare in Spring; used when operations on structured data are needed</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Bridge</td>
+      <td>Separates abstraction from implementation</td>
+      <td>Rarely used; useful when you want to vary implementations independently.</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Facade</td>
+      <td></td>
+      <td></td>
+      <td>Service facades simplify complex subsystem interactions behind a unified interface</td>
+      <td></td>
+    </tr>
+  </tbody></table>
+  
+  <br>
+  <u><b>Scopes (DI lifetime types)</b></u><br>
+  <table border=1><thead>
+    <tr>
+      <th>Scope</th>
+      <th>ASP.NET Core</th>
+      <th>Spring Boot Annotation</th>
+      <th>Angular Syntax</th>
+      <th>Behavior</th>
+      <th>Use Case </th>
+    </tr></thead>
+  <tbody>
+    <tr>
+      <td>Singleton</td>
+      <td>AddSingleton </td>
+      <td>@Component / @Service (default)</td>
+      <td>@Injectable({ providedIn: 'root' })</td>
+      <td>One instance per application </td>
+      <td>Stateless shared services, cache managers </td>
+    </tr>
+    <tr>
+      <td>Prototype</td>
+      <td>AddTransient </td>
+      <td>@Scope("prototype")</td>
+      <td>providers: [MyService] (on component)</td>
+      <td>New instance on each injection </td>
+      <td>Stateful or non-thread-safe beans </td>
+    </tr>
+    <tr>
+      <td>Request</td>
+      <td>AddScoped </td>
+      <td>@Scope("request") or @RequestScope</td>
+      <td>Not applicable. Simulate by using Injector.create() in an HTTP interceptor or providing the service at a request boundary (e.g., in a resolver)</td>
+      <td>New instance per HTTP request </td>
+      <td>Request-scoped controllers, filters </td>
+    </tr>
+    <tr>
+      <td>Session</td>
+      <td></td>
+      <td>@Scope("session")</td>
+      <td>Not applicable</td>
+      <td></td>
+      <td>Session-scoped user data, shopping cart beans </td>
+    </tr>
+    <tr>
+      <td>Application</td>
+      <td></td>
+      <td>@Scope("application")</td>
+      <td>@Injectable({ providedIn: 'root' }) (default)</td>
+      <td></td>
+      <td>Global resources, application-wide configuration </td>
+    </tr>
+    <tr>
+      <td>Component-scoped</td>
+      <td></td>
+      <td>Not applicable</td>
+      <td>providers: [MyService] (in component metadata)</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Module-scoped</td>
+      <td></td>
+      <td>Not standard</td>
+      <td>Declare service in module’s providers: [...]</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Lazy-loaded module</td>
+      <td></td>
+      <td>Not applicable</td>
+      <td>Lazy-load module and provide service locally</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody></table>  
+  
+  
+  <b>Spring Boot:</b><br>
+  - Default: singleton<br>
+  - Used with @Scope("...") on @Component, @Service, @Bean, etc.<br>
+  <b>Angular:</b><br>
+  - Default: providedIn: 'root' → Singleton across the entire app.<br>
+  - Use component/module providers to create scoped instances.<br>
+  
+  <pre>
+
+---------------------------------------------------------
+
+Use of @Bean and @primary?
+Use of @conditional?
+How to create rest api explain?
+@RestController default return type? (plain text, Jackson)
+
+bemásolni a régi intervoew icell + otp
+
+<b>Liquibase</b>: adatbázis séma migráció (verzió), YAML:  (changes: createTable)
+
+<b>annotation</b>: @interface MyAnnotation { String value(); }
+
+<b>AWS</b> 
+	RDS = SQL-alapú adatbázisokat futtathatsz vele, például MySQL, PostgreSQL vagy SQL Server — teljesen felügyelt, nem kell manuálisan telepítgetni. 
+	IAM = ideiglenes jogosultság
+	EC2 = virtuális szervert biztosít hosszú futású folyamatokhoz
+		Virtuális szerverek futtatására szolgál a felhőben. Olyan, mintha saját géped lenne, de online és rugalmasan méretezhető
+	Lambda = eseményvezérelt, rövid futású kód végrehajtására alkalmas szerver nélkül.
+	S3 = Fájlok, adatok tárolására használt tárhely
+	Amazon CloudFront: Tartalomelosztó (CDN), ami gyorsítja a weboldalak betöltését világszerte — például képek, videók gyorsabb elérését biztosítja a felhasználóknak.
+
+<b>Java 21</b>
+- Virtual Threads (by the JVM): Thread.startVirtualThread
+- Pattern Matching for switch: típusokra elágazni (obj --> Integer / String)
+- Record Patterns: recordból adatkinyerés egy switch-el
+
+<b>perf:</b>
+	Adatbázis-particionálás: Oszd fel nagy táblákat logikai részekre (pl. dátum vagy régió alapján), hogy gyorsabb lekérdezéseket kapj.
+	Aszinkron kommunikáció: Használj üzenetsorokat (pl. Kafka, RabbitMQ), hogy ne blokkolják egymást a szolgáltatások.
+	Caching (pl. Redis, Memcached): Tárold az ismétlődő adatokat memóriában, hogy ne kelljen minden kérésnél újra számolni vagy lekérdezni.
+	Database connection pooling: Minimalizáld az adatbázis-kapcsolatok létrehozásának költségét, oszd meg őket hatékonyan.
+	Load balancing: Oszd el a kéréseket több példány között, hogy ne terhelődjön túl egyetlen szolgáltatás.
+	gRPC vagy más hatékony protokoll: REST helyett használj bináris protokollokat, ha alacsony késleltetésre van szükség.
+	Rate limiting és throttling: Védd a szolgáltatásokat a túlterheléstől, szabályozd a bejövő kérések számát.
+	Kód optimalizálás és footprint csökkentés: Minimalizáld a szolgáltatás méretét, csak a szükséges logikát tartsd meg, így gyorsabban indul és fut.	
+	Load Balancing és Service Discovery
+		Forgalom egyenletes elosztása szolgáltatások között (pl. Envoy, Istio).
+		Dinamikus felfedezés skálázódó mikroszolgáltatásokhoz.
+	retry policy
+  
+  </pre>
   
   </body>
 </html>
