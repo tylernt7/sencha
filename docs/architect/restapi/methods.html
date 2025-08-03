@@ -10,9 +10,9 @@
 	<h2>Overview</h2>
 	<p>According to <a href="https://datatracker.ietf.org/doc/html/rfc9110">RFC 9110</a>, HTTP defines request methods to interact with a given resource. A request method can be safe, idempotent, or cacheable.<br>
 	<i>Safe</i> means that it does not change any data on the server (the state of the server). Read-only operation.<br>
-	<i>Idempotent</i> means that the result (the state of the server) remains unchanged if the same request (operation) is executed several times.<br>
+	<i>Idempotent</i> means that the state of the server remains unchanged if the same request (operation) is executed several times.<br>
     <i>Cacheable</i> means that the response can be stored and reused</p>
-	
+		
 	<h2>Request Methods</h2>
     <table border="1">
     <thead>
@@ -65,7 +65,7 @@
       <tr>
         <td>PUT</td>
         <td>/products/{id}</td>
-        <td>Update an existing product by its ID</td>
+        <td>Create or replace a product by its ID</td>
 		<td>Optional</td>
         <td><b>Yes</b></td>
         <td><b>Yes</b></td>
@@ -81,7 +81,7 @@
         <td><b>Yes</b></td>
         <td><b>Yes</b></td>
         <td>No</td>
-        <td>No</td>
+        <td>Yes/No</td>
         <td>No</td>
       </tr>
       <tr>
@@ -116,10 +116,21 @@ Content-Type: application/json
 Authorization: Bearer &lt;access_token>
 {"price":"5000"}</pre></code></div>
 <br>
+<b>Idempotent GET example:</b><br>
+Retrieving a product does not create new data or delete anything. It does not modify the server's state, but it does not guarantee that the result will always be the same (e.g., new products may be added over time).<br>
+<b>Idempotent DELETE example:</b><br>
+The first request deletes the product. The further requests have no additional effect, as the server state remains unchanged.<br>
 <b>Idempotent PATCH example:</b><br>
 We have a product for which we want to update the price.<br>
 <b>Non-idempotent PATCH example:</b><br>
 We have a shopping cart to which we want to add products.<br>
+Recommendation:<br>
+- If addProduct is an operation, then POST is the best choice.<br>
+- If addProduct is a state modification, then PATCH is appropriate.<br>
+- However, PUT is not ideal, because it is not partial.<br>
 
   </body>
 </html>
+
+
+

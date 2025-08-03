@@ -8,7 +8,14 @@
 
   <u><b>OOP</b></u> (<b>O</b>bject-<b>O</b>riented <b>P</b>rogramming)<br> 
   <b>Interface</b>: Declares methods (signatures/prototypes of methods), <i>"what"</i> to do but <i>"not how"</i>to do (JPA), contract/agreement<br>
-  <b>Abstract class</b>: cannot be instantiated, contains abstract methods to implement<br>
+  <b>Abstract Class</b>: cannot be instantiated, contains abstract methods to implement<br>
+  <b>Abstract Class versus Interface</b><br>
+  <ul>
+      <li>Method body: Abstract Class - if method is not abstract</li>
+      <li>Constructors: Abstract Class</li>
+      <li>Inheritance: Abstract Class - single, Interface - <i>multiple</i></li>
+      <li>Fields: Abstract Class - instance fields, Interface - constant fields</li>
+  </ul>  
   <b>Principles</b>
   <ul>
       <li>Data Abstraction (Datenabstraktion): Visibility (private, protected)</li>
@@ -18,27 +25,20 @@
   </ul>
   <b>IoC</b> (Inversion of Control): Dependency Injection: Framework does object creation (Guice, Dagger)<br>
   <b>Law of Demeter</b>: don't talk to strangers (A &rarr; B &rarr; C)<br>
-  <b>Abstract Class versus Interface</b><br>
-  <ul>
-      <li>Method body: Abstract Class - if method is not abstract</li>
-      <li>Constructors: Abstract Class</li>
-      <li>Inheritance: Abstract Class - single, Interface - multiple</li>
-      <li>Fields: Abstract Class - instance fields, Interface - constant fields</li>
-  </ul>
   <b>Initialization Procedure</b>
   <ul>
       <li>static init block &rarr; static main() &rarr; super() &rarr; instance init block &rarr; constructor &rarr; myMethod</li>
   </ul>
   <br>
-  <u><b>SOLID</b></u><br>
+  <u><b><a href="dev\methodologies\solid.html">SOLID</a></b></u><br>
   <table>
     <tr>
       <td>
-	    <b>S</b>ingle Responsibility: One reason for change<br>
-	    <b>O</b>pen Closed: Open for extension but Closed for modification<br>
-	    <b>L</b>iskov Substitution: Substitutable subclasses<br>
-	    <b>I</b>nterface Segregation: Avoid "fat" interfaces<br> 
-	    <b>D</b>ependency Inversion: Depend on Abstractions and Interfaces<br>	  
+	    <b>S</b>ingle Responsibility: One reason for change (do one thing)<br>
+	    <b>O</b>pen Closed: Open for extension but Closed for modification (new feature without changing code)<br>
+	    <b>L</b>iskov Substitution: Substitutable subclasses (subclass replaces parent class.)<br>
+	    <b>I</b>nterface Segregation: Avoid "fat" interfaces (do not implement unnecessary methods)<br> 
+	    <b>D</b>ependency Inversion: Depend on Abstractions and Interfaces (DI)<br>	  
 	  </td>
       <td>
 	    <img src="images\uml_payment.png" width="30%" height="30%"/>
@@ -246,12 +246,11 @@ CREATE TABLE products (
   <br>
   <u><b>REST API</b></u> (<b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer - <b>A</b>pplication <b>P</b>rogramming <b>I</b>nterface)
   <ul>
-      <li>Client-server architecture</li>
-      <li>Stateless protocol</li>
-      <li>Caching</li>
-      <li>Uniform interface</li>
-      <li>Layered system</li>
-      <li>Code on demand (optional)</li>
+      <li>Client-server architecture (Browser/Postman sends request)</li>
+      <li>Stateless protocol (Do not store auth token)</li>
+      <li>Caching (Cache-Control: max-age=3600, ETag: "abc123")</li>
+      <li>Uniform interface (URI, Content-Type, HATEOAS)</li>
+      <li>Layered system (Presentation/Application/Data/Infrastructure layers)</li>
   </ul>
   <b>Request methods</b>
   <table border="1">
@@ -259,25 +258,31 @@ CREATE TABLE products (
       <td>GET</td>
       <td>Retrieve</td>
       <td>/products/{id}</td>
-      <td></td>
+      <td>Idempotent</td>
     </tr>
     <tr>
       <td>POST</td>
       <td>Create</td>
       <td>/products</td>
-      <td></td>
+      <td>NOT idempotent</td>
     </tr>
     <tr>
       <td>PUT</td>
-      <td>Update</td>
+      <td>Create or replace</td>
       <td>/products/{id}</td>
-      <td>idempotent: create if not exist</td>
+      <td>Idempotent: Update all the properties of the product</td>
     </tr>
+    <tr>
+      <td>PATCH</td>
+      <td>Partially update</td>
+      <td>/products/{id}</td>
+      <td>Idempotent: Update the product price<br>NOT idempotent: Add a product to shopping cart</td>
+    </tr>	
     <tr>
       <td>DELETE</td>
       <td>Delete</td>
       <td>/products/{id}</td>
-      <td></td>
+      <td>Idempotent</td>
     </tr>
   </table>  
   <b>JAX-RS </b>(Specification): <b>J</b>ava <b>A</b>PI for <b>R</b>ESTful Web <b>S</b>ervices 
@@ -286,6 +291,7 @@ CREATE TABLE products (
       <li>Other implementations: RESTeasy, Apache CXF, Restlet</li>
   </ul>
   
+  <br>
   <u><b>TODO below !!!</b></u><br>
   <br>
   <u><b>GoF Design Patterns Usage in Spring Boot Microservices</b></u><br>
@@ -523,12 +529,56 @@ CREATE TABLE products (
 
 ---------------------------------------------------------
 
-Use of @Bean and @primary?
-Use of @conditional?
-How to create rest api explain?
+<b>DI</b>
+java
+@Configuration
+public class GreetingConfig {
+
+    @Bean
+    @Primary
+    public GreetingService defaultGreetingService() {
+        return new DefaultGreetingService();
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "greeting.fancy.enabled", havingValue = "true")
+    public GreetingService fancyGreetingService() {
+        return new FancyGreetingService();
+    }
+}
+
+<b>REST</b>
+@RestController
+@RequestMapping("/products")
+class ProductController {
+    @PostMapping
+    //@ResponseStatus(HttpStatus.CREATED) // return product instead of ResponseEntity
+    public ResponseEntity&lt;?> createProduct(@Valid @RequestBody ProductRequestDto productRequestDto) {
+        var product = productService.createProduct(new ProductEntity(), productRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
+}	
+
 @RestController default return type? (plain text, Jackson)
 
-bemásolni a régi intervoew icell + otp
+<b>SOAP</b>
+XML (JAXB): ReqResp (xs:element, xs:complexType)
+WSDL 1.1: types (ReqResp XSD), message (ReqResp name), portType (operation), binding
+
+@EnableWs
+@Configuration
+public class WebServiceConfig {
+    ServletRegistrationBean
+    DefaultWsdl11Definition
+    XsdSchema
+}
+
+@Endpoint
+public class ProductSoapEndpoint {
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetProductRequest")
+    @ResponsePayload
+    public GetProductResponse getProduct(@RequestPayload GetProductRequest request) {
+}	
 
 <b>Liquibase</b>: adatbázis séma migráció (verzió), YAML:  (changes: createTable)
 
@@ -561,6 +611,22 @@ bemásolni a régi intervoew icell + otp
 		Forgalom egyenletes elosztása szolgáltatások között (pl. Envoy, Istio).
 		Dinamikus felfedezés skálázódó mikroszolgáltatásokhoz.
 	retry policy
+  
+<b>Ich habe insgesamt 15 Jahre Erfahrung als Softwareentwickler (Fullstack-Entwickler) bei kleineren und größeren Firmen. 
+Dabei habe ich viele Technologien kennengelernt. 
+Zum Beispiel habe ich Diagnose- und Konfigurationstools für Bremssysteme im Bahnverkehr entwickelt, 
+später ein innovatives Zahlungssystem mit QR-Code, Deeplink und NFC umgesetzt.</b>  
+  
+<b>OTP</b>
+rolling deployment: CI/CD pipeline, readiness és liveness probe, (rollback?) - blue green vs canary
+diag: válaszidő megugrott, Prometheus + Grafana monitoringot (Wazuh), distributed tracing-re (Jaeger: request beazonosításához), lassú db (execution plan, indexek)
+	Table Scan --> index vagy WHERE
+	Index Scan --> Index Only Scan vagy WHERE (szükítéshez)
+db: PostgreSQL + Patroni (automatikus failover és replikáció)
+Redis: Real-time adatok, referenciaadatok
+RabbitMQ: eventual consistency
+  
+bemásolni a régi intervoew icell + otp  
   
   </pre>
   

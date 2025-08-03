@@ -6,22 +6,49 @@
   </head>
   <body>
     <h1>REST API</h1>
-	
+
     <h2>Terminology</h2>
     <p><b>URL</b> (<b>U</b>niform <b>R</b>esource <b>L</b>ocator): Web address</p>
 	<p><b>HTTP</b> (<b>H</b>yper<b>t</b>ext <b>T</b>ransfer <b>P</b>rotocol): Stateless protocol for the transmission of information on the application layer (TCP port 80)</p>
 	<p><b>HTTPS</b> (<b>H</b>yper<b>t</b>ext <b>T</b>ransfer <b>P</b>rotocol <b>S</b>ecure): Secure communication protocol using encryption (TCP port 443, HTTPS = HTTP + SSL/TLS)</p>
 	
+	
     <p><b>REST API</b> (<b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer - <b>A</b>pplication <b>P</b>rogramming <b>I</b>nterface): Guiding principles or constraints of the RESTful architecture are:
 	<ul>
-	<li>Client–server architecture: Clients communicating with a server via the Internet</li>
-	<li>Stateless protocol: The server must not retain session/context/cookie information from previous requests</li>
-	<li>Caching: Clients can cache responses on the web</li>
-	<li>Uniform interface: Resource identification, resource manipulation, self-descriptive messages, hypermedia as the engine of application state</li>
-	<li>Layered system: Intermediary servers e.g. proxy, load balancer or security layer</li>
+	<li>Client–server architecture: Clients (such as a browser or Postman) communicate with a server.</li>
+	<li>Stateless protocol: The server must not store any information (session state or context data) about previous requests.<br>For example, the server does not remember the authentication token or track whether you are logged in.</li>
+	<li>Caching: Clients can cache responses. The server can complete the response with HTTP headers:<br>
+	- <i>Cache-Control: max-age=3600</i> (The response can be cached for 1 hour)<br>
+	- <i><a href="https://docs.oracle.com/en/cloud/paas/app-builder-cloud/consume-rest/data-consistency-tasks.html">ETag</a>: "abc123"</i> (Entity Tag: A unique identifier used to determine whether the content of the resource has changed)</li>
+	<li>Uniform interface: Resource identification (URI), resource manipulation (JSON representation), self-descriptive messages (Content-Type, HTTP methods), hypermedia (HATEOAS)</li>
+	<li>Layered system: To enhance scalability, layered system constraints are added so each component only interacts with its immediate layer, limiting complexity and promoting independence.<br>
+	- Presentation Layer: UI<br>
+	- Application Layer: Service orchestration<br>
+	- Data Layer: Database (SQL, NoSQL)<br>
+	- Infrastructure Layer: API gateway, proxy, network, security, caching, load balancing
+	</li>
 	<li>Code on demand (optional): Downloading and executing code in the form of Java applets or JavaScripts</li>		
 	</ul>
 	</p>
+    <table border=1><thead>
+      <tr>
+        <th>Request header sent by the client</th>
+        <th>ETag does NOT match</th>
+        <th>ETag matches</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>If-None-Match</td>
+        <td>200 OK (send new content)</td>
+        <td>304 Not Modified (no body sent)</td>
+      </tr>
+      <tr>
+        <td>If-Match</td>
+        <td>412 Precondition Failed</td>
+        <td>200 OK or 204 No Content</td>
+      </tr>
+    </tbody>
+    </table>	
 	
 	<p><b>JAX-RS</b> (<a href="https://jcp.org/aboutJava/communityprocess/final/jsr311/index.html"><i>JSR 311</i></a>, Specification): <b>J</b>ava <b>A</b>PI for <b>R</b>ESTful Web <b>S</b>ervices
 	<ul>
@@ -32,5 +59,11 @@
 	
     <h2>REST API</h2>
     <center><img src="images\rest_api.png" width="75%" height="75%"/></center>	
+	
+	
+	<h2>References</h2>
+ 	<ul>
+	  <li><a href="https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm">REST by Roy Fielding</a></li>
+	</ul> 	
   </body>
 </html>
