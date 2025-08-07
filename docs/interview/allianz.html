@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Allianz</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>Allianz</h1>
+	
+    <h2><a href="https://internal-careers.allianz.com/job-invite/67972">Fullstack-Developer</a></h2>
+	Frontend<br>
+	<ul>
+	  <li>Which Angular version?</li>
+	  <li>CSS, SCSS, SASS (syntax)</li>
+	</ul>
+	CI/CD<br>
+	<ul>
+	  <li>Helm Chart (Chart.yaml, values.yaml, templates/deployment.yaml, templates/service.yaml)</li>
+	  <li>Istio: Service Mesh (security and policy enforcement: mTLS encryption, JWT authentication, RBAC)</li>
+	  <li>Secret Management (SOPS and age)</li>
+	  - sops --encrypt --age AGE_PUBLIC_KEY secrets.yaml > secrets.enc.yaml
+	  <li>GitHub-Actions (Javascript)</li>
+	  <li>Jenkins (Java plugin)</li>
+	  <li>Artifactory (AQL: Artifactory Query Language, properties)</li>
+	  <li>Harbor (Store images)</li>
+	</ul>
+	Monitoring<br>
+	<ul>
+	  <li>Prometheus (collect and store metrics data), Grafana (visualize and analyze data)</li>
+    </ul>	  
+	Database<br>
+	<ul>
+	  <li>PostgreSQL: client usage (CRUD), server configuration</li>
+	  - postgresql.conf: max_connections, shared_buffers, log_directory<br>
+	  - pg_hba.conf: specific IP ranges<br>
+	  - pg_ident.conf: maps system users to PostgreSQL users
+	</ul>
+	Testing<br>
+	<ul>
+	  <li>Test Pyramid</li>
+	  - End-to-End: Postman / Newman, JMeter<br>
+	  - Integration: Testcontainers<br>
+	  - Unit: JUnit / Mockito
+    </ul>
+
+  </body>
+</html>

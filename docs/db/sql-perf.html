@@ -1,0 +1,762 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SQL Performance Tuning</title>
+    <link rel="stylesheet" href="../common.css">	
+  </head>
+  <body>
+    <h1>SQL Performance Tuning</h1>
+    <h2>Query Execution Plan (query optimization)</h2>
+	<b>Indexes</b><br>
+	SQL indexes speed up data querying but can slow down data insertion, updates, and deletions due to the overhead of maintaining the index. It is recommended to keep a maximum of 5 indexes on a table (on columns that are frequently searched) to balance query performance and maintenance overhead.<br>
+	<br>	
+	<b>Table Scan</b><br>
+	A table scan, which reads all rows in a table, is often less efficient than an index scan, where only relevant rows are accessed using an index.<br>
+	<b>Solution:</b> Create indexes on frequently filtered or joined columns to avoid unnecessary full table scans.<br>
+	<br>
+
+	<b>Nested Loop via Correlated Subquery</b><br>
+	In correlated subqueries, the inner query is executed once for each row of the outer query. This can lead to poor performance on large datasets, especially if indexes are missing or the optimizer chooses a Nested Loop Join execution plan.	
+	<br>
+	<b>Solution:</b> Rewrite correlated subqueries as JOINs, which most optimizers can evaluate more efficiently.<br>
+	Correlated subqueries may trigger Nested Loops, while rewriting as JOINs enables faster plans like Hash Join or Merge Join.<br>
+	<br>	
+	<div class="code"><code><pre>-- Subquery using EXISTS
+SELECT *
+FROM orders o
+WHERE EXISTS (
+  SELECT 1
+  FROM customers c
+  WHERE c.id = o.customer_id
+    AND c.country = 'USA'
+);
+
+-- Equivalent JOIN
+SELECT o.*
+FROM orders o
+JOIN customers c ON o.customer_id = c.id
+WHERE c.country = 'USA';</pre></code></div>
+    <br>
+    <table border=1><thead>
+      <tr>
+        <th>Operator</th>
+        <th>Recommended Solution (Copilot)</th>
+        <th>Recommended Solution (ChatGPT)</th>
+        <th>Recommended Solution (deepseek)</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>Index Seek</td>
+        <td>Maintain proper indexing to enable targeted row access</td>
+        <td>Desired behavior – ensure proper indexing, statistics are up-to-date</td>
+        <td>Ensure index selectivity, avoid wide indexes, update statistics.</td>
+      </tr>
+      <tr>
+        <td>Table Scan</td>
+        <td>Use indexes or WHERE conditions</td>
+        <td>Create appropriate indexes; filter rows early with WHERE; avoid SELECT *</td>
+        <td>Create indexes, avoid SELECT *, use partitioning for large tables.</td>
+      </tr>
+      <tr>
+        <td>Nested Loops Join</td>
+        <td>Switch to Hash Join for large datasets</td>
+        <td>Suitable for small input; otherwise consider Merge/Hash joins; ensure indexed join key</td>
+        <td>Best for small outer tables; ensure inner table is indexed.</td>
+      </tr>
+      <tr>
+        <td>Hash Match</td>
+        <td>Use for joining large datasets or aggregations; ensure adequate memory</td>
+        <td>Ensure sufficient memory; reduce row count before join; consider batch mode for large sets</td>
+        <td>Check memory grants, avoid for small tables, reduce data volume.</td>
+      </tr>
+      <tr>
+        <td>Merge Join</td>
+        <td>Pre-sort data and use indexes to allow efficient merging</td>
+        <td>Requires sorted inputs; ensure indexes on join keys</td>
+        <td>Ensure join columns are indexed/sorted, align ORDER BY, use for large sorted datasets.</td>
+      </tr>
+      <tr>
+        <td>Key Lookup</td>
+        <td>Use a covering index (include all needed columns)</td>
+        <td>Covering indexes; INCLUDE columns; avoid SELECT *</td>
+        <td>Add covering indexes (INCLUDE columns), avoid SELECT *, redesign clustered index if needed.</td>
+      </tr>
+      <tr>
+        <td>Missing Index Warning</td>
+        <td>Create the missing index</td>
+        <td>Review suggested index; create only if it improves workload performance</td>
+        <td>Evaluate suggested indexes, avoid excessive indexes, test before implementation.</td>
+      </tr>
+      <tr>
+        <td>Sort Operator</td>
+        <td>Use indexed ORDER BY or pre-sorted data</td>
+        <td>Add indexes to avoid sort; optimize ORDER BY; limit data set</td>
+        <td>Add indexes matching ORDER BY, limit rows with TOP, avoid unnecessary sorting.</td>
+      </tr>
+      <tr>
+        <td>Parallelism</td>
+        <td>Tune query for parallel execution; manage MAXDOP and resource thresholds</td>
+        <td>Monitor with MAXDOP; manage thread usage; avoid excessive parallel plans</td>
+        <td>Ensure sufficient CPU, use MAXDOP hints, avoid for small queries.</td>
+      </tr>
+      <tr>
+        <td>Spill to tempdb</td>
+        <td>Increase memory or optimize JOIN/SORT operations</td>
+        <td>Increase memory grant; optimize queries to reduce memory needs; reduce row width</td>
+        <td>Optimize memory grants, reduce data volume, use query hints (HASH JOIN, MERGE JOIN).</td>
+      </tr>
+      <tr>
+        <td>Index Scan</td>
+        <td>Try optimizing to Index Seek</td>
+        <td>May be fine on small tables; add WHERE clause; use selective predicates</td>
+        <td>Convert to Index Seek with SARGable predicates, use filtered indexes.</td>
+      </tr>
+      <tr>
+        <td>RID Lookup</td>
+        <td>Use a covering index or clustered index to avoid row ID lookups</td>
+        <td>Consider clustered index; use covering indexes</td>
+        <td>Convert to clustered index or add covering index to avoid row-by-row lookups.</td>
+      </tr>
+      <tr>
+        <td>Apply</td>
+        <td>Use JOINs instead of APPLY when possible; inline TVFs can help</td>
+        <td>Convert to JOIN or rewrite query to use SET-based logic</td>
+        <td>Prefer JOIN over APPLY where possible; ensure correlated subqueries are efficient.</td>
+      </tr>
+      <tr>
+        <td>Table-valued Function (Inline)</td>
+        <td>Prefer inline TVFs for better performance</td>
+        <td>Preferred over multi-statement TVFs; ensure logic is efficient</td>
+        <td>Use inline TVFs (better performance); avoid multi-statement TVFs.</td>
+      </tr>
+      <tr>
+        <td>Implicit Conversion</td>
+        <td>Match data types (e.g., VARCHAR vs NVARCHAR)</td>
+        <td>Match data types in joins and filters; CAST/CONVERT columns as needed</td>
+        <td>Ensure data types match to prevent runtime conversions; use explicit casting.</td>
+      </tr>
+      <tr>
+        <td>Scalar Functions</td>
+        <td>Avoid in queries; use JOINs or CTEs instead</td>
+        <td>Avoid in SELECT/WHERE; rewrite as inline TVF or apply logic in query</td>
+        <td>Avoid in WHERE clauses; use inline expressions or computed columns.</td>
+      </tr>
+      <tr>
+        <td>Compute Scalar</td>
+        <td>Avoid complex scalar expressions inside queries; precompute if possible</td>
+        <td>Acceptable generally; if complex, pre-calculate or inline as needed</td>
+        <td>Minimize complex calculations in execution plans; pre-compute values if possible.</td>
+      </tr>
+      <tr>
+        <td>Stream Aggregate</td>
+        <td>Keep input sorted to reduce sorting overhead; use indexed grouping</td>
+        <td>Ensure sorted input; may benefit from indexing</td>
+        <td>Ensure input data is pre-sorted; use indexes matching GROUP BY.</td>
+      </tr>
+      <tr>
+        <td>Bitmap</td>
+        <td>Use for effective filtering; optimize preceding steps to reduce bitmap load</td>
+        <td>Acceptable in parallel plans; ensure statistics and indexes are current</td>
+        <td>Optimize memory usage; ensure efficient filtering in parallel plans.</td>
+      </tr>
+      <tr>
+        <td>Top</td>
+        <td>Ensure efficient filtering and indexing to minimize unnecessary rows</td>
+        <td>Use appropriate indexes with ORDER BY; avoid sorting large sets unnecessarily</td>
+        <td>Use TOP with ORDER BY and proper indexing to avoid full scans.</td>
+      </tr>
+      <tr>
+        <td>Top N Sort</td>
+        <td>Combine with indexed ORDER BY and TOP clause to reduce sorting cost</td>
+        <td>Use indexes that support ORDER BY and TOP; reduce data volume early</td>
+        <td>Optimize with supporting indexes; reduce N if possible.</td>
+      </tr>
+      <tr>
+        <td>Filter</td>
+        <td>Push filtering conditions earlier in the plan; use WHERE clauses wisely</td>
+        <td>Push filters down in query; use indexed columns; avoid unnecessary conditions</td>
+        <td>Push filtering earlier in the plan; use SARGable predicates.</td>
+      </tr>
+      <tr>
+        <td>Constant Scan</td>
+        <td>Used for dummy rows; no optimization needed unless misused</td>
+        <td>Typically benign; ensure logic doesn’t generate unnecessary scans</td>
+        <td>Typically low cost; ensure it’s not masking inefficiencies.</td>
+      </tr>
+      <tr>
+        <td>Language Element</td>
+        <td>Represents query boundaries; no direct optimization needed</td>
+        <td>Review if part of execution plan logic; usually not an optimization target</td>
+        <td>Not optimizable (parser artifact).</td>
+      </tr>
+      <tr>
+        <td>Result</td>
+        <td>Final output operator; ensure upstream operators are efficient</td>
+        <td>End of plan; ensure all upstream operators are optimized</td>
+        <td>No optimization needed (final output).</td>
+      </tr>
+      <tr>
+        <td>Plan Iterator</td>
+        <td>Internal operator; no direct optimization, but monitor plan structure</td>
+        <td>N/A – part of internal plan mechanics</td>
+        <td>Generic operator; optimize child nodes.</td>
+      </tr>
+      <tr>
+        <td>Subtree Cost</td>
+        <td>Monitor and reduce cost-heavy branches; index and simplify logic</td>
+        <td>Use for identifying expensive subplans; focus tuning on high-cost areas</td>
+        <td>Use as a metric; focus on high-cost operators.</td>
+      </tr>
+      <tr>
+        <td>Memory Grant Warning</td>
+        <td>Reduce query memory needs; optimize JOIN and SORT logic</td>
+        <td>Reduce memory requirements; optimize joins/sorts; examine estimated vs. actual memory</td>
+        <td>Increase memory grants or optimize queries to reduce memory needs.</td>
+      </tr>
+      <tr>
+        <td>Table Spool</td>
+        <td>Avoid repeated data access; rewrite query to eliminate need</td>
+        <td>Avoid unnecessary re-reads; reduce row set size; indexing/temp tables may help</td>
+        <td>Avoid with proper indexing; may indicate recompilation issues.</td>
+      </tr>
+      <tr>
+        <td>Lazy Spool</td>
+        <td>Optimize query logic to avoid repeated data access; consider rewriting</td>
+        <td>May be ok; optimize if repeatedly reading large data</td>
+        <td>Optimize to prevent unnecessary spooling; check for redundant operations.</td>
+      </tr>
+      <tr>
+        <td>Eager Spool</td>
+        <td>Reduce need for intermediate storage; simplify query structure</td>
+        <td>More expensive; rewrite query or add indexes to avoid</td>
+        <td>Avoid by optimizing query to prevent materialization; check for unnecessary sorting or window functions</td>
+      </tr>
+      <tr>
+        <td>Repartition Streams</td>
+        <td>Minimize repartitioning by aligning data distribution and parallelism</td>
+        <td>Happens in parallel queries; align join keys to reduce repartitioning</td>
+        <td>Ensure proper data distribution in parallel plans; adjust partitioning strategy if needed</td>
+      </tr>
+      <tr>
+        <td>Distribute Streams</td>
+        <td>Optimize parallel execution; minimize data movement</td>
+        <td>Minimize if possible; caused by parallelism; examine data distribution</td>
+        <td>Optimize for balanced data distribution across parallel threads</td>
+      </tr>
+      <tr>
+        <td>Gather Streams</td>
+        <td>Limit post-parallel aggregation; apply efficient filtering</td>
+        <td>Collects parallel streams; watch for bottlenecks; avoid wide row sets</td>
+        <td>Minimize overhead by reducing data volume before gathering</td>
+      </tr>
+      <tr>
+        <td>Adaptive Join</td>
+        <td>Use accurate cardinality estimation; monitor switching between Nested Loop and Hash Join</td>
+        <td>Ensure cardinality estimates are accurate; can help in dynamic scenarios</td>
+        <td>Let optimizer choose join type; ensure accurate statistics</td>
+      </tr>
+      <tr>
+        <td>Batch Mode Scan</td>
+        <td>Use columnstore indexes; optimize for batch processing</td>
+        <td>Good for large data sets; ensure batch mode eligibility; use columnstore</td>
+        <td>Use columnstore indexes; optimize for batch processing</td>
+      </tr>
+      <tr>
+        <td>Batch Mode Sort</td>
+        <td>Use indexed sorting; minimize sort operation costs</td>
+        <td>Efficient in batch mode; ensure correct indexing to avoid unnecessary sorts</td>
+        <td>Leverage columnstore indexes; reduce sort volume</td>
+      </tr>
+      <tr>
+        <td>Columnstore Index Scan</td>
+        <td>Use filtered columnstore indexes; batch mode preferred</td>
+        <td>Ensure segment elimination; use filtered columnstore indexes</td>
+        <td>Use with analytical queries; implement columnstore on large tables</td>
+      </tr>
+      <tr>
+        <td>Columnstore Index Seek</td>
+        <td>Ensure segment elimination; filter on compressed columns</td>
+        <td>Ideal; maintain columnstore statistics; segment alignment with filters</td>
+        <td>Create filtered columnstore indexes for targeted seeks</td>
+      </tr>
+      <tr>
+        <td>Remote Query</td>
+        <td>Minimize cross-server queries; consider local caching or ETL</td>
+        <td>Reduce data transferred; use WHERE clauses; consider caching data locally</td>
+        <td>Minimize data transfer; optimize linked server queries</td>
+      </tr>
+      <tr>
+        <td>External Scan</td>
+        <td>Appears in PolyBase; ensure predicate pushdown and external indexing</td>
+        <td>Use optimized connectors; filter early; manage external source latency</td>
+        <td>Optimize external data sources; reduce data volume early</td>
+      </tr>
+      <tr>
+        <td>Table-Valued Function (Multi-statement)</td>
+        <td>Avoid if possible; rewrite as inline or JOIN logic</td>
+        <td>Rewrite as inline TVF; avoid if possible due to poor cardinality estimation</td>
+        <td>Convert to inline TVFs where possible; avoid in performance-critical paths</td>
+      </tr>
+      <tr>
+        <td>Assert</td>
+        <td>Check constraints and query logic; avoid runtime errors</td>
+        <td>Review constraint violations; optimize inputs to avoid assertion failures</td>
+        <td>Typically low cost; ensure constraints are properly indexed</td>
+      </tr>
+      <tr>
+        <td>Assert (Check)</td>
+        <td>Ensure runtime constraints are met; simplify logic to avoid assertion failures</td>
+        <td>Same as above; triggered by constraint violations</td>
+        <td>Verify constraints don't impact performance unnecessarily</td>
+      </tr>
+      <tr>
+        <td>Fat Arrows (many records)</td>
+        <td>Narrow the query using WHERE or JOIN conditions</td>
+        <td>Indicates heavy data flow; reduce input size; filter early</td>
+        <td>Reduce data flow between operators; optimize earlier in plan</td>
+      </tr>
+      <tr>
+        <td>Concatenation</td>
+        <td>Reduce UNION operations if possible; filter early to avoid excess rows</td>
+        <td>Watch input sizes; reduce unioned set if possible</td>
+        <td>Consider UNION ALL alternatives; ensure consistent data types</td>
+      </tr>
+      <tr>
+        <td>Sequence Project</td>
+        <td>Use efficient window functions; ensure minimal sorting and partitioning</td>
+        <td>Optimize OVER clauses; limit window function usage if possible</td>
+        <td>Optimize window functions; add appropriate indexes</td>
+      </tr>
+      <tr>
+        <td>Table-valued Function (TVF)</td>
+        <td>Prefer inline TVFs over multi-statement ones for better performance</td>
+        <td>Prefer inline TVF; avoid multi-statement; ensure proper indexing</td>
+        <td>Prefer inline TVFs; avoid row-by-row processing</td>
+      </tr>
+      <tr>
+        <td>Row Count Spool</td>
+        <td>Avoid unnecessary intermediate row storage; simplify query logic</td>
+        <td>Review for performance bottlenecks; reduce usage by query rewrite</td>
+        <td>Check for unnecessary spooling; optimize query structure</td>
+      </tr>
+      <tr>
+        <td>Table Insert</td>
+        <td>Optimize insert operations; consider batching or minimal logging</td>
+        <td>Use minimal logging; batch inserts; consider INSERT SELECT optimizations</td>
+        <td>Use minimal logging when possible; batch inserts</td>
+      </tr>
+      <tr>
+        <td>Table Delete</td>
+        <td>Ensure indexes and constraints don’t slow down deletes unnecessarily</td>
+        <td>Use filtered deletes; batch large deletes; manage locks and logging</td>
+        <td>Use batch operations; consider partition switching</td>
+      </tr>
+      <tr>
+        <td>Table Update</td>
+        <td>Use indexed columns in WHERE clause; avoid triggers if not needed</td>
+        <td>Use filtered updates; batch if needed; check indexes on SET/WHERE columns</td>
+        <td>Update in batches; avoid updating indexed columns unnecessarily</td>
+      </tr>
+      <tr>
+        <td>Segment</td>
+        <td>Used in grouping; ensure proper partitioning and sorting</td>
+        <td>Part of window function; ensure data ordering supports it</td>
+        <td>Optimize window functions; ensure proper indexing</td>
+      </tr>
+      <tr>
+        <td>Window Spool</td>
+        <td>Optimize window functions; reduce repeated computation</td>
+        <td>Reduce usage of windowed functions; minimize partitions</td>
+        <td>Reduce window function overhead; limit partition size</td>
+      </tr>
+      <tr>
+        <td>Compute Sequence</td>
+        <td>Used in sequence generation; minimize complexity in expressions</td>
+        <td>Occurs with window functions; tune OVER clauses</td>
+        <td>Optimize sequence generation; consider pre-computing values</td>
+      </tr>
+      <tr>
+        <td>Nested Loop (Inner)</td>
+        <td>Tune outer input to reduce iterations; consider join alternatives</td>
+        <td>Use when outer is small; ensure inner side indexed</td>
+        <td>Best for small outer tables; ensure inner table has proper index</td>
+      </tr>
+      <tr>
+        <td>InitPlan</td>
+        <td>Optimize subqueries; consider rewriting as JOIN or APPLY</td>
+        <td>Optimize subqueries; avoid correlated subqueries where possible</td>
+        <td>Optimize subqueries; consider rewriting as joins where possible</td>
+      </tr>
+      <tr>
+        <td>Nested Loop (Left Outer)</td>
+        <td>Tune outer input; consider Hash or Merge Join for large datasets</td>
+        <td>Same as above; ensure indexes on join key; avoid scanning full outer input</td>
+        <td>Ensure right table has index on join column; limit outer table size</td>
+      </tr>
+      <tr>
+        <td>Nested Loop (Right Outer)</td>
+        <td>Similar to Left Outer; optimize join logic and input size</td>
+        <td>Rewrite as Left Outer Join; ensure indexes</td>
+        <td>Ensure left table has index on join column; limit outer table size</td>
+      </tr>
+      <tr>
+        <td>Index Spool</td>
+        <td>Use persistent indexing; reduce reliance on temporary structures</td>
+        <td>Review for re-use optimization; consider temp table or indexed CTE</td>
+        <td>Check if temporary index could be replaced with permanent index</td>
+      </tr>
+      <tr>
+        <td>Row Number</td>
+        <td>Optimize window functions; use partitioning and indexing</td>
+        <td>Optimize with indexes and window partitioning</td>
+        <td>Add index matching PARTITION BY/ORDER BY; limit result set</td>
+      </tr>
+      <tr>
+        <td>Partitioned Table Scan</td>
+        <td>Ensure partition elimination; use WHERE clause on partition key</td>
+        <td>Ensure proper partition elimination; use partition-aligned filters</td>
+        <td>Align query filters with partition scheme; use partition elimination</td>
+      </tr>
+      <tr>
+        <td>DML Operations (Insert/Delete/Update)</td>
+        <td>Batch operations; minimize triggers and constraints overhead</td>
+        <td>Batch DML; use minimal logging; reduce row width</td>
+        <td>Batch operations; minimize triggers/constraints during bulk operations</td>
+      </tr>
+      <tr>
+        <td>Scalar Stream Aggregate</td>
+        <td>Prefer Stream Aggregate when possible</td>
+        <td>Acceptable; watch for input size; index to support group by</td>
+        <td>Ensure input is properly sorted; consider indexed views</td>
+      </tr>
+      <tr>
+        <td>Table-valued Parameter</td>
+        <td>Minimize TVP size; index the parameter table if possible</td>
+        <td>Avoid passing large sets; consider temp tables; ensure statistics are up to date</td>
+        <td>Limit data volume; consider temp tables for large datasets</td>
+      </tr>
+      <tr>
+        <td>Compute Scalar (Nested)</td>
+        <td>Simplify expressions; avoid deeply nested calculations</td>
+        <td>Optimize expressions; avoid costly UDFs in scalar expressions</td>
+        <td>Simplify complex calculations; move logic to application layer</td>
+      </tr>
+      <tr>
+        <td>Nested Loop (Full Outer)</td>
+        <td>Use Merge or Hash Join as alternatives for large datasets</td>
+        <td>Avoid if possible; rewrite using UNIONs or other joins with filtering</td>
+        <td>Rarely optimal; consider alternative join methods for large datasets</td>
+      </tr>
+      <tr>
+        <td>Internal Table</td>
+        <td>Minimize tempdb usage; avoid unnecessary temporary structures</td>
+        <td>Monitor tempdb usage; reduce intermediate result sizes</td>
+        <td>Optimize temporary table usage; ensure proper indexing</td>
+      </tr>
+      <tr>
+        <td>Compute Scalar (Residual)</td>
+        <td>Simplify WHERE and JOIN conditions; avoid complex expressions</td>
+        <td>Check expressions; review usage of computed columns</td>
+        <td>Reduce expression complexity; pre-compute values where possible</td>
+      </tr>
+      <tr>
+        <td>Nested Loop (Anti Semi Join)</td>
+        <td>Use EXISTS instead of NOT IN; optimize filtering logic</td>
+        <td>Use EXISTS instead of NOT IN; ensure proper indexing</td>
+        <td>Ensure inner table has proper index; consider hash anti semi join alternative</td>
+      </tr>
+      <tr>
+        <td>Hash Match (Aggregate)</td>
+        <td>Prefer Stream Aggregate if data is sorted</td>
+        <td>Index/group before aggregation; avoid large row sets</td>
+        <td>Increase memory grant if needed; reduce grouping columns</td>
+      </tr>
+      <tr>
+        <td>Hash Match (Flow Distinct)</td>
+        <td>Remove duplicates early; consider GROUP BY or DISTINCT</td>
+        <td>Prefer stream aggregate when sorted input is possible</td>
+        <td>Optimize DISTINCT operations; consider indexing alternatives</td>
+      </tr>
+      <tr>
+        <td>Table Scan (Partitioned)</td>
+        <td>Use partition elimination; filter using partition key</td>
+        <td>Apply partition elimination; filter on partition key</td>
+        <td>Align query with partition scheme; add filtered indexes</td>
+      </tr>
+      <tr>
+        <td>Remote Scan</td>
+        <td>Limit external source reads; use caching or ETL instead</td>
+        <td>Reduce frequency; cache results; avoid nested loops with remote source</td>
+        <td>Minimize data transfer; optimize linked server queries</td>
+      </tr>
+      <tr>
+        <td>Index Insert/Update/Delete</td>
+        <td>Batch operations; reduce index fragmentation and logging overhead</td>
+        <td>Index maintenance cost; minimize DML on heavily indexed tables</td>
+        <td>Batch index maintenance; consider disabling non-critical indexes during bulk loads</td>
+      </tr>
+      <tr>
+        <td>Log Row</td>
+        <td>Reduce transaction log pressure; consider SIMPLE recovery model</td>
+        <td>Minimal impact; internal to logging</td>
+        <td>Optimize logging operations; minimize in performance-critical paths</td>
+      </tr>
+      <tr>
+        <td>Dynamic Seek</td>
+        <td>Ensure parameter sniffing is optimized; use OPTION(RECOMPILE) if needed</td>
+        <td>Review plan stability; use fixed parameters for stable execution plans</td>
+        <td>Ensure parameterization is effective; consider OPTION(RECOMPILE) for unpredictable patterns</td>
+      </tr>
+      <tr>
+        <td>Dynamic Scan</td>
+        <td>Avoid scanning with dynamic parameters; consider static queries or filtered indexes</td>
+        <td>Same as above; use parameter sniffing techniques</td>
+        <td>Use OPTION(RECOMPILE) for parameter-sensitive queries; ensure statistics are accurate</td>
+      </tr>
+      <tr>
+        <td>Index Union</td>
+        <td>Simplify query logic; reduce reliance on multiple indexes</td>
+        <td>Replace with covering index; reduce predicate complexity</td>
+        <td>Combine with UNION ALL; consider creating a covering index</td>
+      </tr>
+      <tr>
+        <td>Index Intersection</td>
+        <td>Use covering indexes to avoid combining multiple indexes</td>
+        <td>May be beneficial; test performance vs. new index</td>
+        <td>Often indicates missing covering index; evaluate creating composite index</td>
+      </tr>
+      <tr>
+        <td>Row Goal</td>
+        <td>Tune TOP or FAST hints; ensure indexes support quick row retrieval</td>
+        <td>May reduce execution time for TOP queries; ensure selectivity</td>
+        <td>Use TOP/FETCH explicitly; be cautious with optimizer row estimates</td>
+      </tr>
+      <tr>
+        <td>Nested Loop (Semi Join)</td>
+        <td>Use EXISTS for efficient semi joins; avoid correlated subqueries</td>
+        <td>Used with EXISTS; ensure inner side is indexed</td>
+        <td>Ensure inner table has proper index; best for small outer tables</td>
+      </tr>
+      <tr>
+        <td>Nested Loop (Left Anti Semi)</td>
+        <td>Prefer NOT EXISTS over NOT IN; ensure outer input is selective</td>
+        <td>Used with NOT EXISTS; ensure proper indexing</td>
+        <td>Index inner table; consider hash anti semi join for larger datasets</td>
+      </tr>
+      <tr>
+        <td>Table Merge</td>
+        <td>Optimize MERGE statements; ensure indexes on target and source</td>
+        <td>Used in MERGE; be cautious of performance; prefer INSERT/UPDATE separation if slow</td>
+        <td>Optimize merge operations in partitioned tables; align with partition scheme</td>
+      </tr>
+      <tr>
+        <td>Split</td>
+        <td>Used in MERGE/INSERT; batch operations and minimal logging recommended</td>
+        <td>Used in MERGE with OUTPUT; avoid if not necessary</td>
+        <td>Minimize split operations in partitioned tables; optimize partition function</td>
+      </tr>
+      <tr>
+        <td>Collapse</td>
+        <td>Appears with MERGE; simplify logic to reduce complexity</td>
+        <td>Review for performance; plan simplification artifact</td>
+        <td>Typically optimizer internal operation; ensure partition scheme is optimal</td>
+      </tr>
+      <tr>
+        <td>Sequence</td>
+        <td>Used in identity insertions; avoid unnecessary identity generation </td>
+        <td>Used with window functions; minimize partitions</td>
+        <td>Optimize sequence generation; consider caching for high-frequency use</td>
+      </tr>
+      <tr>
+        <td>Exchange</td>
+        <td>Tune parallelism; manage MAXDOP and data distribution</td>
+        <td>Parallelism distribution; monitor performance impact</td>
+        <td>Balance parallel workload; adjust MAXDOP if needed</td>
+      </tr>
+      <tr>
+        <td>Tuple</td>
+        <td>Used in internal logic; no optimization needed unless misused</td>
+        <td>Internal; no optimization needed</td>
+        <td>Internal operator; focus on optimizing parent operations</td>
+      </tr>
+      <tr>
+        <td>XML Reader</td>
+        <td>Minimize XML parsing in queries; pre-process if possible</td>
+        <td>Avoid shredding XML in large queries; use pre-parsed formats</td>
+        <td>Use XML indexes for large documents; shred XML to relational when possible</td>
+      </tr>
+      <tr>
+        <td>Spatial Index Scan</td>
+        <td>Use selective spatial filters; ensure spatial index is properly configured</td>
+        <td>Ensure spatial indexes are used correctly; use STIntersects/STDistance filters</td>
+        <td>Use appropriate spatial index type (GEOMETRY/GEOGRAPHY); optimize bounding box</td>
+      </tr>
+      <tr>
+        <td>Spatial Index Seek</td>
+        <td>Optimize spatial predicates; use bounding box filters</td>
+        <td>Preferred; filter spatial predicates efficiently</td>
+        <td>Ensure proper spatial index exists; use precise spatial predicates</td>
+      </tr>
+      <tr>
+        <td>FullText Match</td>
+        <td>Use CONTAINS/CONTAINSTABLE wisely; ensure full-text indexes are maintained</td>
+        <td>Use CONTAINS/FREETEXT with care; ensure full-text catalogs are up to date</td>
+        <td>Optimize full-text catalog; use CONTAINSTABLE for better performance</td>
+      </tr>
+      <tr>
+        <td>Language Element</td>
+        <td>Represents query boundaries; no optimization needed</td>
+        <td>Internal/metadata element in plans; no optimization needed directly. Focus on associated operators.</td>
+        <td>Parser artifact; no optimization needed</td>
+      </tr>
+      <tr>
+        <td>Result</td>
+        <td>Final output operator; ensure upstream operators are efficient</td>
+        <td>Terminal point of execution; not tunable. Optimize upstream operators to reduce total cost.</td>
+        <td>Final output; no optimization needed</td>
+      </tr>
+      <tr>
+        <td>Constant Scan</td>
+        <td>Used for dummy rows; avoid misuse in logic</td>
+        <td>Generally benign (e.g., used for dummy rows, scalar expressions). No action unless overused.</td>
+        <td>Typically low-cost; verify not masking inefficient operations</td>
+      </tr>
+      <tr>
+        <td>Row Count</td>
+        <td>Tune TOP or LIMIT clauses; ensure efficient filtering</td>
+        <td>Used to enforce LIMIT/TOP. Ensure that row-limiting logic (TOP, OFFSET) is early and supported by indexes.</td>
+        <td>Used for cardinality estimation; ensure accurate statistics</td>
+      </tr>
+      <tr>
+        <td>Table Scan (Heap)</td>
+        <td>Create clustered index to avoid full heap scans</td>
+        <td>Add a clustered index; avoid storing tables as heaps unless required (e.g., for staging).</td>
+        <td>Add clustered index; use NOLOCK for read-only queries if appropriate</td>
+      </tr>
+      <tr>
+        <td>Index Scan (Nonclustered)</td>
+        <td>Optimize to Index Seek; filter early</td>
+        <td>May be fine for small sets; add filters; consider converting to Index Seek with better predicate/index.</td>
+        <td>Convert to seek with proper predicates; consider filtered index</td>
+      </tr>
+      <tr>
+        <td>Index Seek (Clustered)</td>
+        <td>Ensure clustered index is selective and well-designed</td>
+        <td>Preferred access method — ensure filters align with index key for continued usage.</td>
+        <td>Ensure selective predicates; maintain index fragmentation</td>
+      </tr>
+      <tr>
+        <td>Full Outer Join</td>
+        <td>Use only when necessary; consider alternatives like UNION or LEFT JOIN + NULL handling</td>
+        <td>Expensive join; avoid if possible. Consider rewriting using UNIONs or logic with LEFT + RIGHT joins.</td>
+        <td>Rarely optimal; restructure query to use LEFT/RIGHT joins if possible</td>
+      </tr>
+      <tr>
+        <td>Left Outer Join</td>
+        <td>Ensure outer table is selective; consider join order</td>
+        <td>Ensure the left (outer) side is smaller if possible; indexes on join keys on the right side.</td>
+        <td>Index right table; consider rewriting as INNER JOIN if possible</td>
+      </tr>
+      <tr>
+        <td>Right Outer Join</td>
+        <td>Similar to Left Outer; optimize input and join logic</td>
+        <td>Same as Left Join but reversed; consider rewriting as Left Outer Join for plan predictability.</td>
+        <td>Index left table; typically better to rewrite as LEFT JOIN</td>
+      </tr>
+      <tr>
+        <td>Union</td>
+        <td>Filter early; avoid combining large result sets unnecessarily</td>
+        <td>Deduplicate; ensure indexes; use UNION ALL if deduplication isn’t needed</td>
+        <td>Use UNION ALL when duplicates don't need elimination</td>
+      </tr>
+      <tr>
+        <td>Union All</td>
+        <td>Use only when duplicates are acceptable; filter early</td>
+        <td>Preferred over UNION if deduplication not required</td>
+        <td>Prefer over UNION when duplicates don't matter; ensure consistent data types</td>
+      </tr>
+      <tr>
+        <td>Intersect</td>
+        <td>Ensure indexes on both sides; avoid large scans</td>
+        <td>Ensure indexes on involved sets; reduce data size</td>
+        <td>Consider rewriting with EXISTS; ensure proper indexing on compared columns</td>
+      </tr>
+      <tr>
+        <td>Except</td>
+        <td>Use indexes to speed up exclusion; filter early</td>
+        <td>Same as INTERSECT; optimize set sizes</td>
+        <td>Often better implemented with NOT EXISTS; index filtering columns</td>
+      </tr>
+      <tr>
+        <td>Showplan XML</td>
+        <td>Used for diagnostics; analyze XML output for hidden plan details</td>
+        <td>Used for analysis; no optimization needed</td>
+        <td>Use for plan analysis; no runtime optimization needed</td>
+      </tr>
+      <tr>
+        <td>Trace Event</td>
+        <td>Appears in extended events; use for performance tracing and debugging</td>
+        <td>Monitoring only; no optimization</td>
+        <td>Minimize in production; use Extended Events instead for lower overhead</td>
+      </tr>
+      <tr>
+        <td>Query Plan Profile</td>
+        <td>Internal profiling; use SET options to expose execution metrics</td>
+        <td>Diagnostics tool; use to analyze plans</td>
+        <td>Use for performance tuning; no runtime optimization needed</td>
+      </tr>
+      <tr>
+        <td>Plan Hint</td>
+        <td>Tune with care; use hints only when optimizer misjudges</td>
+        <td>Use sparingly; prefer tuning over forcing plan behavior</td>
+        <td>Use sparingly; prefer query restructuring over hints</td>
+      </tr>
+      <tr>
+        <td>Plan Guide</td>
+        <td>Use for legacy query tuning; prefer rewriting queries if possible</td>
+        <td>Use when code can’t be modified; avoid unless necessary</td>
+        <td>Use when query modification isn't possible; test thoroughly</td>
+      </tr>
+      <tr>
+        <td>Service Broker Operator</td>
+        <td>Optimize message queues; monitor activation procedures</td>
+        <td>Manage queues; optimize message handling</td>
+        <td>Optimize message processing batches; ensure proper queue indexing</td>
+      </tr>
+      <tr>
+        <td>Queue Reader</td>
+        <td>Ensure efficient queue processing; avoid blocking or long waits</td>
+        <td>Tune concurrency; monitor wait times</td>
+        <td>Process messages in batches; implement proper error handling</td>
+      </tr>
+      <tr>
+        <td>Broker Receive</td>
+        <td>Tune Service Broker receive logic; batch messages if possible</td>
+        <td>Optimize handling of messages; scale listeners</td>
+        <td>Tune RECEIVE batch sizes; implement activation procedures efficiently</td>
+      </tr>
+      <tr>
+        <td>Remote Query (PolyBase)</td>
+        <td>Minimize external reads; push filters to external source</td>
+        <td>Push filters to external source; use predicate pushdown</td>
+        <td>Push predicates to external source; minimize data transfer</td>
+      </tr>
+    </tbody></table>	
+		
+    <h2>References</h2>	
+    <ul>
+      <li><a href="https://www.acceldata.io/blog/query-execution-plan-a-guide-to-sql-efficiency">Query Execution Plan: A Guide to SQL Efficiency</a></li>
+      <li><a href="https://www.geeksforgeeks.org/sql/sql-performance-tuning">SQL Performance Tuning</a></li>
+	  <li><a href="https://learn.microsoft.com/en-us/sql/relational-databases/showplan-logical-and-physical-operators-reference?view=sql-server-ver17">Logical and physical showplan operator reference</a></li>
+	  <li><a href="https://sqlserverfast.com/epr/operator-list">Operator List</a></li>
+    </ul>		
+	
+  </body>
+</html>
+
+
+
+
+
+
+

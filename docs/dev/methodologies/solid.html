@@ -298,6 +298,7 @@ public class Derived extends Base {
 	  Solution 2: Use composition instead of inheritance<br>
 	  Solution 3: Use abstract class or use interface with optional behavior<br>
 	  Solution 4: Separate settable (with inheritance) and non-settable (no inheritance) classes
+	  <p>Note: The Stream derived classes in .NET do not violate the LSP because the Can... methods (e.g., CanSeek) clearly indicate supported features, and a NotSupportedException is thrown when an unavailable operation is invoked.</p>
 
 	  <li><b><u>I</u>nterface Segregation Principle</b> <i>(Interfész szétválasztási elv)</i>: Many client specific interfaces are better than one general purpose interface</li>
 	  <ul>
@@ -308,58 +309,36 @@ public class Derived extends Base {
 
 	  <li><b><u>D</u>ependency Inversion Principle</b> <i>(Függőség megfordítási elv)</i>: Depend upon Abstractions. Do not depend upon concretions</li> 
 	  <ul><li>Depending upon interfaces or abstract functions and classes, rather than upon concrete functions and classes</li></ul>
-	  <ul><li><i>High-level modules should not depend on low-level modules. Both depend on abstractions.</i></li></ul>
+	  <ul><li><i>High-level modules (business logic) should not depend on low-level modules (e.g. database or file management). Both depend on abstractions.</i></li></ul>
 	  <ul><li>Abstractions should not depend on details</li></ul>
 	  <center><p><img src="images\dependency.png" /></p></center>
 	  
 	  <div class="code"><code>
-<pre><i>// Abstraction</i>
-interface MessageSender {
-    void sendMessage(String message);
+<pre><i>// Abstraction (interface)</i>
+interface ProductRepository {
+    List&lt;Product> findAll();
 }
 
 <i>// Low-level module (implementation)</i>
-@Component
-class EmailSender implements MessageSender {
-    @Override
-    public void sendMessage(String message) {
-        System.out.println("Sending Email: " + message);
+@Repository
+class MySqlProductRepository implements ProductRepository {
+    List&lt;Product> findAll() {
+        <i>// SQL query</i>
     }
 }
 
-<i>// High-level module (depends on abstraction)</i>
+<i>// High-level module uses the interface (depends on abstraction)</i>
 @Service
-class NotificationService {
-    private final MessageSender messageSender;
+class ProductService {
+    private final ProductRepository repository; <i>// Easy to change implementation (e.g. InMemoryProductRepository for testing)</i>
+    //private final MySqlProductRepository repository; <i>// Violates DIP (specific implementation instead of abstraction)</i>
 
-    <i>// Constructor-based <b>Dependency Injection</b></i>
-    public NotificationService(MessageSender messageSender) {
-        this.messageSender = messageSender;
+    ProductService(ProductRepository repository) {
+        this.repository = repository; <i>// DI</i>
     }
 
-    public void notifyUser(String message) {
-        messageSender.sendMessage(message);
-    }
-}
-
-@SpringBootApplication
-public class NotificationApplication implements CommandLineRunner {
-    private final NotificationService notificationService;
-
-    <i>// Dependency injected automatically by Spring:
-    // notificationService = new NotificationService(new EmailSender());</i>
-    @Autowired
-    public NotificationApplication(NotificationService notificationService) {
-        this.notificationService = notificationService;
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(NotificationApplication.class, args);
-    }
-
-    @Override
-    public void run(String... args) {
-        notificationService.notifyUser("This is your welcome message!");
+    List&lt;Product> getAllProducts() {
+        return repository.findAll();
     }
 }</pre>
 	  </code></div>

@@ -6,6 +6,53 @@
   </head>
   <body>
 
+  <u><b>Full Stack</b></u><br>
+  <ul>
+      <li>Spring Initializr (Dependencies: Spring Web, Spring Data JPA, PostgreSQL Driver)</li>
+	  <li>Hello.java (Model Class)</li>
+	  <li>HelloController.java (@RestController, @RequestMapping, @GetMapping)</li>
+	  <li>POM (Sync Project)</li>
+	  <li>./mvnw spring-boot:run</li>
+	  <li></li>
+	  <li>npm install -g @angular/cli@19</li>
+	  <li>ng new hello-client --routing=false --style=css</li>
+	  <li>ng generate component hello --standalone</li>
+	  <pre>@Component({ selector: 'app-hello', templateUrl: `&lt;p>{{ message }}&lt;/p>` })
+export class HelloComponent implements OnInit {
+  message = ''; //hello?: Hello;
+
+  constructor(private helloService: HelloService) {}
+
+  ngOnInit() {
+    this.helloService.getHello().subscribe(data => this.message = data);
+  }
+}</pre>
+	  <li>ng generate service hello</li>
+	  <pre>@Injectable({ providedIn: 'root' })
+export class HelloService {
+  constructor(private http: HttpClient) {}
+
+  getHello(): Observable&lt;string> {
+    return this.http.get&lt;string>('http://localhost:8080/api/hello');
+  }
+}</pre>
+	  <li>(Model)</li>
+	  <pre>export interface Hello {
+  message: string;
+}</pre>
+	  <li>AppModule</li>
+	  <pre>import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  imports: [BrowserModule, HttpClientModule],
+  declarations: [AppComponent, HelloComponent],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}</pre>
+	  <li>ng add @angular/material</li>
+
+  </ul>  
+  <br>
   <u><b>OOP</b></u> (<b>O</b>bject-<b>O</b>riented <b>P</b>rogramming)<br> 
   <b>Interface</b>: Declares methods (signatures/prototypes of methods), <i>"what"</i> to do but <i>"not how"</i>to do (JPA), contract/agreement<br>
   <b>Abstract Class</b>: cannot be instantiated, contains abstract methods to implement<br>
@@ -23,7 +70,7 @@
       <li>Inheritance (Vererbung): Subclass - Superclass</li>
       <li>Polymorphism (Polymorphismus): Many forms (overriding, overloading)</li>
   </ul>
-  <b>IoC</b> (Inversion of Control): Dependency Injection: Framework does object creation (Guice, Dagger)<br>
+  <b>IoC</b> (Inversion of Control): Dependency Injection: Framework does object creation<br>
   <b>Law of Demeter</b>: don't talk to strangers (A &rarr; B &rarr; C)<br>
   <b>Initialization Procedure</b>
   <ul>
@@ -31,51 +78,11 @@
   </ul>
   <br>
   <u><b><a href="dev\methodologies\solid.html">SOLID</a></b></u><br>
-  <table>
-    <tr>
-      <td>
-	    <b>S</b>ingle Responsibility: One reason for change (do one thing)<br>
-	    <b>O</b>pen Closed: Open for extension but Closed for modification (new feature without changing code)<br>
-	    <b>L</b>iskov Substitution: Substitutable subclasses (subclass replaces parent class.)<br>
-	    <b>I</b>nterface Segregation: Avoid "fat" interfaces (do not implement unnecessary methods)<br> 
-	    <b>D</b>ependency Inversion: Depend on Abstractions and Interfaces (DI)<br>	  
-	  </td>
-      <td>
-	    <img src="images\uml_payment.png" width="30%" height="30%"/>
-	  </td>
-    </tr>
-  </table>
-  <br>  
-  <u><b>MVC</b></u> (<b>M</b>odel <b>V</b>iew <b>C</b>ontroller)
-  <ul>
-      <li>Model: data (business logic, persistence, validation, conversion)</li>
-      <li>View: presentation (UI: grids, trees, panels)</li>
-      <li>Controller: handling user interactions (rendering, routing, instantiating)</li>
-  </ul>
-  <b>MVP</b> (<b>M</b>odel <b>V</b>iew <b>P</b>resenter)<br>
-  <b>MVVM</b> (<b>M</b>odel <b>V</b>iew <b>V</b>iew<b>M</b>odel)<br>  
-  <br>
-  <u><b>UML</b></u> (<b>U</b>nified <b>M</b>odeling <b>L</b>anguage)<br>
-  <table>
-    <tr>
-      <td>
-        <b>Structure diagrams</b> (elements and relationships)
-        <ul>
-            <li>Class diagram</li>
-            <li>Component diagram</li>
-        </ul>
-        <b>Behavior diagrams</b> (interactions and messaging)
-        <ul>
-            <li>Use case diagram</li>
-            <li>Sequence diagram</li>
-        </ul>
-        <b>Relationships</b>: Association (Owner), Aggregation (Wheel), Composition (Frame) - bicycle<br>
-	  </td>
-      <td>
-	    <img src="images\uml_product.png" width="75%" height="75%"/>
-	  </td>
-    </tr>
-  </table>    
+  <b>S</b>ingle Responsibility: One reason for the change (Do one thing)<br>
+  <b>O</b>pen Closed: Open for extension but Closed for modification (Do not rewrite old code)<br>
+  <b>L</b>iskov Substitution: Replaceable subclasses (Do not throw UnsupportedOperationException)<br>
+  <b>I</b>nterface Segregation: Split a "fat" interface into smaller ones (Do not implement unnecessary methods)<br> 
+  <b>D</b>ependency Inversion: Depend on abstractions/interfaces (Use ProductRepository instead of MySqlProductRepository)<br>	  
   <br>
   <u><b>Design Patterns</b></u><br>
   <b>Creational patterns</b>
@@ -87,12 +94,16 @@
   <b>Structural patterns</b>
   <ul>
       <li>Composite</li>
-      <li>Decorator</li>
+      <li>Decorator: Attach additional responsibilities to an object dynamically</li>
+	  - adds behavior (real object is wrapped)
+	  <li>Proxy: Provide a substitute/placeholder for another object to control access to it</li>
+	  - controls access (real object can be hidden or created later)	  
   </ul>
   <b>Behavioral patterns</b>
   <ul>
       <li>Chain of Responsibility: Pass the request until an object handles it (GUI object tree)</li>
-      <li>Observer: If one object changes, all dependents are notified and updated (MVC)</li>
+      <li>Mediator</li>
+	  <li>Observer: If one object changes, all dependents are notified and updated (MVC)</li>
       <li>Strategy: Replaceable methods (Payment Methods: PayPal, Credit Card)</li>
       <li>Template Method</li>
   </ul>
@@ -104,15 +115,6 @@
   <b>Specification</b>: <i>Design Spec</i>, Architecture Spec, System <i>Req Spec</i>, User Req Spec<br>
   <b>Testing</b>: Component, Integration, System, Acceptance<br>    
   <br>
-  <u><b>Cryptography</b></u><br>
-  <b>Symmetric</b> (secret key)
-  <ul>
-    <li><i>Block cipher</i>: AES, DES, Twofish</li>
-    <li><i>Stream cipher</i>: RC4</li>
-  </ul>
-  <b>Asymmetric</b> (public and private key): DSA, RSA<br>
-  <b>Hash functions</b>: MD5, SHA<br>
-  <br>
   <u><b>Method Parameters</b></u>
   <table border="1">
     <tr>
@@ -121,12 +123,12 @@
         <td><b>Reference type</b></td>
     </tr>
     <tr>
-        <td><b>Pass by value (Java)</b></td>
+        <td><b>Pass by value (Java, C#)</b></td>
         <td>Copy of data</td>
         <td>Copy of reference</td>
     </tr>
     <tr>
-        <td><b>Pass by reference</b></td>
+        <td><b>Pass by reference (C#)</b></td>
         <td>Data</td>
         <td>Reference</td>
     </tr>
@@ -198,23 +200,11 @@ map.values().stream().flatMap(List::stream).forEach(System.out::println);</pre><
   </ul>		  
   <br>
   
-  <u><b>JUnit</b></u><br>
-  <b>JUnit4</b> 
-  <ul>
-      <li><pre>@BeforeClass, @AfterClass, @Before, @After, @Test</pre></li>
-      <li><pre>@RunWith(Parameterized.class), @Parameters + constructor</pre></li>
-  </ul>
-  <b>JUnit5</b> 
-  <ul>
-      <li><pre>@BeforeAll, @AfterAll, @BeforeEach, @AfterEach, @Test</pre></li>
-      <li><pre>@ParameterizedTest, @ValueSource(ints = {1, 3, 5}), @MethodSource + Stream</pre></li>
-  </ul>
-  <br>
-  
   <u><b>SQL</b></u> (<b>S</b>tructured <b>Q</b>uery <b>L</b>anguage)<br>
   <b>Stored Procedures</b>: saved SQL code to reuse again<br>
   <b>Triggers</b>: stored procedure that runs when an event occurs<br>
-  <b>Indexes</b>: quick queries, on columns that are frequently searched<br>
+  <b>Indexes</b>: faster queries (frequently searched columns), slower inserts/updates/deletes (maintenance overhead), max 5 per table<br>
+  
   <b>JDBC</b> (<b>J</b>ava <b>D</b>ata<b>B</b>ase <b>C</b>onnectivity)
   <ul>
   <li>Statement: executeQuery, executeUpdate, executeBatch</li>
@@ -243,6 +233,11 @@ CREATE TABLE products (
     status           stock_status NOT NULL, 
     created_at       timestamp DEFAULT CURRENT_TIMESTAMP
 );</pre></li></ul>
+  <br>
+  
+  <u><b>Query Execution Plan</b></u><br>
+  Table Scan: Create indexes, filter with WHERE<br>
+  Nested Loop: Use JOIN instead of correlated subqueries<br>
   <br>
   <u><b>REST API</b></u> (<b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer - <b>A</b>pplication <b>P</b>rogramming <b>I</b>nterface)
   <ul>
@@ -284,12 +279,7 @@ CREATE TABLE products (
       <td>/products/{id}</td>
       <td>Idempotent</td>
     </tr>
-  </table>  
-  <b>JAX-RS </b>(Specification): <b>J</b>ava <b>A</b>PI for <b>R</b>ESTful Web <b>S</b>ervices 
-  <ul>
-      <li>Reference Implementation: Jersey</li>
-      <li>Other implementations: RESTeasy, Apache CXF, Restlet</li>
-  </ul>
+  </table>
   
   <br>
   <u><b>TODO below !!!</b></u><br>
@@ -593,7 +583,7 @@ public class ProductSoapEndpoint {
 	S3 = Fájlok, adatok tárolására használt tárhely
 	Amazon CloudFront: Tartalomelosztó (CDN), ami gyorsítja a weboldalak betöltését világszerte — például képek, videók gyorsabb elérését biztosítja a felhasználóknak.
 
-<b>Java 21</b>
+<b>Java 21 (17, 8)</b>
 - Virtual Threads (by the JVM): Thread.startVirtualThread
 - Pattern Matching for switch: típusokra elágazni (obj --> Integer / String)
 - Record Patterns: recordból adatkinyerés egy switch-el
@@ -620,8 +610,7 @@ später ein innovatives Zahlungssystem mit QR-Code, Deeplink und NFC umgesetzt.<
 <b>OTP</b>
 rolling deployment: CI/CD pipeline, readiness és liveness probe, (rollback?) - blue green vs canary
 diag: válaszidő megugrott, Prometheus + Grafana monitoringot (Wazuh), distributed tracing-re (Jaeger: request beazonosításához), lassú db (execution plan, indexek)
-	Table Scan --> index vagy WHERE
-	Index Scan --> Index Only Scan vagy WHERE (szükítéshez)
+
 db: PostgreSQL + Patroni (automatikus failover és replikáció)
 Redis: Real-time adatok, referenciaadatok
 RabbitMQ: eventual consistency

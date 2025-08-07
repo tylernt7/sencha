@@ -5,18 +5,24 @@
     <link rel="stylesheet" href="../common.css">
   </head>
   <body>
-    <h1>OTP</h1>
+    <h1>IDBC - OTP</h1>	
+
+    <b>1. Milyen tapasztalataid vannak a microservices deployment stratégiákkal?</b><br>
+	Leginkább rolling deploymentet alkalmaztunk a Kubernetes klaszterekben, GitLab CI/CD pipeline-okkal automatizálva. A cél mindig a kiesésmentes frissítés volt, ezért a rollout során readiness és liveness probe-okkal biztosítottuk, hogy csak "healthy" podokra kerüljön forgalom. Hibák esetén automatikus rollback-et állítottunk be, hogy minimalizáljuk a szolgáltatás kiesését.<br>
+	<br>
+    <b>2. Mesélj egy olyan esetről, amikor egy microservices rendszerben kellett hibát diagnosztizálnod és javítanod! Hogyan azonosítottad a problémát? Milyen eszközöket használtál a debugginghoz és monitoringhoz?</b><br>
+	Egyszer a payment service válaszideje hirtelen megugrott. A probléma azonosításához elsősorban Prometheus + Grafana monitoringot használtam (majd később Wazuh-ra váltottunk). A lassuló HTTP hívás beazonosításához distributed tracing-re (Jaeger) is szükség volt. Kiderült, hogy egy lassú DB query miatt torlódtak a kérések. Az execution plan elemzése utána az indexelés javításával sikerült orvosolni az esetet.<br>
+	Lassú feldolgozás, timeout, retry<br>
+	<br>
+    <b>3. Milyen adatbáziskezelési megoldásokat használtatok microservices környezetben?</b><br>
+	A payment rendszerben minden szolgáltatáshoz külön adatbázist használtunk, hogy biztosítsuk a skálázhatóságot és az önálló telepíthetőséget. A PostgreSQL klasztert Patroni segítségével kezeltük, amely automatikus failover-t és replikációt kínált a nagy rendelkezésre állás érdekében. Real-time adatok kezeléséhez mindig Redis-t alkalmaztunk, de más esetekben is (pl. gyakran lekért, ritkán változó referenciaadatok) a cache szolgált elsődleges adatforrásként a háttérben futó PostgreSQL adatbázis előtt, így csökkentve az adatbázis terhelését és növelve a rendszer válaszidejét. Az aszinkron üzenetküldéshez RabbitMQ-t használtunk, ami kulcsszerepet játszott a szervizek közötti konzisztencia és az adatbázis szinkronizáció (eventual consistency) fenntartásában.<br>
 	
-    <h2>Milyen tapasztalataid vannak a microservices deployment stratégiákkal?</h2>
-	<p>Leginkább rolling deploymentet alkalmaztunk a Kubernetes klaszterekben, GitLab CI/CD pipeline-okkal automatizálva. A cél mindig a kiesésmentes frissítés volt, ezért a rollout során readiness és liveness probe-okkal biztosítottuk, hogy csak "healthy" podokra kerüljön forgalom. Hibák esetén automatikus rollback-et állítottunk be, hogy minimalizáljuk a szolgáltatás kiesését.</p>
-
-    <h2>2. Mesélj egy olyan esetről, amikor egy microservices rendszerben kellett hibát diagnosztizálnod és javítanod! Hogyan azonosítottad a problémát? Milyen eszközöket használtál a debugginghoz és monitoringhoz?</h2>
-
-	<p>Egyszer a payment service válaszideje hirtelen megugrott. A probléma azonosításához elsősorban Prometheus + Grafana monitoringot használtam (majd később Wazuh-ra váltottunk). A lassuló HTTP hívás beazonosításához distributed tracing-re (Jaeger) is szükség volt. Kiderült, hogy egy lassú DB query miatt torlódtak a kérések. Az execution plan elemzése utána az indexelés javításával sikerült orvosolni az esetet.</p>
-	<p>Lassú feldolgozás, timeout, retry</p>
-
-    <h2>3. Milyen adatbáziskezelési megoldásokat használtatok microservices környezetben?</h2>
-
-	<p>A payment rendszerben minden szolgáltatáshoz külön adatbázist használtunk, hogy biztosítsuk a skálázhatóságot és az önálló telepíthetőséget. A PostgreSQL klasztert Patroni segítségével kezeltük, amely automatikus failover-t és replikációt kínált a nagy rendelkezésre állás érdekében. Real-time adatok kezeléséhez mindig Redis-t alkalmaztunk, de más esetekben is (pl. gyakran lekért, ritkán változó referenciaadatok) a cache szolgált elsődleges adatforrásként a háttérben futó PostgreSQL adatbázis előtt, így csökkentve az adatbázis terhelését és növelve a rendszer válaszidejét. Az aszinkron üzenetküldéshez RabbitMQ-t használtunk, ami kulcsszerepet játszott a szervizek közötti konzisztencia és az adatbázis szinkronizáció (eventual consistency) fenntartásában.</p>
+	<h1>Finshape - OTP</h1>
+	<b>Java 21 new features</b><br>
+	<b>Microservices: Válaszidő megnő</b><br>
+	<b>Microservices: Service Discovery konfiguráció</b><br>
+	<b>Kihívás projektekben</b><br>
   </body>
 </html>
+
+
