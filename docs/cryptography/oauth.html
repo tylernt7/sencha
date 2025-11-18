@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+  <head>
+    <title>OAuth 2.0</title>
+    <link rel="stylesheet" href="../common.css">	
+  </head>
+  <body>
+    <h1>OAuth 2.0</h1>
+	<h2>OAuth</h2>
+	OAuth (Open Authorization) is an open standard protocol that allows web, desktop, and mobile applications securely access data without sharing passwords (credentials).
+	<ul>
+	<li>AuthN (authentication): Who are you?</li>
+	<li>AuthZ (authorization): What can you do?</li>
+	</ul>
+	
+	<h2>Basic Authentication</h2>
+	The "Basic" HTTP (Hypertext Transfer Protocol) authentication scheme transmits credentials as user-id/password pairs, encoded using Base64 in the authorization header.<br>   
+	<img src="images\basic_auth.png" width="30%" height="30%"/>
+	
+	<h2>Roles in OAuth 2.0</h2>
+	<b>Resource Owner</b>: An entity (user) that grants access to a protected resource. When the Resource Owner is a person, it is referred to as an end-user.<br>
+	<b>Resource Server</b>: The server (service) where the protected resources are stored. It accepts access tokens from Clients and serves the requested data based on the scopes (permissions) granted by the Resource Owner.<br>
+	<b>Client</b>: An application (relying party) that wants to access protected resources of the Resource Owner provided by the Resource Server. The Client can run on a server (web application), desktop PC, mobile device, etc.<br>
+	<b>Authorization Server</b>: The server issues access tokens to the Client (application) after successfully authenticating the Resource Owner and obtaining authorization. Authorization Servers and Resource Servers are often combined and implemented together.<br>
+	
+	<h2>OAuth 2.0 Flow (Bearer Token)</h2>
+	<img src="images\oauth_flow.png" width="70%" height="70%"/><br>
+	1. The client requests authorization from the resource owner. The authorization request can be made directly to the resource owner (as shown), or preferably indirectly via the authorization server as an intermediary.<br>
+	2. The client receives an authorization grant (a credential representing the resource owner's authorization) expressed using one of four grant types.<br>	
+	3. The client requests an access token with the authorization grant by authenticating with the authorization server.<br>
+	4. The authorization server issues an access token if the authorization grant is valid.<br>
+	5. The client requests the protected resource with the access token from the resource server.<br>
+	6. The resource server serves the request if the access token is valid.<br>
+	<br>
+	<b>Token endpoints:</b>
+	<ul>	
+    <li>Keycloak: /protocol/openid-connect/token</li>	
+	<li>Auth0: /oauth/token</li>	
+	<li>Okta: /oauth2/default/v1/token</li>	
+	</ul>	
+	
+	<h2>OpenID Connect (OIDC)</h2>
+	<a href="https://openid.net/specs/openid-connect-core-1_0.html">OpenID Connect</a> is an <i>identity layer</i> on top of the OAuth 2.0 protocol and standardized by the OpenID Foundation.
+	<img src="images\openid_connect.png" width="70%" height="70%"/><br>
+	
+    <h2>BFF (Backend for Frontend)</h2>
+	BFF is a design pattern coined by <a href="https://www.thoughtworks.com/insights/blog/bff-soundcloud">ThoughtWorks</a>.	
+	
+	<h2>Token Handler</h2>
+	The Token Handler pattern is a design pattern used in the modern evolution of BFF to protect Single Page Applications (SPAs) from <i>Cross-Site Scripting (XSS)</i> attacks by handling OAuth tokens on the server, not in the client/browser. It manages token issuance, exchange, validation and introspection. It coordinates token flows across middleware (RFC 8693, RFC 7662, RFC 6749), API gateways (Apigee, Kong, AWS API Gateway), and identity providers (Keycloak, Auth0, Okta, Azure AD).<br><br>
+	Implementing OpenID Connect directly in the client is no longer recommended, for two reasons:
+	<ul>
+	<li>Using access tokens in the browser introduces security threats.</li>
+	<li>Browser updates may break login flows in SPAs that use iframes.</li>
+	</ul>
+	<br>
+
+
+<br><br>TODO<br>
+<pre>
+https://nestenius.se/net/bff-in-asp-net-core-2-the-bff-pattern-explained/
+https://microservices.io/post/architecture/2025/05/28/microservices-authn-authz-part-2-authentication.html
+</pre>	
+
+
+	<h2>Token Exchange (RFC 8693)</h2> 
+	Token Exchange is a core mechanism of the Token Handler pattern, especially in BFF architectures. It allows the backend to securely obtain access tokens on behalf of the client, <i>keeping sensitive tokens out of the browser</i> (protecting the access and refresh tokens from malicious code).<br>
+	This specification defines a protocol extending OAuth 2.0 that enables clients to request and obtain security tokens from authorization servers. It can be used to exchange an existing token (such as a session token stored in a cookie) for a new token (such as an access token for a backend service) with different scopes or audiences.<br>
+	<b>Impersonation Token Exchange</b> (with Keycloak support)<br>
+	Request:
+<div class="code"><code><pre>POST /as/token.oauth2 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=urn:ietf:params:oauth:grant-type:token-exchange
+&audience=urn:example:cooperation-context
+&subject_token=eyJhbG... (aud, iss, exp, nbf, sub, scope)
+&subject_token_type=urn:ietf:params:oauth:token-type:jwt
+</pre></code></div>
+	Response:
+<div class="code"><code><pre>{
+ "access_token":"eyJhbG..." (aud, iss, exp, sub, scope),
+ "issued_token_type":"urn:ietf:params:oauth:token-type:access_token",
+ "token_type":"Bearer",
+ "expires_in":3600
+}
+</pre></code></div>
+	
+	<b>Delegation Token Exchange</b><br>
+	Request:
+<div class="code"><code><pre>POST /as/token.oauth2 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=urn:ietf:params:oauth:grant-type:token-exchange
+&audience=urn:example:cooperation-context
+&subject_token=eyJhbG... (aud, iss, exp, scope, sub, <b>may_act/sub</b>)
+&subject_token_type=urn:ietf:params:oauth:token-type:jwt
+&<b>actor_token</b>=eyJhbG... (aud, iss, exp, sub)
+&<b>actor_token_type</b>=urn:ietf:params:oauth:token-type:jwt
+</pre></code></div>
+	Response:
+<div class="code"><code><pre>{
+ "access_token":"eyJhbG..." (aud, iss, exp, scope, sub, <b>act/sub</b>),
+ "issued_token_type":"urn:ietf:params:oauth:token-type:jwt",
+ "token_type":"N_A",
+ "expires_in":3600
+}
+</pre></code></div>
+
+<pre>
+urn:ietf:params:oauth:grant-type:token-exchange
+urn:ietf:params:oauth:token-type:access_token
+</pre>
+
+	<h2>Opaque tokens</h2> 
+	Opaque tokens are access tokens whose internal data is hidden from clients and can only be validated by the authorization server.<br>
+	
+	<h2>Specifications</h2>
+	<a href="https://www.rfc-editor.org/rfc/rfc7617.html">RFC 7617</a>: The 'Basic' Authentication Scheme<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc8693.html">RFC 8693</a>: OAuth 2.0 - Token Exchange (Preferred with only Company resources)<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc7523.html#section-2.2">RFC 7523 2.2</a>: OAuth 2.0 - JWTs for Client Authentication (Preferred in a mixed Enviroment with Company and Third-Party Resources)<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc7523.html#section-2.1">RFC 7523 2.1</a>: OAuth 2.0 - JWTs as Authorization Grants<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc7522.html">RFC 7522</a>: OAuth 2.0 - SAML 2.0<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc6749.html#section-4.4">RFC 6749 4.4</a>: OAuth 2.0 - Client Credentials Grant<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc6749.html#section-4.3">RFC 6749 4.3</a>: OAuth 2.0 - Password Credentials Grant<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc7519.html">RFC 7519</a>: JSON Web Token (JWT)<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc7636.html">RFC 7636</a>: OAuth 2.0 - Proof Key for Code Exchange (PKCE, pronounced "pixy")<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc7662.html">RFC 7662</a>: OAuth 2.0 - Token Introspection<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc6750.html">RFC 6750</a>: OAuth 2.0 - Bearer Token Usage<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc8252.html">RFC 8252</a>: OAuth 2.0 - Native Apps<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc7009.html">RFC 7009</a>: OAuth 2.0 - Token Revocation<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc7591.html">RFC 7591</a>: OAuth 2.0 - Dynamic Client Registration<br>
+	<a href="https://www.rfc-editor.org/rfc/rfc9126.html#name-authorization-server-metada">RFC 9126 5</a>: OAuth 2.0 - Authorization Server Metadata<br>	
+  </body>
+</html>
+

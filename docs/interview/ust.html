@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+  <head>
+    <title>UST</title>
+    <link rel="stylesheet" href="../common.css">
+  </head>
+  <body>
+    <h1>UST</h1>
+	
+	1. While developing a microservices-based financial platform, you observe that a consumer lags significantly behind the producer in a Kafka topic. Which is the most likely cause, and what should you check first to resolve this bottleneck?
+    <ul>
+      <li>A Verify consumer group partition assignment</li>
+      <li>B Check network latency between nodes</li>
+      <li>C Increase log retention on the broker</li>	  
+      <li>x D Review consumer application processing speed</li>	  
+    </ul><br>
+	
+	2. Given the following Java 8 code snippet, what will be the content of the 'result' list after execution?<br>
+	List&lt;Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);<br>
+	List&lt;Integer> result = numbers.stream()<br>
+	.filter(n -> n % 2 == 0)<br>
+	.map(n -> n * n)<br>
+	.collect(Collectors.toList());
+    <ul>
+      <li>A [2, 4]</li>
+      <li>B [1, 4, 9, 16, 25]</li>
+      <li>x C [4, 16]</li>	  
+      <li>D [1, 9, 25]</li>	  
+    </ul><br>	
+	
+	3. You are tasked to test a critical REST API endpoint in a Spring Boot application. Which approach best ensures that both business logic and endpoint behavior are validated effectively?
+    <ul>
+      <li>A Write only Mockito-based unit tests</li>
+      <li>B Rely solely on SonarQube static analysis</li>
+      <li>C Use Postman for manual API testing</li>	  
+      <li>x D Combine JUnit unit tests with integration tests</li>	  
+    </ul><br>
+
+	4. In a Spring Boot microservice, you need to securely store sensitive configuration such as database credentials. Which technique is most appropriate for managing these secrets in production?  
+    <ul>
+      <li>A Place credentials in plain-text YAML files</li>
+      <li>B Hardcode credentials in application.properties</li>
+      <li>C Store secrets in a version control system</li>	  
+      <li>x D Use environment variables or a secrets manager</li>	  
+    </ul><br>	
+
+	5. Your team is designing a RESTful API for a financial service in collaboration with frontend and QA teams. Which practice best supports seamless API integration and minimizes miscommunication? 
+    <ul>
+      <li>A Start coding before creating documentation</li>
+      <li>x B Write OpenAPI specs and review together</li>
+      <li>C Share only sample requests with frontend</li>
+      <li>D Finalize endpoints with backend team only</li>	  
+    </ul><br>		
+
+  </body>
+</html>
+

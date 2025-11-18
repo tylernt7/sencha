@@ -79,6 +79,53 @@
 	</td>
     <td><img src="images\junit_annotations.png" width="50%" height="50%"/></td></tr></table>
 		
+    <h2>Test Setup Annotations</h2>			
+    <table border=1><thead>
+      <tr>
+        <th>Annotation</th>
+        <th>Framework</th>
+        <th>Test Type</th>
+        <th>Purpose</th>
+      </tr></thead>
+    <tbody>
+      <tr>
+        <td>@WebMvcTest(ProductController.class)</td>
+        <td>Spring Boot</td>
+        <td>Integration</td>
+        <td>Test web layer</td>
+      </tr>
+      <tr>
+        <td>@SpringBootTest</td>
+        <td>Spring Boot</td>
+        <td>Integration</td>
+        <td>Full app/Spring context</td>
+      </tr>
+      <tr>
+        <td>@DataJpaTest</td>
+        <td>Spring Boot</td>
+        <td>Integration</td>
+        <td>JPA/repository layer</td>
+      </tr>
+      <tr>
+        <td>@ExtendWith(SpringExtension.class)</td>
+        <td>Spring + JUnit 5</td>
+        <td>Unit/Integration</td>
+        <td>Enable Spring in JUnit 5</td>
+      </tr>
+      <tr>
+        <td>@ExtendWith(MockitoExtension.class)</td>
+        <td>Mockito + JUnit 5</td>
+        <td>Unit</td>
+        <td>Enable Mockito annotations</td>
+      </tr>
+      <tr>
+        <td>MockitoAnnotations.openMocks(this)</td>
+        <td>Mockito</td>
+        <td>Unit</td>
+        <td>Alternative to @ExtendWith(MockitoExtension.class)</td>
+      </tr>
+    </tbody></table>		
+		
     <h2>New Features and Improvements</h2>	
  	<ul>
 	  <li>5.5.0: Declarative @Timeout support</li>
